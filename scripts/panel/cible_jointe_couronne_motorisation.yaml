@@ -1,0 +1,84 @@
+# Cible JOINTE couronne × motorisation — base PERSONNE — EMC² Toulouse 2023.
+#
+# GELÉE : générée par `python -m scripts.panel.reference_marges --recompute` depuis
+# les microdonnées ProGEDO (accès restreint). Ne pas éditer à la main : douze nombres
+# recopiés dérivent. Le contrôle de population la lit sans avoir besoin des
+# microdonnées ; `version` est vérifiée à la lecture.
+#
+# POURQUOI ELLE EXISTE. Le rapport publie la motorisation PAR MÉNAGE (p. 21). Une
+# population synthétique est un échantillon de PERSONNES : un ménage multi-motorisé
+# de 4 y apparaît 4 fois. Sur base personne, « deux voitures et + » pèse 48,7 % et
+# non 35 %. Allouer des personas sur la base ménage serait une erreur de base.
+#
+# Les contre-épreuves retrouvent la page 21 (19,4 / 45,3 / 35,3 pour 19 / 45 / 35)
+# et la page 11 (classes d'âge) : même microdonnées, mêmes poids, même périmètre.
+version: cj1
+titre: Cible jointe couronne × motorisation, base PERSONNE, EMC² Toulouse 2023
+unite: personne (poids COEP), population de 5 ans et plus, périmètre 2023
+cible_pct:
+  Toulouse:
+    sans voiture: 10.667
+    une voiture: 17.251
+    deux voitures et +: 8.419
+  1ere couronne:
+    sans voiture: 1.916
+    une voiture: 12.234
+    deux voitures et +: 19.979
+  2eme couronne:
+    sans voiture: 0.364
+    une voiture: 3.93
+    deux voitures et +: 9.891
+  3eme couronne:
+    sans voiture: 0.609
+    une voiture: 4.378
+    deux voitures et +: 10.361
+marges_pct:
+  couronne:
+    Toulouse: 36.34
+    1ere couronne: 34.13
+    2eme couronne: 14.18
+    3eme couronne: 15.35
+  motorisation:
+    sans voiture: 13.56
+    une voiture: 37.79
+    deux voitures et +: 48.65
+contre_epreuves:
+  motorisation_base_menage_pct:
+    sans voiture: 19.36
+    une voiture: 45.31
+    deux voitures et +: 35.33
+  motorisation_publiee_p21_pct:
+    sans voiture: 19
+    une voiture: 45
+    deux voitures et +: 35
+  classes_age_recalculees_pct:
+    5-17 ans: 16.4
+    18-24 ans: 12.81
+    25-34 ans: 14.39
+    35-49 ans: 21.94
+    50-64 ans: 18.53
+    65 ans et +: 15.93
+candidats_non_publies:
+  genre_pct:
+    Femmes: 51.28
+    Hommes: 48.72
+  permis_adultes_pct:
+    Oui: 85.86
+    Non: 12.75
+    Conduite accompagnée: 1.39
+  note: Le rapport ne publie ni le sexe ni le permis. Ces valeurs sont un RECALCUL
+    sur microdonnées (COEP), servies comme candidats, jamais comme cibles publiées.
+provenance:
+  source: recalcul microdonnées EMC² 2023 (ProGEDO lil-1750), fichiers personnes ×
+    ménages, poids COEP, couronne par secteur de tirage (DTIR NOM_D2)
+  fichiers:
+    Toulouse_2023_std_pers.csv: 70bdbc8627892fc8c3a513e05ab27d9d4b026f9c19ac4bd724ed1cdffcc018a8
+    Toulouse_2023_std_men.csv: 67c6e8b8b2e6e08bd9dda36ea1ec21c81b482f706461880cfe14ebc005628a09
+    EMC2_Toulouse_2023_DTIR_17072023.shp: 91d45fbc56e67ac9dcb1c74aaaff97b995a7066e8e21de51519548a996b54b9e
+  n_personnes: 20890
+  n_menages: 10783
+  n_personnes_dans_le_joint: 20890
+  exclues_sans_menage: 0
+  exclues_sans_couronne: 0
+  gele_le: '2026-09-02T22:26:31+00:00'
+  par: scripts/panel/reference_marges.py --recompute

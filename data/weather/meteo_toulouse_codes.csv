@@ -1,0 +1,49 @@
+CodeMétéo,Condition,Condition_EN
+395,Neige modérée ou forte avec orage,Moderate or heavy snow with thunder
+392,Légères chutes de neige localisées avec orage,Patchy light snow with thunder
+389,Pluie modérée ou forte avec orage,Moderate or heavy rain with thunder
+386,Légères averses de pluie avec orage,Patchy light rain with thunder
+377,Averses modérées ou fortes de grésil,Moderate or heavy showers of ice pellets
+374,Légères averses de grésil,Light showers of ice pellets
+371,Averses modérées ou fortes de neige,Moderate or heavy snow showers
+368,Légères averses de neige,Light snow showers
+365,Averses modérées ou fortes de neige fondante,Moderate or heavy sleet showers
+362,Légères averses de neige fondante,Light sleet showers
+359,Averse de pluie torrentielle,Torrential rain shower
+356,Averses modérées ou fortes de pluie,Moderate or heavy rain shower
+353,Légères averses de pluie,Light rain shower
+350,Grésil,Ice pellets
+338,Neige forte,Heavy snow
+335,Chutes de neige localisées et fortes,Patchy heavy snow
+332,Neige modérée,Moderate snow
+329,Chutes de neige modérées localisées,Patchy moderate snow
+326,Légère neige,Light snow
+323,Légères chutes de neige localisées,Patchy light snow
+320,Neige fondante modérée ou forte,Moderate or heavy sleet
+317,Légère neige fondante,Light sleet
+314,Pluie verglaçante modérée ou forte,Moderate or heavy freezing rain
+311,Légère pluie verglaçante,Light freezing rain
+308,Pluie forte,Heavy rain
+305,Pluie forte par moments,Heavy rain at times
+302,Pluie modérée,Moderate rain
+299,Pluie modérée par moments,Moderate rain at times
+296,Légère pluie,Light rain
+293,Légères averses de pluie localisées,Patchy light rain
+284,Bruine verglaçante forte,Heavy freezing drizzle
+281,Bruine verglaçante,Freezing drizzle
+266,Légère bruine,Light drizzle
+263,Légères bruines localisées,Patchy light drizzle
+260,Brouillard givrant,Freezing fog
+248,Brouillard,Fog
+230,Tempête de neige (blizzard),Blizzard
+227,Neige soufflée par le vent,Blowing snow
+200,Orages à proximité,Thundery outbreaks in nearby
+185,Légère bruine verglaçante à proximité,Patchy freezing drizzle nearby
+182,Légères chutes de neige fondante à proximité,Patchy sleet nearby
+179,Légères chutes de neige à proximité,Patchy snow nearby
+176,Légères averses de pluie à proximité,Patchy rain nearby
+143,Brume,Mist
+122,Ciel couvert,Overcast
+119,Nuageux,Cloudy
+116,Partiellement nuageux,Partly cloudy
+113,Ciel dégagé/Ensoleillé,Clear/Sunny

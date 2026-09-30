@@ -1,0 +1,165 @@
+version: execution1
+cree_le: '2026-09-19T07:03:47+00:00'
+experience:
+  nom: exp_openai-go-12_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+  population:
+    chemin: /data/eqasim-output/population_1000_PANEL_v6
+  jeu:
+    nom: population_1000_PANEL_v6_20260316_EN_c
+    dossier: null
+  gabarit:
+    categorie: itinary_multi_agent
+    variante: prompt_expert_05
+  decideur:
+    type: passerelle
+    modele: openai/gpt-oss-120b
+    portee: distant
+    parametres:
+      temperature: 0.0
+      top_p: 1.0
+      max_tokens: 4096
+    rejeu_de: null
+    graine: null
+    artefact: null
+  mode: sans_simulateur
+  calendrier:
+    politique: aleatoire
+    date: '2026-03-16'
+    graine: 42
+  horizon_jours: 1
+  memoire: false
+  evenements: []
+  graine_ordre: 42
+  graine_tirage: 42
+  regroupement:
+    parallelisme: 8
+  tolerances_horaires:
+    bike: insensible
+    car: heure
+    rail:
+      pas_min: 10
+    transit:
+      pas_min: 10
+    walk: insensible
+  max_candidats: 6
+  attente_max_s: 120
+  vehicule_chaine: true
+  verrou_retour: true
+  troncature_15: false
+  derive_de: exp_gpt-56-luna_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+  renomme_de: null
+  executions_connues: []
+empreintes:
+  population:
+    nom: population_1000_PANEL_v6
+    sha256: 675cfe31f59f450a2919dc1a6bacdbc34e51fdc846bbbe1dfce7160db2a6b253
+    fichier_sha256: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6
+    scellee: true
+  jeu:
+    nom: population_1000_PANEL_v6_20260316_EN_c
+    sha256: e8f9eab14fb4a0600bc04bd85591053dd0fd3bd3571e6e9f98aec87e51bc9f53
+  gabarit:
+    categorie: itinary_multi_agent
+    variante: prompt_expert_05
+    sha256: 18c6ee969b5723ce27e0b520aabb161431f1a41c1f24e6e004d4b91f657acac9
+    sources:
+    - prompts.yaml:prompt_expert_05
+    - travel_plan_describe_v2.j2
+  decideur:
+    type: passerelle
+    modele: openai/gpt-oss-120b
+    parametres:
+      temperature: 0.0
+      top_p: 1.0
+      max_tokens: 4096
+    sha256: 98824863a87f3316d813a9fb530b8e80a444fbe77165ba29f0c1528bece18895
+  depot:
+    commit: 8c1871ae1cfdef34c29219fdc04aba336d1f1ed5
+    arbre_propre: false
+regime_demande:
+  parallelisme: 8
+  unite_sollicitation: deplacement
+regime_applique:
+  parallelisme: 8
+  unite_sollicitation: deplacement
+  decideur: passerelle:openai/gpt-oss-120b
+  reprise: true
+reglages_herites:
+  agenda_anticipation_enabled: true
+  max_trip_candidates: 6
+  vehicule_chaine: true
+  verrou_retour: true
+  troncature_15: false
+  mode_choice_truncation_threshold: 0.0
+  instances_admises:
+  - groq_openai_120_key1
+sources_alea:
+  graine_ordre: 42
+  graine_tirage: 42
+  graine_calendrier: 42
+  echantillonnage_decideur: true
+interruptions:
+- instant: '2026-09-19T07:07:43+00:00'
+  cause: epuisement
+  decisions_archivees: 30
+  raison: 'epuise: groq_openai_120_key1 : 49/1000 requêtes/jour (désactivée côté passerelle
+    : erreurs consécutives ou cooldown)'
+- instant: '2026-09-20T18:57:10+00:00'
+  cause: reprise
+  decisions_archivees: 30
+  depuis: '2026-09-19T07:07:43+00:00'
+- instant: '2026-09-20T18:57:48+00:00'
+  cause: epuisement
+  decisions_archivees: 40
+  raison: 'epuise: groq_openai_120_key1 : 6/1000 requêtes/jour (désactivée côté passerelle
+    : erreurs consécutives ou cooldown)'
+- instant: '2026-09-21T07:40:53+00:00'
+  cause: reprise
+  decisions_archivees: 40
+  depuis: '2026-09-20T18:57:48+00:00'
+- instant: '2026-09-21T07:43:23+00:00'
+  cause: epuisement
+  decisions_archivees: 59
+  raison: 'epuise: groq_openai_120_key1 : 30/1000 requêtes/jour (désactivée côté passerelle
+    : erreurs consécutives ou cooldown)'
+- instant: '2026-09-21T13:20:29+00:00'
+  cause: reprise
+  decisions_archivees: 59
+  depuis: '2026-09-21T07:43:23+00:00'
+- instant: '2026-09-21T13:21:05+00:00'
+  cause: epuisement
+  decisions_archivees: 70
+  raison: 'epuise: groq_openai_120_key1 : 47/1000 requêtes/jour (désactivée côté passerelle
+    : erreurs consécutives ou cooldown)'
+- instant: '2026-09-21T17:01:47+00:00'
+  cause: reprise
+  decisions_archivees: 70
+  depuis: '2026-09-21T13:21:05+00:00'
+- instant: '2026-09-21T17:02:27+00:00'
+  cause: epuisement
+  decisions_archivees: 80
+  raison: 'epuise: groq_openai_120_key1 : 67/1000 requêtes/jour (désactivée côté passerelle
+    : erreurs consécutives ou cooldown)'
+- instant: '2026-09-23T19:41:27+00:00'
+  cause: reprise
+  decisions_archivees: 80
+  depuis: '2026-09-21T17:02:27+00:00'
+- instant: '2026-09-23T19:44:00+00:00'
+  cause: epuisement
+  decisions_archivees: 104
+  raison: 'epuise: groq_openai_120_key1 : 24/1000 requêtes/jour (désactivée côté passerelle
+    : erreurs consécutives ou cooldown)'
+- instant: '2026-09-24T05:07:46+00:00'
+  cause: reprise
+  decisions_archivees: 104
+  depuis: '2026-09-23T19:44:00+00:00'
+- instant: '2026-09-24T05:08:23+00:00'
+  cause: epuisement
+  decisions_archivees: 121
+  raison: 'epuise: groq_openai_120_key1 : 5/1000 requêtes/jour (désactivée côté passerelle
+    : erreurs consécutives ou cooldown)'
+- instant: '2026-09-25T20:41:11+00:00'
+  cause: reprise
+  decisions_archivees: 121
+  depuis: '2026-09-24T05:08:23+00:00'
+cloture: null

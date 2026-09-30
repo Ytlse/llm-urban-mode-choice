@@ -1,0 +1,151 @@
+# Build of the annual GTFS feed — parameters.
+#
+# This file describes WHAT to assemble and UNDER WHICH TOLERANCES. It contains
+# no timetable data: everything served comes from the operator's exports,
+# either at its real date, or copied verbatim from a real day
+# with the same signature.
+
+# ── Networks ─────────────────────────────────────────────────────────────────
+reseaux:
+  tisseo:
+    libelle: "Tisséo — réseau urbain toulousain"
+    agency_id_attendu: "network:1"
+    # Directories or zips searched in order; duplicates (identical md5)
+    # are ignored with a counter.
+    exports:
+      # The operator's seven exports, archived and renamed by publication
+      # date. Drop the next deliveries here: strict duplicates
+      # (same md5) are detected and ignored with a counter.
+      - "data/gtfs/archives/2026-08-26_pre_year_feed/exports_bruts"
+    # Dates the source explicitly describes as without service: several
+    # exports span them and all omit them. Extrapolating them would invent
+    # service. They stay empty and are counted apart from the gaps.
+    dates_sans_service_confirme:
+      - "20260501"   # 1 May: omitted by the exports of 08/04 and 24/04
+
+  ter:
+    libelle: "TER Occitanie — SNCF Voyageurs"
+    agency_id_attendu: "1187"
+    exports:
+      - "data/gtfs/ter_gtfs"
+    dates_sans_service_confirme: []
+
+  lio:
+    libelle: "liO — réseau interurbain régional d'Occitanie (cars)"
+    # The liO GTFS carries fourteen agencies (the thirteen liO departmental
+    # networks plus Hérault Transport). The checked agency is the one covering the
+    # study scope: `.liO 31`, Haute-Garonne, 42 of the 56 routes that
+    # touch the polygon of the 453 municipalities. An export missing it would
+    # not be the expected network.
+    agency_id_attendu: "131"
+    exports:
+      # Drop the next deliveries here: strict duplicates (same md5)
+      # are detected and ignored, as for Tisséo.
+      - "data/gtfs/archives/2026-09-04_lio_source/exports_bruts"
+    # The published export covers school year 2026-2027 (2026-08-01 →
+    # 2027-08-31): nothing before 1 August 2026. The days of the first
+    # half of 2026 — including 16 March, the simulated day — are thus copied from
+    # a real day with the same signature from the following school year.
+    dates_sans_service_confirme: []
+
+# ── Detection of the truncated tail ──────────────────────────────────────────
+# Each "rolling" export is complete only over its first weeks;
+# afterwards the operator only publishes the backbone routes (metro).
+# The threshold is RELATIVE to the day type: an absolute threshold would cut normal
+# Saturdays and Sundays, which legitimately have fewer routes than a Tuesday.
+fiabilite:
+  # n_lignes(j) / maximum observed for this day type over the whole export. The
+  # reference is the maximum and not the median of the first weeks: an
+  # export delivered late, mostly made of its own tail,
+  # would contaminate its reference and pass intact.
+  ratio_lignes_min: 0.5
+  # Absolute floor, as a fraction of the maximum number of routes reached by the export
+  # over all day types. The rule above is blind when a day type
+  # never appears complete in the export: its reference then equals the level
+  # of the tail and nothing is cut. Very low to let Sundays through,
+  # which run 39 % of a Tuesday's routes.
+  ratio_plancher_lignes: 0.15
+  jours_min_par_export: 7      # below this threshold, the export is declared unusable
+
+  # ── The route cliff ───────────────────────────────────────────────────────
+  # A tail can be truncated WITHOUT the overall service collapsing. The liO
+  # export describes the whole network until the service change of 13/12/2026,
+  # then only extends the routes whose calendar was already filled in:
+  # thirteen `.liO 31` routes (ten inside the scope, all feeders to a
+  # station) stop on 11 or 12/12/2026 and never resume, while
+  # 260 of the 276 routes of a Monday keep running. The thresholds above
+  # see 94 % of the network and cut nothing.
+  #
+  # What distinguishes a cliff from an end of season is what the export does
+  # AFTERWARDS: the fifty-two school routes that stop on 30/06/2027
+  # do not resume either, but the export ends nine weeks later,
+  # in the summer holidays — their absence is explained. Hence the third threshold:
+  # a season lasts at most ten weeks, so if the export still covers thirteen
+  # weeks after the loss, the season no longer explains it. It also puts
+  # Tisséo's sliding exports (35 days) out of reach of the check.
+  falaise_lignes_part_min: 0.04   # share of the export's maximum active routes
+  falaise_lignes_min: 5           # absolute floor: the seasonal renewal
+                                  # of liO never loses more than 4 routes in 7 d
+  falaise_fenetre_jours: 7        # the cliff may spread over a few days
+  falaise_jours_apres_min: 91     # thirteen weeks of remaining coverage
+
+# ── Classification of days ───────────────────────────────────────────────────
+calendrier:
+  zone: "Zone C"               # Toulouse school district
+  localite: "Toulouse"
+  # The official holiday bounds do not always coincide with the
+  # service switch (a Saturday on the first day of holidays may still run
+  # as a school Saturday). The adjustment is LEARNT on the real dates:
+  # these period-start offsets are tried and the one that
+  # minimises the within-signature dispersion is kept.
+  decalages_debut_testes: [0, 1, 2]
+  # Summer is split: the July service and the August service are distinct.
+  scission_ete: "08-01"
+
+# ── Extrapolation ────────────────────────────────────────────────────────────
+extrapolation:
+  # Fallback when a period class has no real day in the source.
+  # Order of preference; the first available fallback wins.
+  repli_periodes:
+    vac_hiver:      ["vac_printemps", "vac_toussaint", "vac_noel"]
+    vac_toussaint:  ["vac_printemps", "vac_hiver", "vac_noel"]
+    vac_noel:       ["vac_printemps", "vac_hiver", "vac_toussaint"]
+    vac_printemps:  ["vac_hiver", "vac_toussaint", "vac_noel"]
+    pont_ascension: ["vac_printemps", "scolaire"]
+    ete_juillet:    ["ete_aout"]
+    ete_aout:       ["ete_juillet"]
+    scolaire:       []
+  # A public holiday is not a Sunday: 14/07 = 5,674 trips against 4,683-5,054 for
+  # the July Sundays, 08/05 = 4,782 against 4,644. A public holiday thus looks
+  # first for another public holiday, and falls back on Sunday only otherwise.
+  repli_ferie: ["ferie", "dim"]
+  # Gap in days beyond which confidence drops.
+  confiance:
+    haute_si: "reel"
+    moyenne_si_ecart_jours_max: 60      # same exact signature, close donor
+    # everything else (period fallback, or distant donor) → low
+
+# ── Invariants and alarms ────────────────────────────────────────────────────
+controles:
+  # Displacement of a stop between two exports beyond which an alarm fires.
+  deplacement_arret_max_m: 25
+  # Tolerated relative dispersion of the number of trips within the same
+  # signature. Measured on the real 2026 dates: ≤ 6 % in general, 7.5 % for
+  # the July Sundays.
+  dispersion_signature_max: 0.10
+  # Floor of active routes on a working day, as a fraction of the median
+  # observed on the network itself. An absolute threshold calibrated on Tisséo
+  # (123 routes) would wrongly alarm on the TER, which has about twenty.
+  ratio_lignes_min_jour_ouvre: 0.6
+  # Beyond this number of low-confidence dates, the build exits with code 4.
+  dates_confiance_basse_max: 60
+  # Relative gap tolerated during hold-out validation (extrapolated service vs
+  # masked real service), per day.
+  holdout_ecart_max: 0.15
+
+# ── Canonicalisation ─────────────────────────────────────────────────────────
+# Without these roundings, the floating-point noise of the exports produces 270 false stop
+# conflicts and 21 false geometry divergences.
+canonicalisation:
+  decimales_coordonnees: 6
+  decimales_distance: 1

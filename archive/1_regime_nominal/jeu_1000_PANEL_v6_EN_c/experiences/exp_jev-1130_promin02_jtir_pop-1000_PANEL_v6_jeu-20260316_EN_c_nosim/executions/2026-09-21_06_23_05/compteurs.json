@@ -1,0 +1,28 @@
+{
+ "attendus": 3299,
+ "inexploitables": 118,
+ "attendus_exploitables": 3161,
+ "decides": 2548,
+ "non_couverts": 0,
+ "sans_solution": 6,
+ "choix_unique": 439,
+ "replis_uniformes": 0,
+ "attentes": 0,
+ "attentes_par_type": {},
+ "erreurs": 0,
+ "erreurs_par_type": {},
+ "sollicitations": 2109,
+ "resservies": 0,
+ "substitution_refusee": 0,
+ "couverture": {
+  "decides": 2548,
+  "attendus": 3161,
+  "attendus_bruts": 3299,
+  "inexploitables_exclus": 118,
+  "taux": 0.8060740272065802
+ },
+ "duree_s": 73.561,
+ "quota": {
+  "sans_quota": true
+ }
+}

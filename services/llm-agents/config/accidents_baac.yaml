@@ -1,0 +1,149 @@
+# Accident law of ticket 070, estimated on BAAC/ONISR.
+#
+# MEASURED on 2026-09-14 on the 2019-2024 vintages, département 31, by
+# docs/traces/2026-09-14_20-40_loi_accidents_baac/mesure_loi_accidents.py (replayable).
+# Source: data.gouv.fr, Licence Ouverte. 3,789 injury accidents read, 3,414 within
+# the footprint of the simulated graph, none without geolocation.
+#
+# WHAT REQUIRES A DENOMINATOR AND WHAT DOES NOT — the distinction governs
+# this whole file. The hour, the day and the road class are DRAWN by the simulation: the
+# marginal distribution of the observed accidents is exactly what is needed, and dividing
+# by traffic would be a mistake (we would get the risk per vehicle-km, which would make
+# as many accidents happen at 3 a.m. as at 5 p.m.). The weather, on the other hand, is IMPOSED by the
+# day's bulletin: it would call for a relative risk, hence a denominator.
+
+source: BAAC / ONISR — data.gouv.fr, Licence Ouverte
+millesimes: [2019, 2020, 2021, 2022, 2023, 2024]
+departement: '31'
+mesure_le: '2026-09-14'
+accidents_lus: 3789
+accidents_dans_emprise: 3414
+
+# Injury accidents per day WITHIN THE GRAPH FOOTPRINT (scope of the 453 communes),
+# and not over the whole département: 90.1% of the accidents of the 31 fall there. The former
+# seed value, 1.73/day, was that of the whole département — it overestimated.
+taux_base_par_jour: 1.5578
+
+# ── Time of the crash: DRAWN distribution, sum 1 ──────────────────────────────────
+# Evening peak at 5 p.m. (9.77%), trough at 3 a.m. (1.45%): a ratio of 6.7 between the two.
+# This is what the uniform draw of the first slice completely ignored.
+distribution_horaire:
+  '00': 0.020322
+  '01': 0.017947
+  '02': 0.018738
+  '03': 0.014516
+  '04': 0.015044
+  '05': 0.016627
+  '06': 0.020586
+  '07': 0.053312
+  '08': 0.058591
+  '09': 0.049353
+  '10': 0.042491
+  '11': 0.043811
+  '12': 0.044339
+  '13': 0.050145
+  '14': 0.047242
+  '15': 0.055688
+  '16': 0.073106
+  '17': 0.097651
+  '18': 0.071259
+  '19': 0.067828
+  '20': 0.046978
+  '21': 0.0256
+  '22': 0.026392
+  '23': 0.022433
+
+# ── Day of week: multiplicative factor, mean 1 ─────────────────────────────────────
+# Modest and regular amplitude: Friday 1.19, Sunday 0.83.
+facteur_jour_semaine:
+  lundi: 0.9293
+  mardi: 0.9902
+  mercredi: 1.1029
+  jeudi: 1.0253
+  vendredi: 1.1879
+  samedi: 0.9311
+  dimanche: 0.8332
+
+# ── Speed-limit class: DRAWN distribution, sum 1 ──────────────────────────────────
+# Filled in for 97.9% of the accidents (`vma` of the lieux file). Each edge of the graph
+# carries a speed, hence no mapping table to invent.
+#
+# The contrast with the length of the network is the most telling result of the measurement,
+# and it alone justifies the conditioning: the 71-90 km/h class carries 27.3% of the
+# accidents for 4.4% of the kilometres, while the ≤ 30 km/h class carries 8.0% of the
+# accidents for 58.1% of the kilometres. Drawing an edge in proportion to its length, as
+# the first slice did, therefore placed 58% of the accidents in traffic-calmed zones.
+distribution_classe_vitesse:
+  '<=30': 0.079515
+  '31-50': 0.574663
+  '51-70': 0.042049
+  '71-90': 0.272507
+  '>90': 0.031267
+
+# Kilometres of the `drive` graph per class — CHECK, not denominator. Used to verify
+# that a drawn class does exist in the simulated network: a class without kilometres is
+# an accident impossible to place, and that must be heard rather than kept silent.
+km_reseau_par_classe:
+  '<=30': 17750.6
+  '31-50': 10350.3
+  '51-70': 660.8
+  '71-90': 1350.2
+  '>90': 431.3
+
+# ── Weather: THE DECISION IS TAKEN — the factor equals 1, for good ────────────────
+#
+# Author's decision of 2026-09-21: the weather does NOT condition accidents in this
+# set-up. It is not a work item postponed until later, it is a deliberate limitation, and here
+# is what it rests on — two reasons, the second of which would be enough on its own.
+#
+# REASON 1 — THE RISK CONDITIONS DO NOT EXIST IN THE SIMULATED WORLD.
+# Measured on 2026-09-21 on `data/weather/meteo_toulouse_12_mois.csv`, the ONLY file that
+# `weather_loader` reads (trace 2026-09-21_meteo_servie_par_la_simulation, replayable script).
+# Over the 2,920 three-hour slots of a served year:
+#     fog             1 slot      (0.03%)    — on 30 August, outside any season
+#     snow / sleet    4 slots     (0.14%)
+#     actual rain   239 slots     (8.18%)
+#     POSSIBLE rain 422 slots     (14.45%)   — code 176, a FORECAST
+#     overcast/mist 365 slots     (12.50%)
+#     clear       1,879 slots     (64.35%)
+# A fog or snow factor would therefore ALMOST NEVER trigger — and on the frozen
+# set `jeu-20260316`, seven days of clear sky and one shower: it is unreachable.
+# Finely estimating a coefficient for a condition absent from the dataset would be
+# pointless work.
+#
+# REASON 2 — FOR THE CONDITIONS THAT REMAIN, THE NOMENCLATURES ARE INCOMMENSURABLE.
+# `atm` is what the reporting officer ticked: 84% of the reports carry "normale",
+# including under an overcast sky. The local weather source, for its part, files 14.45% of the slots
+# under "possible rain nearby" — a forecast, not an observation of rain. The
+# two vocabularies do not split the same world; their ratio measures nothing.
+#
+# WHAT THE REJECTED COMPUTATION GAVE, kept below so that the refusal can be checked:
+#   normale ×1.36 · couvert ×0.17 · pluie légère ×0.47 · pluie forte ×1.23 · neige ×0.53
+#   · brouillard ×33.7
+# i.e. "light rain is twice as safe as the average". The ×33.7 of fog
+# rests on A SINGLE observed slot: it would take 0.8 days of fog per year for it to
+# hold. At any plausible frequency (10 to 50 days/year), the factor would fall between 0.25
+# and 2.5 — around 1, not 34.
+#
+# ⚠ WHAT WOULD REOPEN THE QUESTION, and nothing else: a weather set served to the simulation that
+# really carries fog, snow or a reliable rain/no-rain distinction. As long
+# as the file served is this one, the factor stays at 1. Adjusting the mapping until
+# plausible numbers are obtained would amount to choosing the result.
+facteur_meteo_etabli: false
+facteur_meteo:
+  'normale': 1.0
+  'temps couvert': 1.0
+  'pluie légère': 1.0
+  'pluie forte': 1.0
+  'neige – grêle': 1.0
+  'brouillard – fumée': 1.0
+
+# What the rejected computation had produced — kept so that the rejection can be checked,
+# never read by the code.
+facteur_meteo_mesure_rejete:
+  'normale': 1.3621
+  'temps couvert': 0.1652
+  'pluie légère': 0.4725
+  'pluie forte': 1.2294
+  'neige – grêle': 0.5269
+  'brouillard – fumée': 33.7208

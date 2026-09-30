@@ -1,0 +1,27 @@
+# Registry of composite scoring formulas (spec R2, R3, R4, R20).
+#
+# A formula weights 7 dimensions: global, absent_penalty, age, occupation,
+# genre, motif, distance. `length_penalty` is NOT among them — it stays out of
+# the composite score (R2); the Scorer sees it absent, hence with zero weight.
+#
+# Exactly ONE formula carries `reference: true` (R4). The others are kept
+# so that any score stamped with an old SHA still resolves to its weights
+# (R20): do not delete a formula that has already served as reference, add
+# a new one and move the `reference` flag.
+#
+# After editing, regenerate the scores: "Recalculer toutes les
+# expériences" button on the dashboard, or `python -m experiences score --toutes` (R10, R22).
+
+formules:
+  # Original formula, aligned with docs/synthesis (sources.yaml `score.weights`):
+  # the platform and the historical synthesis page start from the same weights.
+  - nom: v1_reference
+    reference: true
+    poids:
+      global: 1.0
+      absent_penalty: 1.0
+      age: 0.5
+      occupation: 0.5
+      genre: 0.3
+      motif: 0.5
+      distance: 0.3

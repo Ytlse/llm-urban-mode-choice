@@ -1,0 +1,202 @@
+{
+  "spec_version": 2,
+  "source": "EMC² Toulouse 2023 (ProGEDO / lil-1750)",
+  "target": {
+    "name": "mode",
+    "classes": [
+      "bike",
+      "car",
+      "transit",
+      "walk"
+    ]
+  },
+  "sample_weight": "sample_weight",
+  "features": [
+    {
+      "name": "age",
+      "kind": "numeric",
+      "source": "persona"
+    },
+    {
+      "name": "gender",
+      "kind": "categorical",
+      "source": "persona",
+      "categories": [
+        "Female",
+        "Male"
+      ]
+    },
+    {
+      "name": "household_size",
+      "kind": "numeric",
+      "source": "persona"
+    },
+    {
+      "name": "has_driving_license",
+      "kind": "bool",
+      "source": "persona"
+    },
+    {
+      "name": "has_pt_subscription",
+      "kind": "bool",
+      "source": "persona"
+    },
+    {
+      "name": "number_of_cars",
+      "kind": "numeric",
+      "source": "persona"
+    },
+    {
+      "name": "car_availability",
+      "kind": "categorical",
+      "source": "persona",
+      "categories": [
+        "all",
+        "none",
+        "some"
+      ]
+    },
+    {
+      "name": "has_bike",
+      "kind": "bool",
+      "source": "persona"
+    },
+    {
+      "name": "socioprofessional_class",
+      "kind": "categorical",
+      "source": "persona",
+      "categories": [
+        "Craftsperson or Shop Owner",
+        "Employee",
+        "Executive or Higher Intellectual Professional",
+        "Farmer",
+        "Intermediate Professional",
+        "Manual Worker",
+        "Other Inactive",
+        "Student"
+      ]
+    },
+    {
+      "name": "main_occupation",
+      "kind": "categorical",
+      "source": "persona",
+      "categories": [
+        "Autre",
+        "Chômeur/recherche d'emploi",
+        "Personne au foyer",
+        "Retraité",
+        "Scolaire (jusqu'au Bac)",
+        "Travail à plein temps",
+        "Travail à temps partiel",
+        "Étudiant"
+      ]
+    },
+    {
+      "name": "employed",
+      "kind": "bool",
+      "source": "persona"
+    },
+    {
+      "name": "studies",
+      "kind": "bool",
+      "source": "persona"
+    },
+    {
+      "name": "purpose",
+      "kind": "categorical",
+      "source": "context",
+      "categories": [
+        "education",
+        "home",
+        "leisure",
+        "other",
+        "shop",
+        "work"
+      ]
+    },
+    {
+      "name": "purpose_origin",
+      "kind": "categorical",
+      "source": "context",
+      "categories": [
+        "education",
+        "home",
+        "leisure",
+        "other",
+        "shop",
+        "work"
+      ]
+    },
+    {
+      "name": "departure_hour",
+      "kind": "numeric",
+      "source": "context"
+    },
+    {
+      "name": "od_km",
+      "kind": "numeric",
+      "source": "geo"
+    },
+    {
+      "name": "same_zone",
+      "kind": "bool",
+      "source": "geo"
+    },
+    {
+      "name": "dist_center_orig_km",
+      "kind": "numeric",
+      "source": "geo"
+    },
+    {
+      "name": "dist_center_dest_km",
+      "kind": "numeric",
+      "source": "geo"
+    },
+    {
+      "name": "density_orig",
+      "kind": "numeric",
+      "source": "geo"
+    },
+    {
+      "name": "density_dest",
+      "kind": "numeric",
+      "source": "geo"
+    }
+  ],
+  "geo_reference": {
+    "crs": "IGNF:LAMB93",
+    "zf_layer": "EMC2_Toulouse_2023_ZF_26052023.shp",
+    "n_zones": 785,
+    "hypercenter": {
+      "definition": "centroïde des zones fines du secteur 01 (Capitole)",
+      "x_l93": 574406.1,
+      "y_l93": 6278824.6,
+      "lat": 43.597347,
+      "lon": 1.444997
+    },
+    "od_km": {
+      "inter_zone": "distance entre centroïdes de zones fines (L93), en km",
+      "intra_zone": "0.5 * sqrt(SURF_M2) / 1000"
+    }
+  },
+  "diagnostic_only": [
+    "distance_km",
+    "crow_km",
+    "duration_min"
+  ],
+  "split": {
+    "by": "hh_id",
+    "test_size": 0.25,
+    "seed": 0
+  },
+  "domain": {
+    "weekday_only": true,
+    "city": "Toulouse",
+    "requires_survey_perimeter": true
+  },
+  "notes": [
+    "distance_km/crow_km/duration_min sont contaminées : diagnostic uniquement.",
+    "train et motorbike sont fusionnés dans transit et car : la politique ne peut pas les distinguer.",
+    "has_bike (spec v2, ticket 015) est l'attribution NOMINATIVE d'un vélo, reconstruite par la règle de l'étage 2 appliquée aux ménages de l'enquête — et non « le foyer déclare au moins un vélo » (M21 > 0) comme en v1. ~50 % des personnes contre 63,2 %. C'est la définition que porte traits_json.personal_bike, donc la seule qui rende l'entraînement et l'inférence comparables."
+  ]
+}

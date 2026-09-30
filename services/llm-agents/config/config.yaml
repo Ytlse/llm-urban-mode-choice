@@ -1,0 +1,161 @@
+# Non-regression and mechanism test: one weather date per agent.
+#
+# Memory deliberately off (the authoritative lever is
+# services/GAMA/CityTransport/config/sim_params.yaml, through `make run MEM=0` — Settings.gaml
+# overwrites at cycle 1 any parameter injected by the content of this file).
+# Without memories, the decision only depends on the factual conditions: that is what
+# isolates the weather as the only variable that moves.
+
+gtfs:
+  mode: OTP
+
+agent:
+  # System prompt variant served to the itinerary decision (ticket 035: the gateway
+  # reads it in `parameters.prompt_variant`). Without this key, it is `active:` of
+  # `prompts.yaml` that decides — today `prompt_expert_16`.
+  #
+  # `prompt_expert_05` (formerly `expert_gem_3.8_v2_neutre_justif`, 2026-09-13): the author's choice
+  # of 2026-09-16. Neutrality verdict compliant, not invalidated. It is the variant that the
+  # `proexp05` experiments of the campaign use, so the memory run compares with an
+  # arm already measured at a thousand agents.
+  # ⚠ This block REPLACES the default dictionary, it is not added to it. The three values
+  # below are therefore copied from `settings.py`: without them, temperature, top_p and output
+  # budget disappeared from the calls — found by the journal regeneration test of
+  # ticket 081, which saw the « Température » column diverge.
+  llm_params:
+    temperature: 0
+    top_p: 1.0
+    max_tokens: 4096
+    prompt_variant: prompt_expert_05
+
+  reschedule_activity_departure_time: false
+  quantify_time_window: false
+  long_term_reflect_interval: 86400
+  # ⚠ `stm_reflection_min_entries: 5` REMOVED on 2026-09-19. It had been set to stay under
+  # the input token ceiling of Groq, a gateway no longer used. It is above all an
+  # EXPERIMENT setting — it doubles the frequency of the reflections, hence the speed at which the
+  # memory forms. It belongs to the run: `AGENT__STM_REFLECTION_MIN_ENTRIES`, set by
+  # `scripts/experiment/run_sequential_cohort.py` and recorded in `identite_run.json`.
+
+  # ── 30-day replay (Ticket 077) ─────────────────────────────────────────────
+  # 1. ⚠ REMOVED on 2026-09-19: `vehicle_chain_enabled: false`, `vehicle_return_home_lock: false`.
+  #    Disabling the chaining (ticket 040, ablation batch 1) remains the author's decision of
+  #    2026-09-18, but it belongs to the EXPERIMENT ARM, not to the repository: set here, it
+  #    turned red the thirteen tests that state the chaining rule, and it appeared in
+  #    no run identity. It is now set through `AGENT__VEHICLE_CHAIN_ENABLED` and
+  #    `AGENT__VEHICLE_RETURN_HOME_LOCK`, and is recorded in `identite_run.json`.
+  # 2. ⚠ REMOVED on 2026-09-19: `mode_choice_truncation_threshold: 0.15`.
+  #    It changes the DRAWING LAW: the `P(…)` columns of `moves.csv` stop being the
+  #    sampled distribution. It is the most « experimental » of the four, and it is set through
+  #    `AGENT__MODE_CHOICE_TRUNCATION_THRESHOLD`.
+  # 3. ⚠ REMOVED on 2026-09-19: `memoire__importance_choc: 0.50`.
+  #    Lowering the shock threshold was useless AND it was a memory rule, which § 9 of
+  #    ticket 077 forbids itself to touch. The severity of the first shock of c6 is exactly 0.70
+  #    and the comparison is `>=`: it crossed the original threshold without it being lowered.
+  #    Only the second shock (0.533) depended on it — and it never applied. The only effect
+  #    measured was to widen pool C (out-of-context recall) by six more memories.
+  #    A memory rule is varied through the ENVIRONMENT (MEMOIRE__IMPORTANCE_CHOC, BARE
+  #    name without prefix), where it belongs to the run and ends up in its identity — never here.
+  #
+  # 4. ⚠ REMOVED on 2026-09-19: `weather_per_agent_dates: false`.
+  #    Its value was already the default of `settings.py`, so nothing changes; but as long
+  #    as a key appears here, it wins over the environment — the YAML is passed at
+  #    initialisation, which takes precedence. An arm that wanted per-agent weather could not
+  #    get it. It is set through `WEATHER_PER_AGENT_DATES`.
+  # Ticket 075 — YEAR window and weekends included: the date drawn is a DEPARTURE day,
+  # advanced by one calendar day per simulated day. Over sixty days, each agent goes through
+  # sixty really consecutive weather days (rainy spells that last, season that
+  # moves on) instead of rereading the same bulletin sixty times. The survey window, for its part, would have
+  # made half of the agents loop from 18 February to 20 September in the middle of the run.
+  weather_window: annee
+  weather_weekdays_only: false
+  weather_draw_seed: 42
+
+  # Memory journal (ticket 075): one Markdown per agent in <workdir>/memoires/.
+  # ⚠ TO BE SET BACK TO false before any run at a thousand agents — it writes the FULL state of the memory
+  # after each consolidation.
+  journal_memoire_enabled: true
+
+  # Trace of the memories served (ticket 077, batch E1): one JSONL line per recall, with the
+  # pool of origin, the score and the rank of each memory of the top-K. Same instruction as
+  # above: to be set back to false before any run at a thousand agents.
+  trace_rappel_enabled: true
+  # Ticket 093 — trace of the concept operations and per-simulated-day measures (CSV + Grafana
+  # series). Off by default: with ten agents it is immediate, with a thousand you have to mean it.
+  trace_concepts_enabled: true
+  mesures_jour_enabled: true
+
+# Semantic cache of the LLM decisions.
+#
+# `enabled: false` forces EACH decision to go through the model, hence to be
+# logged in `llm_exchanges.jsonl`. It is the condition of a replay on the
+# full scope: measured on 2026-08-28, a run with an active cache only logged
+# 377 of its 3,249 decisions (76.4% served by the cache), and a floor measured on
+# that remainder would only bear on the most atypical decisions of the run.
+#
+# Cost to be aware of: ~4x more calls, and the run is that much slower.
+# Switch at launch: `make run CACHE=0` / `make run CACHE=1`.
+# Ticket 084 — only the allowed instances can serve the calls of THIS run. The eleven
+# Google instances stay loaded for the other jobs: the restriction travels with the
+# request and is honoured AT SELECTION, not after the fact. Empty list = no restriction.
+#
+# ⚠ `instances_admises` WAS REMOVED FROM HERE on 2026-09-21 (ticket 095, batch C), and it is not
+# an oversight. Set in this file, it TOOK PRECEDENCE over the environment: the campaign orchestrator
+# set `LLM__INSTANCES_ADMISES` from 2026-09-08 and this variable NEVER had the
+# slightest effect — neither the right name, nor the pass-through declaration, nor the priority. The restriction
+# of an arm was therefore not declared, it was undergone.
+#
+# The default value now lives in `infra/docker-compose.yml`, as a pass-through
+# (`INSTANCES_ADMISES`), identical to what was set here. An experiment arm
+# overrides it, it enters its `identite_run.json`, and it disappears with it.
+#
+# Same rule as the memory settings of ticket 077, batch J: a rule that belongs to the RUN
+# is not redefined in the repository's file.
+
+cache:
+  # Ticket 075 — ACTIVE for the sixty-day run, and it is not a comfort saving:
+  # the hot resume replays the days already lived, and without a cache this replay would pay again for each
+  # decision. At ~1,400 expected requests against 1,000 requests/day of gemini 3.1 quota,
+  # the run would never reach day 60.
+  #
+  # DEDICATED folder: the cache is not indexed by model (cf. `llm/cache.py`, `_make_state_hash`).
+  # A shared cache would serve again decisions produced by mistral or gemini 3.5, and the run
+  # would stop being « gemini 3.1 exclusively » without a single line saying so.
+  enabled: false
+  # Subfolder of the ./data/cache/llm mount point: a path outside the mount would live
+  # INSIDE the container and disappear when it is recreated — hence at the first resume.
+  cache_dir: /app/data/llm_cache/gemini31_memoire_075
+
+# ── Sealed population (paper) ─────────────────────────────────────────
+# The run takes this file WHOLE, instead of the lookup by size and of any call to
+# eqasim; if it does not count exactly `population_size` agents (sim_params.yaml: 1000),
+# loading refuses instead of resampling. Path seen from the controller container
+# (./data/population is mounted on /data/eqasim-output). Sealed on 2026-09-03 (rule v4:
+# study area of the 453 communes over six départements, whole households, 12 compliant margins and
+# 1 to publish — car ownership on a household basis —, 10.6% immobile, 88.5% of pupils mobile
+# with a study activity), sha256 9f05c655c3ad2cf4… — cf.
+# data/population/population_1000_PANEL_v4/MANIFEST.yaml and
+# docs/arch/controle-population-jeu-de-test.md. Since the evening of 2026-09-03 (ticket 031, part 2),
+# the runtime filters by COMMUNE of residence (453 communes) and routes on the OSMnx graph of the polygon:
+# this seal loads whole (1,000 / 1,000, 0 discarded, measured).
+# The previous seals remain available: population_1000_PANEL_v3 (sha256 8d8bfa3645fa77fb…,
+# Haute-Garonne alone) and population_1000_PANEL (v2, sha256 f67b07772f3dced9…).
+data:
+  # Ticket 075 — TEST population of five agents (NOT a cohort seal: cf. its MANIFEST).
+  # The paper's reference remains /data/eqasim-output/population_1000_PANEL_v6/population.json,
+  # to be put back here before any measurement run.
+  population_file: /data/eqasim-output/population_6_foyers_a13/population.json
+
+  # ── Recorded trip set (ticket 035, spec 04) ────────────────────────────────
+  # `make run JEU=<name>` writes `jeu_enregistre` here and recreates the controller; without it, computed
+  # on the fly as before. The time tolerances per mode group are REQUIRED as soon as a set is
+  # designated (no default in the code): uncomment and validate these PROPOSED values
+  # (specs/ticket_035/questions.md, question 8) — walk and bike insensitive to the time, car at
+  # the full hour (hourly congestion tables), public transport and train at a 10-min step.
+  # jeu_enregistre: /app/data/jeux/<nom>
+  # jeu_tolerances_horaires:
+  #   walk: insensible
+  #   bike: insensible
+  #   car: heure
+  #   transit: {pas_min: 10}
+  #   rail: {pas_min: 10}

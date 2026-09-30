@@ -1,0 +1,79 @@
+# ⚠ VARIANTE DE BANC — ticket 118, banc « une journée, une panne, une reprise », 2026-09-29.
+#
+# Identique à `a13_punaises_metro` SAUF la fenêtre de parution : jour 1 au lieu de 9-13, pour
+# que l'article, son jugement et le relais au foyer tombent dans un run de deux jours. Elle sert
+# à `make banc-reprise`, qui vérifie en une demi-heure ce qu'une campagne de 2 × 25 jours
+# découvrait au matin : l'état du foyer relu à la reprise, aucun point écrit pendant le gel,
+# aucune réponse d'enquête perdue sous une panne, le relais écrit en anglais.
+#
+# ⚠ Elle NE REPRODUIT PAS le protocole : tous les foyers lisent le même matin.
+#
+# NE PAS UTILISER POUR UNE CAMPAGNE.
+#
+# Bed bug scare on the metro — canal `lu`, injection au réveil
+#
+# Ticket 100 (canal unique), corpus du ticket 059 lot 1. L'article est CITÉ, jamais réécrit :
+# son empreinte est vérifiée au chargement contre cette déclaration ET contre le manifeste du
+# corpus. Deux comparaisons, parce qu'un fichier et sa déclaration peuvent bouger ensemble.
+#
+# POURQUOI LE JOUR DE PARUTION EST TIRÉ. Si tous les foyers lisaient le même matin, l'effet de
+# l'article et l'effet du calendrier — un lundi, une veille de vacances, une journée de pluie —
+# seraient rigoureusement inséparables. Le jour est donc tiré par FOYER, à graine fixe : deux
+# foyers ne lisent pas le même matin, et le rejeu reste identique.
+#
+# POURQUOI UN SEUL LECTEUR PAR FOYER (059, Q2). Le co-résident non tiré est le TÉMOIN INTERNE
+# du dispositif. Si tout le monde lisait, il n'y aurait plus personne chez qui observer ce qui
+# se transmet — et l'étage de diffusion perdrait son objet.
+#
+# JUGEMENT À L'INJECTION (lot 3, livré le 2026-09-22). Sans lui, l'article entrait avec une
+# gravité de 0,00 et son silence passait pour une absence d'effet.
+#
+# TRADUCTION. Les articles sont des textes de presse français ; le dispositif est anglais
+# depuis le ticket 074. La mention « Translated from French » est portée À L'INTÉRIEUR de
+# l'entrée, visible du modèle : c'est une information que l'agent a, et on n'a pas à la lui
+# cacher.
+
+evenement: a13_punaises_metro__banc_reprise
+libelle: "Bed bug scare on the metro"
+source: "presse locale toulousaine — archivé sous articles_html/13_psychose_punaises_metro.html"
+
+canal: lu                      # l'agent l'a LU, il ne l'a pas subi
+moment: reveil                 # AVANT la première décision de la journée
+jugement: a_l_injection        # l'agent juge ce qu'il vient de lire (lot 3)
+
+texte:
+  fichier: data/presse/articles_txt/a13_punaises_metro/brut.txt
+  sha256: "fc3551256f99c5d467482df05e1df737592e3365a5c174432aa0389638341393"
+  mention: "Translated from French"
+
+calendrier:
+  fenetre_jours: [1, 1]   # ⚠ VARIANTE DE BANC : la fenêtre du cas réel est [9, 13]
+  graine: 59
+
+exposition:
+  regle: foyers
+  # Les SIX foyers déclarés « exposé » au MANIFEST de population_20_foyers_059 (ticket 059,
+  # lot 6). Ils ne sont pas choisis ici : les recopier à la main les ferait diverger du
+  # manifeste le jour où la population bouge, et personne ne le verrait.
+  # Les quatre foyers témoins — 231569, 602079, 497875, 199718 — sont dans le MÊME fichier, donc
+  # dans le même run : le plancher de bruit mesuré au ticket 095 n'est pas nul, et un témoin
+  # lancé séparément entrerait dans l'effet mesuré.
+  foyers: ['605813', '234839', '471076', '538432', '73563', '625551']
+  lecteurs_par_foyer: 1
+  graine: 59
+
+cadence: jour                  # un article se lit une fois
+
+# Ticket 111 — l'article est GARANTI au prompt pendant 5 jours de déplacement (week-ends exclus,
+# le jour de lecture compte comme jour 1), quelle que soit la gravité jugée : la décision du jour
+# de lecture est pré-calculée la veille, et une gravité sous `memoire__importance_choc` laissait
+# l'article hors du bloc « Ce qui a changé récemment ». Ensuite, la mémoire décide seule.
+service:
+  jours_de_deplacement: 5
+# Le lecteur écrit un message par membre de son foyer, ou choisit de ne rien dire ; pour un
+# mineur, le message est la décision des parents (ticket 111, D5).
+relais:
+  mode: par_destinataire
+  # Dans cette expérience, le traitement porte sur une information effectivement discutée
+  # dans tout le foyer. Le lecteur choisit ses mots, mais pas de taire l'article à un membre.
+  parole_obligatoire: true

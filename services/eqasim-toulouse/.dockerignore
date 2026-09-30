@@ -1,0 +1,26 @@
+**/__pycache__
+**/*.pyc
+**/.DS_Store
+
+# Directories that contain only large input-data files — provided at runtime via /eqasim-data volume
+data/ban_toulouse/
+data/bdtopo_toulouse/
+data/bpe_2024/
+data/codes_2024/
+data/entd_2008/
+data/filosofi_2021/
+data/gtfs_toulouse/
+data/iris_2024/
+data/osm_toulouse/
+data/rp_2022/
+data/vehicles/
+
+# data/sirene/ has both Python pipeline modules AND large parquet files.
+# Keep the .py files; exclude only the large data files.
+data/sirene/*.parquet
+data/sirene/*.csv
+
+# Tests / docs that don't belong in the image
+tests/
+docs/
+*.md

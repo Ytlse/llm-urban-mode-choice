@@ -1,0 +1,211 @@
+# Population de TEST — ticket 059, lot 6. Ce n'est PAS un sceau de cohorte.
+#
+# 20 agents ne représentent rien : ils servent à observer si une information
+# lue par un seul membre d'un foyer atteint l'autre, et à quelle date. Ils ne mesurent
+# aucune part modale. La référence de l'article reste
+# data/population/population_1000_PANEL_v6.
+#
+# Les foyers témoins sont dans le MÊME fichier, donc dans le même run : le plancher de
+# bruit mesuré au ticket 095 n'est pas nul, et un témoin lancé séparément le ferait
+# entrer dans l'effet mesuré.
+nom: population_20_foyers_059
+extrait_le: '2026-09-21T16:37:47.343783+00:00'
+source:
+  fichier: data/population/population_1000_PANEL_v6/population.json
+  sha256: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6
+  n: 1000
+population:
+  fichier: population.json
+  sha256: 94f3b5d93760a0527a2de375ec5144878a250adecec7c57905b928f07886ec16
+  n: 20
+selection:
+  methode: >-
+    Foyers de taille 2 dont les deux membres sont mobiles, triés par rang stable
+    sha256(graine:household_id). Aucun tirage dépendant de l'ordre d'exécution.
+    Reproductible par scripts/data/population/extraire_foyers.py.
+  graine: 59
+  abonnement_tc_exige: True
+  foyers_eligibles: 48
+groupes:
+  expose:
+    - household_id: '605813'
+      membres:
+        - person_id: '1254859'
+          nom: "Frédérique Lacombe"
+          age: 20
+          occupation: "Student"
+          zone: "Toulouse"
+          abonnement_tc: True
+          voiture: "all"
+          velo: "No bike"
+        - person_id: '1254860'
+          nom: "Auguste Guérin"
+          age: 20
+          occupation: "Student"
+          zone: "Toulouse"
+          abonnement_tc: True
+          voiture: "all"
+          velo: "e-bike"
+    - household_id: '234839'
+      membres:
+        - person_id: '527098'
+          nom: "Charlotte-Odette Moreau"
+          age: 62
+          occupation: "Homemaker"
+          zone: "2nd ring"
+          abonnement_tc: False
+          voiture: "all"
+          velo: "No bike"
+        - person_id: '527099'
+          nom: "Rémy de Renaud"
+          age: 62
+          occupation: "Unemployed / job seeker"
+          zone: "2nd ring"
+          abonnement_tc: True
+          voiture: "all"
+          velo: "No bike"
+    - household_id: '471076'
+      membres:
+        - person_id: '1013072'
+          nom: "Colette Vaillant-Fleury"
+          age: 23
+          occupation: "Student"
+          zone: "Toulouse"
+          abonnement_tc: True
+          voiture: "some"
+          velo: "No bike"
+        - person_id: '1013073'
+          nom: "Patrick Faure"
+          age: 25
+          occupation: "Student"
+          zone: "Toulouse"
+          abonnement_tc: True
+          voiture: "some"
+          velo: "No bike"
+    - household_id: '538432'
+      membres:
+        - person_id: '1133543'
+          nom: "Arnaude Robert"
+          age: 28
+          occupation: "Full-time worker"
+          zone: "Toulouse"
+          abonnement_tc: False
+          voiture: "some"
+          velo: "regular bike"
+        - person_id: '1133544'
+          nom: "Patricia Texier"
+          age: 27
+          occupation: "Full-time worker"
+          zone: "Toulouse"
+          abonnement_tc: True
+          voiture: "some"
+          velo: "regular bike"
+    - household_id: '73563'
+      membres:
+        - person_id: '157260'
+          nom: "Astrid Charles"
+          age: 66
+          occupation: "Retired"
+          zone: "1st ring"
+          abonnement_tc: False
+          voiture: "all"
+          velo: "No bike"
+        - person_id: '157261'
+          nom: "Nicolas Ribeiro"
+          age: 71
+          occupation: "Retired"
+          zone: "1st ring"
+          abonnement_tc: True
+          voiture: "all"
+          velo: "No bike"
+    - household_id: '625551'
+      membres:
+        - person_id: '1289487'
+          nom: "Noël Dumont"
+          age: 30
+          occupation: "Part-time worker"
+          zone: "Toulouse"
+          abonnement_tc: True
+          voiture: "none"
+          velo: "No bike"
+        - person_id: '1289488'
+          nom: "Émilie Mathieu Le Boyer"
+          age: 30
+          occupation: "Full-time worker"
+          zone: "Toulouse"
+          abonnement_tc: False
+          voiture: "none"
+          velo: "No bike"
+  temoin:
+    - household_id: '231569'
+      membres:
+        - person_id: '519450'
+          nom: "William Gaillard"
+          age: 81
+          occupation: "Retired"
+          zone: "1st ring"
+          abonnement_tc: False
+          voiture: "some"
+          velo: "e-bike"
+        - person_id: '519451'
+          nom: "Margot Dumont-Robin"
+          age: 81
+          occupation: "Retired"
+          zone: "1st ring"
+          abonnement_tc: True
+          voiture: "some"
+          velo: "regular bike"
+    - household_id: '602079'
+      membres:
+        - person_id: '1247946'
+          nom: "Roland-Gilbert Weiss"
+          age: 23
+          occupation: "Student"
+          zone: "Toulouse"
+          abonnement_tc: True
+          voiture: "some"
+          velo: "No bike"
+        - person_id: '1247947'
+          nom: "Paul Valentin"
+          age: 21
+          occupation: "Student"
+          zone: "Toulouse"
+          abonnement_tc: True
+          voiture: "some"
+          velo: "No bike"
+    - household_id: '497875'
+      membres:
+        - person_id: '1061225'
+          nom: "Jacqueline Dupré"
+          age: 23
+          occupation: "Student"
+          zone: "Toulouse"
+          abonnement_tc: False
+          voiture: "some"
+          velo: "No bike"
+        - person_id: '1061226'
+          nom: "Chantal Fleury"
+          age: 25
+          occupation: "Student"
+          zone: "Toulouse"
+          abonnement_tc: True
+          voiture: "some"
+          velo: "regular bike"
+    - household_id: '199718'
+      membres:
+        - person_id: '442737'
+          nom: "Alphonse François"
+          age: 83
+          occupation: "Retired"
+          zone: "1st ring"
+          abonnement_tc: True
+          voiture: "some"
+          velo: "No bike"
+        - person_id: '442738'
+          nom: "Thérèse Jean"
+          age: 77
+          occupation: "Retired"
+          zone: "1st ring"
+          abonnement_tc: False
+          voiture: "some"
+          velo: "No bike"

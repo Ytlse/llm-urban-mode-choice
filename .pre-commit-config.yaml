@@ -1,0 +1,23 @@
+# Local safety net before commit (ticket 037). Installation, once:
+#   pip install pre-commit && pre-commit install
+# Scope: the three packages. The rest of the repository is not touched.
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.9
+    hooks:
+      - id: ruff
+        args: [--fix]
+        files: ^packages/(llm_gateway|mobility_core|mobility_llm)/
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.2
+    hooks:
+      - id: gitleaks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-yaml
+        files: ^(packages/(llm_gateway|mobility_core|mobility_llm)|\.github)/
+      - id: end-of-file-fixer
+        files: ^packages/(llm_gateway|mobility_core|mobility_llm)/
+      - id: trailing-whitespace
+        files: ^packages/(llm_gateway|mobility_core|mobility_llm)/

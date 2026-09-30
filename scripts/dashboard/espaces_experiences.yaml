@@ -1,0 +1,143 @@
+# Workspaces of the experiment registry — spec `espaces-de-travail-experiences.md`.
+#
+# A workspace is a VIEW, never a filing: adding an experiment to it or removing one does not
+# move, rename or delete anything on the disk (R7).
+#
+# An experiment's name is computed from its parameters (spec `nommage-canonique-experiences`):
+# so it cannot carry its phase. The `phase` label below is what makes the link,
+# and it exists only in this view (R6a).
+#
+# A name without a directory on the disk is not an error: the row is shown as expected
+# and the registry counts the missing ones (R9). This file fails OPEN: if it is unreadable,
+# the registry opens on « Toutes les expériences » (R13).
+version: espaces1
+espaces:
+  - nom: papier version courte
+    note: >-
+      Ticket 103 — le carré Jev × Gemini hors échantillon sur la cohorte c2, et trois graines
+      par décideur clé sur c1. Les entrées « Acquis (c1) » sont déjà mesurées : elles ne sont
+      pas à rejouer, elles sont là parce que les nouvelles ne se lisent pas sans elles (une
+      mesure c2 ne se compare pas à une bande c1).
+    entrees:
+
+      # ── Phase 1 — the scale of c2 ─────────────────────────────────────────────────
+      # Deterministic and free, they go FIRST: without the ceiling and the floor
+      # of c2, no row of phases 2 and 3 can be read (ticket 103, § 1).
+      - experience: exp_mnl_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_nosim
+        phase: Phase 1 — échelle c2
+      - experience: exp_lgbm_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_nosim
+        phase: Phase 1 — échelle c2
+      - experience: exp_klr_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_nosim
+        phase: Phase 1 — échelle c2
+      - experience: exp_rf_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_nosim
+        phase: Phase 1 — échelle c2
+        note: >-
+          Lanceur dédié et chemin de population HÔTE : la forêt a été estimée sous
+          scikit-learn 1.8.0 et le conteneur porte la 1.9.0 (cf. campagne `rejeu_jeu_corrige_v6`).
+      - experience: exp_alea_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_nosim
+        phase: Phase 1 — échelle c2
+      - experience: exp_majvoiture_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_nosim
+        phase: Phase 1 — échelle c2
+      - experience: exp_durmin_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_nosim
+        phase: Phase 1 — échelle c2
+
+      # ── Phase 2 — Jev on c2 ────────────────────────────────────────────────────────
+      # Five minutes and ~$0.35 for the three. `proexp32` is the pivotal out-of-sample
+      # result: it is the one that question Q1 of the ticket examines.
+      - experience: exp_jev-1130_promin02_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_nosim
+        phase: Phase 2 — Jev sur c2
+      - experience: exp_jev-1130_proexp05_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_nosim
+        phase: Phase 2 — Jev sur c2
+      - experience: exp_jev-1130_proexp32_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_nosim
+        phase: Phase 2 — Jev sur c2
+        note: Résultat pivot hors échantillon (Q1).
+
+      # ── Phase 3 — Gemini on c2 ─────────────────────────────────────────────────────
+      # The only real cost of the plan: ~4 h and ~630 requests of free quota.
+      - experience: exp_gemini-35-fl_proexp05_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_t0_nosim
+        phase: Phase 3 — Gemini sur c2
+        note: Déclarée le 22/09 à 13 h 42, jamais exécutée.
+      - experience: exp_gemini-35-fl_proexp32_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_t0_nosim
+        phase: Phase 3 — Gemini sur c2
+        note: >-
+          La ligne qui rend le carré carré : le prompt réglé pour Jev, servi à Gemini (Q2).
+          Sans elle on ignore si l'avantage tient au texte ou au modèle qui le lit.
+
+      # ── Phase 4 — three seeds per key decision-maker, on c1 ────────────────────────
+      # A seed = `graine_ordre`, `graine_tirage` and `calendrier.graine` at the same value.
+      # Measures in passing the determinism of Jev, unknown (ticket 096).
+      - experience: exp_jev-1130_proexp32_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_nosim
+        phase: Phase 4 — graines Jev (c1)
+      - experience: exp_jev-1130_proexp32_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go789_gt789_gc789_nosim
+        phase: Phase 4 — graines Jev (c1)
+      - experience: exp_jev-1130_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_nosim
+        phase: Phase 4 — graines Jev (c1)
+      - experience: exp_jev-1130_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go789_gt789_gc789_nosim
+        phase: Phase 4 — graines Jev (c1)
+
+      # ── Phase 5 — inter-seed replays (c1) ──────────────────────────────────────────
+      # The replay runs (seed 123 for Mistral and Gemini 3.1; seeds 123 and 789 for Jev)
+      # to complete the inter-seed range column of Table 1 of the short paper.
+      - experience: exp_mistral-l-25_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+        phase: Phase 5 — rejeux inter-graines (c1)
+      - experience: exp_jev-1130_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_nosim
+        phase: Phase 5 — rejeux inter-graines (c1)
+      - experience: exp_jev-1130_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go789_gt789_gc789_nosim
+        phase: Phase 5 — rejeux inter-graines (c1)
+      - experience: exp_gemini-31-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+        phase: Phase 5 — rejeux inter-graines (c1)
+      - experience: exp_gemini-31-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+        phase: Phase 5 — rejeux inter-graines (c1)
+      - experience: exp_mistral-l-25_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+        phase: Phase 5 — rejeux inter-graines (c1)
+
+      # ── Optional — the three deferred Gemini runs ─────────────────────────────────
+      # Proposed for cutting on 2026-09-22: ~6 h and a day of quota for three runs that
+      # neither Q1 nor Q2 uses. They stay here so that the decision to cut them stays
+      # visible instead of disappearing (R6b).
+      - experience: exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_t0_nosim
+        phase: Optionnel — Gemini différé
+        optionnel: true
+        note: Ni Q1 ni Q2 ne l'utilisent ; il ne sert que le récit « le prompt compte ».
+      - experience: exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+        phase: Optionnel — Gemini différé
+        optionnel: true
+        note: >-
+          L'écart à défendre vaut 2,16 points, contre une étendue inter-graines mesurée de
+          0,56 et une résolution de cohorte de ±1,3.
+      - experience: exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go789_gt789_gc789_t0_nosim
+        phase: Optionnel — Gemini différé
+        optionnel: true
+
+      # ── Acquired (c1) — already measured, nothing to replay ───────────────────────
+      # The reference band, the floors and the published arms of cohort c1.
+      - experience: exp_jev-1130_proexp32_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+        phase: Acquis (c1)
+        note: Le 3,65 en échantillon, celui que la phase 2 met à l'épreuve.
+      - experience: exp_jev-1130_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+        phase: Acquis (c1)
+      - experience: exp_jev-1130_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+        phase: Acquis (c1)
+      - experience: exp_gemini-35-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+        phase: Acquis (c1)
+        note: Graine 42 du seul décideur dont les trois graines existent (4,86 / 4,65 / 4,30).
+      - experience: exp_gemini-35-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+        phase: Acquis (c1)
+      - experience: exp_gemini-35-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go789_gt789_gc789_t0_nosim
+        phase: Acquis (c1)
+      - experience: exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+        phase: Acquis (c1)
+      - experience: exp_mnl_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+        phase: Acquis (c1)
+      - experience: exp_lgbm_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+        phase: Acquis (c1)
+      - experience: exp_klr_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+        phase: Acquis (c1)
+      - experience: exp_rf_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+        phase: Acquis (c1)
+      - experience: exp_alea_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+        phase: Acquis (c1)
+      - experience: exp_majvoiture_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+        phase: Acquis (c1)
+      - experience: exp_durmin_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+        phase: Acquis (c1)

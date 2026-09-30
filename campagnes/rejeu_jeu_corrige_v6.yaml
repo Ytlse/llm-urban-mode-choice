@@ -1,0 +1,74 @@
+# Ticket 088 — the full replay on the corrected substrate.
+# Written on 2026-09-16. It replaces the three campaigns of the old set
+# (`bascule_anglaise_v6`, `bascule_anglaise_v6_sans_gemini31`, `multimodeles_v6`), deleted
+# the same day: their `restantes` designated experiments in `jeu-20260316`, that is
+# the substrate dated 17 March for 797 personas. Their definitions and states are in
+# docs/traces/2026-09-16_14-24_avant_rejeu_jeu_corrige/.
+#
+# No Antigravity phase. Author's decision of 2026-09-16: no more Antigravity runs.
+# The five `agy-*` definitions stay on the old substrate and are not derived.
+nom: rejeu_jeu_corrige_v6
+version: campagne1
+note: 'Rejeu intégral de la cohorte v6 sur le jeu corrigé du ticket 088. Le jeu précédent portait,
+  pour 797 des 894 personas mobiles, une offre d''itinéraires et une météo calculées pour le 17 mars
+  au lieu du 16 : `deplacements_attendus()` ancrait le curseur sur le `start_time` d''une activité
+  « home » enjambant minuit, et la règle de report datait le départ du matin du lendemain. Le correctif
+  est en place ; ce que la campagne rejoue, c''est tout ce qui a été mesuré sur le mauvais substrat —
+  26 exécutions terminées, plus le bras `gemini-35-fl_promin02` qui n''a jamais abouti (arrêté à
+  53/3299 le 2026-09-16). Les expériences déjà `terminee` sont comptées faites et ne sont pas
+  rejouées : relancer cette campagne ne refait que ce qui manque.'
+substrat:
+  population: data/population/population_1000_PANEL_v6
+  jeu: population_1000_PANEL_v6_20260316_EN_c
+  sceau: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6
+phases:
+- nom: temoins
+  raison: 'Aucun appel LLM, quelques minutes, aucun quota. S''ils échouent, c''est le substrat qui
+    est en cause et on l''apprend avant d''avoir dépensé quoi que ce soit. Le témoin random forest
+    y figure avec son LANCEUR DÉDIÉ et son chemin de population HÔTE : la forêt a été estimée sous
+    scikit-learn 1.8.0, le conteneur porte la 1.9.0, et les deux ne donnent pas la même forêt (mesuré,
+    exactitude +0,000188). Le § 3.3 du ticket 088 — câbler la famille `rf` dans `FAMILLES` et
+    `POLICY_FORMATS` — n''est PAS fait : tant qu''il ne l''est pas, ce bras passe par son lanceur,
+    et l''asymétrie de parité que le § 4.4 du chapitre 4 affirme reste ouverte.'
+  experiences:
+  - exp_alea_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nochn_noret_nosim
+  - exp_alea_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+  - exp_durmin_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nochn_noret_nosim
+  - exp_durmin_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+  - exp_majvoiture_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nochn_noret_nosim
+  - exp_majvoiture_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+  - exp_klr_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nochn_noret_nosim
+  - exp_klr_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_noret_nosim
+  - exp_klr_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+  - exp_lgbm_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nochn_noret_nosim
+  - exp_lgbm_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_noret_nosim
+  - exp_lgbm_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+  - exp_mnl_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nochn_noret_nosim
+  - exp_mnl_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_noret_nosim
+  - exp_mnl_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+  - exp_rf_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nochn_noret_nosim
+  - exp_rf_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_noret_nosim
+  - exp_rf_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+- nom: llm
+  raison: 'Consomment du quota — de l''ordre de 2 500 sollicitations par bras, cache désactivé, soit
+    ≈ 22 500 appels pour la phase. La campagne dort à l''épuisement et reprend à l''expérience courante
+    au renouvellement, jamais au début. `gemini-35-fl_promin02` passe EN PREMIER : c''est le seul bras
+    qui n''a jamais abouti, et le seul dont on n''ait donc aucune mesure, même fausse.'
+  experiences:
+  - exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-35-fl_proexp04_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-35-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-35-fl_proexp06_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-35-fl_proexp08_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-31-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-31-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+  - exp_mistral-l-25_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+  - exp_mistral-l-25_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+lanceurs:
+  exp_rf_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nochn_noret_nosim: &id001
+  - services/llm-agents/.venv/bin/python
+  - scripts/progedo_logit/lancer_experience_rf.py
+  - --vers
+  - '{exp}'
+  exp_rf_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_noret_nosim: *id001
+  exp_rf_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim: *id001

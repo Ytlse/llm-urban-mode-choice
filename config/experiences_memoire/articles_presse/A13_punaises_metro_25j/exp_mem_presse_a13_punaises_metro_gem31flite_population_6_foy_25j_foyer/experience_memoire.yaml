@@ -1,0 +1,24 @@
+canal: lu
+evenement: a13_punaises_metro
+modeles:
+  itinary_multi_agent: gemini-3.1-flash-lite
+  evenement_jugement: gemini-3.1-flash-lite
+  stm_reflection: gemini-3.5-flash-lite
+  ltm_self_reflection: gemini-3.1-flash-lite
+  enquete_affinite: gemini-3.1-flash-lite
+  evenement_relais: gemini-3.1-flash-lite
+temperature_decision: 0.0
+variante_prompt: prompt_expert_05
+population: population_6_foyers_a13
+horizon_jours: 25
+arret_sur_extinction: false
+jours_apres_extinction: 5
+graine_calendrier: 42
+graine_tirage: 42
+memoire_importance_choc: 0.7
+stm_reflection_min_entries: 5
+contrefactuel_ab: true
+partage_foyer: true
+rejeu_ab: true
+adaptateur: google
+nom: exp_mem_presse_a13_punaises_metro_gem31flite_population_6_foy_25j_foyer

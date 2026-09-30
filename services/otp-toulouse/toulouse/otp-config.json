@@ -1,0 +1,10 @@
+{
+  // OTP features enabled. `APIBikeRental` was REMOVED on 2026-09-04: it
+  // no longer exists in the OTP 2.8.1 enumeration, and each instance start printed
+  // a WARN « The enum value 'APIBikeRental' is not legal » — three times per restart, for
+  // a setting without effect. Bike sharing is not modelled anyway
+  // (declared limit of ticket 015).
+  "otpFeatures": {
+    "APIServerInfo": true
+  }
+}

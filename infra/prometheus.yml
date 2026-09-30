@@ -1,0 +1,25 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'llm_agents_api'
+    static_configs:
+      - targets: ['api:8000']
+
+  - job_name: 'llm_agents_controller'
+    static_configs:
+      - targets: ['controller:8002']
+
+  - job_name: 'node'
+    static_configs:
+      - targets: ['node_exporter:9100']
+
+  # CPU/RAM par conteneur Docker (dashboard 08_systeme)
+  - job_name: 'cadvisor'
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['cadvisor:8080']

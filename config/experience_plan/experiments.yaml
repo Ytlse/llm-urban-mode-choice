@@ -1,0 +1,807 @@
+# ==============================================================================
+# SPÉCIFICATION UNIFIÉE DU PLAN EXPÉRIMENTAL
+# Projet : LLM-Agents GAMA — Mobilité Urbaine Métropole Toulousaine
+# ==============================================================================
+
+# ── 1. SOCLE COMMUN PARTAGÉ (COMMON SET) ──────────────────────────────────────
+defaults:
+  inputs:
+    # Path to the sealed population aligned with the Cerema EMC² 2023 survey: v6,
+    # sealed on 2026-09-14 (ticket 074). v5 went to cold storage.
+    #
+    # v6 IS v5, IN ENGLISH. Checked agent by agent against the archive: the same
+    # 1,000 `person_id`, the same 499 households, and 0 different activity chains out of
+    # 1,000 — purposes, times and places included. Only six fields change:
+    # `main_occupation`, `housing_type`, `personal_bike`, `residence_zone` and
+    # `travel_purposes` switch to English, and the first names are now drawn from a
+    # seed per `person_id` instead of the clock.
+    #
+    # CONSEQUENCE FOR GUARD D-7: the 14 deterministic controls read no
+    # prompt and see an identical substrate. They stay comparable WITHOUT being replayed.
+    population_file: "data/population/population_1000_PANEL_v6/population.json"
+    population_hash: null  # Will be filled in automatically with the sha256 hash at freezing; v6 seal: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6 (v5 archived: de73532e82c84f62eb72c8a614f3c27767bf5cca1d1574d3574f4a96b65bd8ce)
+    reference_survey: "scripts/data/population/cerema_values.yaml"
+    oracle_lightgbm: "scripts/progedo_logit/mode_choice_policy.json"
+    feature_spec: "scripts/progedo_logit/feature_spec.json"
+    otp_cache_dir: "data/cache/otp"
+    # Unit of evaluation = the trip. The sealed cohort has 1,000 PEOPLE;
+    # the number of trips is derived from their activity chains, which are CYCLIC:
+    # the first « home » activity starts the evening before and the last trip brings back
+    # home, so a chain of k activities carries k trips, and not k − 1.
+    # Measured on population_1000_PANEL_v6: 1,000 people, 894 mobile, 3.30 trips/person
+    # — the same three figures as v5, the cohort being the same.
+    # Recomputed automatically at hash freezing (may vary slightly from one version to the next).
+    person_count: 1000
+    trip_count: 3299       # somme(activités − 1) = 2 405, + 894 mobiles (dérivé, non fixé à la main)
+
+  # Scope of the 4 canonical transport modes (EMC² 2023 survey)
+  # Any finer mode generated in simulation is aggregated into these 4 classes for scoring
+  canonical_modes:
+    - "Voiture"
+    - "Transports en commun"
+    - "Marche"
+    - "Vélo"
+
+  scoring:
+    macro_metrics:
+      - "emd"              # Earth Mover's Distance pour variables ordinales (âge, distance)
+      - "jsd"              # Jensen-Shannon Divergence pour variables qualitatives (motif, genre)
+      - "l1_composite"     # Erreur L1 composite lisible en points de %
+    micro_metrics:
+      - "accuracy"         # Exactitude individuelle vs choix réel et oracle
+      - "log_loss"         # Perte logarithmique (calibrage des probabilités)
+      - "confusion_matrix" # Matrice de confusion 4x4 (Voiture, TC, Marche, Vélo)
+    strata:
+      - "distance"
+      - "motif"
+      - "age"
+      - "genre"
+      - "couronne"
+    # ── Uncertainty quantification (no metric is published as a bare point estimate) ──
+    uncertainty:
+      # The trips of the same agent are not independent (same household, car ownership,
+      # location). The CI is therefore computed by resampling the AGENTS, not the trips.
+      cluster_bootstrap:
+        enabled: true
+        cluster_unit: "agent"        # ré-échantillonnage par grappe agent
+        resamples: 1000
+        ci_level: 0.95
+        applies_to: ["emd", "jsd", "l1_composite", "accuracy", "log_loss"]
+      # Paired contrasts (same agents across conditions): Phases 4 (hysteresis) and 5 (press).
+      paired_test:
+        method: "mcnemar"            # bascule modale appariée entre deux bras
+        applies_to_phases: ["phase_4_hysteresis", "phase_5_presse_locale"]
+      # Calage macro vs cibles EMC² : test d'ÉQUIVALENCE (borne d'indifférence annoncée),
+      # pas de χ² de non-significativité (cf. PROTOCOLE_SCIENTIFIQUE §2.2).
+      equivalence_test:
+        method: "tost"
+        indifference_margin_pp: 1.0  # ± 1 point de pourcentage
+      # Randomisation de l'ordre des options OTP (anti-biais de primauté, Tier 2 SILICA).
+      option_order_seed: 42
+
+  # ── Ratios & Quotas de référence de la passerelle SWRR (Source: quotas_summary.html) ──
+  gateway_quotas_reference:
+    summary_file: "../llm-agents-gama-papiers/methode/quotas_summary.html"
+    providers_config: "config/llm_gateway/providers.yaml"
+    batch_target_agents: 10            # Cible nominale de dispatch (Settings.batch_target_agents)
+    gateway_budget_tokens_per_agent: 3000 # 2200 in + 800 out (garde-fou passerelle réservation glissante)
+    daily_quotas_rpd:
+      google_gemini31_key1: 500             # Juge d'évaluation (thinking: 0)
+      google_gemini35_key1: 500             # Mutateur (+ thinking 1024)
+      google_gemini31_key2: 500                     # Seconde clé Google
+      mistral: "illimité (garde-fou 100M tokens/j)"
+    measured_ratios:
+      char_to_token_ratio: 3.0         # 3.0 à 3.2 caractères / token en FR + JSON
+      prompt_tokens_per_trip: 750      # Mesuré sur batchs réels (batch_196 à 199)
+      reply_tokens_per_trip: 230       # Probabilités exhaustives + phrase reason
+
+  outputs:
+    archive_dir: "experiments/archive"
+    dashboard_page: "docs/synthesis/index.html"
+    export_latex: true     # Generates the LaTeX line for the big table of the paper
+
+# ── 2. FULL MATRIX OF EXPERIMENTS ───────────────────────────────────────
+# `id` is the PAPER's identifier: it carries the phase and the order of the sections, and does not change.
+# `nom_runtime` is the name the platform COMPUTES from its parameters (spec
+# `nommage-canonique-experiences`) and under which the experiment lives in data/experiences/;
+# it is only filled in for those that have already run.
+experiments:
+
+  # ============================================================================
+  # PHASE 0 : PLANCHERS STATISTIQUES & HEURISTIQUES PHYSIQUES (Section 4.1)
+  # ============================================================================
+
+  - id: "exp_00a_random_otp"
+    nom_runtime: "exp_alea_nosim"   # dossier data/experiences/ (nom calculé)
+    title: "Hasard Uniforme sur Offre OTP"
+    phase: "phase_0_planchers"
+    description: "Tirage équiprobable parmi les modes alternatifs proposés par OTP pour chaque trajet."
+    engine:
+      type: "heuristic"
+      rule: "random_choice"
+      temperature: 0.0
+      seed: 42
+    execution:
+      batch_size: 1000
+    estimation:
+      requests_unbatched: 0             # Calcul purement local / interne
+      batch_count: 0
+      tokens_input: 0
+      tokens_output: 0
+      cost_usd: 0.0
+
+  - id: "exp_00b_majority_car"
+    nom_runtime: "exp_majvoiture_nosim"   # dossier data/experiences/ (nom calculé)
+    title: "A priori empirique (Mode majoritaire — Voiture)"
+    phase: "phase_0_planchers"
+    description: "Sélectionne systématiquement l'option Voiture si disponible dans l'offre OTP, sinon repli."
+    engine:
+      type: "heuristic"
+      rule: "majority_car"
+      temperature: 0.0
+      seed: 42
+    execution:
+      batch_size: 1000
+    estimation:
+      requests_unbatched: 0
+      batch_count: 0
+      tokens_input: 0
+      tokens_output: 0
+      cost_usd: 0.0
+
+  - id: "exp_00c_shortest_time"
+    nom_runtime: "exp_durmin_nosim"   # dossier data/experiences/ (nom calculé)
+    title: "Heuristique Rationnelle (Durée minimale OTP)"
+    phase: "phase_0_planchers"
+    description: "Sélectionne systématiquement l'itinéraire ayant la durée totale de trajet minimale."
+    engine:
+      type: "heuristic"
+      rule: "min_duration"
+      temperature: 0.0
+      seed: 42
+    execution:
+      batch_size: 1000
+    estimation:
+      requests_unbatched: 0
+      batch_count: 0
+      tokens_input: 0
+      tokens_output: 0
+      cost_usd: 0.0
+
+  # ============================================================================
+  # PHASE 1 : PROMPT FACTUEL NEUTRE ET CIRCONSTANCIÉ (Section 5 & 6.1)
+  # ============================================================================
+
+  - id: "exp_01a_bare_gemini_flash_lite"
+    nom_runtime: "exp_gemini-31-fl_minper_jtir_t0_nosim"   # dossier data/experiences/ (nom calculé)
+    title: "Gemini 3.1 Flash-Lite — Prompt Minimaliste"
+    phase: "phase_1_bare_llm"
+    description: "Juge de référence (thinking: 0). Prompt neutre sans ingénierie : persona + alternatives OTP + choix."
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"       # Instance SWRR dédiée (RPD=500, RPM=15)
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      seed: 42
+      prompt_template: "bare_minimal"
+    execution:
+      batch_size: 10                    # Cible nominale passerelle (Settings.batch_target_agents)
+      max_parallel_requests: 2
+    estimation:
+      requests_unbatched: 1000          # 1 000 requêtes unitaires individuelles sans batch
+      batch_count: 100                  # 100 requêtes réelles (B=10)
+      rpd_quota_consumption: "20% (100 / 500 RPD)" # Respect strict du quota journalier
+      avg_tokens_per_trip_prompt: 750
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 775000           # (1000 * 750) + (100 * 250)
+      total_tokens_out: 230000
+
+  - id: "exp_01b_bare_mistral_small"
+    nom_runtime: "exp_mistral-s_minper_jtir_t0_nosim"   # dossier data/experiences/ (nom calculé)
+    title: "Mistral Small — Prompt Minimaliste"
+    phase: "phase_1_bare_llm"
+    description: "Pilier de simulation souverain européen (RPM=60, garde-fou 100M TPD)."
+    engine:
+      type: "llm"
+      provider: "mistral"
+      instance: "mistral"
+      model: "mistral-small-latest"
+      temperature: 0.0
+      seed: 42
+      prompt_template: "bare_minimal"
+    execution:
+      batch_size: 10
+      max_parallel_requests: 3
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      tpd_quota_consumption: "< 1% (sur garde-fou 100M/j)"
+      avg_tokens_per_trip_prompt: 750
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 775000
+      total_tokens_out: 230000
+
+  - id: "exp_01c_bare_qwen_32b_local"
+    title: "Qwen 2.5 32B Instruct — Local vLLM"
+    phase: "phase_1_bare_llm"
+    description: "Modèle open-weights exécuté localement en inférence vLLM déterministe."
+    engine:
+      type: "llm"
+      provider: "vllm_local"
+      model: "Qwen/Qwen2.5-32B-Instruct-AWQ"
+      temperature: 0.0
+      seed: 42
+      prompt_template: "bare_minimal"
+    execution:
+      batch_size: 10
+      max_parallel_requests: 1
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "0% (local GPU)"
+      avg_tokens_per_trip_prompt: 750
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 775000
+      total_tokens_out: 230000
+
+  - id: "exp_01d_bare_gemini35_flash_lite"
+    nom_runtime: "exp_gemini-35-fl_minper_jtir_t0_nosim"   # dossier data/experiences/ (nom calculé)
+    title: "Gemini 3.5 Flash-Lite — Prompt Minimaliste"
+    phase: "phase_1_bare_llm"
+    description: "Variante génération suivante du juge de référence (thinking: 0). Même prompt neutre : persona + alternatives OTP + choix."
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini35_key1"       # Instance SWRR dédiée (RPD=500)
+      model: "gemini-3.5-flash-lite"   # STABLE version: the previews are ruled out (ticket 045)
+      temperature: 0.0
+      seed: 42
+      prompt_template: "bare_minimal"
+    execution:
+      batch_size: 10                    # Cible nominale passerelle (Settings.batch_target_agents)
+      max_parallel_requests: 2
+    estimation:
+      requests_unbatched: 1000          # 1 000 requêtes unitaires individuelles sans batch
+      batch_count: 100                  # 100 requêtes réelles (B=10)
+      rpd_quota_consumption: "20% (100 / 500 RPD)" # Respect strict du quota journalier
+      avg_tokens_per_trip_prompt: 750
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 775000           # (1000 * 750) + (100 * 250)
+      total_tokens_out: 230000
+
+  # ============================================================================
+  # PHASE 2 : OPTIMISATION DU PROMPT & FEW-SHOT (Section 4.1 & 4.3)
+  # ============================================================================
+
+  - id: "exp_02a_calibrated_prompt_gemini"
+    title: "Gemini 3.1 Flash-Lite — Prompt Calibré Génétiquement"
+    phase: "phase_2_prompt_calibration"
+    description: "Prompt enrichi issu de la boucle d'optimisation génétique (pondération météo, confort, chaîne spatiale)."
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      seed: 42
+      prompt_template: "calibrated_best_branch"
+    execution:
+      batch_size: 10
+      max_parallel_requests: 2
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "20% (100 / 500 RPD)"
+      avg_tokens_per_trip_prompt: 950
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 975000           # (1000 * 950) + (100 * 250)
+      total_tokens_out: 230000
+
+  - id: "exp_02b_few_shot_emc2_gemini"
+    title: "Gemini 3.1 Flash-Lite — Few-Shot Enquête (k=3)"
+    phase: "phase_2_prompt_calibration"
+    description: "Fournit 3 exemples représentatifs réels de l'enquête EMC² dans le prompt pour séparer manque d'information et limite structurelle."
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      seed: 42
+      prompt_template: "few_shot_emc2"
+    execution:
+      batch_size: 10
+      max_parallel_requests: 2
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "20% (100 / 500 RPD)"
+      avg_tokens_per_trip_prompt: 1350
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 1375000          # (1000 * 1350) + (100 * 250)
+      total_tokens_out: 230000
+
+  # ============================================================================
+  # PHASE 3 : PLAFOND TABULAIRE SUPERVISÉ (Section 4.1 & 4.3)
+  # ============================================================================
+
+  - id: "exp_03a_multinomial_logit"
+    title: "Multinomial Logit (MNL McFadden)"
+    phase: "phase_3_baselines_statistiques"
+    description: "Référence économétrique estimée sur les microdonnées ProGEDO / EMC² 2023, à parité stricte avec l'oracle : les 21 variables du contrat, même split par ménage, mêmes métriques."
+    # Estimated on 2026-09-10 (ticket 042, `make logit`): the model_path finally exists.
+    # Sealed test of 13,045 trips, COEP-weighted: accuracy 0.766, CEL 0.5954,
+    # GMPCA 0.551, mass L1 0.0286, chosen-mode L1 0.1003 — below the booster on BOTH
+    # families of indicators (0.785 / 0.0269 / 0.0730). The inversion described by
+    # Martín-Baos et al. (2023) does not occur on these data: the reference ceiling
+    # is indeed the supervised oracle, and it is no longer a hypothesis.
+    #
+    # ⚠ This is NOT a random utility model: the contract carries no cost or
+    # level-of-service variable per mode. Neither VOT nor WTP come out of it — a limit to
+    # declare in chapter 2, cf. docs/tickets/ticket_042_*.md.
+    engine:
+      type: "tabular_ml"
+      model_path: "scripts/progedo_logit/mnl_model.json"
+      renormalize_on_otp_offer: true
+      seed: 42
+    execution:
+      batch_size: 1000
+    estimation:
+      requests_unbatched: 0
+      batch_count: 0
+      cost_usd: 0.0
+
+  - id: "exp_03b_oracle_lightgbm"
+    nom_runtime: "exp_lgbm_jtir_nosim"   # dossier data/experiences/ (nom calculé)
+    title: "Oracle Supervisé LightGBM Scellé"
+    phase: "phase_3_baselines_statistiques"
+    description: "Plafond de performance supervisé (78,5 % exactitude globale sur le jeu de test complet de 13 045 trajets)."
+    engine:
+      type: "tabular_ml"
+      model_path: "scripts/progedo_logit/mode_choice_policy.json"
+      renormalize_on_otp_offer: true
+      rule: "argmax"
+      seed: 42
+    execution:
+      batch_size: 1000
+    estimation:
+      requests_unbatched: 0
+      batch_count: 0
+      cost_usd: 0.0
+
+  # ============================================================================
+  # PHASE 4 : HYSTÉRÉSIS POST-INCIDENT SUR 5 JOURS (Section 5.1)
+  # ============================================================================
+
+  - id: "exp_04a_hysteresis_memory_5d"
+    title: "LLM + Mémoire Court-Terme (Hystérésis Métro 5j)"
+    phase: "phase_4_hysteresis"
+    description: "Panne majeure Métro Ligne A à J2 (+45 min). Mesure du taux d'évitement à J3 et cinétique de ré-adoption J4-J5 via mémoire Mt."
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      seed: 42
+      memory_enabled: true
+      memory_horizon_days: 5
+      memory_decay_lambda: 0.4
+    execution:
+      batch_size: 10
+      simulation_days: 5
+      perturbation:
+        day: 2
+        time: "17:00"
+        mode: "metro_line_a"
+        delay_min: 45
+    estimation:
+      requests_unbatched: 5000          # 5 jours * 1000 trajets
+      batch_count: 500                  # 5 jours * 100 batchs/jour (B=10)
+      rpd_quota_consumption: "100% (500 / 500 RPD — mutualisable avec google_gemini31_key2)"
+      avg_tokens_per_trip_prompt: 850
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 4375000          # (5000 * 850) + (500 * 250)
+      total_tokens_out: 1150000
+
+  - id: "exp_04b_hysteresis_amnesic_5d"
+    title: "LLM Amnésique (Témoin sans mémoire — 5j)"
+    phase: "phase_4_hysteresis"
+    description: "Condition de contrôle : même incident à J2 mais sans registre de mémoire. Prouve que l'effet à J3 provient de la mémoire."
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      seed: 42
+      memory_enabled: false
+    execution:
+      batch_size: 10
+      simulation_days: 5
+      perturbation:
+        day: 2
+        time: "17:00"
+        mode: "metro_line_a"
+        delay_min: 45
+    estimation:
+      requests_unbatched: 5000
+      batch_count: 500
+      rpd_quota_consumption: "100% (500 / 500 RPD — mutualisable avec google_gemini31_key2)"
+      avg_tokens_per_trip_prompt: 750
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 3875000          # (5000 * 750) + (500 * 250)
+      total_tokens_out: 1150000
+
+  - id: "exp_04c_hysteresis_oracle_lightgbm"
+    title: "Oracle LightGBM sur Trajectoire 5j"
+    phase: "phase_4_hysteresis"
+    description: "Démontre l'amnésie structurelle du modèle tabulaire qui reprend instantanément 80 % de part métro à J3 dès le rétablissement physique."
+    engine:
+      type: "tabular_ml"
+      model_path: "scripts/progedo_logit/mode_choice_policy.json"
+      renormalize_on_otp_offer: true
+      seed: 42
+    execution:
+      batch_size: 1000
+      simulation_days: 5
+    estimation:
+      requests_unbatched: 0
+      batch_count: 0
+      rpd_quota_consumption: "0%"
+
+  # ============================================================================
+  # PHASE 5 : ÉVALUATION ÉCOLOGIQUE SUR ARTICLES DE PRESSE (Section 5.2 & 5.3)
+  # ============================================================================
+
+  # --- Événement 1 : Culturel (Festival La Machine / Minotaure) ---
+  - id: "exp_05a_news_minotaure_c1_nominal"
+    title: "Presse Minotaure — C1: Régime nominal (sans article)"
+    phase: "phase_5_presse_locale"
+    event_id: "minotaure_la_machine"
+    condition: "C1_nominal"
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      news_article: null
+    execution:
+      batch_size: 10
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "20% (100 / 500 RPD)"
+      avg_tokens_per_trip_prompt: 750
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 775000
+      total_tokens_out: 230000
+
+  - id: "exp_05a_news_minotaure_c2_raw"
+    title: "Presse Minotaure — C2: Article brut de presse"
+    phase: "phase_5_presse_locale"
+    event_id: "minotaure_la_machine"
+    condition: "C2_raw_article"
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      news_article: "data/presse/articles_txt/minotaure_raw.txt"
+    execution:
+      batch_size: 10
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "20% (100 / 500 RPD)"
+      avg_tokens_per_trip_prompt: 1000
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 1025000
+      total_tokens_out: 230000
+
+  - id: "exp_05a_news_minotaure_c3_paraphrase"
+    title: "Presse Minotaure — C3: Paraphrase sans indice modal"
+    phase: "phase_5_presse_locale"
+    event_id: "minotaure_la_machine"
+    condition: "C3_paraphrase_no_cues"
+    description: "Ferme l'objection de l'obéissance aveugle : le fait est décrit sans mentionner métro ni piéton."
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      news_article: "data/presse/articles_txt/minotaure_paraphrase.txt"
+    execution:
+      batch_size: 10
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "20% (100 / 500 RPD)"
+      avg_tokens_per_trip_prompt: 1000
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 1025000
+      total_tokens_out: 230000
+
+  - id: "exp_05a_news_minotaure_c4_placebo"
+    title: "Presse Minotaure — C4: Article placebo (hors sujet)"
+    phase: "phase_5_presse_locale"
+    event_id: "minotaure_la_machine"
+    condition: "C4_placebo"
+    description: "Contrôle de spécificité : article réel sans impact modal pour prouver la non-réaction."
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      news_article: "data/presse/articles_txt/placebo_culturel.txt"
+    execution:
+      batch_size: 10
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "20% (100 / 500 RPD)"
+      avg_tokens_per_trip_prompt: 1000
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 1025000
+      total_tokens_out: 230000
+
+  - id: "exp_05a_news_minotaure_c5_oracle_encoded"
+    title: "Presse Minotaure — C5: Oracle LightGBM avec réseau dégradé"
+    phase: "phase_5_presse_locale"
+    event_id: "minotaure_la_machine"
+    condition: "C5_oracle_encoded"
+    description: "Rend la comparaison équitable : l'événement est traduit en coupures de liens dans le graphe OTP."
+    engine:
+      type: "tabular_ml"
+      model_path: "scripts/progedo_logit/mode_choice_policy.json"
+      otp_scenario: "minotaure_streets_closed"
+      seed: 42
+    execution:
+      batch_size: 1000
+    estimation:
+      requests_unbatched: 0
+      batch_count: 0
+      rpd_quota_consumption: "0%"
+
+  # --- Event 2: Environment (Heatwave & Ozone Peak) — 5 FULL CONDITIONS ---
+  # « Worst case » of instruction following: the raw article explicitly names the modal
+  # answer (« free public transport », « avoid cycling »). It is therefore the event where the
+  # paraphrase / placebo / oracle arms are most needed to close the objection of
+  # blind obedience. Symmetry required by PROTOCOLE_SCIENTIFIQUE §5.2.
+  - id: "exp_05b_news_canicule_c1_nominal"
+    title: "Presse Canicule / Ozone — C1: Régime nominal (sans article)"
+    phase: "phase_5_presse_locale"
+    event_id: "canicule_pic_ozone"
+    condition: "C1_nominal"
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      seed: 42
+      news_article: null
+    execution:
+      batch_size: 10
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "20% (100 / 500 RPD)"
+      avg_tokens_per_trip_prompt: 750
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 775000
+      total_tokens_out: 230000
+
+  - id: "exp_05b_news_canicule_c2_raw"
+    title: "Presse Canicule / Ozone — C2: Article brut"
+    phase: "phase_5_presse_locale"
+    event_id: "canicule_pic_ozone"
+    condition: "C2_raw_article"
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      seed: 42
+      news_article: "data/presse/articles_txt/canicule_raw.txt"
+    execution:
+      batch_size: 10
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "20% (100 / 500 RPD)"
+      avg_tokens_per_trip_prompt: 1000
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 1025000
+      total_tokens_out: 230000
+
+  - id: "exp_05b_news_canicule_c3_paraphrase"
+    title: "Presse Canicule / Ozone — C3: Paraphrase sans indice modal"
+    phase: "phase_5_presse_locale"
+    event_id: "canicule_pic_ozone"
+    condition: "C3_paraphrase_no_cues"
+    description: "Le fait (chaleur extrême, air irrespirable) décrit sans mentionner TC, vélo ni gratuité — isole le raisonnement du suivi de consigne."
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      seed: 42
+      news_article: "data/presse/articles_txt/canicule_paraphrase.txt"
+    execution:
+      batch_size: 10
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "20% (100 / 500 RPD)"
+      avg_tokens_per_trip_prompt: 1000
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 1025000
+      total_tokens_out: 230000
+
+  - id: "exp_05b_news_canicule_c4_placebo"
+    title: "Presse Canicule / Ozone — C4: Article placebo (hors sujet)"
+    phase: "phase_5_presse_locale"
+    event_id: "canicule_pic_ozone"
+    condition: "C4_placebo"
+    description: "Contrôle de spécificité : article réel sans impact modal attendu."
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      seed: 42
+      news_article: "data/presse/articles_txt/placebo_environnemental.txt"
+    execution:
+      batch_size: 10
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "20% (100 / 500 RPD)"
+      avg_tokens_per_trip_prompt: 1000
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 1025000
+      total_tokens_out: 230000
+
+  - id: "exp_05b_news_canicule_c5_oracle_encoded"
+    title: "Presse Canicule / Ozone — C5: Oracle LightGBM avec contexte encodé"
+    phase: "phase_5_presse_locale"
+    event_id: "canicule_pic_ozone"
+    condition: "C5_oracle_encoded"
+    description: "Même événement traduit en variables tabulaires : température élevée, tarif TC réduit, fenêtre 14h — rend la comparaison honnête."
+    engine:
+      type: "tabular_ml"
+      model_path: "scripts/progedo_logit/mode_choice_policy.json"
+      otp_scenario: "canicule_pt_incentive_hot_weather"
+      seed: 42
+    execution:
+      batch_size: 1000
+    estimation:
+      requests_unbatched: 0
+      batch_count: 0
+      rpd_quota_consumption: "0%"
+
+  # --- Événement 3 : Perturbation Infrastructure (Coupure Rocade Empalot) — 5 CONDITIONS ---
+  - id: "exp_05c_news_rocade_c1_nominal"
+    title: "Presse Coupure Rocade — C1: Régime nominal (sans article)"
+    phase: "phase_5_presse_locale"
+    event_id: "coupure_rocade_empalot"
+    condition: "C1_nominal"
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      seed: 42
+      news_article: null
+    execution:
+      batch_size: 10
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "20% (100 / 500 RPD)"
+      avg_tokens_per_trip_prompt: 750
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 775000
+      total_tokens_out: 230000
+
+  - id: "exp_05c_news_rocade_c2_raw"
+    title: "Presse Coupure Rocade — C2: Article brut (+1h bouchon)"
+    phase: "phase_5_presse_locale"
+    event_id: "coupure_rocade_empalot"
+    condition: "C2_raw_article"
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      seed: 42
+      news_article: "data/presse/articles_txt/rocade_raw.txt"
+    execution:
+      batch_size: 10
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "20% (100 / 500 RPD)"
+      avg_tokens_per_trip_prompt: 1000
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 1025000
+      total_tokens_out: 230000
+
+  - id: "exp_05c_news_rocade_c3_paraphrase"
+    title: "Presse Coupure Rocade — C3: Paraphrase sans indice modal"
+    phase: "phase_5_presse_locale"
+    event_id: "coupure_rocade_empalot"
+    condition: "C3_paraphrase_no_cues"
+    description: "L'incident (axe majeur bloqué, temps de trajet fortement allongé) décrit sans nommer TER, métro ni voiture."
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      seed: 42
+      news_article: "data/presse/articles_txt/rocade_paraphrase.txt"
+    execution:
+      batch_size: 10
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "20% (100 / 500 RPD)"
+      avg_tokens_per_trip_prompt: 1000
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 1025000
+      total_tokens_out: 230000
+
+  - id: "exp_05c_news_rocade_c4_placebo"
+    title: "Presse Coupure Rocade — C4: Article placebo (hors sujet)"
+    phase: "phase_5_presse_locale"
+    event_id: "coupure_rocade_empalot"
+    condition: "C4_placebo"
+    description: "Contrôle de spécificité : article réel sans impact modal attendu."
+    engine:
+      type: "llm"
+      provider: "google"
+      instance: "google_gemini31_key1"
+      model: "gemini-3.1-flash-lite"
+      temperature: 0.0
+      seed: 42
+      news_article: "data/presse/articles_txt/placebo_infrastructure.txt"
+    execution:
+      batch_size: 10
+    estimation:
+      requests_unbatched: 1000
+      batch_count: 100
+      rpd_quota_consumption: "20% (100 / 500 RPD)"
+      avg_tokens_per_trip_prompt: 1000
+      avg_tokens_per_trip_reply: 230
+      total_tokens_in: 1025000
+      total_tokens_out: 230000
+
+  - id: "exp_05c_news_rocade_c5_oracle_encoded"
+    title: "Presse Coupure Rocade — C5: Oracle LightGBM avec réseau dégradé"
+    phase: "phase_5_presse_locale"
+    event_id: "coupure_rocade_empalot"
+    condition: "C5_oracle_encoded"
+    description: "Même événement traduit en coupure de liens routiers dans le graphe OTP (+1h sur les trajets voiture concernés)."
+    engine:
+      type: "tabular_ml"
+      model_path: "scripts/progedo_logit/mode_choice_policy.json"
+      otp_scenario: "rocade_empalot_cut_plus1h"
+      seed: 42
+    execution:
+      batch_size: 1000
+    estimation:
+      requests_unbatched: 0
+      batch_count: 0
+      rpd_quota_consumption: "0%"

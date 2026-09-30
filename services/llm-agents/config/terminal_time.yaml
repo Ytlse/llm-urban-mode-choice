@@ -1,0 +1,492 @@
+# Terminal time per mode — the NON-DRIVING part at each end of a vehicle
+# trip: reaching the vehicle, looking for where to park it, walking to the
+# destination.
+#
+# ⚠ EXOGENOUS parameter (ticket 013, decision T2). It comes from an external source,
+# it is documented here with its provenance, and it is NEVER adjusted to
+# improve a calibration score. Adjusting it on the target would amount to tuning
+# the instrument so that it gives the expected answer.
+#
+# Vocabulary: "terminal time" of four-step modelling — a
+# parameter tabulated by zone type, expressed PER TRIP END.
+#   NCHRP Report 716, Travel Demand Forecasting: Parameters and Techniques
+#   https://nap.nationalacademies.org/catalog/14665/travel-demand-forecasting-parameters-and-techniques
+#
+# Before this file, this time already existed but was invisible: `park_base` of
+# config/osmnx.yaml added 2 × 120 s (car) and 2 × 60 s (bike) INTO the driving
+# duration, without provenance and without a displayed breakdown. The model saw
+# a total without knowing it contained parking, whereas it sees every
+# walking leg of public transport detailed step by step. It is this
+# asymmetry that ticket 013 fixes.
+
+# Version of the itinerary data. It enters the cache keys (persistent OSMnx
+# routing AND LLM decision cache): bumping it INVALIDATES both, which
+# is the intended behaviour — without it, a run would replay decisions
+# taken on durations different from those displayed now.
+# Any modification of the values below MUST bump this version.
+version: tt5   # tt5: labels in English (ticket 074); tt4: COMMUNAL strata (ticket 028); tt3: aligned on the survey, drawn from its law; before: constant per ring
+#
+# ⚠ tt5 CHANGES NO NUMERICAL VALUE — and yet the bump is mandatory.
+# The `labels:` below do not only serve rendering: `osmnx_direct` sets them in
+# `Transit.step_label`, and the persistent OTP cache stores **serialised TravelPlans**,
+# terminal legs included. Without a bump, a warm cache would serve again plans carrying
+# "Rejoindre la voiture" and "Stationnement et marche jusqu'à 'work'" — French in
+# a set-up announced as English, inherited by the v6 set at the very moment of its sealing, and
+# without any log reporting it.
+#
+# `routing_version` (r3) is NOT bumped: the OSMnx routing cache only stores
+# network travel time, which no label touches. The cold recomputation of thousands of
+# routes (~2 h for 930 personas) is therefore spared; only the OTP plan cache must be redone.
+
+# ROUTING version — distinct, and the distinction is not cosmetic. The persistent
+# OSMnx cache now only stores NETWORK travel time, which depends
+# on no terminal time: versioning it by `version` above would make thousands of routes
+# be recomputed cold at each parking adjustment — measured at ~2 h
+# for a population of 930 personas. To be bumped only when the network duration
+# itself changes (speeds, infrastructure penalties, congestion, or the removal
+# of parking from the engine — the latter produced `r1`).
+#
+# The caches that store PLANS, for their part, stay indexed on `version`: the OTP
+# cache stores the serialised TravelPlans with their terminal legs, and the LLM
+# decision cache is about options whose durations have changed.
+#
+# r3 (2026-09-04): the departure time is now read in the NETWORK's time zone and not
+# in the process's (`sim_clock`). The integer coming from GAMA worth 5 a.m. wall-clock was read
+# 6 a.m. under `TZ=Europe/Paris` (the `controller`), 5 a.m. under `TZ=UTC` (the `osmnx` replicas):
+# the process's time zone decided the time at which itineraries were computed.
+#
+# ⚠ THIS BUMP IS A PRECAUTION, NOT A DEMONSTRATED NECESSITY, and saying so is better than
+# letting the opposite be believed. Checked: the key of this cache carries the slot
+# (`weekday` + full hour) that IS USED to compute the congestion factor, and the stored
+# value only contains `duration_s`/`distance_m` — no absolute time. An entry is
+# therefore right FOR THE LABEL under which it is filed, whatever the time zone of the
+# process that produced it; the `foot`/`bicycle` entries, for their part, have no time at
+# all. No stored duration is wrong.
+#
+# What the bump buys nonetheless: after the change, the runtime no longer queries the
+# same slots (5 a.m. instead of 6 a.m.), so the warm coverage moves anyway;
+# and NO row of the cache records under which convention it was read — a
+# next modification of this reading would therefore mix two generations silently.
+# Cost: a cold recomputation (~2 h for 930 personas, order of magnitude noted above).
+# If this cost weighs more than the precaution, going back to `r2` is defensible — the measurement above
+# is the only argument that counts.
+# r2 (2026-09-03, ticket 031 part 2): the graph served at runtime becomes that of the
+# POLYGON of the 453 communes (key `444ca7e6a515`) instead of the 30 km disk, and the bike
+# speeds of config/osmnx.yaml are completed (track, service, pedestrian, trunk, *_link…). The
+# key of the SQLite cache does not carry the graph: without this bump, a duration computed on the disk
+# (including the 70 km/h fallbacks of 3rd-ring trips) would be served again on the polygon.
+# r1: removal of parking from the engine (ticket 013).
+routing_version: r3
+
+# ⚠ The times must be multiples of 60 s, and this is structural, not
+# cosmetic: the rendering displays each component in truncated minutes
+# (`humanize_duration`), and `floor(a + k×60) == floor(a) + k`. This is what
+# guarantees that the displayed total is EXACTLY the sum of the displayed
+# sub-steps (acceptance criterion 2 of ticket 013). A value that is not a multiple of
+# 60 would break the equality one time in two, and the loader refuses it.
+modes:
+
+# ══════════════════════════════════════════════════════════════════════════════
+# tt4 (2026-09-02) — SAME LAWS, COMMUNAL STRATA (ticket 028). GENERATED block, do not
+# edit by hand:
+#   make terminal-time                      # law → mobility_core/data/terminal_time_emc2.json
+#   python -m scripts.progedo_logit.export_terminal_time --emit-config <fichier>
+# then replace this block.
+#
+# WHAT CHANGES. Nothing in the measurement — T2, T6, T11 on the same 24,482 car-driver
+# trips — but everything in the STRATIFICATION: the ring of a fine zone is read from the
+# survey table (fine zone → sampling sector → ring, `CouronneTable`), and no longer
+# deduced from the distance of its centroid to the hypercentre (8 / 20 / 40 km). It is the
+# definition the personas' `residence_zone` trait has carried since ticket 021: the
+# terminal time and the residence finally speak of the same split.
+#
+# WHAT IT SHIFTS, measured at export (trips at access, tt3 → tt4):
+#     Toulouse         6,439 → 6,130      mean 0.36 → 0.45 min
+#     1st ring    6,995 → 10,576     mean 0.14 → 0.16 min
+#     2nd ring    4,383 → 3,447      mean 0.16 → 0.15 min
+#     3rd ring      409 → 3,370      mean 0.09 → 0.13 min
+#     outside strata   6,256 → 959        (25.6% → 3.9% of trips without a ring)
+# The metric 3rd ring — beyond 40 km — barely existed; the survey's
+# counts 275 communes. And attachment by sector finds a ring for ~5,300
+# trips that the centroid left outside the strata. The overall means do not move
+# (0.24 / 0.32 min): same measurement, another split.
+#
+# THE tt3 → tt4 BUMP invalidates the OTP plan cache and the LLM decision cache:
+# decisions taken on other durations must not be served again. `routing_version`
+# stays r1, the network durations have not changed.
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ══════════════════════════════════════════════════════════════════════════════
+# tt3 (2026-08-24) — ALIGNMENT ON THE SURVEY. GENERATED block, do not edit by hand:
+#   make terminal-time                      # law → mobility_core/data/terminal_time_emc2.json
+#   python -m scripts.progedo_logit.export_terminal_time --emit-config <fichier>
+# then replace this block. A hundred numbers copied by hand would drift.
+#
+# WHAT CHANGES, AND WHY. The tt2 values came from the literature (COMPASS tables
+# per zone type, parking search bounded by Shoup and Cerema): 3 min of access and
+# 7 min of parking in Toulouse, 1 + 1 in the 3rd ring. The survey the project takes
+# as its TARGET measures this same time, and finds 8 to 24 times less of it:
+#
+#     ring              access: survey / tt2       egress: survey / tt2
+#     Toulouse                0.36 / 3 min                0.52 / 7 min
+#     1st ring           0.14 / 2                    0.17 / 4
+#     2nd ring           0.16 / 2                    0.19 / 3
+#     3rd ring           0.09 / 1                    0.06 / 1
+#
+# Source: EMC² Toulouse 2023 (ProGEDO lil-1750), trips file — T2 "walking time
+# at departure", T6 "walking time at arrival", T11 "parking search
+# duration", over the 24,482 car-driver trips. Filled in at ~100%.
+#
+# THE CHECK THAT ALLOWS THE COMPARISON. The legitimate doubt was that walking to the
+# car might be coded as a DISTINCT walking trip, in which case T2/T6 would be 0 by
+# construction and the measurement would be empty. Checked: of the 24,481 journeys including
+# a car trip, NONE carries a walking trip. And the instrument works — on
+# public transport trips, of identical structure, T2 + T6 gives 6 min as a median.
+# The survey can record a terminal time; it records 0.55 min of it for the car.
+#
+# THIS IS NOT THE ADJUSTMENT T2 FORBIDS. Decision T2 forbids tuning this parameter
+# ON A calibration SCORE. It is here RE-SOURCED on the survey measurement, which its
+# own `provenance: sourced` calls for. No value below was chosen while
+# looking at a modal share: they all come out of the observed histogram.
+#
+# WHY A LAW AND NOT A CONSTANT. The survey mean is BELOW ONE MINUTE,
+# and the rendering only displays whole minutes (the "total = sum of the
+# sub-steps" invariant requires it). A constant would therefore be 0 everywhere, which would erase
+# a very real tail: 2 to 4% of trips really have 5 minutes or more. The draw
+# keeps both, the mean AND the tail. It is deterministic (hash of the trip
+# key, cf. `DRAW_SALT`): since the plans and the LLM decisions are cached, a random
+# draw would make a run diverge from its resumption.
+#
+# IT IS NOT A BELL CURVE, and it is measured: the law is massed at zero (87 to 96% depending on the
+# ring) and stretched to the right. A Gaussian would produce negative values and
+# destroy the mass at zero.
+#
+# THE BIKE TOO. In tt2 it carried 60 s per end, marked `provenance: unsourced` for lack of a
+# published source. The survey gives one: 0.23 min on average (T3 ∈ {11, 17}). The bike
+# therefore moves to a law too, and its provenance becomes `sourced`. Fixing the car
+# alone would have left an unsourced bias facing a corrected bias.
+#
+# MEASURED EFFECT, before touching production: paired A/B on the frozen sets (same
+# options, same prompt, only the terminal legs rewritten). THREE arms, because the
+# first A/B measured less than what this config delivers:
+#   `v5` config times             composite score 27.00
+#   `v6` car only aligned         composite score 22.48   (−4.52)
+#   `v7` car AND bike aligned     composite score 24.83   (−2.17)  ← the scope of this file
+# The citable figure is **−2.17**, that of `v7`: aligning the bike makes it
+# more attractive too, hence gives back +2.35 of the car gain (52%). Citing −4.52 would be citing a
+# narrower measurement than the delivery. Modal shares on `v7`: bike 19.5 → 16.3%
+# (target 4.0), car 38.9 → 47.7% (target 55.0), walking 16.1 → 13.5% (target 26.0).
+# The `distance` (+2.59) and `motif` (+1.29) dimensions degrade.
+# Traces: docs/traces/2026-08-24_temps_terminal/.
+# ══════════════════════════════════════════════════════════════════════════════
+
+  car:   # 24482 surveyed trips
+    access_law:
+      Toulouse:   # n=6130, mean 0.45 min
+        0: 0.869657
+        1: 0.037357
+        2: 0.032463
+        3: 0.014356
+        4: 0.003752
+        5: 0.029201
+        6: 0.000653
+        7: 0.000979
+        8: 0.001631
+        9: 0.000163
+        10: 0.007015
+        12: 0.000163
+        15: 0.001305
+        20: 0.001305
+      1st ring:   # n=10576, mean 0.16 min
+        0: 0.939107
+        1: 0.026759
+        2: 0.015507
+        3: 0.006902
+        4: 0.001135
+        5: 0.007186
+        6: 9.5e-05
+        7: 0.000284
+        8: 0.000284
+        10: 0.001418
+        13: 9.5e-05
+        15: 0.000473
+        20: 0.000756
+      2nd ring:   # n=3447, mean 0.15 min
+        0: 0.949811
+        1: 0.02582
+        2: 0.011894
+        3: 0.002901
+        4: 0.00116
+        5: 0.004062
+        8: 0.00029
+        10: 0.00116
+        15: 0.00029
+        20: 0.002611
+      3rd ring:   # n=3370, mean 0.13 min
+        0: 0.954599
+        1: 0.020772
+        2: 0.012166
+        3: 0.003561
+        4: 0.00089
+        5: 0.005045
+        6: 0.000297
+        7: 0.000297
+        10: 0.000297
+        11: 0.000297
+        20: 0.00178
+      default:   # n=24482, mean 0.24 min
+        0: 0.924434
+        1: 0.028307
+        2: 0.018871
+        3: 0.007802
+        4: 0.001756
+        5: 0.012458
+        6: 0.000245
+        7: 0.000408
+        8: 0.000572
+        9: 4.1e-05
+        10: 0.0029
+        11: 4.1e-05
+        12: 4.1e-05
+        13: 4.1e-05
+        15: 0.000694
+        20: 0.001389
+    egress_law:
+      Toulouse:   # n=6136, mean 0.65 min
+        0: 0.850554
+        1: 0.033898
+        2: 0.033735
+        3: 0.015156
+        4: 0.006682
+        5: 0.027053
+        6: 0.004074
+        7: 0.0044
+        8: 0.003748
+        9: 0.000489
+        10: 0.01043
+        11: 0.000652
+        12: 0.000978
+        13: 0.001467
+        14: 0.000326
+        15: 0.003585
+        16: 0.000163
+        17: 0.000326
+        18: 0.000163
+        20: 0.002119
+      1st ring:   # n=10604, mean 0.21 min
+        0: 0.931252
+        1: 0.025556
+        2: 0.018106
+        3: 0.007261
+        4: 0.003112
+        5: 0.008016
+        6: 0.001037
+        7: 0.00066
+        8: 0.000943
+        9: 0.000189
+        10: 0.001697
+        12: 0.000283
+        13: 9.4e-05
+        15: 0.000566
+        20: 0.001226
+      2nd ring:   # n=3461, mean 0.18 min
+        0: 0.946258
+        1: 0.024559
+        2: 0.013869
+        3: 0.002889
+        4: 0.0026
+        5: 0.002889
+        7: 0.000867
+        8: 0.000578
+        9: 0.000578
+        10: 0.001734
+        12: 0.000289
+        15: 0.000289
+        20: 0.0026
+      3rd ring:   # n=3377, mean 0.16 min
+        0: 0.951436
+        1: 0.019248
+        2: 0.010956
+        3: 0.004738
+        4: 0.001184
+        5: 0.005626
+        6: 0.001481
+        7: 0.001481
+        8: 0.000296
+        9: 0.000296
+        10: 0.001184
+        13: 0.000296
+        15: 0.000296
+        20: 0.001481
+      default:   # n=24482, mean 0.32 min
+        0: 0.915407
+        1: 0.026428
+        2: 0.020423
+        3: 0.00821
+        4: 0.003676
+        5: 0.01205
+        6: 0.001675
+        7: 0.001879
+        8: 0.001552
+        9: 0.000327
+        10: 0.004044
+        11: 0.000163
+        12: 0.000449
+        13: 0.00049
+        14: 8.2e-05
+        15: 0.001266
+        16: 4.1e-05
+        17: 8.2e-05
+        18: 4.1e-05
+        20: 0.001716
+    provenance: sourced
+    spatialise: true
+    labels:
+      access: "Walk to the car"
+      main: "Driving"
+      egress: "Parking and walk to '{destination}'"
+      egress_sans_destination: "Parking and walk to the destination"
+      terminal: "of access and parking"
+
+  bicycle:   # 2047 surveyed trips
+    access_law:
+      Toulouse:   # n=2047, mean 0.11 min
+        0: 0.964338
+        1: 0.01661
+        2: 0.007816
+        3: 0.001954
+        4: 0.000489
+        5: 0.005862
+        10: 0.001466
+        15: 0.000489
+        20: 0.000977
+      1st ring:   # n=2047, mean 0.11 min
+        0: 0.964338
+        1: 0.01661
+        2: 0.007816
+        3: 0.001954
+        4: 0.000489
+        5: 0.005862
+        10: 0.001466
+        15: 0.000489
+        20: 0.000977
+      2nd ring:   # n=2047, mean 0.11 min
+        0: 0.964338
+        1: 0.01661
+        2: 0.007816
+        3: 0.001954
+        4: 0.000489
+        5: 0.005862
+        10: 0.001466
+        15: 0.000489
+        20: 0.000977
+      3rd ring:   # n=2047, mean 0.11 min
+        0: 0.964338
+        1: 0.01661
+        2: 0.007816
+        3: 0.001954
+        4: 0.000489
+        5: 0.005862
+        10: 0.001466
+        15: 0.000489
+        20: 0.000977
+      default:   # n=2047, mean 0.11 min
+        0: 0.964338
+        1: 0.01661
+        2: 0.007816
+        3: 0.001954
+        4: 0.000489
+        5: 0.005862
+        10: 0.001466
+        15: 0.000489
+        20: 0.000977
+    egress_law:
+      Toulouse:   # n=2047, mean 0.11 min
+        0: 0.967758
+        1: 0.013679
+        2: 0.007816
+        3: 0.001466
+        4: 0.000489
+        5: 0.005374
+        6: 0.000489
+        10: 0.000977
+        15: 0.000977
+        20: 0.000977
+      1st ring:   # n=2047, mean 0.11 min
+        0: 0.967758
+        1: 0.013679
+        2: 0.007816
+        3: 0.001466
+        4: 0.000489
+        5: 0.005374
+        6: 0.000489
+        10: 0.000977
+        15: 0.000977
+        20: 0.000977
+      2nd ring:   # n=2047, mean 0.11 min
+        0: 0.967758
+        1: 0.013679
+        2: 0.007816
+        3: 0.001466
+        4: 0.000489
+        5: 0.005374
+        6: 0.000489
+        10: 0.000977
+        15: 0.000977
+        20: 0.000977
+      3rd ring:   # n=2047, mean 0.11 min
+        0: 0.967758
+        1: 0.013679
+        2: 0.007816
+        3: 0.001466
+        4: 0.000489
+        5: 0.005374
+        6: 0.000489
+        10: 0.000977
+        15: 0.000977
+        20: 0.000977
+      default:   # n=2047, mean 0.11 min
+        0: 0.967758
+        1: 0.013679
+        2: 0.007816
+        3: 0.001466
+        4: 0.000489
+        5: 0.005374
+        6: 0.000489
+        10: 0.000977
+        15: 0.000977
+        20: 0.000977
+    provenance: sourced
+    spatialise: false
+    labels:
+      access: "Unlock the bike"
+      main: "Cycling"
+      egress: "Lock the bike at '{destination}'"
+      egress_sans_destination: "Lock the bike on arrival"
+      terminal: "of access and locking"
+
+# Sensitivity grid — ticket 013, decision T6. The modal shares per distance
+# band are recomputed for each of these values and the gap to EMC² is
+# reported. The goal is NOT to choose the best one (that would violate T2), it is
+# to know whether the conclusion depends on the setting.
+sensitivity:
+  # ⚠ A variant applies a uniform FACTOR on all the rings, not a
+  # single value: replacing the table with a constant would make "spatialised
+  # or not" vary AT THE SAME TIME as the magnitude of terminal time, and the sensitivity
+  # would measure two things at once. The factors are rounded to the minute.
+  low:
+    car: {factor: 0.5}
+    rationale: >
+      Moitié des valeurs retenues — lecture Millard-Ball et al. (2020), où la
+      recherche de place mesurée au GPS est quasi nulle.
+  central:
+    car: {factor: 1.0}
+    rationale: >
+      Valeurs retenues : terminal times COMPASS par type de zone + recherche de
+      place encadrée par Cerema (< 5 min en centre-bourg) et Shoup (8,1 min en
+      hyper-centre, majorant).
+  high:
+    car: {factor: 1.5}
+    rationale: >
+      Une fois et demie les valeurs retenues — approche la moyenne Shoup de 8,1 min
+      de recherche de place sur les zones les plus tendues.

@@ -1,0 +1,12 @@
+<!-- SYSTEM -->
+Tu répètes chaque item reçu. Réponds uniquement avec le JSON attendu.
+
+Schéma JSON attendu :
+{{ schema }}
+
+<!-- USER -->
+{% for agent in agents %}
+agent_id={{ agent.agent_id }}
+{% for key, value in agent.items() if key != 'agent_id' and value %}{{ key }} : {{ value }}
+{% endfor %}
+{% endfor %}

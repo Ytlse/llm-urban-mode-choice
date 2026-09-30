@@ -1,0 +1,50 @@
+nom: exp_gemini-31-fl_proexp25_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+population:
+  chemin: /data/eqasim-output/population_1000_PANEL_v6
+jeu:
+  nom: population_1000_PANEL_v6_20260316_EN_c
+  dossier: null
+gabarit:
+  categorie: itinary_multi_agent
+  variante: prompt_expert_25
+decideur:
+  type: passerelle
+  modele: gemini-3.1-flash-lite
+  portee: distant
+  parametres:
+    temperature: 0.0
+    top_p: 1.0
+    max_tokens: 4096
+  rejeu_de: null
+  graine: null
+  artefact: null
+mode: sans_simulateur
+calendrier:
+  politique: aleatoire
+  date: '2026-03-16'
+  graine: 42
+horizon_jours: 1
+memoire: false
+evenements: []
+graine_ordre: 42
+graine_tirage: 42
+regroupement:
+  parallelisme: 8
+tolerances_horaires:
+  bike: insensible
+  car: heure
+  rail:
+    pas_min: 10
+  transit:
+    pas_min: 10
+  walk: insensible
+max_candidats: 6
+attente_max_s: 120
+vehicule_chaine: true
+verrou_retour: true
+troncature_15: false
+derive_de: exp_gemini-31-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+renomme_de: null
+executions_connues:
+- 2026-09-22_10_02_10
+- 2026-09-26_21_05_43

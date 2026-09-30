@@ -1,0 +1,71 @@
+# Frontières d'architecture des trois paquets (ticket 037). Vérifier :
+#   lint-imports            (depuis la racine, paquets installés en editable)
+[importlinter]
+root_packages =
+    llm_gateway
+    mobility_core
+    mobility_llm
+include_external_packages = True
+
+[importlinter:contract:gateway-sans-metier]
+name = llm_gateway ignore la mobilité et l'ancienne coquille
+type = forbidden
+source_modules =
+    llm_gateway
+forbidden_modules =
+    mobility_core
+    mobility_llm
+    llm_module
+
+[importlinter:contract:domaine-sans-gateway]
+name = mobility_core ne dépend ni du gateway, ni de mobility_llm, ni d'une infra
+type = forbidden
+source_modules =
+    mobility_core
+forbidden_modules =
+    llm_gateway
+    mobility_llm
+    llm_module
+    redis
+    celery
+    httpx
+    fastapi
+    jinja2
+
+[importlinter:contract:colle-sans-coquille]
+name = mobility_llm n'importe plus la coquille llm_module
+type = forbidden
+source_modules =
+    mobility_llm
+forbidden_modules =
+    llm_module
+
+[importlinter:contract:core-pur]
+name = llm_gateway.core reste pur (aucun import infra/api/worker/redis/celery/httpx)
+type = forbidden
+source_modules =
+    llm_gateway.core
+forbidden_modules =
+    llm_gateway.infra
+    llm_gateway.api
+    llm_gateway.worker
+    llm_gateway.adapters
+    llm_gateway.prompts
+    redis
+    celery
+    httpx
+    fastapi
+
+[importlinter:contract:ports-purs]
+name = llm_gateway.ports ne dépend que de core
+type = forbidden
+source_modules =
+    llm_gateway.ports
+forbidden_modules =
+    llm_gateway.infra
+    llm_gateway.api
+    llm_gateway.worker
+    llm_gateway.adapters
+    redis
+    celery
+    httpx

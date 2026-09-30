@@ -1,0 +1,34 @@
+# C7 — Suspicious noise in the engine · car · named agents
+#
+# Variant created to return to the initial intention of shock C6: a loud
+# and abnormal noise heard in the engine (instead of a simple silent breakdown), while
+# respecting rules R9 and R10 (no premature verdict nor dictated modal intention).
+#
+# The delay (45 min then 20 min) and the network incident give the memory a
+# sufficient severity (≥ 0.70 on the plateau / ~0.64 asymptotically) to pass the memorisation filters
+# without short-circuiting the nightly reflection.
+
+choc: c7_voiture_bruit_suspect
+libelle: "Abnormal engine noise"
+source: "scénario déclaré — cas d'étude individuel, retour au texte initial avec bruit important et anormal"
+cadence: jour
+
+exposition:
+  regle: agents
+  agents: ["899549", "1250941", "861500"]
+  modes: [car]
+
+jours:
+  - jour: 15
+    retard_min: 45
+    incident_reseau: true
+    vecu: >-
+      The engine made a loud and abnormal grinding noise and the car stalled on the expressway.
+      I pulled onto the hard shoulder and waited 35 minutes for roadside assistance before the car
+      would restart. I arrived 45 minutes after the time I had planned.
+  - jour: 16
+    retard_min: 20
+    incident_reseau: true
+    vecu: >-
+      Warning lights came on again and the loud and abnormal engine noise was back. I drove at reduced
+      speed for the whole journey, constantly listening to the engine, and arrived 20 minutes late.

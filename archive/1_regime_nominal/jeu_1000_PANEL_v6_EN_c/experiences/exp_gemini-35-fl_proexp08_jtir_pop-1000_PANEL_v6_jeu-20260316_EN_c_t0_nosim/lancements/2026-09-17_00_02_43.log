@@ -1,0 +1,9 @@
+2026-09-17 02:02:44.366 | DEBUG    | experiences.ressources:charger_providers:69 - [ressources] 26 instance(s) lue(s) dans /app/config/llm_gateway/providers.yaml
+2026-09-17 02:02:44.593 | DEBUG    | settings:get:1035 - Configuration lue ; workdir de ce processus s'il ouvrait un run : 2026-09-17_02_02 (aucun artefact créé, cf. claim_run())
+2026-09-17 02:02:44.601 | WARNING  | experiences.jeu:dependances_courantes:346 - [jeu] état du dépôt non vérifiable : ni $EXP_DEPOT_COMMIT ni `git` ne répondent. La mesure ne pourra pas être rattachée à un état du code (ticket 045, A4).
+2026-09-17 02:02:46.572 | INFO     | trip_helper.osmnx_direct:<module>:54 - OSMnx HTTP mode: 1 endpoint(s): ['http://osmnx1:8090/route']
+2026-09-17 02:02:46.572 | INFO     | trip_helper.osmnx_direct:<module>:66 - OSMnx HTTP concurrency limit: 3
+2026-09-17 02:02:47.006 | DEBUG    | experiences.ressources:charger_providers:69 - [ressources] 26 instance(s) lue(s) dans /app/config/llm_gateway/providers.yaml
+AVERTISSEMENT : quota journalier plus court que la charge pour 'gemini-3.5-flash-lite' : 1000 requêtes/jour déclarées contre 3161 sollicitations (~3.2 jours) → l'exécution s'étalera sur plusieurs fenêtres, avec reprise. Les limites de providers.yaml sont déclaratives et connues comme parfois fausses : ce n'est pas un refus
+REFUSÉ — aucune exécution créée :
+- les 2 instance(s) qui servent le modèle 'gemini-3.5-flash-lite' (google_gemini35_key1, google_gemini35_key2) sont momentanément épuisées — google_gemini35_key1 : 500/500 requêtes/jour (épuisée) ; google_gemini35_key2 : 500/500 requêtes/jour (épuisée) → attendez le renouvellement du quota, ou relancez avec --attendre-fenetre

@@ -1,0 +1,1932 @@
+{
+ "title": "02 · Init & Bootstrap",
+ "uid": "init-bootstrap",
+ "refresh": "10s",
+ "time": {
+  "from": "now-30m",
+  "to": "now"
+ },
+ "timezone": "browser",
+ "schemaVersion": 38,
+ "version": 1,
+ "editable": true,
+ "tags": [
+  "sim",
+  "init"
+ ],
+ "links": [
+  {
+   "title": "Dashboards simulation",
+   "type": "dashboards",
+   "tags": [
+    "sim"
+   ],
+   "asDropdown": true,
+   "includeVars": false,
+   "keepTime": true,
+   "icon": "dashboard"
+  }
+ ],
+ "panels": [
+  {
+   "id": 1,
+   "type": "row",
+   "title": "Étapes /init",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 0
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Étape d'init",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "controller_init_stage"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "orange",
+        "value": null
+       },
+       {
+        "color": "green",
+        "value": 5
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "value",
+       "options": {
+        "0": {
+         "text": "Idle",
+         "index": 0
+        },
+        "1": {
+         "text": "1 · Prépa population",
+         "index": 1
+        },
+        "2": {
+         "text": "2 · Population prête",
+         "index": 2
+        },
+        "3": {
+         "text": "3 · Scénario",
+         "index": 3
+        },
+        "4": {
+         "text": "4 · Bootstrap itinéraires",
+         "index": 4
+        },
+        "5": {
+         "text": "5 · Prêt ✓",
+         "index": 5
+        }
+       }
+      }
+     ]
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "id": 2,
+   "gridPos": {
+    "h": 5,
+    "w": 6,
+    "x": 0,
+    "y": 1
+   }
+  },
+  {
+   "type": "gauge",
+   "title": "Progression init",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "controller_init_progress_ratio"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1,
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "orange",
+        "value": null
+       },
+       {
+        "color": "green",
+        "value": 1
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "showThresholdMarkers": true
+   },
+   "id": 3,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 6,
+    "y": 1
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Requêtes /init reçues",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "controller_init_requests_total"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Nombre de (re)démarrages de simulation depuis le lancement du controller.",
+   "id": 4,
+   "gridPos": {
+    "h": 5,
+    "w": 4,
+    "x": 11,
+    "y": 1
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Durée bootstrap",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_duration_seconds"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 120
+       },
+       {
+        "color": "red",
+        "value": 600
+       }
+      ]
+     },
+     "unit": "s",
+     "decimals": 0
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Temps réel de bootstrap_all_agents — bloque GAMA jusqu'à complétion.",
+   "id": 5,
+   "gridPos": {
+    "h": 5,
+    "w": 4,
+    "x": 15,
+    "y": 1
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Bootstrap en cours",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_active"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "blue",
+        "value": 1
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "value",
+       "options": {
+        "0": {
+         "text": "Terminé / inactif",
+         "index": 0
+        },
+        "1": {
+         "text": "EN COURS",
+         "index": 1
+        }
+       }
+      }
+     ]
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "id": 6,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 19,
+    "y": 1
+   }
+  },
+  {
+   "id": 7,
+   "type": "row",
+   "title": "Bootstrap — vagues (1 = premiers itinéraires, ≥2 = anticipation act[N+k])",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 6
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Vague en cours / trajets futurs pré-cachés",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave",
+     "legendFormat": "vague"
+    },
+    {
+     "refId": "B",
+     "expr": "agent_bootstrap_future_moves",
+     "legendFormat": "futurs pré-cachés"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value_and_name"
+   },
+   "description": "Vague 1 = premier itinéraire ; ≥2 = activités futures act[N+k] pré-calculées pour lisser le pic du matin. Le nombre de vagues dépend des plannings d'activités — les lignes sans données ci-dessous = vagues non atteintes.",
+   "id": 8,
+   "gridPos": {
+    "h": 4,
+    "w": 24,
+    "x": 0,
+    "y": 7
+   }
+  },
+  {
+   "id": 9,
+   "type": "row",
+   "title": "Vague 1 — premiers itinéraires",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 11
+   }
+  },
+  {
+   "type": "gauge",
+   "title": "Progression vague 1",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"1\", status=\"done\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"1\", status=\"planned\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1,
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "orange",
+        "value": null
+       },
+       {
+        "color": "green",
+        "value": 1
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "showThresholdMarkers": true
+   },
+   "description": "Agents traités / planifiés de la vague.",
+   "id": 10,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 0,
+    "y": 12
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Traités / obtenus / planifiés",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"1\", status=\"done\"}",
+     "legendFormat": "traités"
+    },
+    {
+     "refId": "B",
+     "expr": "agent_bootstrap_wave_moves{wave=\"1\", status=\"ok\"}",
+     "legendFormat": "itinéraires obtenus"
+    },
+    {
+     "refId": "C",
+     "expr": "agent_bootstrap_wave_moves{wave=\"1\", status=\"planned\"}",
+     "legendFormat": "planifiés"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value_and_name"
+   },
+   "description": "traités − obtenus = agents sans itinéraire (OD sans solution, erreur).",
+   "id": 11,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 8,
+    "y": 12
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Cache hit vague 1 %",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * agent_bootstrap_wave_moves{wave=\"1\", status=\"cache_hit\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"1\", status=\"cache_hit\"} + agent_bootstrap_wave_moves{wave=\"1\", status=\"cache_miss\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 50
+       },
+       {
+        "color": "green",
+        "value": 90
+       }
+      ]
+     },
+     "unit": "percent",
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Itinéraires servis depuis le cache LLM (agents LLM seulement). 100 % = vague sans aucun appel LLM.",
+   "id": 12,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 16,
+    "y": 12
+   }
+  },
+  {
+   "id": 13,
+   "type": "row",
+   "title": "Vague 2 — anticipation act[N+2]",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 16
+   }
+  },
+  {
+   "type": "gauge",
+   "title": "Progression vague 2",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"2\", status=\"done\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"2\", status=\"planned\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1,
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "orange",
+        "value": null
+       },
+       {
+        "color": "green",
+        "value": 1
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "showThresholdMarkers": true
+   },
+   "description": "Agents traités / planifiés de la vague.",
+   "id": 14,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 0,
+    "y": 17
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Traités / obtenus / planifiés",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"2\", status=\"done\"}",
+     "legendFormat": "traités"
+    },
+    {
+     "refId": "B",
+     "expr": "agent_bootstrap_wave_moves{wave=\"2\", status=\"ok\"}",
+     "legendFormat": "itinéraires obtenus"
+    },
+    {
+     "refId": "C",
+     "expr": "agent_bootstrap_wave_moves{wave=\"2\", status=\"planned\"}",
+     "legendFormat": "planifiés"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value_and_name"
+   },
+   "description": "traités − obtenus = agents sans itinéraire (OD sans solution, erreur).",
+   "id": 15,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 8,
+    "y": 17
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Cache hit vague 2 %",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * agent_bootstrap_wave_moves{wave=\"2\", status=\"cache_hit\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"2\", status=\"cache_hit\"} + agent_bootstrap_wave_moves{wave=\"2\", status=\"cache_miss\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 50
+       },
+       {
+        "color": "green",
+        "value": 90
+       }
+      ]
+     },
+     "unit": "percent",
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Itinéraires servis depuis le cache LLM (agents LLM seulement). 100 % = vague sans aucun appel LLM.",
+   "id": 16,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 16,
+    "y": 17
+   }
+  },
+  {
+   "id": 17,
+   "type": "row",
+   "title": "Vague 3 — anticipation act[N+3]",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 21
+   }
+  },
+  {
+   "type": "gauge",
+   "title": "Progression vague 3",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"3\", status=\"done\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"3\", status=\"planned\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1,
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "orange",
+        "value": null
+       },
+       {
+        "color": "green",
+        "value": 1
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "showThresholdMarkers": true
+   },
+   "description": "Agents traités / planifiés de la vague.",
+   "id": 18,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 0,
+    "y": 22
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Traités / obtenus / planifiés",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"3\", status=\"done\"}",
+     "legendFormat": "traités"
+    },
+    {
+     "refId": "B",
+     "expr": "agent_bootstrap_wave_moves{wave=\"3\", status=\"ok\"}",
+     "legendFormat": "itinéraires obtenus"
+    },
+    {
+     "refId": "C",
+     "expr": "agent_bootstrap_wave_moves{wave=\"3\", status=\"planned\"}",
+     "legendFormat": "planifiés"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value_and_name"
+   },
+   "description": "traités − obtenus = agents sans itinéraire (OD sans solution, erreur).",
+   "id": 19,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 8,
+    "y": 22
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Cache hit vague 3 %",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * agent_bootstrap_wave_moves{wave=\"3\", status=\"cache_hit\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"3\", status=\"cache_hit\"} + agent_bootstrap_wave_moves{wave=\"3\", status=\"cache_miss\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 50
+       },
+       {
+        "color": "green",
+        "value": 90
+       }
+      ]
+     },
+     "unit": "percent",
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Itinéraires servis depuis le cache LLM (agents LLM seulement). 100 % = vague sans aucun appel LLM.",
+   "id": 20,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 16,
+    "y": 22
+   }
+  },
+  {
+   "id": 21,
+   "type": "row",
+   "title": "Vague 4 — anticipation act[N+4]",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 26
+   }
+  },
+  {
+   "type": "gauge",
+   "title": "Progression vague 4",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"4\", status=\"done\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"4\", status=\"planned\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1,
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "orange",
+        "value": null
+       },
+       {
+        "color": "green",
+        "value": 1
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "showThresholdMarkers": true
+   },
+   "description": "Agents traités / planifiés de la vague.",
+   "id": 22,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 0,
+    "y": 27
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Traités / obtenus / planifiés",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"4\", status=\"done\"}",
+     "legendFormat": "traités"
+    },
+    {
+     "refId": "B",
+     "expr": "agent_bootstrap_wave_moves{wave=\"4\", status=\"ok\"}",
+     "legendFormat": "itinéraires obtenus"
+    },
+    {
+     "refId": "C",
+     "expr": "agent_bootstrap_wave_moves{wave=\"4\", status=\"planned\"}",
+     "legendFormat": "planifiés"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value_and_name"
+   },
+   "description": "traités − obtenus = agents sans itinéraire (OD sans solution, erreur).",
+   "id": 23,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 8,
+    "y": 27
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Cache hit vague 4 %",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * agent_bootstrap_wave_moves{wave=\"4\", status=\"cache_hit\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"4\", status=\"cache_hit\"} + agent_bootstrap_wave_moves{wave=\"4\", status=\"cache_miss\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 50
+       },
+       {
+        "color": "green",
+        "value": 90
+       }
+      ]
+     },
+     "unit": "percent",
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Itinéraires servis depuis le cache LLM (agents LLM seulement). 100 % = vague sans aucun appel LLM.",
+   "id": 24,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 16,
+    "y": 27
+   }
+  },
+  {
+   "id": 25,
+   "type": "row",
+   "title": "Vague 5 — anticipation act[N+5]",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 31
+   }
+  },
+  {
+   "type": "gauge",
+   "title": "Progression vague 5",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"5\", status=\"done\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"5\", status=\"planned\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1,
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "orange",
+        "value": null
+       },
+       {
+        "color": "green",
+        "value": 1
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "showThresholdMarkers": true
+   },
+   "description": "Agents traités / planifiés de la vague.",
+   "id": 26,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 0,
+    "y": 32
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Traités / obtenus / planifiés",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"5\", status=\"done\"}",
+     "legendFormat": "traités"
+    },
+    {
+     "refId": "B",
+     "expr": "agent_bootstrap_wave_moves{wave=\"5\", status=\"ok\"}",
+     "legendFormat": "itinéraires obtenus"
+    },
+    {
+     "refId": "C",
+     "expr": "agent_bootstrap_wave_moves{wave=\"5\", status=\"planned\"}",
+     "legendFormat": "planifiés"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value_and_name"
+   },
+   "description": "traités − obtenus = agents sans itinéraire (OD sans solution, erreur).",
+   "id": 27,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 8,
+    "y": 32
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Cache hit vague 5 %",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * agent_bootstrap_wave_moves{wave=\"5\", status=\"cache_hit\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"5\", status=\"cache_hit\"} + agent_bootstrap_wave_moves{wave=\"5\", status=\"cache_miss\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 50
+       },
+       {
+        "color": "green",
+        "value": 90
+       }
+      ]
+     },
+     "unit": "percent",
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Itinéraires servis depuis le cache LLM (agents LLM seulement). 100 % = vague sans aucun appel LLM.",
+   "id": 28,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 16,
+    "y": 32
+   }
+  },
+  {
+   "id": 29,
+   "type": "row",
+   "title": "Vague 6 — anticipation act[N+6]",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 36
+   }
+  },
+  {
+   "type": "gauge",
+   "title": "Progression vague 6",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"6\", status=\"done\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"6\", status=\"planned\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1,
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "orange",
+        "value": null
+       },
+       {
+        "color": "green",
+        "value": 1
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "showThresholdMarkers": true
+   },
+   "description": "Agents traités / planifiés de la vague.",
+   "id": 30,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 0,
+    "y": 37
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Traités / obtenus / planifiés",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"6\", status=\"done\"}",
+     "legendFormat": "traités"
+    },
+    {
+     "refId": "B",
+     "expr": "agent_bootstrap_wave_moves{wave=\"6\", status=\"ok\"}",
+     "legendFormat": "itinéraires obtenus"
+    },
+    {
+     "refId": "C",
+     "expr": "agent_bootstrap_wave_moves{wave=\"6\", status=\"planned\"}",
+     "legendFormat": "planifiés"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value_and_name"
+   },
+   "description": "traités − obtenus = agents sans itinéraire (OD sans solution, erreur).",
+   "id": 31,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 8,
+    "y": 37
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Cache hit vague 6 %",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * agent_bootstrap_wave_moves{wave=\"6\", status=\"cache_hit\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"6\", status=\"cache_hit\"} + agent_bootstrap_wave_moves{wave=\"6\", status=\"cache_miss\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 50
+       },
+       {
+        "color": "green",
+        "value": 90
+       }
+      ]
+     },
+     "unit": "percent",
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Itinéraires servis depuis le cache LLM (agents LLM seulement). 100 % = vague sans aucun appel LLM.",
+   "id": 32,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 16,
+    "y": 37
+   }
+  },
+  {
+   "id": 33,
+   "type": "row",
+   "title": "Vague 7 — anticipation act[N+7]",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 41
+   }
+  },
+  {
+   "type": "gauge",
+   "title": "Progression vague 7",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"7\", status=\"done\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"7\", status=\"planned\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1,
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "orange",
+        "value": null
+       },
+       {
+        "color": "green",
+        "value": 1
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "showThresholdMarkers": true
+   },
+   "description": "Agents traités / planifiés de la vague.",
+   "id": 34,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 0,
+    "y": 42
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Traités / obtenus / planifiés",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"7\", status=\"done\"}",
+     "legendFormat": "traités"
+    },
+    {
+     "refId": "B",
+     "expr": "agent_bootstrap_wave_moves{wave=\"7\", status=\"ok\"}",
+     "legendFormat": "itinéraires obtenus"
+    },
+    {
+     "refId": "C",
+     "expr": "agent_bootstrap_wave_moves{wave=\"7\", status=\"planned\"}",
+     "legendFormat": "planifiés"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value_and_name"
+   },
+   "description": "traités − obtenus = agents sans itinéraire (OD sans solution, erreur).",
+   "id": 35,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 8,
+    "y": 42
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Cache hit vague 7 %",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * agent_bootstrap_wave_moves{wave=\"7\", status=\"cache_hit\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"7\", status=\"cache_hit\"} + agent_bootstrap_wave_moves{wave=\"7\", status=\"cache_miss\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 50
+       },
+       {
+        "color": "green",
+        "value": 90
+       }
+      ]
+     },
+     "unit": "percent",
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Itinéraires servis depuis le cache LLM (agents LLM seulement). 100 % = vague sans aucun appel LLM.",
+   "id": 36,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 16,
+    "y": 42
+   }
+  },
+  {
+   "id": 37,
+   "type": "row",
+   "title": "Vague 8 — anticipation act[N+8]",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 46
+   }
+  },
+  {
+   "type": "gauge",
+   "title": "Progression vague 8",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"8\", status=\"done\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"8\", status=\"planned\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1,
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "orange",
+        "value": null
+       },
+       {
+        "color": "green",
+        "value": 1
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "showThresholdMarkers": true
+   },
+   "description": "Agents traités / planifiés de la vague.",
+   "id": 38,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 0,
+    "y": 47
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Traités / obtenus / planifiés",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_wave_moves{wave=\"8\", status=\"done\"}",
+     "legendFormat": "traités"
+    },
+    {
+     "refId": "B",
+     "expr": "agent_bootstrap_wave_moves{wave=\"8\", status=\"ok\"}",
+     "legendFormat": "itinéraires obtenus"
+    },
+    {
+     "refId": "C",
+     "expr": "agent_bootstrap_wave_moves{wave=\"8\", status=\"planned\"}",
+     "legendFormat": "planifiés"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value_and_name"
+   },
+   "description": "traités − obtenus = agents sans itinéraire (OD sans solution, erreur).",
+   "id": 39,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 8,
+    "y": 47
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Cache hit vague 8 %",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * agent_bootstrap_wave_moves{wave=\"8\", status=\"cache_hit\"} / clamp_min(agent_bootstrap_wave_moves{wave=\"8\", status=\"cache_hit\"} + agent_bootstrap_wave_moves{wave=\"8\", status=\"cache_miss\"}, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 50
+       },
+       {
+        "color": "green",
+        "value": 90
+       }
+      ]
+     },
+     "unit": "percent",
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Itinéraires servis depuis le cache LLM (agents LLM seulement). 100 % = vague sans aucun appel LLM.",
+   "id": 40,
+   "gridPos": {
+    "h": 4,
+    "w": 8,
+    "x": 16,
+    "y": 47
+   }
+  },
+  {
+   "id": 41,
+   "type": "row",
+   "title": "Couverture du cache LLM (Qdrant, relevée au démarrage)",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 51
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Points en cache",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "llm_cache_points_total"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Nombre total de points dans la collection Qdrant au démarrage du controller.",
+   "id": 42,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 0,
+    "y": 52
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Points exploitables (exact/bootstrap)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "llm_cache_points_exact"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Points « mémoire vide » — chemin exact-match utilisé par le bootstrap au /init.",
+   "id": 43,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 5,
+    "y": 52
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Points obsolètes (schéma)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "llm_cache_points_stale"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 1
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Points inexploitables par le filtre courant (weekday manquant). >30 % du total → [ALARME], repurger le cache.",
+   "id": 44,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 10,
+    "y": 52
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Agents couverts",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "llm_cache_agents_covered"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Agents distincts ayant au moins une décision « mémoire vide » en cache.",
+   "id": 45,
+   "gridPos": {
+    "h": 5,
+    "w": 4,
+    "x": 15,
+    "y": 52
+   }
+  },
+  {
+   "type": "gauge",
+   "title": "Couverture population %",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * llm_cache_agents_covered / clamp_min(gama_sim_agents_total, 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percent",
+     "min": 0,
+     "max": 100,
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 50
+       },
+       {
+        "color": "green",
+        "value": 90
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "showThresholdMarkers": true
+   },
+   "description": "Agents couverts par le cache / population. Prédit le cache hit du bootstrap au prochain /init.",
+   "id": 46,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 19,
+    "y": 52
+   }
+  }
+ ]
+}

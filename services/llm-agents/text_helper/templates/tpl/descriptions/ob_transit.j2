@@ -1,0 +1,5 @@
+{% if ob.by_vehicle_route_id | route_est_connue -%}
+[ PUBLIC TRANSPORT ] Trip by {{ ob.by_vehicle_route_id | get_transit_route_type }} {{ ob.by_vehicle_route_id | format_route_id }}; From: '{{ ob.departure_stop_name }}'; To: '{{ ob.arrival_stop_name }}'; Actual duration: {{ ob.duration | duration_to_bucket_text }}.{% if weather %} Weather: {{ weather.temperature | int }}°C, {{ weather.weather_label }}.{% endif %}
+{%- else -%}
+[ PUBLIC TRANSPORT ] Trip by public transport; From: '{{ ob.departure_stop_name }}'; To: '{{ ob.arrival_stop_name }}'; Actual duration: {{ ob.duration | duration_to_bucket_text }}.{% if weather %} Weather: {{ weather.temperature | int }}°C, {{ weather.weather_label }}.{% endif %}
+{%- endif %}

@@ -1,0 +1,30 @@
+{#- Restitution d'une option d'itinéraire. Quatre cas, dans cet ordre :
+    1. plan vide → durée seule ;
+    2. plan à jambes NOMMÉES (voiture, vélo) → total + « including … of access and
+       parking » + sous-étapes. Le total est la SOMME des sous-étapes affichées :
+       garanti par `terminal_time._validate` qui refuse un temps terminal non
+       multiple de 60 s (sinon floor(somme) ≠ somme(floor)) ;
+    3. plan direct à jambe unique sans temps terminal (marche) → inchangé ;
+    4. plan multi-jambes routé (transports collectifs) → inchangé, au caractère.
+    La ligne `Distance` est CONSERVÉE au cas 2 : `dist_km` d'un record de
+    calibration est le minimum des distances affichées dans la section, et
+    13,5 % des records de v3 ne la tiennent que des lignes voiture/vélo. La
+    perdre ferait disparaître ces décisions de la strate distance de la mesure.
+
+    Texte en ANGLAIS depuis le ticket 074 : la structure et les cas sont
+    inchangés, seules les étiquettes ont basculé. Les étiquettes de MODE
+    (`car`, `bicycle`, `foot,bus,foot`) restent anglaises comme elles l'étaient —
+    `parse_option_modes` les relit dans le texte du prompt (models.py:192). -#}
+{%- if plan.legs | length == 0 %} Estimated duration: {{ ((plan.end_time | to_timestamp) - (plan.start_time | to_timestamp)) | duration_to_bucket_text }}.
+{%- elif plan.has_terminal_legs %} Travel time: {{ ((plan.end_time | to_timestamp) - (plan.start_time | to_timestamp)) | duration_to_bucket_text }}, including {{ plan.terminal_time | duration_to_bucket_text }} {{ plan.terminal_label }}. Distance: {{ plan.distance | humanize_distance }}.
+{%- for label, seconds in plan.described_steps %}
+- {{ label }}: {{ seconds | duration_to_bucket_text }}.
+{%- endfor %}
+{%- elif plan.legs | length == 1 and plan.legs[0].mode == 'school_bus' %}{%- set leg = plan.legs[0] %} liO school bus (free). Estimated duration: {{ ((leg.end_time | to_timestamp) - (leg.start_time | to_timestamp)) | duration_to_bucket_text }}. Distance: {{ leg.distance | humanize_distance }}.
+{%- elif plan.legs | length == 1 and plan.legs[0].transit_route and '__DIRECT' in plan.legs[0].transit_route %}{%- set leg = plan.legs[0] %} Estimated duration: {{ ((leg.end_time | to_timestamp) - (leg.start_time | to_timestamp)) | duration_to_bucket_text }}. Distance: {{ leg.distance | humanize_distance }}.
+{%- else %} Travel time: {{ ((plan.end_time | to_timestamp) - (plan.start_time | to_timestamp)) | duration_to_bucket_text }}, including {{ plan.walking_time | duration_to_bucket_text }} of walking.
+{%- set ns = namespace(prev_transfer_walk=false) %}
+{%- for leg in plan.legs %}{%- if leg.is_transfer %}{%- if leg.start_location.stop and leg.start_location.stop == leg.end_location.stop %}{%- set ns.prev_transfer_walk = true %}{%- else %}{%- set ns.prev_transfer_walk = false %}
+- Walk{% if leg.end_location.stop %} to '{{ leg.end_location.stop }}'{% elif plan.purpose %} to '{{ plan.purpose }}'{% endif %}: {{ ((leg.end_time | to_timestamp) - (leg.start_time | to_timestamp)) | duration_to_bucket_text }}.{%- endif %}{%- else %}
+- {% if ns.prev_transfer_walk %}[transfer] {% endif %}{{ leg.transit_route | get_transit_route_type }} '{{ leg.transit_route | format_route_id }}' to '{{ leg.end_location.stop }}': {{ ((leg.end_time | to_timestamp) - (leg.start_time | to_timestamp)) | duration_to_bucket_text }}.{%- set ns.prev_transfer_walk = false %}{%- endif %}{%- endfor %}
+{%- endif %}

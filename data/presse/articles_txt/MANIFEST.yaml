@@ -1,0 +1,136 @@
+corpus: presse locale toulousaine — ticket 059, lot 1
+extrait_le: '2026-09-21'
+regle_de_selection: titre, puis paragraphes du corps dans l'ordre de parution, chrome
+  retiré, coupe à la fin d'un paragraphe sous 220 mots
+traduction:
+  par: Claude Opus 5 (session Claude Code du 2026-09-21), relecture humaine en attente
+  le: '2026-09-21'
+articles:
+  a09_vent_autan:
+    source:
+      fichier: articles_html/09_vent_autan_fermeture_parcs.html
+      sha256: 9954b79ab0f936f624d479ebdad2208582f46d460fdd6fc6db7baa47f32865c4
+    brut:
+      fr:
+        sha256: 138e414f04befc8b855d1862a1d2a4ddf8b9ce5a3f72bf184c90a17274a726bb
+        mots: 222
+      en:
+        sha256: 8dae2d4e14d5e8a9b1026780d54f6d4b35fbe59cd36bc18a7438a518afabb359
+        mots: 204
+    paraphrase:
+      fr:
+        sha256: 89e08dc4f556eebc4a6c518efc3f6176654aba0e641366e689d6c007946f67d0
+        mots: 197
+      en:
+        sha256: f0d980748d0e1349713e6753a54c2033a46efc3437cd47854d0b9b2adafa67a5
+        mots: 191
+  a13_punaises_metro:
+    source:
+      fichier: articles_html/13_psychose_punaises_metro.html
+      sha256: 8fae5fccbec7fe388fff7c4c58a8d3b7fde13ea9c413acb87ad69986a3f493da
+    brut:
+      fr:
+        sha256: 1d940ae135ae2e0f8409f4cc5aee9c21620c932402d0ed24cd6efa71e3a0a60d
+        mots: 220
+      en:
+        sha256: fc3551256f99c5d467482df05e1df737592e3365a5c174432aa0389638341393
+        mots: 188
+    paraphrase:
+      fr:
+        sha256: 778b35f340fc9a9c2d4db7f1f90280fda6c503e2ee0e9f75a59d1d0c2470a6ed
+        mots: 174
+      en:
+        sha256: 80fb98b920865b5202c85e1aeb184af772d13537c58293c0907dbe368e8d3165
+        mots: 154
+    c3_mots_autorises:
+      fr:
+        mots:
+        - metro
+        - rame
+        motif: 'l''événement EST une rumeur sur le métro : le cacher rendrait la paraphrase
+          inintelligible. Les modes de report — voiture, vélo, marche — restent interdits'
+      en:
+        mots:
+        - metro
+        motif: the event IS a rumour about the metro; hiding it would make the paraphrase
+          unintelligible. Fallback modes stay forbidden
+  a07_greve_eboueurs:
+    source:
+      fichier: articles_html/07_greve_eboueurs_hypercentre.html
+      sha256: 3b94bd7f6671d654cdc5f201bbd4e2820917df822dbd294b6ed9a06ec4112c0f
+    brut:
+      fr:
+        sha256: 2e1a0d6ba03f021a77488867642a22de3efdc99c86af157eb3fe0da98ea98637
+        mots: 226
+      en:
+        sha256: 127747752d7665277b6a008c5e3df7c1de84a5fc3246a1f7588bba8a56ef05f0
+        mots: 197
+    paraphrase:
+      fr:
+        sha256: b51bae813c16c91e0d6b95a074bf9b8b75b72683e2ea319375374c81c5f834c7
+        mots: 194
+      en:
+        sha256: b86ff6d633f6a560ade0af2efe3e68597218932ec139fc67c5da97f4806c4098
+        mots: 177
+  a18_la_machine:
+    source:
+      fichier: articles_html/18_minotaure_la_machine.html
+      sha256: e9d5f8b20eaa6e88f7c43214f2c6cdb7170b7ac63c6d126f7ca7f6f9f587a75f
+    brut:
+      fr:
+        sha256: 4a1bb0174894dd9b3da787feaff4e4e459c171cfd3780b42a8a7169d24fc3b0d
+        mots: 214
+      en:
+        sha256: 138cf8fb2e0bf0e323045582aaf7fd32ce5ed7a8d288343d7aaa26b4b6e864be
+        mots: 214
+    paraphrase:
+      fr:
+        sha256: 3f8202f6724cac9c2d1b64e115c3af663db43cdc745050a5601e10a86934e127
+        mots: 193
+      en:
+        sha256: b5a596ec40705300d62577789e9ee9f80fd6740f24d46b92c6ad6491b1f65cb0
+        mots: 191
+  a25_velotoulouse:
+    source:
+      fichier: articles_html/25_velotoulouse_electrique.html
+      sha256: 12679bce67b6cac18577e6764c514cc621840fb475fa1220f893880d474d0ee9
+    brut:
+      fr:
+        sha256: 62d0d915f8d1e81226700349caddf880d437e5941268f0cdcc9d721fa93d7de1
+        mots: 190
+      en:
+        sha256: cda45b4e1a9fecfcbc04004a4bbcd13e9df202a06a423d7a899dd42e872d3e59
+        mots: 190
+    paraphrase:
+      fr:
+        sha256: 7edc1195c4b2cb9c64b5a798f13eae5cddecd169d14f00adc1dd71f57289512e
+        mots: 187
+      en:
+        sha256: f3b2dea576afb9a4ae8f28c24e7d1141debac9834b815efeaf7acebb57730016
+        mots: 182
+    c3_mots_autorises:
+      fr:
+        mots:
+        - velo
+        - station
+        motif: l'événement EST le lancement d'un service de vélos partagés ; « la
+          voiture », « le bus » et « la marche » restent interdits, et c'est là que
+          se logerait le suivisme lexical
+      en:
+        mots:
+        - bicycle
+        - station
+        motif: the event IS the launch of a shared bicycle service; car, bus and walking
+          stay forbidden
+temoin_commun: _temoin_commun
+temoin:
+  fr:
+    sha256: d39d32b61d8ed457d5503e39e5f317d9d55fddf5b0e4aebc4911b363c2eabcf0
+    mots: 215
+  en:
+    sha256: fbfa713e5b8e6d1178f0f5a2d0994e20e2ee5843b0441cfe252cd62789e07915
+    mots: 203
+  source:
+    media: France 24
+    url: https://www.france24.com/fr/amériques/20260919-le-tilcayo-une-nouvelle-espèce-de-félin-sauvage-découverte-en-bolivie
+    publie_le: '2026-09-19'

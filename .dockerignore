@@ -1,0 +1,21 @@
+# Build context = repository root for the gateway images (packages/llm_gateway/Dockerfile,
+# services api/worker/flower). Only the three Python packages enter the context:
+# without this list, Docker would send the data, caches and experiments (several GB).
+# The other images (controller, eqasim, otp) have their own context and do not read this file.
+#
+# No global `**/…` pattern: it would force BuildKit to walk the whole repository to evaluate it.
+*
+!packages/llm_gateway/pyproject.toml
+!packages/llm_gateway/README.md
+!packages/llm_gateway/requirements.txt
+!packages/llm_gateway/src
+!packages/mobility_core/pyproject.toml
+!packages/mobility_core/README.md
+!packages/mobility_core/src
+!packages/mobility_llm/pyproject.toml
+!packages/mobility_llm/README.md
+!packages/mobility_llm/src
+packages/llm_gateway/src/**/__pycache__
+packages/mobility_core/src/**/__pycache__
+packages/mobility_llm/src/**/__pycache__
+packages/mobility_core/src/mobility_core/data/zf_zones.gpkg

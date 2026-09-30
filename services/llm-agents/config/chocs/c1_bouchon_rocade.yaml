@@ -1,0 +1,38 @@
+# C1 — Major traffic jam on the ring road · car and motorised two-wheelers
+# Three days in a row, DECREASING intensity: this is the case that exercises the per-day profile.
+# ⚠ The values STRADDLE the delay saturation threshold (RETARD_REF = 30 min): beyond it, the
+#   delay component is worth 0.50 whatever happens. A 60/40/25 profile would have given the SAME
+#   severity on days 1 and 2 (0.70 both), and the decline would only have existed in the text.
+#   With 60/25/12: severity 0.70 → 0.62 → 0.37, and lifetime 14.6 → 13.2 → 9.0 days.
+# Values assumed as a scenario; order of magnitude backed by Zhu et al. (2010), who measure
+# a rebalancing of traffic over several weeks after an infrastructure disruption.
+choc: c1_bouchon_rocade
+libelle: "Major congestion on the ring road"
+source: "scénario déclaré — ordre de grandeur adossé à Zhu et al. (2010), TR-A 44(10)"
+
+# CADENCE ADDED on 2026-09-24, as on c3 and c6: at most one application per agent and per
+# day. Without it, the `trajet` cadence injected the event at every trip of the targeted mode.
+cadence: jour
+
+exposition:
+  regle: mode
+  modes: [car, motorbike]
+
+jours:
+  - jour: 12
+    retard_min: 60
+    incident_reseau: true
+    vecu: >-
+      Traffic on the ring road was at a standstill. I covered eight kilometres in one hour and
+      arrived 60 minutes after the time I had planned. Nothing I had arranged that day was
+      cancelled.
+  - jour: 13
+    retard_min: 25
+    incident_reseau: true
+    vecu: >-
+      The ring road was blocked again, for 25 minutes this time.
+  - jour: 14
+    retard_min: 12
+    incident_reseau: true
+    vecu: >-
+      The ring road was slow again: 12 minutes above the usual journey time.

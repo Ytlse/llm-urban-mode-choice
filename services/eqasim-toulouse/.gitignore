@@ -1,0 +1,46 @@
+__pycache__
+env
+cache
+output
+
+data/nantes_2015
+data/lyon_2015
+.vscode
+.idea
+
+config_local_*.yml
+
+# sphinx build files
+docs/_build
+
+.sif
+
+# Data
+*.shp
+*.cpg
+*.dbf
+*.prj
+*.shx
+*.geojson
+*.json
+*.csv
+*.parquet
+*.zip
+*.pbf
+*.DS_Store
+*.pdf
+*.html
+*.7z
+*.gz
+*.xml
+
+# other
+*.lock
+data/bdtopo_toulouse/BDTOPO_3-4_TOUSTHEMES_SHP_LAMB93_D031_2024-09-15/BDTOPO/2_METADONNEES_LIVRAISON_2024-09-00147/BDT_3-4_SHP_LAMB93_D031-ED2024-09-15/IGNF_BDTOPO_3-4_SHP_LAMB93_D031-ED2024-09-15.xml
+# The DATA of data/ are tracked by DVC (data.dvc); the CODE of the eqasim stages that lives
+# under data/ (data/hts, data/spatial, data/bdtopo…) is tracked by git. Git cannot
+# re-include a file whose parent folder is excluded: so we exclude the content
+# (`/data/**`) then re-include the folders and the Python sources.
+/data/**
+!/data/**/
+!/data/**/*.py

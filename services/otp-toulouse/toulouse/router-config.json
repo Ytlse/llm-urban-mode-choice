@@ -1,0 +1,8 @@
+{
+  "routingDefaults": {
+    "numItineraries": 6,
+    "transferSlack": 120,
+    "otherThanPreferredRoutesPenalty": 300,
+    "locale": "fr"
+  }
+}

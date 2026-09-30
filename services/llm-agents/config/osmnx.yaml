@@ -1,0 +1,183 @@
+# OSMnx routing configuration — speeds, penalties, and congestion tables for Toulouse.
+# Source for congestion data: tomtom.com/traffic-index
+
+# Speeds per OSM road type (km/h). A road whose type is not listed receives the
+# `fallbacks` speed — a SILENT fallback, which we measure: on the graph of the polygon of the
+# 453 communes (2026-09-03, `build_osmnx_perimeter_graph.py`), 32.0% of the bike edges
+# fell into the fallback (14 km/h) for lack of an entry for `service` (91 k edges, 6,372 km) and
+# `track` (22.6 k edges, 8,494 km, the rural paths of the 3rd ring); 5.1% for walking
+# (`track`), 1.2% for car (`living_street`, `motorway_link`). The entries added that
+# day (ticket 031 part 2, action O3) each carry their source; the historical
+# speeds do not move. Any change here changes the NETWORK duration → bump
+# `routing_version` in config/terminal_time.yaml (done: r2) and re-apply the speeds on
+# the graph pickle (`python -m scripts.data.population.build_osmnx_perimeter_graph --respeed`).
+speeds:
+  walk:
+    residential: 5
+    tertiary: 5
+    footway: 4.5
+    pedestrian: 4.5
+    path: 4.5
+    steps: 2
+    living_street: 5
+    service: 5
+    unclassified: 5
+    secondary: 5
+    primary: 5
+    # 2026-09-03 — rural paths (8,535 km on the polygon): ordinary walking pace,
+    # same value as a residential road (the fallback was already 5; the entry makes it explicit).
+    track: 5
+  bike:
+    residential: 15
+    tertiary: 18
+    cycleway: 20
+    living_street: 10
+    secondary: 16
+    primary: 16
+    unclassified: 14
+    path: 10
+    # 2026-09-03 — entries added (ticket 031 part 2). Source: `bike` profile of
+    # GraphHopper (open-source routing engine, default values of
+    # `BikeCommonAverageSpeedParser`, github.com/graphhopper/graphhopper): service 14,
+    # track 12 (without `tracktype`), road 12, bridleway 6, footway and pedestrian = "pushing
+    # section" (PUSHING_SECTION_SPEED, 4 km/h: the bike is pushed on foot — in France
+    # cycling on the pavement is forbidden, art. R412-7 of the highway code, and
+    # the pedestrian area is crossed at walking pace, art. R431-9). The slip roads (`*_link`)
+    # take the speed of the road they extend, as in that same profile; `trunk`
+    # (restricted-access road open to cycles, 101 km on the polygon) is aligned on
+    # `primary` of this file (16) rather than on GraphHopper's 18, which also prices
+    # primary at 18: the file's scale prevails, the hierarchy is the source's.
+    service: 14
+    track: 12
+    road: 12
+    bridleway: 6
+    footway: 4
+    pedestrian: 4
+    trunk: 16
+    trunk_link: 16
+    primary_link: 16
+    secondary_link: 16
+    tertiary_link: 18
+    # Bus lane open to cycles (7 edges): declared assumption, speed of a
+    # residential road — no source prices this case, GraphHopper excludes it from the profile.
+    busway: 15
+  drive:
+    motorway: 100
+    trunk: 80
+    primary: 50
+    secondary: 45
+    tertiary: 40
+    residential: 25
+    unclassified: 30
+    service: 15
+    # 2026-09-03 — shared zone: speed limited to 20 km/h (art. R110-2 of the highway
+    # code); the fallback served 30. Motorway slip road: 70 km/h, GraphHopper `car` profile
+    # (`motorway_link`), the fallback served 30 over 125 km of slip roads.
+    living_street: 20
+    motorway_link: 70
+
+fallbacks:
+  walk: 5
+  bike: 14
+  drive: 30
+
+penalties:
+  drive:
+    traffic_signals: 20
+    stop: 5
+    give_way: 2
+    crossing: 0
+    mini_roundabout: 3
+  bike:
+    traffic_signals: 15
+    stop: 2
+    give_way: 1
+    crossing: 0
+    mini_roundabout: 2
+  walk:
+    traffic_signals: 12
+    stop: 0
+    give_way: 0
+    crossing: 8
+    mini_roundabout: 0
+
+# ⚠ REMOVED from the routing engine by ticket 013 — kept here commented out because
+# its silent disappearance would suggest that parking had never
+# been modelled. It was: `_route_sync` added `park_base × 2` INTO the
+# trip duration, i.e. 4 min (car) and 2 min (bike) invisible, without
+# provenance and without a displayed breakdown — whereas the public transport
+# options show each of their walking legs. This asymmetry
+# over-represented the car on short trips (+24.7 pts on 0-1 km, measured
+# on the ref1 campaign).
+#
+# Terminal time is now a documented exogenous parameter, with its
+# provenance and its rendering labels: see config/terminal_time.yaml.
+# park_base:
+#   drive: 120
+#   bike: 60
+#   walk: 0
+#
+# ⚠ DEPLOYMENT — this file is mounted from the host into the `osmnx` replicas
+# (`./llm-agents/config:/app/config:ro`) whereas their CODE is baked into the
+# image. Modifying a key read by the code without rebuilding the image breaks the
+# service at startup: that is exactly what happened here
+# (`KeyError: 'park_base'`). The `controller`, for its part, mounts the whole `./llm-agents` and
+# sees the code live — hence a failure visible on one side only.
+# After any modification of this file: `docker compose build osmnx1`.
+
+# Congestion index: average speed in km/h per hour (rows) and day (cols: Mon→Sun).
+# free_flow is the maximum observed speed used as the reference for the congestion factor.
+congestion:
+  city_free_flow_kmh: 57
+  metro_free_flow_kmh: 59
+  # 24 rows (00:00 → 23:00) × 7 columns (Mon Tue Wed Thu Fri Sat Sun)
+  city_raw:
+    - [45, 45, 44, 44, 43, 43, 44]  # 00:00
+    - [44, 43, 42, 42, 42, 43, 44]  # 01:00
+    - [45, 44, 43, 42, 42, 42, 43]  # 02:00
+    - [48, 48, 47, 46, 43, 43, 42]  # 03:00
+    - [54, 53, 52, 51, 48, 46, 44]  # 04:00
+    - [57, 56, 55, 54, 52, 48, 45]  # 05:00
+    - [57, 57, 57, 57, 57, 52, 49]  # 06:00
+    - [37, 37, 39, 38, 44, 54, 52]  # 07:00
+    - [28, 28, 32, 29, 38, 55, 54]  # 08:00
+    - [37, 37, 40, 38, 44, 51, 52]  # 09:00
+    - [45, 44, 44, 44, 44, 48, 50]  # 10:00
+    - [45, 43, 43, 43, 43, 45, 48]  # 11:00
+    - [44, 42, 41, 42, 41, 44, 47]  # 12:00
+    - [44, 43, 42, 43, 44, 45, 48]  # 13:00
+    - [44, 43, 42, 43, 43, 45, 48]  # 14:00
+    - [44, 43, 42, 43, 40, 44, 48]  # 15:00
+    - [38, 36, 37, 36, 32, 44, 48]  # 16:00
+    - [31, 28, 32, 29, 28, 43, 47]  # 17:00
+    - [34, 31, 33, 31, 33, 42, 46]  # 18:00
+    - [41, 39, 38, 38, 38, 41, 44]  # 19:00
+    - [42, 42, 41, 41, 41, 41, 44]  # 20:00
+    - [42, 42, 41, 41, 42, 41, 44]  # 21:00
+    - [42, 42, 42, 42, 42, 42, 44]  # 22:00
+    - [44, 43, 43, 42, 43, 43, 45]  # 23:00
+  metro_raw:
+    - [50, 49, 48, 48, 48, 48, 48]  # 00:00
+    - [49, 48, 47, 46, 46, 48, 48]  # 01:00
+    - [50, 49, 48, 47, 47, 47, 47]  # 02:00
+    - [53, 52, 51, 50, 48, 47, 47]  # 03:00
+    - [57, 56, 55, 54, 52, 50, 48]  # 04:00
+    - [59, 58, 58, 57, 56, 53, 49]  # 05:00
+    - [58, 57, 57, 57, 58, 56, 53]  # 06:00
+    - [39, 39, 42, 40, 46, 58, 56]  # 07:00
+    - [32, 32, 36, 33, 41, 57, 57]  # 08:00
+    - [41, 41, 44, 42, 47, 53, 55]  # 09:00
+    - [48, 46, 46, 47, 47, 49, 52]  # 10:00
+    - [47, 46, 45, 46, 46, 47, 51]  # 11:00
+    - [46, 45, 43, 45, 44, 47, 51]  # 12:00
+    - [47, 46, 45, 46, 46, 48, 52]  # 13:00
+    - [47, 46, 45, 46, 46, 48, 53]  # 14:00
+    - [46, 45, 45, 46, 44, 46, 53]  # 15:00
+    - [41, 39, 41, 40, 37, 46, 53]  # 16:00
+    - [35, 33, 36, 34, 34, 45, 52]  # 17:00
+    - [38, 35, 37, 36, 39, 45, 51]  # 18:00
+    - [45, 43, 43, 42, 43, 45, 50]  # 19:00
+    - [46, 46, 45, 45, 46, 45, 50]  # 20:00
+    - [46, 46, 46, 46, 47, 45, 49]  # 21:00
+    - [46, 46, 46, 46, 47, 46, 49]  # 22:00
+    - [48, 47, 47, 47, 47, 47, 50]  # 23:00

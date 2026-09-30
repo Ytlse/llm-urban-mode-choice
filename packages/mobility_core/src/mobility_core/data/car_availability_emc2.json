@@ -1,0 +1,57 @@
+{
+  "source": "EMC² Toulouse 2023, ProGEDO/ADISP lil-1750 — M6 (voitures), P7 (permis)",
+  "derivation": "règle eqasim : all si voitures>=permis (majeurs), some si <, none si voitures==0",
+  "reference_by_household_coe0": {
+    "all": 67.66,
+    "some": 12.98,
+    "none": 19.36
+  },
+  "reference_by_person_coe1": {
+    "all": 70.0,
+    "some": 16.86,
+    "none": 13.13
+  },
+  "n_households": 10783,
+  "n_persons": 20890,
+  "negative_control": {
+    "modalities": {
+      "1": 14975,
+      "2": 4713,
+      "(vide)": 846,
+      "3": 356
+    },
+    "labels": {
+      "1": "Oui",
+      "2": "Non",
+      "3": "Conduite accompagnée et leçons (PAS un titulaire)"
+    },
+    "blank_share_pct": 4.05,
+    "blank_adults": 0,
+    "blank_adults_share_pct": 0.0,
+    "verdict": "variable vivante"
+  },
+  "positive_control": {
+    "measured": {
+      "cars_per_household": 1.246,
+      "zero": 19.358,
+      "one": 45.31,
+      "two_plus": 35.332
+    },
+    "published": {
+      "cars_per_household": 1.25,
+      "zero": 19.0,
+      "one": 45.0,
+      "two_plus": 35.0
+    },
+    "delta": {
+      "cars_per_household": -0.004,
+      "zero": 0.358,
+      "one": 0.31,
+      "two_plus": 0.332
+    },
+    "tolerance_pt": 1.0,
+    "tolerance_cars": 0.03,
+    "passed": true
+  },
+  "caveat": "Cible de NIVEAU seulement. Elle ne dit rien de la RIVALITÉ dans le temps (deux membres d'un ménage à une voiture conduisant au même instant) : c'est l'objet de l'option B du ticket 018, et aucune distribution ne la mesure."
+}

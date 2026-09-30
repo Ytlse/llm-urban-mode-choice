@@ -1,0 +1,90 @@
+# Population de TEST — ticket 059, lot 6. Ce n'est PAS un sceau de cohorte.
+#
+# 6 agents ne représentent rien : ils servent à observer si une information
+# lue par un seul membre d'un foyer atteint l'autre, et à quelle date. Ils ne mesurent
+# aucune part modale. La référence de l'article reste
+# data/population/population_1000_PANEL_v6.
+#
+# Les foyers témoins sont dans le MÊME fichier, donc dans le même run : le plancher de
+# bruit mesuré au ticket 095 n'est pas nul, et un témoin lancé séparément le ferait
+# entrer dans l'effet mesuré.
+nom: population_6_foyers_a13
+extrait_le: '2026-09-25T15:03:51.166447+00:00'
+source:
+  fichier: data/population/population_1000_PANEL_v6/population.json
+  sha256: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6
+  n: 1000
+population:
+  fichier: population.json
+  sha256: e88be896b4ebd7fda19f07b81c74a133fc0f5ce03029e340bb42fecd46eb8d92
+  n: 6
+selection:
+  methode: >-
+    Foyers de taille 2 ou 4 dont tous les membres sont mobiles, dont 2 adultes (≥ 18 ans); exposés DÉSIGNÉS par --menage, témoins triés par rang stable
+    sha256(graine:household_id). Aucun tirage dépendant de l'ordre d'exécution.
+    Reproductible par scripts/data/population/extraire_foyers.py.
+  graine: 59
+  taille: [2, 4]
+  adultes_exiges: 2
+  menages_designes: ["643030", "534995"]
+  lecteurs_designes: ["1320713", "1127260"]
+  motif: "Expérience presse a13 (punaises de lit dans le métro) : le lecteur désigné de chaque foyer prend le métro (bancs du 2026-09-16 au 22 : toutes ses options TC passent par le métro). Couple 643030 : 1320713, abonné TC, 84 choix TC ; sa co-résidente 1320712 aussi usagère du métro. Famille 534995 : 1127260, abonnée TC, 33 choix TC ; le père roule en voiture, deux enfants de 5 et 8 ans."
+  abonnement_tc_exige: False
+  foyers_eligibles: 131
+groupes:
+  expose:
+    - household_id: '643030'
+      lecteurs: ["1320713"]
+      membres:
+        - person_id: '1320712'
+          nom: "Adèle-Émilie Bernier"
+          age: 28
+          occupation: "Full-time worker"
+          zone: "Toulouse"
+          abonnement_tc: False
+          voiture: "all"
+          velo: "regular bike"
+        - person_id: '1320713'
+          nom: "Frédéric-Adrien Berger"
+          age: 28
+          occupation: "Full-time worker"
+          zone: "Toulouse"
+          abonnement_tc: True
+          voiture: "all"
+          velo: "regular bike"
+    - household_id: '534995'
+      lecteurs: ["1127260"]
+      membres:
+        - person_id: '1127257'
+          nom: "Richard Roussel"
+          age: 5
+          occupation: "Pupil (up to Baccalaureate)"
+          zone: "Toulouse"
+          abonnement_tc: True
+          voiture: "all"
+          velo: "No bike"
+        - person_id: '1127258'
+          nom: "Antoinette du Lamy"
+          age: 8
+          occupation: "Pupil (up to Baccalaureate)"
+          zone: "Toulouse"
+          abonnement_tc: True
+          voiture: "all"
+          velo: "No bike"
+        - person_id: '1127259'
+          nom: "Timothée Lecomte"
+          age: 38
+          occupation: "Full-time worker"
+          zone: "Toulouse"
+          abonnement_tc: False
+          voiture: "all"
+          velo: "No bike"
+        - person_id: '1127260'
+          nom: "Julie Gonzalez"
+          age: 35
+          occupation: "Full-time worker"
+          zone: "Toulouse"
+          abonnement_tc: True
+          voiture: "all"
+          velo: "No bike"
+  temoin:

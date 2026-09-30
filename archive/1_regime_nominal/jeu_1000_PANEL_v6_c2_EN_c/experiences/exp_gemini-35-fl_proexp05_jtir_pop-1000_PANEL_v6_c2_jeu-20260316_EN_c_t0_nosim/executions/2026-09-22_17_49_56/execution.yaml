@@ -1,0 +1,112 @@
+version: execution1
+cree_le: '2026-09-22T17:49:56+00:00'
+experience:
+  nom: exp_gemini-35-fl_proexp05_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_t0_nosim
+  population:
+    chemin: /data/eqasim-output/population_1000_PANEL_v6_c2
+  jeu:
+    nom: population_1000_PANEL_v6_c2_20260316_EN_c
+    dossier: null
+  gabarit:
+    categorie: itinary_multi_agent
+    variante: prompt_expert_05
+  decideur:
+    type: passerelle
+    modele: gemini-3.5-flash-lite
+    portee: distant
+    parametres:
+      temperature: 0.0
+      top_p: 1.0
+      max_tokens: 4096
+      thinking_level: high
+    rejeu_de: null
+    graine: null
+    artefact: null
+  mode: sans_simulateur
+  calendrier:
+    politique: aleatoire
+    date: '2026-03-16'
+    graine: 42
+  horizon_jours: 1
+  memoire: false
+  evenements: []
+  graine_ordre: 42
+  graine_tirage: 42
+  regroupement:
+    parallelisme: 8
+  tolerances_horaires:
+    bike: insensible
+    car: heure
+    rail:
+      pas_min: 10
+    transit:
+      pas_min: 10
+    walk: insensible
+  max_candidats: 6
+  attente_max_s: 120
+  vehicule_chaine: true
+  verrou_retour: true
+  troncature_15: false
+  derive_de: exp_gemini-35-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+  renomme_de: null
+  executions_connues: []
+empreintes:
+  population:
+    nom: population_1000_PANEL_v6_c2
+    sha256: 26d1baf4aabcb8c9f659c7dce13cdff0b2ae80780a320c136ba0dbcd877e845d
+    fichier_sha256: 4c446e5419e70b9031888191c6c9e4973edf782fd7e376eea8db859e3e9405d9
+    scellee: true
+  jeu:
+    nom: population_1000_PANEL_v6_c2_20260316_EN_c
+    sha256: 3d286db12ace71f936b00c5e28402eb2ff41e35bdf5d50a64bc41642428dd1fc
+  gabarit:
+    categorie: itinary_multi_agent
+    variante: prompt_expert_05
+    sha256: 18c6ee969b5723ce27e0b520aabb161431f1a41c1f24e6e004d4b91f657acac9
+    sources:
+    - prompts.yaml:prompt_expert_05
+    - travel_plan_describe_v2.j2
+  decideur:
+    type: passerelle
+    modele: gemini-3.5-flash-lite
+    parametres:
+      temperature: 0.0
+      top_p: 1.0
+      max_tokens: 4096
+      thinking_level: high
+    sha256: 41183911d7bb80b09d54607085157b800ea88359a850e392376efb982c0dbf29
+  depot:
+    commit: null
+    arbre_propre: null
+regime_demande:
+  parallelisme: 8
+  unite_sollicitation: deplacement
+regime_applique:
+  parallelisme: 8
+  unite_sollicitation: deplacement
+  decideur: passerelle:gemini-3.5-flash-lite
+  reprise: false
+reglages_herites:
+  agenda_anticipation_enabled: true
+  max_trip_candidates: 6
+  vehicule_chaine: true
+  verrou_retour: true
+  troncature_15: false
+  mode_choice_truncation_threshold: 0.0
+  instances_admises:
+  - google_gemini35_key1
+  - google_gemini35_key2
+sources_alea:
+  graine_ordre: 42
+  graine_tirage: 42
+  graine_calendrier: 42
+  echantillonnage_decideur: true
+interruptions: []
+cloture:
+  le: '2026-09-22T19:56:43+00:00'
+  etat: terminee
+  sha256:
+    decisions.jsonl: f9cac9bb31faf0af78e75775c6beb822a6c278ff4d03e93162df0e83370db993
+    erreurs.jsonl: 5bf2690dd4b0e3c5edf5effd19adcab25d509c0a50b173522286722c00564acc
+    moves.csv: 452b93174658e16bbf5a8d9e1c38d558400849a7cc70eb00ec03692784812397
+    compteurs.json: a58afaacdb0c4e1f2d12d484b39252abc95327ea8ffaffc229432c92d1c5fd29

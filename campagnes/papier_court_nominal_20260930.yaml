@@ -1,0 +1,28 @@
+nom: papier_court_nominal_20260930
+version: campagne1
+note: >-
+  Reprend la campagne papier_court_nominal_20260929, arrêtée le 29/09 à 10:06. Devait partir à 4 h
+  par la tâche planifiée, restée bloquée sur une autorisation ; lancée à la main le 30/09 au matin,
+  après vérification que rien ne tournait. File = expériences non terminées de l'espace « papier
+  version courte », puis le reste de « Toutes les expériences ». Mistral exclu (crédits épuisés,
+  relance prévue par l'auteur le 1er octobre). Jamais en parallèle d'une autre campagne (règle du
+  2026-09-16).
+phases:
+- nom: papier_court_nominal
+  raison: >-
+    Les deux expériences non terminées de l'espace « papier version courte » : Gemini 3.5 Flash
+    Lite sous prompt_minimal_02 sur la cohorte c2 (en pause, reprise sans repayer ses décisions),
+    puis graine 789 sur la cohorte c1 scellée (jamais lancée).
+  experiences:
+  - exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go789_gt789_gc789_t0_nosim
+- nom: toutes_les_experiences
+  raison: >-
+    Le reste du registre non terminé, hors Mistral et hors expériences mémoire (non pilotables par
+    une campagne). openai-go-12 passe par Groq et bute sur son quota journalier depuis le 27/09.
+  experiences:
+  - exp_gemini-31-fl_proexp05_jtir_pop-enquete_058_test_jeu-58_test_20260316_t0_nosim
+  - exp_gemini-31-fl_proexp25_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-31-fl_promin02_jtir_pop-enquete_058_test_jeu-58_test_20260316_t0_nosim
+  - exp_gemini-35-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim_2
+  - exp_openai-go-12_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim

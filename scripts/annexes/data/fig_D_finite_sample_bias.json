@@ -1,0 +1,276 @@
+{
+  "script": "scripts/annexes/fig_D_finite_sample_bias.py",
+  "formula": "v1_reference",
+  "seed": 2026,
+  "replicates": 200,
+  "sampling": "persons without replacement; all scored decisions of a drawn person kept",
+  "arms": [
+    {
+      "label": "LightGBM",
+      "experiment": "exp_lgbm_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim",
+      "execution": "2026-09-16_13_40_53",
+      "n_persons_full": 868,
+      "full_composite": 3.603591794958766,
+      "points": [
+        {
+          "n_persons": 40,
+          "mean_composite": 10.144784766320686,
+          "mean_excess": 6.541192971361921,
+          "p05_excess": 3.4677961628716103,
+          "p95_excess": 10.419750295121322,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 50,
+          "mean_composite": 9.043140140184214,
+          "mean_excess": 5.439548345225448,
+          "p05_excess": 2.5506317822798863,
+          "p95_excess": 8.931820434670238,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 60,
+          "mean_composite": 8.196820827501128,
+          "mean_excess": 4.593229032542363,
+          "p05_excess": 1.9649988807271306,
+          "p95_excess": 7.659973881453296,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 81,
+          "mean_composite": 6.845010218576598,
+          "mean_excess": 3.241418423617832,
+          "p05_excess": 1.0416643475104688,
+          "p95_excess": 5.992832114905462,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 100,
+          "mean_composite": 6.077110211841077,
+          "mean_excess": 2.4735184168823103,
+          "p05_excess": 0.48761924026391856,
+          "p95_excess": 4.763154214642029,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 150,
+          "mean_composite": 5.234626170805313,
+          "mean_excess": 1.6310343758465458,
+          "p05_excess": -0.05766643316185966,
+          "p95_excess": 3.566613636945399,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 200,
+          "mean_composite": 4.661046077319198,
+          "mean_excess": 1.0574542823604318,
+          "p05_excess": -0.45446761879151876,
+          "p95_excess": 2.8681870058678394,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 300,
+          "mean_composite": 4.158638576887427,
+          "mean_excess": 0.555046781928661,
+          "p05_excess": -0.6445922725225927,
+          "p95_excess": 1.9740633762708182,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 400,
+          "mean_composite": 3.932643495964349,
+          "mean_excess": 0.32905170100558273,
+          "p05_excess": -0.5506469888514938,
+          "p95_excess": 1.4281854525253983,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 600,
+          "mean_composite": 3.7317009786114976,
+          "mean_excess": 0.12810918365273183,
+          "p05_excess": -0.4935076846769904,
+          "p95_excess": 0.7347279492722951,
+          "replicates_with_unmeasured_dimension": 0
+        }
+      ]
+    },
+    {
+      "label": "jev, expert prompt 32",
+      "experiment": "exp_jev-1130_proexp32_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim",
+      "execution": "2026-09-21_10_14_52",
+      "n_persons_full": 868,
+      "full_composite": 3.6470488777850405,
+      "points": [
+        {
+          "n_persons": 40,
+          "mean_composite": 10.345822801827516,
+          "mean_excess": 6.6987739240424755,
+          "p05_excess": 3.308809908267428,
+          "p95_excess": 11.127071351834712,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 50,
+          "mean_composite": 8.925412390444711,
+          "mean_excess": 5.27836351265967,
+          "p05_excess": 2.580549436889672,
+          "p95_excess": 8.52660758855052,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 60,
+          "mean_composite": 8.349818497365195,
+          "mean_excess": 4.702769619580155,
+          "p05_excess": 2.3297126669391397,
+          "p95_excess": 7.814995049027572,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 81,
+          "mean_composite": 7.124675335864639,
+          "mean_excess": 3.4776264580795986,
+          "p05_excess": 1.6249466177992997,
+          "p95_excess": 5.432904907236634,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 100,
+          "mean_composite": 6.453121034800373,
+          "mean_excess": 2.8060721570153326,
+          "p05_excess": 0.9388794846162711,
+          "p95_excess": 5.0126591515671315,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 150,
+          "mean_composite": 5.705597974157476,
+          "mean_excess": 2.0585490963724347,
+          "p05_excess": 0.4717710895509545,
+          "p95_excess": 3.776440245771063,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 200,
+          "mean_composite": 5.197937452271038,
+          "mean_excess": 1.5508885744859982,
+          "p05_excess": 0.4135465268921774,
+          "p95_excess": 2.6753683349318664,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 300,
+          "mean_composite": 4.533157975772368,
+          "mean_excess": 0.8861090979873274,
+          "p05_excess": 0.01659527384948168,
+          "p95_excess": 1.9721150208614446,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 400,
+          "mean_composite": 4.20255007548945,
+          "mean_excess": 0.555501197704409,
+          "p05_excess": -0.13112457191482024,
+          "p95_excess": 1.3647640212729193,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 600,
+          "mean_composite": 3.9441883562198385,
+          "mean_excess": 0.29713947843479827,
+          "p05_excess": -0.12273964203437547,
+          "p95_excess": 0.7417608391196012,
+          "replicates_with_unmeasured_dimension": 0
+        }
+      ]
+    },
+    {
+      "label": "gemini-3.5, expert prompt",
+      "experiment": "exp_gemini-35-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim",
+      "execution": "2026-09-16_22_20_25",
+      "n_persons_full": 868,
+      "full_composite": 4.857127178801158,
+      "points": [
+        {
+          "n_persons": 40,
+          "mean_composite": 13.201815015650247,
+          "mean_excess": 8.34468783684909,
+          "p05_excess": 3.809113370111139,
+          "p95_excess": 13.540230259007744,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 50,
+          "mean_composite": 11.735743584368972,
+          "mean_excess": 6.878616405567814,
+          "p05_excess": 3.3280923638725417,
+          "p95_excess": 11.175782630240793,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 60,
+          "mean_composite": 10.9412668067661,
+          "mean_excess": 6.084139627964943,
+          "p05_excess": 2.620795582468745,
+          "p95_excess": 10.668764920345069,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 81,
+          "mean_composite": 9.063830538274798,
+          "mean_excess": 4.20670335947364,
+          "p05_excess": 1.3525351352516355,
+          "p95_excess": 7.338504857097135,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 100,
+          "mean_composite": 8.157008002416577,
+          "mean_excess": 3.299880823615417,
+          "p05_excess": 0.6408835732921527,
+          "p95_excess": 5.842288027443165,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 150,
+          "mean_composite": 7.047173590391108,
+          "mean_excess": 2.190046411589951,
+          "p05_excess": 0.11232319376541347,
+          "p95_excess": 4.729416171419432,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 200,
+          "mean_composite": 6.371552853590922,
+          "mean_excess": 1.514425674789764,
+          "p05_excess": -0.16697576728744634,
+          "p95_excess": 3.4958790679772536,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 300,
+          "mean_composite": 5.721240407984241,
+          "mean_excess": 0.8641132291830824,
+          "p05_excess": -0.3199278134743164,
+          "p95_excess": 2.3601332697986073,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 400,
+          "mean_composite": 5.337834422987368,
+          "mean_excess": 0.48070724418620986,
+          "p05_excess": -0.6362128121191385,
+          "p95_excess": 1.7303662273792098,
+          "replicates_with_unmeasured_dimension": 0
+        },
+        {
+          "n_persons": 600,
+          "mean_composite": 5.0357183389996445,
+          "mean_excess": 0.1785911601984863,
+          "p05_excess": -0.48636577348614485,
+          "p95_excess": 0.8317459530066549,
+          "replicates_with_unmeasured_dimension": 0
+        }
+      ]
+    }
+  ]
+}

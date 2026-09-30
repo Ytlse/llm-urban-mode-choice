@@ -1,0 +1,90 @@
+# ══ MIGRATED TO THE TICKET 100 FORMAT (single channel) on 2026-09-21 ═════════════════════
+# `choc:` becomes `evenement:`, and three fields appear. They change NOTHING in what this
+# file did: `canal: vecu` and `moment: arrivee` are the suffered regime of ticket 079, and
+# `jugement: aucun` is the state before lot 3 — the agent does not judge yet what they suffer.
+# The golden test of lot 1 replays the original from `config/chocs/` and requires the same trace.
+# C6 — Suspicious engine · car · named agents
+#
+# Case study requested on 2026-09-15: follow an agent for longer and link their memory to their
+# change of habit. Designed as half of a PAIRED comparison — the same run, same
+# seeds, runs a second time without `CHOC=`: any gap after day 15 comes from the shock.
+# ⚠ This control arm has never run. Without it, no gap measured here is attributable.
+#
+# WHY A DELAY, AND NOT ONLY A WORRY. The initial request was "the car
+# makes strange noises, I do not feel reassured". A worry without a measured delay gives a
+# severity of 0.00 and a memory that lives 2.8 days: it fades before having weighed on a single
+# decision. Severity is computed on what the simulation MEASURED, and it is the guard that prevents
+# fabricating the result one claims to measure. The worry therefore stays in the `vecu`; the
+# delay gives it its weight.
+#
+# ══ TIME PROTOCOL (2026-09-18) ══════════════════════════════════════════════════════════
+#
+# The days of the run are counted in CALENDAR days; the simulation SKIPS weekends.
+#   Week 1: D1-D5   (working 1-5)   | D6-D7   = Saturday, Sunday
+#   Week 2: D8-D12  (working 6-10)  | D13-D14 = Saturday, Sunday
+#   Week 3: D15 (working 11, first shock), D16 (working 12, second shock)
+# Ten working days of baseline, then the shock. Total horizon 42 calendar days.
+#
+# Severity obtained on D15: delay 30/30 × 0.50 = 0.50 · incident_reseau 0.20 → 0.70. It
+# reaches the original shock threshold (0.70, `>=` comparison) WITHOUT any need to
+# lower it: the `memoire__importance_choc: 0.50` setting put in config.yaml on 18/09 changed
+# nothing for that day and widens pool C to all the memories of severity ≥ 0.50.
+# D16 (0.53), for its part, depends on it — but it never applied (see below).
+#
+# ══ REWRITE OF 2026-09-19 (ticket 077, lot H) ═════════════════════════════════════════
+#
+# The two `vecu` concluded in the agent's place: "I no longer trust this car at all",
+# "I am seriously thinking about not using this car anymore". The nightly reflection drew from them
+# "consider alternative transport options", a sentence then served to each of the 40 decisions
+# of the following 14 days. We were no longer measuring an agent that learns, but a model that does not
+# contradict itself. The two texts now only state facts and sensations; the belief
+# "this car is not reliable" must be PRODUCED by the reflection, or not be.
+# Rules R9 and R10 now refuse at loading what these texts contained.
+#
+# ⚠ THE SECOND SHOCK NEVER APPLIED in the run of 2026-09-19. Exposure is restricted
+# to car trips, and the agent no longer made any on D16: `chocs.jsonl` only carries
+# four applications, all on D15. A reinforcement shock can only hit those who
+# have not already reacted. This is assumed — one does not break down again in a car one does not
+# take — but a shock day closed without anyone exposed now raises an `[ALARME]`, and
+# the analysis must read `chocs.jsonl`, never this file, to know what took place.
+#
+evenement: c6_voiture_suspecte
+canal: vecu                  # vecu | lu — where the text comes from
+moment: arrivee              # arrivee (after the decision) | reveil (before)
+jugement: aucun              # aucun | a_l_injection (lot 3 of ticket 100)
+libelle: "Engine trouble"
+source: "scénario déclaré — cas d'étude individuel, aucune source externe revendiquée"
+
+# A repaired breakdown does not happen again identically three hours later. In the run of
+# 2026-09-19, without this line, the shock applied to the FOUR car trips of the
+# day: four thirty-minute breakdown repairs, four times the same story, where the protocol
+# counted only one. The intensity was four times the announced intensity.
+cadence: jour
+
+exposition:
+  regle: agents
+  # Three personas for the sequential cohort (`scripts/experiment/run_sequential_cohort.py`,
+  # one run per persona). In a one-person run, the two other identifiers are inert
+  # and that is intended — the same shock file serves the three arms.
+  agents: ["899549", "1250941", "861500"]
+  # Restricted to trips made BY CAR. Without this line, Corinne would have read "the engine
+  # made a grinding noise" on returning from a bus trip — she is multimodal, 60% of
+  # car in the run of 15/09 — and her memory would have recorded an impossible story.
+  modes: [car]
+
+# Shocks at the start of the 3rd week (working days 11 and 12), after 10 working days of baseline.
+jours:
+  - jour: 15
+    retard_min: 45
+    incident_reseau: true
+    vecu: >-
+      The engine stalled on the expressway. The car lost speed in the middle lane; a lorry behind
+      me braked hard and came to a stop a few metres short of my rear bumper. I pulled onto the
+      hard shoulder and waited 35 minutes for roadside assistance before the car would restart. I
+      arrived 45 minutes after the time I had planned.
+  - jour: 16
+    retard_min: 20
+    incident_reseau: true
+    vecu: >-
+      The warning lights came on again. I drove at reduced speed for the whole journey and arrived
+      20 minutes late.

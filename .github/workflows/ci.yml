@@ -1,0 +1,133 @@
+# CI of the three packages (ticket 037): lint, typing, architecture contracts, tests, build.
+# One job per package + one docs job. The gateway contract tests run against a service
+# Redis (on top of fakeredis), to test the real implementation, Lua scripts included.
+name: ci
+
+on:
+  push:
+    # Any branch: the packages must be green even before the PR (the path filter
+    # avoids running the CI for a simulation run or a summary page).
+    branches: ["**"]
+    paths:
+      - "packages/llm_gateway/**"
+      - "packages/mobility_core/**"
+      - "packages/mobility_llm/**"
+      - ".importlinter"
+      - ".github/workflows/ci.yml"
+  pull_request:
+    paths:
+      - "packages/llm_gateway/**"
+      - "packages/mobility_core/**"
+      - "packages/mobility_llm/**"
+      - ".importlinter"
+      - ".github/workflows/ci.yml"
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: lint · types · contrats d'architecture
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Installer les paquets (editable) et l'outillage
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ./packages/mobility_core[geo,test,dev] -e ./packages/llm_gateway[test,dev] -e ./packages/mobility_llm[test,dev]
+      - name: ruff
+        run: ruff check packages/llm_gateway packages/mobility_core packages/mobility_llm
+      - name: ruff format (informatif tant que le reformatage n'est pas appliqué, cf. H10)
+        run: ruff format --check packages/llm_gateway packages/mobility_core packages/mobility_llm || true
+      - name: mypy — contrat public du gateway (core, ports, sdk)
+        working-directory: packages/llm_gateway
+        run: mypy src/llm_gateway/core src/llm_gateway/ports src/llm_gateway/sdk
+      - name: import-linter — 5 contrats
+        run: lint-imports
+
+  test-gateway:
+    name: llm_gateway · tests (Redis de service)
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis:7-alpine
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping" --health-interval 5s --health-timeout 3s --health-retries 10
+    env:
+      LLM_GATEWAY_TEST_REDIS_URL: redis://localhost:6379/15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -e ./packages/mobility_core -e ./packages/llm_gateway[test] -e ./packages/mobility_llm
+      - name: pytest (unit, contract, integration) avec couverture
+        working-directory: packages/llm_gateway
+        run: pytest -m "not e2e" --cov --cov-report=term-missing --cov-report=xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-llm-gateway
+          path: packages/llm_gateway/coverage.xml
+
+  test-mobility:
+    name: mobility_core + mobility_llm · tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -e ./packages/mobility_core[geo,test] -e ./packages/llm_gateway -e ./packages/mobility_llm[test]
+      - name: mobility_core
+        working-directory: packages/mobility_core
+        run: pytest --cov --cov-report=term-missing
+      - name: mobility_llm
+        working-directory: packages/mobility_llm
+        run: pytest -m "not e2e" --cov --cov-report=term-missing
+
+  build:
+    name: wheels + sdist
+    runs-on: ubuntu-latest
+    needs: [quality, test-gateway, test-mobility]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip build
+      - run: |
+          for pkg in mobility_core llm_gateway mobility_llm; do
+            python -m build --outdir dist/ "packages/$pkg"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  docs:
+    name: mkdocs --strict
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -e ./packages/mobility_core -e ./packages/llm_gateway[docs] -e ./packages/mobility_llm
+      - working-directory: packages/llm_gateway
+        run: mkdocs build --strict

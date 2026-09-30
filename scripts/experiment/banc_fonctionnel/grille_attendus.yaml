@@ -1,0 +1,155 @@
+# Grid of expected judgements — filled in on 2026-09-22 by the session, at the author's request
+#
+# ⚠⚠ CONFLICT OF INTEREST TO KNOW BEFORE READING THE RESULT. This grid was to be written by
+# the author, before any answer, and by someone who does not run the measurement. It is written here
+# by the one who launches the test, and for six of the eight texts after having already seen answers.
+# The `deja_vu` field says so cell by cell:
+#
+#   deja_vu: true   — answers had been observed before writing the range (the five
+#                     articles on 2026-09-22 by B1, c6 by B3). The range may have been
+#                     unconsciously adjusted: the test proves almost nothing there.
+#   deja_vu: false  — NO answer has ever been observed on this text. The prediction is
+#                     blind, and that is where the test has value.
+#
+# Two cells are blind: `c2_crevaison` and `c3_panne_reseau`. They are two of the three arms
+# of the long-run experiment, and the prediction made on them — c2 weaker than c6, c3
+# stronger — is exactly the hypothesis the experiment wants to test.
+#
+# The author may overwrite any range; it is their grid, this one is only a draft
+# that lets the test run right away.
+#
+# WHY THIS FILE EXISTS
+# --------------------
+# Since the decision of 2026-09-22, the severity of a memory is the one the agent estimates, and
+# that alone. It is what sets the lifetime of the memory. A model that answered « harmless »
+# everywhere would therefore run fifty days of campaign to measure nothing — which nearly
+# happened on 2026-09-22, for another reason (the text did not reach the model).
+#
+# This grid is the safeguard: it says, BEFORE the campaign, what one would find normal on
+# reading each text. The functional test confronts the answers with this declaration and
+# refuses to launch if the gap is too large.
+#
+# ⚠ IT MUST BE WRITTEN BEFORE SEEING THE ANSWERS. A grid adjusted after the fact keeps
+# nothing any more: it describes what the model answered, and the test always passes.
+#
+# HOW TO FILL IT IN
+# -----------------
+# `attendu`: the RANGE of levels one would find reasonable — not a value. Two sensible
+#   people do not judge an article about bedbugs identically. A single-level range
+#   is a strong bet; it is allowed, it will just be violated more often.
+#   Levels, from weakest to strongest, with their served duration:
+#     anodin (4.70 d) · notable (8.23 d) · genant (11.76 d) · grave (16.17 d) · marquant (20.58 d)
+#
+# `modes_attendus`: the modes this should bear on. Empty list = should bear
+#   on none in particular. The test flags a mode returned outside this list, without refusing.
+#
+# `motif`: one sentence. It is what will be reread in six months to know whether the range was a
+#   considered judgement or a number set at random.
+#
+# `sensible_au_profil`: true if one EXPECTS the answer to depend on the person (a
+#   car driver and a metro user do not read an article about the metro the same way).
+#   The test then measures the gap between profiles instead of treating it as noise.
+
+# ══════════════ THE FIVE PRESS ARTICLES — « lu » channel, injection at wake-up ══════════════
+
+a07_greve_eboueurs:          # « Refuse collectors' strike »
+  attendu: [anodin, notable]
+  modes_attendus: []
+  motif: "Les poubelles ne sont pas ramassées : rien n'empêche de se déplacer, rien ne coûte de temps sur un trajet. Une contrariété de ville, pas de mobilité."
+  sensible_au_profil: false
+  deja_vu: true
+
+a09_vent_autan:              # « Autan gales, parks closed »
+  attendu: [notable, genant]
+  modes_attendus: [walking, cycling]
+  motif: "Des rafales à plus de 80 km/h et des parcs fermés annoncent une journée où l'on s'expose : à pied et à vélo, cela pèse sur le choix du matin."
+  sensible_au_profil: true
+  deja_vu: true
+
+a13_punaises_metro:          # « Bed bug scare on the metro »
+  attendu: [anodin, notable]
+  modes_attendus: [public_transport]
+  motif: "Une inquiétude sans conséquence pratique — aucune rame supprimée, aucun retard. Porte sur le métro et sur rien d'autre."
+  sensible_au_profil: true
+  deja_vu: true
+
+a18_la_machine:              # « La Machine street show »
+  attendu: [notable, genant]
+  modes_attendus: [walking, public_transport, car]
+  motif: "900 000 visiteurs au centre-ville sur trois jours : c'est une journée où traverser le centre coûtera du temps, quel que soit le mode."
+  sensible_au_profil: true
+  deja_vu: true
+
+a25_velotoulouse:            # « VélôToulouse overhaul »
+  attendu: [anodin, notable]
+  modes_attendus: [cycling]
+  motif: "Une amélioration de l'offre, annoncée pour plus tard et de valence positive. Elle ne perturbe rien aujourd'hui ; elle peut changer un arbitrage à venir."
+  sensible_au_profil: true
+  deja_vu: true
+
+# ══════════════ THE LIVED INCIDENTS — « vecu » channel, injection at arrival ══════════════
+#
+# ⚠ THESE THREE ARE THE ARMS OF THE LONG-RUN EXPERIMENT. It is here that the grid is most
+# useful: if the agent does not separate them, the experiment will measure nothing, and it is better to know
+# it for thirty calls than for three campaigns.
+#
+# For the record, what the simulation MEASURES of these three incidents today — it is no longer
+# what sets the duration, but it is the fact the agent's judgement will be compared with:
+#   c2_crevaison   35 min delay, incident            → 0.768
+#   c6_voiture     30 min delay, incident            → 0.700
+#   c3_panne       45 min, incident, missed conn.    → 1.000
+# Two of them are therefore 0.07 apart: if the protocol expects three well
+# separated durations, they will have to come from the judgement, not from the declared delay.
+
+c2_crevaison:                # « Flat tyre on the way » — the case meant to be WEAK
+  attendu: [notable, genant]
+  modes_attendus: [cycling]
+  motif: "TEXTE ÉCRIT PAR L'AUTEUR le 2026-09-22, prédiction AVEUGLE. Vingt minutes de réparation, mains pleines de cambouis pour le reste du trajet, vingt minutes de retard. Du temps coûté, donc au moins `notable` ; rien de manqué et rien de décalé, donc pas `grave`."
+  sensible_au_profil: true
+  deja_vu: false
+
+c6_voiture_suspecte:         # « Engine trouble » — the case meant to be MEDIUM
+  attendu: [grave, marquant]
+  modes_attendus: [car]
+  motif: "TEXTE ÉCRIT PAR L'AUTEUR, prédiction AVEUGLE. Un poids lourd s'arrête à quelques mètres du pare-chocs, quarante-cinq minutes de retard. L'ancre de `grave` parle de mise en difficulté et celle de `marquant` de ce dont on se souvient dans un mois : un accident évité de justesse relève des deux. ⚠ Je ne sais PAS prédire ce bras au-dessous ou au-dessus de c3 — les deux plages sont identiques, et c'est un aveu, pas une commodité."
+  sensible_au_profil: true
+  deja_vu: false
+
+c5_orage_grele:              # « Violent hailstorm » — HORS MARCHE ORDONNÉE, sonde à part
+  attendu: [genant, grave]
+  modes_attendus: [walking, cycling]
+  motif: "Demandé par l'auteur le 2026-09-22. Prédiction AVEUGLE, et c'est la sonde la plus
+    intéressante des quatre : quinze minutes de retard seulement — donc presque rien de perdu en
+    temps — mais arrivée trempé et chaussures mouillées TOUTE LA JOURNÉE. L'ancre de `notable`
+    exclut explicitement une conséquence sur la suite de la journée, ce qui pose le plancher à
+    `genant` ; celle de `grave` parle de « mise en difficulté », ce qu'une journée en chaussures
+    mouillées peut être. Ce texte demande donc à l'agent si une GÊNE QUI DURE pèse autant qu'un
+    TEMPS PERDU. Il ne fait pas partie de la marche ordonnée : il la traverse."
+  sensible_au_profil: true
+  deja_vu: false
+
+c3_panne_reseau:             # « Metro network failure » — the case meant to be STRONG
+  attendu: [grave, marquant]
+  modes_attendus: [public_transport]
+  motif: "TEXTE ÉCRIT PAR L'AUTEUR, prédiction AVEUGLE. Vingt-cinq minutes sans information, rendez-vous MANQUÉ, rame bondée au redémarrage, et la QUATRIÈME panne de la ligne ce mois-ci. Le rendez-vous manqué donne `grave` ; la répétition est ce qui « change ma façon de me déplacer », l'ancre de `marquant`."
+  sensible_au_profil: true
+  deja_vu: false
+
+# ══════════════ THE STAIRCASE ══════════════
+# The arms, in the order of TARGETED severity. The test checks that the levels returned never GO DOWN
+# along this list, and that they rise STRICTLY between two arms whose expected ranges
+# are disjoint. Two arms that share the same range are not told apart: we
+# do not require a measurement to settle what nobody managed to predict.
+marche: [c2_crevaison, c6_voiture_suspecte, c3_panne_reseau]
+
+# ══════════════ SEUILS DU TEST — proposés, à valider ══════════════
+seuils:
+  # Maximum share of judgements out of their range before the campaign is refused.
+  part_hors_plage_max: 0.20
+  # Minimum number of DISTINCT levels over all the texts. Below it, the device
+  # separates nothing and the long-run experiment will not measure what it announces.
+  echelons_distincts_min: 3
+  # Personas questioned per text. 4 × 8 texts = 32 calls, a dozen minutes. The first four
+  # of the bench population cover the four combinations that matter here: with or
+  # without a licence, with or without a car, with or without a bike, with or without a pass.
+  personas: 4

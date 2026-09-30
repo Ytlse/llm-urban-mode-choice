@@ -1,0 +1,189 @@
+{
+ "execution": "2026-09-16_13_37_42",
+ "experience": "exp_klr_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_noret_nosim",
+ "etat": {
+  "etat": "terminee",
+  "raison": null,
+  "reprise_possible_a": null,
+  "maj": "2026-09-16T13:38:26+00:00",
+  "decisions_archivees": 3299
+ },
+ "empreintes": {
+  "population": {
+   "nom": "population_1000_PANEL_v6",
+   "sha256": "675cfe31f59f450a2919dc1a6bacdbc34e51fdc846bbbe1dfce7160db2a6b253",
+   "fichier_sha256": "412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6",
+   "scellee": true
+  },
+  "jeu": {
+   "nom": "population_1000_PANEL_v6_20260316_EN_c",
+   "sha256": "e8f9eab14fb4a0600bc04bd85591053dd0fd3bd3571e6e9f98aec87e51bc9f53"
+  },
+  "gabarit": {
+   "categorie": "itinary_multi_agent",
+   "variante": null,
+   "sha256": "e9f21ddebfbd7b084ecd3a03ac08f2253d56245eb786a33fc917db9edaa4c65d",
+   "sources": [
+    "prompts.yaml:active.itinary_multi_agent",
+    "travel_plan_describe_v2.j2"
+   ]
+  },
+  "decideur": {
+   "type": "modele",
+   "modele": null,
+   "parametres": {},
+   "sha256": "34f4791ffe7a6e6d0c8a630bf0e8b7b7755895784862c8b5572027eb121c377a",
+   "artefact": "scripts/progedo_logit/klr_model.json",
+   "artefact_sha256": "42a24c607e5be36e6204a96cc1474eeb780f378413484319a78f4eb4a6c2172a"
+  },
+  "depot": {
+   "commit": "d33c8e87034d6d8bbe325275cf0bb8ea24bd2e98",
+   "arbre_propre": false
+  }
+ },
+ "regime_applique": {
+  "parallelisme": 8,
+  "unite_sollicitation": "deplacement",
+  "decideur": "modele:klr@42a24c607e5b",
+  "reprise": false
+ },
+ "sources_alea": {
+  "graine_ordre": 42,
+  "graine_tirage": 42,
+  "graine_calendrier": 42,
+  "echantillonnage_decideur": false
+ },
+ "interruptions": [],
+ "couverture": {
+  "decides": 3154,
+  "comptes_dans_les_parts": 3154,
+  "attendus": 3161,
+  "attendus_bruts": 3299,
+  "inexploitables_exclus": 138,
+  "taux": 0.9977855109142676,
+  "complet": true
+ },
+ "methodes": {
+  "decideur": 3070,
+  "choix_unique": 84,
+  "inexploitable": 138,
+  "sans_solution": 7
+ },
+ "parts_modales": {
+  "n": 3154,
+  "effectifs": {
+   "walking": 1010,
+   "cycling": 68,
+   "car": 1621,
+   "public_transport": 441,
+   "train": 14,
+   "motorbike": 0
+  },
+  "pourcent": {
+   "walking": 32.02282815472416,
+   "cycling": 2.1559923906150917,
+   "car": 51.39505389980977,
+   "public_transport": 13.982244768547876,
+   "train": 0.4438807863031072,
+   "motorbike": 0.0
+  },
+  "couverture": {
+   "decides": 3154,
+   "comptes_dans_les_parts": 3154,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 138,
+   "taux": 0.9977855109142676,
+   "complet": true
+  },
+  "lecture": "toutes décisions, choix forcés compris — porte la conclusion"
+ },
+ "parts_modales_hors_choix_unique": {
+  "n": 3070,
+  "effectifs": {
+   "walking": 980,
+   "cycling": 68,
+   "car": 1576,
+   "public_transport": 432,
+   "train": 14,
+   "motorbike": 0
+  },
+  "pourcent": {
+   "walking": 31.921824104234528,
+   "cycling": 2.214983713355049,
+   "car": 51.33550488599349,
+   "public_transport": 14.071661237785015,
+   "train": 0.4560260586319218,
+   "motorbike": 0.0
+  },
+  "couverture": {
+   "decides": 3154,
+   "comptes_dans_les_parts": 3154,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 138,
+   "taux": 0.9977855109142676,
+   "complet": true
+  },
+  "lecture": "hors décisions à itinéraire unique — ce que le décideur a décidé"
+ },
+ "choix_forces": {
+  "n": 84,
+  "part": 0.02663284717818643,
+  "lecture": "décisions à itinéraire unique : une seule option existait, personne n'a choisi. Leur nombre dépend du bras, puisqu'il découle de ses propres choix antérieurs — les bras se ressemblent donc plus qu'ils ne le sont."
+ },
+ "referentiel": {
+  "source": "scripts/data/population/cerema_values.yaml",
+  "sha256": "9ac345979ef74071aa70f0eea93b0a9c2fccdb7dd88996f3bee3daba91d8d8b1",
+  "disponible": true,
+  "pourcent_normalise_4_modes": {
+   "car": 56.70103092783505,
+   "walking": 26.804123711340207,
+   "cycling": 4.123711340206185,
+   "public_transport": 12.371134020618557,
+   "train": 12.371134020618557
+  },
+  "note": "valeurs lues dans la source citée, renormalisées sur les modes qu'elle partage avec les canoniques"
+ },
+ "sources_propositions": {
+  "enregistree": 16230,
+  "locale": 26
+ },
+ "fournisseurs": {
+  "modele:klr@42a24c607e5b": 3070
+ },
+ "ecartees_par_motif": {
+  "non_possede": 1972,
+  "plafond": 2282,
+  "vehicule_ailleurs": 1203,
+  "pas_de_conducteur": 33
+ },
+ "compteurs": {
+  "attendus": 3299,
+  "inexploitables": 138,
+  "attendus_exploitables": 3161,
+  "decides": 3154,
+  "non_couverts": 0,
+  "sans_solution": 7,
+  "choix_unique": 84,
+  "replis_uniformes": 0,
+  "attentes": 0,
+  "attentes_par_type": {},
+  "erreurs": 0,
+  "erreurs_par_type": {},
+  "sollicitations": 3070,
+  "resservies": 0,
+  "substitution_refusee": 0,
+  "couverture": {
+   "decides": 3154,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 138,
+   "taux": 0.9977855109142676
+  },
+  "duree_s": 43.125,
+  "quota": {
+   "sans_quota": true
+  }
+ }
+}

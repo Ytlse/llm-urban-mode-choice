@@ -1,0 +1,330 @@
+[
+  {
+    "name": "Scénario 1 — Profils Toulouse (Banquier vs Étudiant)",
+    "payload": {
+      "category": "itinary_multi_agent",
+      "agents": [
+        {
+          "agent_id": "ag_banquier_toulouse",
+          "perception": "Banquier privé, 38 ans, résidant à Vieille-Toulouse. Sensibilités : privilégie le luxe, le confort sensoriel, la rapidité et l'image sociale. Détesterait arriver en sueur ou utiliser des modes 'bon marché' lents et inconfortables. ",
+          "destination": "Centre-ville (Place du Capitole) ou Labège Enova",
+          "departure_time": "08h15",
+          "current_time": "08h10",
+          "context": "Trajet domicile-travail",
+          "history": [
+            "Lundi : Trajet en SUV, 25 min de plaisir, musique classique, café à bord. ",
+            "Mardi : Embouteillages sur l'avenue de l'URSS, stress modéré mais siège massant activé. ",
+            "Mercredi : Test du bus par curiosité écologique; jugé trop lent et manque de standing. ",
+            "Jeudi : Journée pluvieuse, la voiture est restée le seul choix acceptable pour rester au sec. ",
+            "Vendredi : Arrivée tardive, parking Indigo plein, coût du stationnement : 35€. ",
+            "Samedi dernier : Sortie en centre-ville, a regretté de ne pas avoir de chauffeur. ",
+            "Il y a un mois : A envisagé l'achat d'un vélo électrique haut de gamme mais craint le vol. ",
+            "Souvenir : Mauvaise expérience dans le métro (trop de monde, odeurs désagréables). ",
+            "Objectif : Maintenir une expérience 'haut de gamme' malgré la saturation du périphérique. ",
+            "Note : Prêt à payer plus pour ne pas perdre de temps dans les interfaces de transport. "
+          ],
+          "trajectories": [
+            {"index": 0, "mode": "Marche à pied", "description": "Trajet direct par les coteaux, 2h15."},
+            {"index": 1, "mode": "Vélo classique", "description": "35 min, descente le matin, montée raide le soir."},
+            {"index": 2, "mode": "Vélo Électrique (VAE)", "description": "25 min, effort réduit, stationnement sécurisé."},
+            {"index": 3, "mode": "Bus Linéo", "description": "45 min avec correspondance, voie dédiée partielle."},
+            {"index": 4, "mode": "Voiture personnelle (SUV)", "description": "22 min, cuir, clim, porte-à-porte."},
+            {"index": 5, "mode": "Covoiturage Premium", "description": "25 min, partage avec un autre cadre du secteur."},
+            {"index": 6, "mode": "Train (TER) + Trottinette", "description": "30 min, évite les bouchons du périph."},
+            {"index": 7, "mode": "Taxi / Uber Berline", "description": "25 min, service avec chauffeur, pas de parking."},
+            {"index": 8, "mode": "Métro Ligne B (depuis Ramonville)", "description": "40 min, parking relais puis souterrain."},
+            {"index": 9, "mode": "Moto / Scooter 300cc", "description": "15 min, remonte-files efficace."}
+          ]
+        },
+        {
+          "agent_id": "ag_etudiant_paul_sab",
+          "perception": "Étudiant en Master, 22 ans, budget très serré. Sensibilités : économie maximale, rapidité, flexibilité horaire. ",
+          "destination": "Université Paul Sabatier",
+          "departure_time": "08h20",
+          "current_time": "08h15",
+          "context": "Trajet domicile-université depuis Saint-Agne",
+          "history": [
+            "Lundi : Bus 44, arrivé avec 10 min de retard au TD. ",
+            "Mardi : Vélo en libre-service, chaîne a déraillé. ",
+            "Mercredi : Marche sous la pluie, chaussures trempées toute la journée. ",
+            "Jeudi : A profité de la voiture d'un ami pour rentrer plus vite. ",
+            "Vendredi : Métro bondé, a dû laisser passer deux rames. ",
+            "Week-end : A travaillé en livraison vélo pour arrondir ses fins de mois. ",
+            "Mois dernier : A perdu sa carte Tisséo, a dû payer le plein tarif pendant 3 jours. ",
+            "Préférence : Le vélo reste le plus fiable pour ne pas rater les examens. ",
+            "Contrainte : Impossible d'envisager la voiture (assurance trop chère). ",
+            "habitude : Utilise les applications de trajet en temps réel constamment. "
+          ],
+          "trajectories": [
+            {"index": 0, "mode": "Marche à pied", "description": "25 min, trajet urbain sécurisé."},
+            {"index": 1, "mode": "Vélo Personnel", "description": "10 min, cadenas solide requis."},
+            {"index": 2, "mode": "VélôToulouse (Libre-service)", "description": "12 min, stations aux deux extrémités."},
+            {"index": 3, "mode": "Métro Ligne B", "description": "8 min de station à station."},
+            {"index": 4, "mode": "Bus 44", "description": "15 min selon trafic."},
+            {"index": 5, "mode": "Trottinette Électrique", "description": "10 min sur piste cyclable."},
+            {"index": 6, "mode": "Skateboard / Longboard", "description": "15 min, trottoirs larges."},
+            {"index": 7, "mode": "Covoiturage spontané", "description": "12 min avec d'autres étudiants."},
+            {"index": 8, "mode": "Bus de nuit", "description": "20 min, fréquence réduite."},
+            {"index": 9, "mode": "Auto-stop urbain", "description": "Temps aléatoire."}
+          ]
+        }
+      ],
+      "parameters": {
+        "context": "Mardi matin, 08h15, ciel voilé, trafic dense sur la rocade et les axes entrants. "
+      }
+    }
+  },
+  {
+    "name": "Scénario 2 — Senior à mobilité réduite (Déplacement Médical)",
+    "payload": {
+      "category": "itinary_multi_agent",
+      "agents": [
+        {
+          "agent_id": "ag_senior_toulouse",
+          "perception": "Retraité de 74 ans, résidant à Balma. Mobilité réduite suite à une opération de la hanche. Sensibilités : Confort absolu, sécurité physique, évitement des marches et des stations debout prolongées, besoin de calme. ",
+          "destination": "Clinique du quartier des Carmes (hyper-centre de Toulouse)",
+          "departure_time": "13h45",
+          "current_time": "13h30",
+          "context": "Rendez-vous médical de suivi à 14h30. [cite: 7, 8]",
+          "history": [
+            "Lundi : A tenté de marcher jusqu'à la boulangerie (150m), a dû s'arrêter deux fois. [cite: 7]",
+            "Mardi : Trajet en voiture avec son fils ; accès difficile car rue piétonne. [cite: 7]",
+            "Mercredi : Journée de repos, douleur persistante à la hanche. [cite: 7]",
+            "Jeudi : A pris le bus ligne 1, mais a dû rester debout (trop de monde) ; expérience épuisante. [cite: 7]",
+            "Vendredi : Consultation à domicile par une infirmière. [cite: 7]",
+            "Il y a 10 jours : Chute légère sur un trottoir mal entretenu en centre-ville. [cite: 7]",
+            "Souvenir : Adorait conduire sa propre voiture, mais a arrêté sur conseil médical il y a 6 mois. [cite: 7]",
+            "Observation : Les pavés du centre-ville de Toulouse sont un calvaire pour sa canne. [cite: 7]",
+            "Crainte : Peur de rater son rendez-vous à cause des retards de transports en commun. [cite: 7]",
+            "Préférence : Le trajet idéal est celui où il marche le moins possible. [cite: 7]"
+          ],
+          "trajectories": [
+            {"index": 0, "mode": "Marche à pied", "description": "Trajet de 1.8km depuis le parking le plus proche."},
+            {"index": 1, "mode": "Vélo classique / VAE", "description": "Location sur Balma."},
+            {"index": 2, "mode": "Bus Tisséo (Ligne 1)", "description": "Arrêt à 400m de la clinique."},
+            {"index": 3, "mode": "Métro Ligne A + B", "description": "Changement à Jean-Jaurès, beaucoup de couloirs."},
+            {"index": 4, "mode": "Voiture personnelle", "description": "Conduite par l'agent, stationnement en surface."},
+            {"index": 5, "mode": "Navette centre-ville (électrique)", "description": "Petit format, passe dans les rues étroites."},
+            {"index": 6, "mode": "Taxi conventionné (Ambulance légère)", "description": "Porte-à-porte, chauffeur formé à l'aide à la personne."},
+            {"index": 7, "mode": "Uber / VTC classique", "description": "Prise en charge à domicile, dépose à 20m de l'entrée."},
+            {"index": 8, "mode": "Covoiturage avec un voisin", "description": "Dépose au plus près."},
+            {"index": 9, "mode": "Transport à la demande (TAD)", "description": "Service public pour personnes spécifiques."},
+            {"index": 10, "mode": "Trottinette en libre-service", "description": "Disponible partout."},
+            {"index": 11, "mode": "TER Balma-Gramont -> Matabiau -> Métro", "description": "Combinaison train + métro."},
+            {"index": 12, "mode": "Vélo-taxi (Rickshaw)", "description": "Transporteur à vélo dans l'hyper-centre."},
+            {"index": 13, "mode": "Dépose-minute par un proche", "description": "Arrêt bref devant la clinique."}
+          ]
+        }
+      ],
+      "parameters": {
+        "context": "14h15, météo clémente (soleil), mais pavés glissants suite à un nettoyage de voirie aux Carmes. [cite: 8]"
+      }
+    }
+  },
+  {
+    "name": "Scénario 3 — Stress Test : 5 Agents, Diversité Urbaine",
+    "payload": {
+      "category": "itinary_multi_agent",
+      "agents": [
+        {
+          "agent_id": "prof_01",
+          "perception": "Professeur de lycée, 45 ans. Sensibilités : Ponctualité absolue (ne peut pas être en retard en cours), prévisibilité du temps de trajet, budget modéré.",
+          "destination": "Domicile (à 4km du lycée)",
+          "departure_time": "18h30",
+          "current_time": "18h25",
+          "context": "Retour domicile après une réunion parents-profs.",
+          "history": [
+            "Lundi : Bus retardé de 15 min, stress intense devant la classe.",
+            "Mardi : Trajet à vélo sous un beau soleil, trajet très apprécié.",
+            "Mercredi : A dû rester tard pour corriger des copies, trajet de nuit.",
+            "Jeudi : Grève des transports, a dû marcher 45 min.",
+            "Vendredi : Fatigue de fin de semaine, cherche une solution reposante.",
+            "Mois dernier : A acheté un nouveau casque de vélo haute sécurité.",
+            "Observation : Les pistes cyclables sont bien éclairées sur son trajet.",
+            "Crainte : Se faire voler son vélo s'il le laisse trop longtemps dehors.",
+            "Préférence : Le vélo est son mode favori mais dépend de sa fatigue.",
+            "Note : Dispose d'un garage à vélo sécurisé au lycée."
+          ],
+          "trajectories": [
+            {"index": 0, "mode": "Vélo personnel", "description": "12 min, effort modéré."},
+            {"index": 1, "mode": "Marche à pied", "description": "45 min, trajet urbain."},
+            {"index": 2, "mode": "Bus Linéo", "description": "20 min, haute fréquence."},
+            {"index": 3, "mode": "Covoiturage collègue", "description": "15 min, porte-à-porte."},
+            {"index": 4, "mode": "Trottinette électrique", "description": "15 min, location."}
+          ]
+        },
+        {
+          "agent_id": "tele_01",
+          "perception": "Consultant en télétravail, 30 ans. Sensibilités : Évitement de la foule (agoraphobie légère), confort, utilise le trajet pour écouter des podcasts.",
+          "destination": "Centre-ville",
+          "departure_time": "18h30",
+          "current_time": "18h25",
+          "context": "Doit se rendre en centre-ville pour un afterwork exceptionnel à 19h00.",
+          "history": [
+            "A passé 3 jours sans sortir de chez lui (télétravail intensif).",
+            "Dernier trajet en métro : Crise d'anxiété due à l'affluence.",
+            "Préfère marcher même si c'est plus long, pour prendre l'air.",
+            "Possède un casque à réduction de bruit haut de gamme.",
+            "Aime les modes de transport où il peut être 'dans sa bulle'.",
+            "Déteste la pluie car cela gâche l'expérience de marche.",
+            "N'a pas de contrainte budgétaire forte pour ce trajet.",
+            "Utilise souvent les applications pour voir le taux d'occupation des bus.",
+            "A un abonnement VélôToulouse mais l'utilise peu.",
+            "Cherche une transition douce entre le travail et la détente."
+          ],
+          "trajectories": [
+            {"index": 0, "mode": "Métro Ligne A", "description": "10 min, très fréquenté."},
+            {"index": 1, "mode": "Marche à pied", "description": "35 min, quai de la Daurade."},
+            {"index": 2, "mode": "VélôToulouse", "description": "15 min, stations disponibles."},
+            {"index": 3, "mode": "Uber X", "description": "15 min, climatisé, seul à bord."},
+            {"index": 4, "mode": "Bus 14", "description": "25 min, souvent plein à cette heure."}
+          ]
+        },
+        {
+          "agent_id": "livr_01",
+          "perception": "Livreur indépendant, 25 ans. Sensibilités : Agilité, connaissance parfaite des raccourcis, résistance physique, rentabilité du temps.",
+          "destination": "Domicile",
+          "departure_time": "18h30",
+          "current_time": "18h30",
+          "context": "Fin de service, doit rentrer chez lui pour charger ses batteries.",
+          "history": [
+            "A parcouru 60km aujourd'hui en vélo cargo.",
+            "Connaît chaque nid-de-poule du quartier.",
+            "A déjà eu deux accidents légers avec des portières de voitures.",
+            "Est payé à la course, donc chaque minute compte.",
+            "Adore la sensation de liberté du vélo.",
+            "Est équipé de vêtements techniques haute visibilité.",
+            "Ses jambes sont lourdes après 8h de selle.",
+            "A un accès privilégié à des parkings sécurisés.",
+            "Ne supporte pas d'être enfermé dans un bus lent.",
+            "Doit surveiller l'état d'usure de ses pneus."
+          ],
+          "trajectories": [
+            {"index": 0, "mode": "Vélo Cargo électrique", "description": "Son outil de travail, 10 min."},
+            {"index": 1, "mode": "Tramway T1", "description": "20 min, emporte le vélo à bord."},
+            {"index": 2, "mode": "Marche", "description": "40 min."},
+            {"index": 3, "mode": "Skate électrique", "description": "12 min."},
+            {"index": 4, "mode": "Bus", "description": "25 min."}
+          ]
+        },
+        {
+          "agent_id": "tour_01",
+          "perception": "Touriste, 55 ans. Sensibilités : Simplicité d'utilisation (ne parle pas bien la langue), sécurité, aspect panoramique/visuel du trajet.",
+          "destination": "Hôtel",
+          "departure_time": "18h30",
+          "current_time": "18h25",
+          "context": "Retour à l'hôtel après une visite de la Cité de l'Espace.",
+          "history": [
+            "S'est perdu ce matin dans le réseau de bus.",
+            "Trouve les distributeurs de tickets compliqués.",
+            "Veut voir les monuments de la ville pendant le trajet.",
+            "A peur de se faire voler son portefeuille dans le métro.",
+            "Utilise Google Maps en permanence.",
+            "A des chaussures de marche confortables.",
+            "A déjà un ticket 24h illimité.",
+            "Est impressionné par la couleur des briques roses.",
+            "Préfère les trajets directs sans changement.",
+            "Cherche un trajet 'typique' de Toulouse."
+          ],
+          "trajectories": [
+            {"index": 0, "mode": "Téléo (Téléphérique)", "description": "10 min, vue imprenable sur la ville."},
+            {"index": 1, "mode": "Bus 37 + Métro", "description": "35 min, un changement."},
+            {"index": 2, "mode": "Taxi", "description": "20 min, cher."},
+            {"index": 3, "mode": "Marche à pied", "description": "1h10."},
+            {"index": 4, "mode": "VélôToulouse", "description": "30 min."}
+          ]
+        },
+        {
+          "agent_id": "peri_01",
+          "perception": "Habitant de grande périphérie, 50 ans. Sensibilités : Fiabilité des horaires (ne veut pas rater son train), sécurité nocturne, coût du carburant.",
+          "destination": "Gare SNCF",
+          "departure_time": "18h35",
+          "current_time": "18h30",
+          "context": "Quitte son bureau en centre-ville pour rejoindre la gare SNCF avant son train de 19h10.",
+          "history": [
+            "A déjà raté son train deux fois le mois dernier.",
+            "Travaille dans une tour de bureaux climatisée.",
+            "Porte un costume et des chaussures de ville en cuir.",
+            "Est abonné aux alertes trafic sur Twitter.",
+            "Déteste courir sur le quai avec son sac d'ordinateur.",
+            "Pense à acheter une voiture électrique l'année prochaine.",
+            "Trouve le centre-ville trop bruyant à l'heure de pointe.",
+            "Est sensible aux économies d'énergie.",
+            "Privilégie les trajets directs vers la gare.",
+            "A besoin de 5 min d'avance sur le quai pour décompresser."
+          ],
+          "trajectories": [
+            {"index": 0, "mode": "Métro Ligne A", "description": "8 min direct vers la gare."},
+            {"index": 1, "mode": "Marche à pied", "description": "25 min."},
+            {"index": 2, "mode": "Bus Linéo 1", "description": "15 min."},
+            {"index": 3, "mode": "Vélo en libre-service", "description": "12 min."},
+            {"index": 4, "mode": "Taxi / Uber", "description": "12 min, dépose devant la gare."}
+          ]
+        }
+      ],
+      "parameters": {
+        "context": "Mardi, 18h30. Beau temps, température 22°C. Pic de pollution niveau 1 (incitation aux modes doux). Trafic très dense sur les boulevards."
+      }
+    }
+  },
+  {
+    "name": "Scénario 4 — Erreur de Validation (Input vide)",
+    "payload": {
+      "category": "itinary_multi_agent",
+      "agents": [],
+      "parameters": {
+        "context": "Test de robustesse du schéma"
+      }
+    },
+    "expect_status": 422,
+    "expected_error_details": {
+      "loc": ["body", "agents"],
+      "msg": "List should have at least 1 item",
+      "type": "value_error"
+    }
+  },
+  {
+    "name": "Scénario 5 — Routage Forcé (Groq) : Militant Vélo",
+    "payload": {
+      "category": "itinary_multi_agent",
+      "force_provider": "groq",
+      "agents": [
+        {
+          "agent_id": "ag_militant_velo",
+          "perception": "Cycliste militant, 32 ans, membre d'une association de promotion du vélo urbain. Sensibilités : Écologie radicale, rejet des énergies fossiles, valorisation de l'effort physique, allergie aux retards des transports en commun.",
+          "destination": "Centre-ville (Réunion associative)",
+          "departure_time": "19h30",
+          "current_time": "19h20",
+          "context": "Doit se rendre à une réunion associative en centre-ville à 20h00.",
+          "history": [
+            "Lundi : A participé à une 'Vélorution' dans les rues de Toulouse.",
+            "Mardi : A réparé une crevaison en un temps record de 4 minutes.",
+            "Mercredi : A testé le bus électrique mais a trouvé le trajet 'trop passif'.",
+            "Jeudi : A convaincu deux collègues de passer au vélo pour le vélotaf.",
+            "Vendredi : Trajet de 20km sous une pluie battante, n'a pas renoncé.",
+            "Samedi : A milité pour la création d'une nouvelle piste cyclable sécurisée.",
+            "Note : Possède un vélo de route haute performance et un équipement complet.",
+            "Observation : Considère la voiture individuelle comme une aberration urbaine.",
+            "Crainte : Le manque de stationnement sécurisé (peur du vol de ses composants).",
+            "Préférence : Veut rester l'acteur de son propre mouvement."
+          ],
+          "trajectories": [
+            {"index": 0, "mode": "Vélo personnel", "description": "12 min, trajet direct par les boulevards."},
+            {"index": 1, "mode": "Bus électrique (Linéo)", "description": "22 min, zéro émission locale."},
+            {"index": 2, "mode": "Marche à pied", "description": "45 min par le centre historique."},
+            {"index": 3, "mode": "VélôToulouse (VLS)", "description": "15 min, station à 50m."},
+            {"index": 4, "mode": "Covoiturage électrique", "description": "15 min."},
+            {"index": 5, "mode": "Métro Ligne B", "description": "10 min."},
+            {"index": 6, "mode": "Trottinette personnelle", "description": "15 min."},
+            {"index": 7, "mode": "Taxi hybride", "description": "18 min."},
+            {"index": 8, "mode": "Vélo-cargo partagé", "description": "15 min, permet de transporter du matériel de réunion."},
+            {"index": 9, "mode": "Course à pied", "description": "25 min."}
+          ]
+        }
+      ],
+      "parameters": {
+        "context": "Soirée de printemps, 19h45, conditions idéales pour le vélo."
+      }
+    }
+  }
+]

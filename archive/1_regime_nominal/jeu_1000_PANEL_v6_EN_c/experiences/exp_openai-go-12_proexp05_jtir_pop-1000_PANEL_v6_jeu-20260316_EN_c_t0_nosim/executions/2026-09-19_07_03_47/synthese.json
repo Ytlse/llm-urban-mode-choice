@@ -1,0 +1,299 @@
+{
+ "execution": "2026-09-19_07_03_47",
+ "experience": "exp_openai-go-12_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim",
+ "etat": {
+  "etat": "epuisee",
+  "raison": "epuise: groq_openai_120_key1 : 5/1000 requêtes/jour (désactivée côté passerelle : erreurs consécutives ou cooldown)",
+  "reprise_possible_a": "2026-09-24T07:00:00+00:00",
+  "maj": "2026-09-24T05:08:23+00:00",
+  "decisions_archivees": 121
+ },
+ "empreintes": {
+  "population": {
+   "nom": "population_1000_PANEL_v6",
+   "sha256": "675cfe31f59f450a2919dc1a6bacdbc34e51fdc846bbbe1dfce7160db2a6b253",
+   "fichier_sha256": "412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6",
+   "scellee": true
+  },
+  "jeu": {
+   "nom": "population_1000_PANEL_v6_20260316_EN_c",
+   "sha256": "e8f9eab14fb4a0600bc04bd85591053dd0fd3bd3571e6e9f98aec87e51bc9f53"
+  },
+  "gabarit": {
+   "categorie": "itinary_multi_agent",
+   "variante": "prompt_expert_05",
+   "sha256": "18c6ee969b5723ce27e0b520aabb161431f1a41c1f24e6e004d4b91f657acac9",
+   "sources": [
+    "prompts.yaml:prompt_expert_05",
+    "travel_plan_describe_v2.j2"
+   ]
+  },
+  "decideur": {
+   "type": "passerelle",
+   "modele": "openai/gpt-oss-120b",
+   "parametres": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_tokens": 4096
+   },
+   "sha256": "98824863a87f3316d813a9fb530b8e80a444fbe77165ba29f0c1528bece18895"
+  },
+  "depot": {
+   "commit": "8c1871ae1cfdef34c29219fdc04aba336d1f1ed5",
+   "arbre_propre": false
+  }
+ },
+ "regime_applique": {
+  "parallelisme": 8,
+  "unite_sollicitation": "deplacement",
+  "decideur": "passerelle:openai/gpt-oss-120b",
+  "reprise": true
+ },
+ "sources_alea": {
+  "graine_ordre": 42,
+  "graine_tirage": 42,
+  "graine_calendrier": 42,
+  "echantillonnage_decideur": true
+ },
+ "interruptions": [
+  {
+   "instant": "2026-09-19T07:07:43+00:00",
+   "cause": "epuisement",
+   "decisions_archivees": 30,
+   "raison": "epuise: groq_openai_120_key1 : 49/1000 requêtes/jour (désactivée côté passerelle : erreurs consécutives ou cooldown)"
+  },
+  {
+   "instant": "2026-09-20T18:57:10+00:00",
+   "cause": "reprise",
+   "decisions_archivees": 30,
+   "depuis": "2026-09-19T07:07:43+00:00"
+  },
+  {
+   "instant": "2026-09-20T18:57:48+00:00",
+   "cause": "epuisement",
+   "decisions_archivees": 40,
+   "raison": "epuise: groq_openai_120_key1 : 6/1000 requêtes/jour (désactivée côté passerelle : erreurs consécutives ou cooldown)"
+  },
+  {
+   "instant": "2026-09-21T07:40:53+00:00",
+   "cause": "reprise",
+   "decisions_archivees": 40,
+   "depuis": "2026-09-20T18:57:48+00:00"
+  },
+  {
+   "instant": "2026-09-21T07:43:23+00:00",
+   "cause": "epuisement",
+   "decisions_archivees": 59,
+   "raison": "epuise: groq_openai_120_key1 : 30/1000 requêtes/jour (désactivée côté passerelle : erreurs consécutives ou cooldown)"
+  },
+  {
+   "instant": "2026-09-21T13:20:29+00:00",
+   "cause": "reprise",
+   "decisions_archivees": 59,
+   "depuis": "2026-09-21T07:43:23+00:00"
+  },
+  {
+   "instant": "2026-09-21T13:21:05+00:00",
+   "cause": "epuisement",
+   "decisions_archivees": 70,
+   "raison": "epuise: groq_openai_120_key1 : 47/1000 requêtes/jour (désactivée côté passerelle : erreurs consécutives ou cooldown)"
+  },
+  {
+   "instant": "2026-09-21T17:01:47+00:00",
+   "cause": "reprise",
+   "decisions_archivees": 70,
+   "depuis": "2026-09-21T13:21:05+00:00"
+  },
+  {
+   "instant": "2026-09-21T17:02:27+00:00",
+   "cause": "epuisement",
+   "decisions_archivees": 80,
+   "raison": "epuise: groq_openai_120_key1 : 67/1000 requêtes/jour (désactivée côté passerelle : erreurs consécutives ou cooldown)"
+  },
+  {
+   "instant": "2026-09-23T19:41:27+00:00",
+   "cause": "reprise",
+   "decisions_archivees": 80,
+   "depuis": "2026-09-21T17:02:27+00:00"
+  },
+  {
+   "instant": "2026-09-23T19:44:00+00:00",
+   "cause": "epuisement",
+   "decisions_archivees": 104,
+   "raison": "epuise: groq_openai_120_key1 : 24/1000 requêtes/jour (désactivée côté passerelle : erreurs consécutives ou cooldown)"
+  },
+  {
+   "instant": "2026-09-24T05:07:46+00:00",
+   "cause": "reprise",
+   "decisions_archivees": 104,
+   "depuis": "2026-09-23T19:44:00+00:00"
+  },
+  {
+   "instant": "2026-09-24T05:08:23+00:00",
+   "cause": "epuisement",
+   "decisions_archivees": 121,
+   "raison": "epuise: groq_openai_120_key1 : 5/1000 requêtes/jour (désactivée côté passerelle : erreurs consécutives ou cooldown)"
+  }
+ ],
+ "couverture": {
+  "decides": 113,
+  "comptes_dans_les_parts": 113,
+  "attendus": 3161,
+  "attendus_bruts": 3299,
+  "inexploitables_exclus": 8,
+  "taux": 0.035748180955393866,
+  "complet": false
+ },
+ "methodes": {
+  "decideur": 87,
+  "choix_unique": 26,
+  "inexploitable": 8
+ },
+ "parts_modales": {
+  "n": 113,
+  "effectifs": {
+   "walking": 18,
+   "cycling": 8,
+   "car": 61,
+   "public_transport": 26,
+   "train": 0,
+   "motorbike": 0
+  },
+  "pourcent": {
+   "walking": 15.929203539823009,
+   "cycling": 7.079646017699115,
+   "car": 53.982300884955755,
+   "public_transport": 23.008849557522122,
+   "train": 0.0,
+   "motorbike": 0.0
+  },
+  "couverture": {
+   "decides": 113,
+   "comptes_dans_les_parts": 113,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 8,
+   "taux": 0.035748180955393866,
+   "complet": false
+  },
+  "lecture": "toutes décisions, choix forcés compris — porte la conclusion"
+ },
+ "parts_modales_hors_choix_unique": {
+  "n": 87,
+  "effectifs": {
+   "walking": 17,
+   "cycling": 4,
+   "car": 40,
+   "public_transport": 26,
+   "train": 0,
+   "motorbike": 0
+  },
+  "pourcent": {
+   "walking": 19.54022988505747,
+   "cycling": 4.597701149425287,
+   "car": 45.97701149425287,
+   "public_transport": 29.885057471264368,
+   "train": 0.0,
+   "motorbike": 0.0
+  },
+  "couverture": {
+   "decides": 113,
+   "comptes_dans_les_parts": 113,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 8,
+   "taux": 0.035748180955393866,
+   "complet": false
+  },
+  "lecture": "hors décisions à itinéraire unique — ce que le décideur a décidé"
+ },
+ "choix_forces": {
+  "n": 26,
+  "part": 0.23008849557522124,
+  "lecture": "décisions à itinéraire unique : une seule option existait, personne n'a choisi. Leur nombre dépend du bras, puisqu'il découle de ses propres choix antérieurs — les bras se ressemblent donc plus qu'ils ne le sont."
+ },
+ "referentiel": {
+  "source": "scripts/data/population/cerema_values.yaml",
+  "sha256": "9ac345979ef74071aa70f0eea93b0a9c2fccdb7dd88996f3bee3daba91d8d8b1",
+  "disponible": true,
+  "pourcent_normalise_4_modes": {
+   "car": 56.70103092783505,
+   "walking": 26.804123711340207,
+   "cycling": 4.123711340206185,
+   "public_transport": 12.371134020618557,
+   "train": 12.371134020618557
+  },
+  "note": "valeurs lues dans la source citée, renormalisées sur les modes qu'elle partage avec les canoniques"
+ },
+ "sources_propositions": {
+  "enregistree": 432,
+  "locale": 7
+ },
+ "fournisseurs": {
+  "groq_openai_120_key1": 87
+ },
+ "ecartees_par_motif": {
+  "vehicule_ailleurs": 46,
+  "non_possede": 59,
+  "plafond": 58,
+  "retour_force": 72
+ },
+ "compteurs": {
+  "attendus": 3299,
+  "inexploitables": 8,
+  "attendus_exploitables": 3161,
+  "decides": 113,
+  "non_couverts": 0,
+  "sans_solution": 0,
+  "choix_unique": 26,
+  "replis_uniformes": 0,
+  "attentes": 7,
+  "attentes_par_type": {
+   "epuise": 1,
+   "passerelle_occupee": 6
+  },
+  "erreurs": 0,
+  "erreurs_par_type": {},
+  "sollicitations": 17,
+  "resservies": 104,
+  "substitution_refusee": 0,
+  "couverture": {
+   "decides": 113,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 8,
+   "taux": 0.035748180955393866
+  },
+  "duree_s": 37.528,
+  "quota": [
+   {
+    "instance": "groq_openai_120_key1",
+    "modele": "openai/gpt-oss-120b",
+    "requetes_jour": 7,
+    "limite_jour": 1000,
+    "marge": 993,
+    "jetons_jour": 12841,
+    "limite_jetons_jour": null,
+    "rpm_observe": 5,
+    "rpm_limite": 30,
+    "epuisee": false,
+    "disponible": false,
+    "occupee": false
+   }
+  ],
+  "requetes": {
+   "ouverture": {
+    "groq_openai_120_key1": 0
+   },
+   "cloture": {
+    "groq_openai_120_key1": 7
+   },
+   "par_instance": {
+    "groq_openai_120_key1": 7
+   },
+   "delta": 7,
+   "fiable": true,
+   "depuis": "2026-09-24T05:07:46+00:00"
+  }
+ }
+}

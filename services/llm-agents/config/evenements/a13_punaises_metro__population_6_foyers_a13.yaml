@@ -1,0 +1,33 @@
+# ENGENDRÉ par scripts/experiment/run_sequential_cohort.py — ne pas éditer.
+# Source : a13_punaises_metro.yaml. L'exposition déclarée (`foyers`) est conservée sur 6 agents.
+evenement: a13_punaises_metro
+libelle: Bed bug scare on the metro
+source: presse locale toulousaine — archivé sous articles_html/13_psychose_punaises_metro.html
+canal: lu
+moment: reveil
+jugement: a_l_injection
+texte:
+  fichier: data/presse/articles_txt/a13_punaises_metro/brut.txt
+  sha256: fc3551256f99c5d467482df05e1df737592e3365a5c174432aa0389638341393
+  mention: Translated from French
+calendrier:
+  fenetre_jours:
+  - 9
+  - 13
+  graine: 59
+exposition:
+  regle: foyers
+  foyers:
+  - '643030'
+  - '534995'
+  lecteurs_par_foyer: 1
+  graine: 59
+  lecteurs:
+  - '1320713'
+  - '1127260'
+cadence: jour
+service:
+  jours_de_deplacement: 5
+relais:
+  mode: par_destinataire
+  parole_obligatoire: true

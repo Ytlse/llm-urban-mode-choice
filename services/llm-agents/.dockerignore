@@ -1,0 +1,14 @@
+llm_module/
+llm_cache/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.venv/
+.env
+*.log
+experiments/
+inputs/population/*.json

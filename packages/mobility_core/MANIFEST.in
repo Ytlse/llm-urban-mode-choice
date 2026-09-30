@@ -1,0 +1,25 @@
+# Ce que l'archive source a le droit d'emporter (ticket 038).
+#
+# `pyproject.toml` gouverne le wheel ; le sdist, lui, se règle ICI et nulle part ailleurs.
+# Sans ce fichier, setuptools emportait tout `src/mobility_core/data/`, y compris les
+# ressources dérivées des microdonnées EMC² Toulouse 2023 (ProGEDO / ADISP lil-1750,
+# accès restreint) que `.gitignore` écarte du dépôt mais pas de l'archive.
+#
+# LISTE BLANCHE, pas liste noire : on exclut tout le répertoire, puis on réautorise une par
+# une les ressources dont la diffusion est acquise. Une ressource nouvelle est donc exclue
+# par défaut — c'est le sens voulu. Garder cette liste en phase avec `package-data` ;
+# `tests/test_packaging_licence.py` vérifie les deux sur les artefacts construits.
+recursive-exclude src/mobility_core/data *
+
+# Paramètres de modèles ajustés (intercept + coefficients), aucune table d'observations.
+include src/mobility_core/data/bike_ownership.json
+include src/mobility_core/data/driving_license.json
+include src/mobility_core/data/pt_subscription.json
+# Agrégés au niveau couronne ou périmètre, effectifs élevés.
+include src/mobility_core/data/car_availability_emc2.json
+include src/mobility_core/data/terminal_time_emc2.json
+# Issu du rapport publié AUAT/CEREMA (p. 53).
+include src/mobility_core/data/mode_hierarchy_emc2.json
+# Périmètre des 453 communes — statut à confirmer auprès de l'ADISP (ticket 038).
+include src/mobility_core/data/commune_couronne.json
+include src/mobility_core/data/couronne_perimetre.geojson

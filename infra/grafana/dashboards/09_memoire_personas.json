@@ -1,0 +1,854 @@
+{
+ "title": "09 · Mémoire & personas",
+ "uid": "memoire-personas",
+ "refresh": "30s",
+ "time": {
+  "from": "now-6h",
+  "to": "now"
+ },
+ "timezone": "browser",
+ "schemaVersion": 38,
+ "version": 1,
+ "editable": true,
+ "tags": [
+  "sim",
+  "memoire",
+  "personas"
+ ],
+ "links": [
+  {
+   "title": "Dashboards simulation",
+   "type": "dashboards",
+   "tags": [
+    "sim"
+   ],
+   "asDropdown": true,
+   "includeVars": false,
+   "keepTime": true,
+   "icon": "dashboard"
+  }
+ ],
+ "panels": [
+  {
+   "id": 1,
+   "type": "row",
+   "title": "À lire avant",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 0
+   }
+  },
+  {
+   "id": 2,
+   "type": "text",
+   "title": "",
+   "gridPos": {
+    "h": 6,
+    "w": 24,
+    "x": 0,
+    "y": 1
+   },
+   "options": {
+    "mode": "markdown",
+    "content": "### ⚠ L'abscisse est le temps **réel**, pas le temps simulé\n\nUne journée simulée dure environ six minutes : les courbes sont lisibles, mais l'axe n'est pas « jour 1, jour 2 ». Chaque série est réglée une fois par journée simulée, au point de reprise de 3 h, et porte la valeur du **dernier jour clos** — jamais du jour en cours.\n\n**Le CSV fait foi.** Ce tableau est un instrument de bord ; la source de l'analyse et des figures est `<run>/mesures/*.csv`, qui survit à l'arrêt des conteneurs. `persona_dernier_jour_clos` dit quelle journée les séries décrivent.\n\n**Une série absente n'est pas une série à zéro.** Une habitude que la fenêtre ne détermine pas, un état de mémoire sans point de reprise, un souvenir de choc non appariable : la série n'est pas publiée. Un zéro se lirait comme une conformité parfaite."
+   }
+  },
+  {
+   "id": 3,
+   "type": "stat",
+   "title": "Dernier jour clos",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "description": "Journée simulée que TOUTES les séries de ce tableau décrivent.",
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "persona_dernier_jour_clos",
+     "legendFormat": "{{person_id}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "text",
+        "value": null
+       }
+      ]
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": true
+    },
+    "textMode": "value_and_name",
+    "colorMode": "none",
+    "graphMode": "none",
+    "justifyMode": "auto"
+   },
+   "gridPos": {
+    "h": 4,
+    "w": 6,
+    "x": 0,
+    "y": 7
+   }
+  },
+  {
+   "id": 4,
+   "type": "stat",
+   "title": "Trajets du jour",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "description": "",
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "persona_jour_trajets",
+     "legendFormat": "{{person_id}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "text",
+        "value": null
+       }
+      ]
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": true
+    },
+    "textMode": "value_and_name",
+    "colorMode": "none",
+    "graphMode": "none",
+    "justifyMode": "auto"
+   },
+   "gridPos": {
+    "h": 4,
+    "w": 9,
+    "x": 6,
+    "y": 7
+   }
+  },
+  {
+   "id": 5,
+   "type": "stat",
+   "title": "Part décidée",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "description": "Part des trajets ayant eu au moins DEUX itinéraires proposés. Sans elle, « voiture 100 % » ne distingue pas un choix d'une absence d'alternative.",
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "persona_part_decidee",
+     "legendFormat": "{{person_id}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "text",
+        "value": null
+       }
+      ]
+     },
+     "unit": "percentunit"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": true
+    },
+    "textMode": "value_and_name",
+    "colorMode": "none",
+    "graphMode": "none",
+    "justifyMode": "auto"
+   },
+   "gridPos": {
+    "h": 4,
+    "w": 9,
+    "x": 15,
+    "y": 7
+   }
+  },
+  {
+   "id": 6,
+   "type": "row",
+   "title": "Choix modal",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 11
+   }
+  },
+  {
+   "id": 7,
+   "type": "timeseries",
+   "title": "Part modale par persona",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "description": "Part de chaque mode dans les trajets du jour.",
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "persona_part_modale",
+     "legendFormat": "{{person_id}} · {{mode}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 2,
+      "fillOpacity": 8,
+      "spanNulls": true,
+      "pointSize": 5,
+      "showPoints": "auto"
+     },
+     "color": {
+      "mode": "palette-classic"
+     },
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": ".*car.*"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "red"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": ".*cycling.*"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "purple"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": ".*public_transport.*"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "green"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": ".*walking.*"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "#00CCCC"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": ".*train.*"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "purple"
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byRegexp",
+       "options": ".*motorbike.*"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "magenta"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "gridPos": {
+    "h": 9,
+    "w": 16,
+    "x": 0,
+    "y": 12
+   }
+  },
+  {
+   "id": 8,
+   "type": "timeseries",
+   "title": "Part réellement décidée",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "description": "Une part modale ne se lit qu'à côté de cette courbe : un persona dont la part décidée s'effondre ne choisit plus, il subit.",
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "persona_part_decidee",
+     "legendFormat": "{{person_id}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 2,
+      "fillOpacity": 8,
+      "spanNulls": true,
+      "pointSize": 5,
+      "showPoints": "auto"
+     },
+     "color": {
+      "mode": "palette-classic"
+     },
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "gridPos": {
+    "h": 9,
+    "w": 8,
+    "x": 16,
+    "y": 12
+   }
+  },
+  {
+   "id": 9,
+   "type": "row",
+   "title": "Habitude et rupture",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 21
+   }
+  },
+  {
+   "id": 10,
+   "type": "timeseries",
+   "title": "Reprise de la veille",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "description": "Part des activités reprises dans le même mode que le jour VÉCU précédent — les week-ends sautés ne comptent pas. Voit une bascule franche le jour où elle arrive.",
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "persona_reprise_veille",
+     "legendFormat": "{{person_id}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 2,
+      "fillOpacity": 8,
+      "spanNulls": true,
+      "pointSize": 5,
+      "showPoints": "auto"
+     },
+     "color": {
+      "mode": "palette-classic"
+     },
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 22
+   }
+  },
+  {
+   "id": 11,
+   "type": "timeseries",
+   "title": "Conformité à l'habitude (5 observations)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "description": "Part des activités conformes au mode majoritaire des cinq dernières OBSERVATIONS de chaque activité. Voit une dérive lente qu'un seul jour ne révèle pas.",
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "persona_conformite_habitude",
+     "legendFormat": "{{person_id}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 2,
+      "fillOpacity": 8,
+      "spanNulls": true,
+      "pointSize": 5,
+      "showPoints": "auto"
+     },
+     "color": {
+      "mode": "palette-classic"
+     },
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 22
+   }
+  },
+  {
+   "id": 12,
+   "type": "row",
+   "title": "Mémoire",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 30
+   }
+  },
+  {
+   "id": 13,
+   "type": "timeseries",
+   "title": "Opérations de concept",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "description": "La courbe la plus importante du lot. Mesuré sur dix jours et cinq agents : 38 créés, 61 confirmés, UNE seule contradiction — celle du jour du choc. Sans événement injecté, la mémoire ne révise rien.",
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum by (operation) (persona_operations_concept)",
+     "legendFormat": "{{operation}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 2,
+      "fillOpacity": 8,
+      "spanNulls": true,
+      "pointSize": 5,
+      "showPoints": "auto"
+     },
+     "color": {
+      "mode": "palette-classic"
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "contredit"
+      },
+      "properties": [
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "red"
+        }
+       },
+       {
+        "id": "custom.lineWidth",
+        "value": 3
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 31
+   }
+  },
+  {
+   "id": 14,
+   "type": "timeseries",
+   "title": "Vivier de rappel et souvenirs servis",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "description": "Le vivier ne doit jamais décroître à l'intérieur d'un run. S'il plafonne d'un coup, vérifier qu'une reprise n'a pas gelé la mémoire.",
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "persona_vivier_rappel",
+     "legendFormat": "vivier · {{person_id}}"
+    },
+    {
+     "refId": "B",
+     "expr": "persona_souvenirs_servis",
+     "legendFormat": "servis · {{person_id}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 2,
+      "fillOpacity": 8,
+      "spanNulls": true,
+      "pointSize": 5,
+      "showPoints": "auto"
+     },
+     "color": {
+      "mode": "palette-classic"
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 31
+   }
+  },
+  {
+   "id": 15,
+   "type": "timeseries",
+   "title": "Durée de vie médiane des souvenirs (jours)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "description": "Médiane de la constante d'oubli, lue dans le point de reprise qui clôt la journée. Une journée sans point n'a pas de valeur — et non une valeur à zéro.",
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "persona_duree_vie_mediane_jours",
+     "legendFormat": "{{person_id}} · {{type}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 2,
+      "fillOpacity": 8,
+      "spanNulls": true,
+      "pointSize": 5,
+      "showPoints": "auto"
+     },
+     "color": {
+      "mode": "palette-classic"
+     },
+     "unit": "d"
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "gridPos": {
+    "h": 7,
+    "w": 24,
+    "x": 0,
+    "y": 39
+   }
+  },
+  {
+   "id": 16,
+   "type": "row",
+   "title": "Choc",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 46
+   }
+  },
+  {
+   "id": 17,
+   "type": "timeseries",
+   "title": "Expositions et minutes injectées",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "description": "",
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "persona_choc_expositions",
+     "legendFormat": "expositions · {{person_id}}"
+    },
+    {
+     "refId": "B",
+     "expr": "persona_choc_minutes_injectees",
+     "legendFormat": "minutes · {{person_id}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 2,
+      "fillOpacity": 8,
+      "spanNulls": true,
+      "pointSize": 5,
+      "showPoints": "auto"
+     },
+     "color": {
+      "mode": "palette-classic"
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 0,
+    "y": 47
+   }
+  },
+  {
+   "id": 18,
+   "type": "timeseries",
+   "title": "Le souvenir du choc est-il SERVI à la décision ?",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "description": "Un souvenir écrit mais jamais rappelé ne change rien à un comportement. ⚠ La série n'est PAS publiée quand aucun souvenir n'a pu être apparié au choc : le vécu injecté est reformulé par la réflexion, et l'appariement par texte échoue. Absence de courbe = on ne sait pas le dire, et non « jamais servi ».",
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "persona_choc_souvenir_servi",
+     "legendFormat": "{{person_id}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 2,
+      "fillOpacity": 8,
+      "spanNulls": true,
+      "pointSize": 5,
+      "showPoints": "auto"
+     },
+     "color": {
+      "mode": "palette-classic"
+     },
+     "min": 0,
+     "max": 1
+    },
+    "overrides": []
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "gridPos": {
+    "h": 8,
+    "w": 12,
+    "x": 12,
+    "y": 47
+   }
+  }
+ ]
+}

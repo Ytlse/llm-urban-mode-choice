@@ -1,0 +1,100 @@
+## Synthetic population pipeline for Toulouse
+## based on the synpp package
+
+# This is the path to a directory where the pipeline can store temporary data
+working_directory: ./cache
+
+# This section defines which parts of the pipeline should be run
+run:
+  - synthesis.output # To create the output population in the output_path (see below)
+  - synthesis.population.llm_agents # Export population as JSON for the LLM-agents GAMA simulation
+  # - matsim.output # Uncomment, if you want to run the full simulation (you'll need Java for that)
+
+# Here the configuraiton of the pipeline starts
+config:
+  # Some general configuration
+  processes: 4
+
+  # Define whether to use ENTD or EGT as the household travel survey (HTS)
+  hts: entd
+
+  # ── HTS matching: do not lose age (ticket 008, A1.a) ────────────────
+  # `filter_hts` (default True, cf. data/hts/entd/filtered.py) reduced ENTD to
+  # respondents of department 31 only: the donor pool fell from ~18,000 to
+  # a few hundred. The strata no longer reached `matching_minimum_observations`,
+  # the degradation fell back to level 1-2 and `age_class` vanished from
+  # the matching — a 9-year-old pupil then inherited an adult donor, with the donor's
+  # driving licence and home → work chain.
+  filter_hts: false
+
+  # ── Donor days = school days (ticket 031, § 1.2) ─────────────────
+  # EMC² 2023 is surveyed outside school holidays; ENTD 2008 covers the year. Without this
+  # filter, only 50 to 54 % of the pool's 6-17 year-olds had a study activity on a
+  # weekday (EMC²: 90 to 95 %): holiday days (`V2_VAC_SCOL = 1`, 20 % of
+  # days) and the Wednesday of 2008 schoolchildren (`V2_JOUR_DEP = 4`) entered a simulated
+  # weekday. The filter applies to ALL donors (consistency with the reference
+  # survey); the Wednesday rule targets only under-11s (0 disables it).
+  # Measured cost: 15,687 → 12,392 reference-day donors (−21 %); the smallest age class keeps 858
+  # for a threshold of 5. Indicator at the output of the data.hts.entd.cleaned stage: share of mobile
+  # pupils with a trip to school (alarm below 85 %).
+  hts_school_days_only: true
+  hts_exclude_wednesday_under_age: 11
+
+  # The degradation removes columns **from the end** (`column_indices[:level]`,
+  # synthesis/population/matched.py). The attribute placed first is therefore the last
+  # dropped: `age_class` first, so that a child is never matched to an
+  # adult while a donor of the right age remains.
+  matching_attributes:
+    - age_class
+    - sex
+    - any_cars
+    - socioprofessional_class
+    - departement_id
+  # Bounds of the matching age classes (eqasim default: 14, 29, 44, 59, 74). The bound
+  # 17 separates high-school pupils (15-17) from young workers (18-29): in the 15-29 class, a
+  # 16-year-old pupil inherited a worker's chain — 80.4 % of mobile 15-17 year-olds with a study
+  # activity against 92 % among 6-14 year-olds (measured on 2026-09-03, ticket 031, author's decision).
+  matching_age_boundaries: [14, 17, 29, 44, 59, 74, 1000]
+  # National pool restored, but finer strata: a lower threshold avoids
+  # degrading from level 5 onwards.
+  matching_minimum_observations: 5
+
+  # extra_enriched_attributes: ["is_passenger", "number_of_trips"]
+
+  # Define sampling rate and random seed for the output population
+  sampling_rate: 0.01
+  random_seed: 1234
+
+  # Paths to the input data and where the output should be stored
+  data_path: ./data
+  output_path: ./output
+  output_prefix: toulouse_
+
+  # Only interesting if you run the simulation
+  java_memory: 14G
+
+  # Activate if you want to run mode choice
+  mode_choice: false
+
+  # ── Study scope: the 453 communes of EMC² 2023, six departments (ticket 031) ──
+  # The sampling frame is the LIST OF COMMUNES of the survey scope (`communes_file`,
+  # produced by `make communes-couronnes` in llm-agents-gama), intersected with `departments`.
+  # Expected, logged by the data.spatial.codes stage: 31 → 346, 32 → 38, 81 → 27,
+  # 82 → 22, 09 → 10, 11 → 10 communes. Each requested department requires its BD TOPO
+  # (bdtopo_path) and its BAN (ban_path): otherwise the pipeline stops, it does not populate
+  # "what it can". To serve only Haute-Garonne (346 communes, version of
+  # ticket 026), reduce `departments` to ["31"] — the limitation is then quantified in
+  # docs/arch/perimetre-population.md (limitation no. 6).
+  regions: []
+  departments: ["31", "32", "81", "82", "09", "11"]
+  # Census persons whose commune is "undefined" (communes without IRIS: the RP only
+  # gives the department) are weighted by the share of the department's non-IRIS population
+  # that lives in the frame (ticket 031). Without this, the whole rural population of the department was
+  # poured into the frame's communes alone: 17,986 persons for 10,000 requested and 42.5 % in the
+  # 3rd ring over the six departments (measured on 2026-09-03).
+  census_undefined_reweighting: true
+  communes_file: packages/mobility_core/src/mobility_core/data/commune_couronne.json
+  gtfs_path: gtfs_toulouse
+  osm_path: osm_toulouse
+  ban_path: ban_toulouse
+  bdtopo_path: bdtopo_toulouse

@@ -1,0 +1,22 @@
+# C4 — Cancelled train · train
+# Few agents concerned, high severity. Exposure by mode is enough: only the trips
+# including a rail leg report `train` as the main mode.
+choc: c4_train_supprime
+libelle: "Regional train cancelled"
+source: "scénario déclaré"
+
+# CADENCE ADDED on 2026-09-24, as on c3 and c6: at most one application per agent and per
+# day. Without it, the `trajet` cadence injected the event at every trip of the targeted mode.
+cadence: jour
+
+exposition:
+  regle: mode
+  modes: [train]
+
+jours:
+  - jour: 12
+    retard_min: 50
+    incident_reseau: true
+    vecu: >-
+      My regional train was cancelled. No reason was given, and no replacement time was announced
+      for 30 minutes. I waited 50 minutes on the platform for the next service.

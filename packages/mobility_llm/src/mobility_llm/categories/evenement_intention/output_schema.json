@@ -1,0 +1,49 @@
+{
+  "type": "object",
+  "properties": {
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "change": {
+            "type": "string",
+            "enum": [
+              "no_change",
+              "some_trips",
+              "most_trips"
+            ],
+            "description": "Over the next 7 days, how many of your usual trips this makes you do differently"
+          },
+          "use_less": {
+            "type": "array",
+            "description": "The ways of getting around you will use less over the next 7 days because of this; empty if none",
+            "items": {
+              "type": "string",
+              "enum": ["walking", "cycling", "car", "public_transport", "train", "motorbike"]
+            }
+          },
+          "use_more": {
+            "type": "array",
+            "description": "The ways of getting around you will use more over the next 7 days because of this; empty if none",
+            "items": {
+              "type": "string",
+              "enum": ["walking", "cycling", "car", "public_transport", "train", "motorbike"]
+            }
+          },
+          "reason": {
+            "type": "string",
+            "description": "One sentence, 30 words at most, in your own words"
+          }
+        },
+        "required": ["agent_id", "change", "use_less", "use_more", "reason"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["agents"],
+  "additionalProperties": false
+}

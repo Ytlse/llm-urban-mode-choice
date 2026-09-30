@@ -1,0 +1,67 @@
+# ══ MIGRATED TO THE TICKET 100 FORMAT (single channel) on 2026-09-21 ═════════════════════
+# `choc:` becomes `evenement:`, and three fields appear. They change NOTHING in what this
+# file did: `canal: vecu` and `moment: arrivee` are the suffered regime of ticket 079, and
+# `jugement: aucun` is the state before lot 3 — the agent does not judge yet what they suffer.
+# The golden test of lot 1 replays the original from `config/chocs/` and requires the same trace.
+# C3 — Network outage · public transport
+# The only case that naturally reaches the missed connection: 0.50 (saturated delay) + 0.20
+# (connection) + 0.20 (incident) = 0.90 severity, i.e. 17.9 days of lifetime.
+# This is the shock chapter 7 announces.
+evenement: c3_panne_reseau
+canal: vecu                  # vecu | lu — where the text comes from
+moment: arrivee              # arrivee (after the decision) | reveil (before)
+jugement: a_l_injection      # aucun | a_l_injection (lot 3 of ticket 100)
+# ══ SWITCHED TO THE AGENT'S JUDGEMENT on 2026-09-22 (attribution campaign) ═══════════════════
+# D7 is the decided regime: the severity is the agent's estimate, and the floor `max(I_llm,
+# I_det)` was removed. Playing this campaign under `jugement: aucun` would measure a mechanism
+# that was abandoned — the deterministic severity (28 min delay + network incident + missed
+# connection) instead of what the agent says of the text.
+# What the agent says of it is MEASURED, not assumed: safeguard of 2026-09-22, 4 personas out of 4,
+# `grave` (0.75) unanimously — it is the only one of the seven texts to get it, and the reason fits in
+# one predicate: it is the only one to state a MISSED appointment. Expected served duration 16.17 d.
+# The eight other declarations stay in `jugement: aucun`: switching them would silently change
+# what a replay of c6 produces, whose figures are cited in § 7.2 of the manuscript.
+libelle: "Metro network failure"
+source: "scénario déclaré — van Exel & Rietveld (2001), Transport Policy 8(4)"
+
+# CADENCE ADDED on 2026-09-22, before the attribution campaign. Without this line the cadence
+# is `trajet`: a network outage declared once applied to EACH of the day's public transport
+# trips. 861500 makes one to two a day — he would therefore have
+# "missed the appointment he was heading to" twice in the same day, with two
+# judgements and two memories of severity 0.75 where the protocol declares one.
+# It is the EXACT defect c6 had paid for on 2026-09-19 (four thirty-minute breakdown repairs instead
+# of one), fixed there by the same line. The four other cases of 079 — c1, c2, c4, c5 — received it
+# on 2026-09-24.
+cadence: jour
+
+exposition:
+  regle: mode
+  modes: [public_transport]
+
+# ── DAY 13 NEVER APPLIES ────────────────────────────────────────────────────────────────
+# Observed on 2026-09-23, before the attribution campaign. Day 12 of the run falls on Friday
+# 2026-03-27; day 13 is therefore SATURDAY 28, and the repository runs under NO_WEEKEND_DEPARTURES
+# — no departure is produced that day, no public transport trip exposes
+# the agent, the declaration does not arm. The campaign measures ONE application, not two.
+# This finding is not fixed here: day 13 is the original of ticket 079, and the golden test
+# of ticket 100 (`test_event_channel_compat.py`, `sorted(a.jours) == sorted(b.jours)`) requires that
+# this file declare exactly the same days as `config/chocs/c3_panne_reseau.yaml`. Removing
+# it on one side only would break the invariant that protects the originals; removing it from both
+# would rewrite the original this invariant exists to protect. So it is written down, not
+# touched. It is the same pattern as D16 of c6, never applied for the same reason.
+jours:
+  - jour: 12
+    retard_min: 28
+    incident_reseau: true
+    correspondance_ratee: true
+    vecu: >-
+      The metro stopped between two stations and the lighting went out. No announcement was made
+      for 25 minutes. When the service restarted the carriage was packed full. I missed the
+      appointment I was travelling to, and arrived 28 minutes after the time I had planned. It is
+      the fourth time this month that this line has stopped.
+  - jour: 13
+    retard_min: 20
+    incident_reseau: true
+    vecu: >-
+      The line ran at reduced frequency all morning. Three trains passed at full capacity before I
+      could board one. I arrived 20 minutes late.

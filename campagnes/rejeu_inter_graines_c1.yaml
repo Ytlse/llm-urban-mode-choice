@@ -1,0 +1,22 @@
+nom: rejeu_inter_graines_c1
+version: campagne1
+note: >-
+  Rejeux à deux graines au total par expérience (graine historique 42 + seconde graine 123)
+  sur la cohorte scellée c1 (population_1000_PANEL_v6, jeu population_1000_PANEL_v6_20260316_EN_c)
+  pour mesurer l'étendue inter-graines des 4 conditions LLM du Tableau 1 du papier court :
+  Minimal prompt x mistral-large, Minimal prompt x gemini-3.1,
+  Expert prompt x gemini-3.1, Expert prompt x mistral-large.
+substrat:
+  population: data/population/population_1000_PANEL_v6
+  jeu: population_1000_PANEL_v6_20260316_EN_c
+  sceau: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6
+phases:
+- nom: rejeux_seconde_graine_llm
+  raison: >-
+    Seconde graine (graine 123) pour obtenir exactement deux graines par expérience (42 et 123).
+    Pour Expert prompt x mistral-large, la graine 123 est déjà terminée.
+  experiences:
+  - exp_mistral-l-25_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+  - exp_gemini-31-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+  - exp_gemini-31-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+  - exp_mistral-l-25_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim

@@ -1,0 +1,47 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+build/
+.pytest_cache/
+
+# Runs and caches produced locally
+experiments*/
+data/cache/
+data/gtfs/
+data/gtfs_year/
+# Experiment definitions are versioned; their runs are not
+data/experiences/**/executions/
+data/experiences/**/lancements/
+# Figures regenerated without the papers repository (docs/PAPER_TO_CODE.md)
+outputs/
+data/PROGEDO*/
+services/GAMA/CityTransport/results
+services/otp-toulouse/bin/
+services/otp-toulouse/toulouse/*.osm.pbf
+services/eqasim-toulouse/data/**/*.zip
+services/eqasim-toulouse/cache/
+services/eqasim-toulouse/output/
+
+# Decompressed archived executions (make unpack-runs); the .gz files are versioned
+archive/**/executions/*/decisions.jsonl
+archive/**/executions/*/moves.csv
+
+# Editors and OS
+.DS_Store
+# Marker left by the tool that built this copy
+.construit_par_construire_depot_public
+.idea/
+.vscode/
+node_modules/
+
+# Press texts are downloaded and rebuilt locally, never redistributed (see data/presse/sources.yaml)
+data/presse/articles_html/
+data/presse/articles_txt/*/brut*.txt
+data/presse/articles_txt/_temoin_commun/

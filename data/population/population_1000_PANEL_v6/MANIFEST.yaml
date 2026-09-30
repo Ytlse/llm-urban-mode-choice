@@ -1,0 +1,170 @@
+# Population scellée pour l'article — ne pas modifier (cf. `regle`).
+version: sceau1
+nom: population_1000_PANEL_v6
+scelle_le: '2026-09-14T19:27:45+00:00'
+population:
+  fichier: population.json
+  sha256: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6
+  n: 1000
+  source: data/population/toulouse_population_1000_PANEL_v6.json
+  source_sha256: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6
+perimetre:
+  definition: 453 communes de l'enquête EMC² Toulouse 2023, six départements (31,
+    32, 81, 82, 09, 11), polygone communal — pas de rayon
+  table_communes: packages/mobility_core/src/mobility_core/data/commune_couronne.json
+  departements_attendus:
+    '31': 346
+    '32': 38
+    '81': 27
+    '82': 22
+    09: 10
+    '11': 10
+  retenus_par_departement:
+    09: 3
+    '11': 1
+    '31': 947
+    '32': 13
+    '81': 12
+    '82': 24
+  departements_representes: 6
+  retenus_sans_commune: 0
+  communes_distinctes: 139
+  activites_hors_perimetre:
+    controle: true
+    personas_controles: 1000
+    activites_hors_perimetre_supprimees: 0
+    personas_touches: 0
+selection:
+  fichier: selection.json
+  version: panel_seal_v5
+  regle: 'unité = ménage (household.id) ; effectifs de cellule proportionnels à la
+    cible jointe couronne × motorisation (base personne) par plus fort reste, puis
+    effectif cible par SOUS-CELLULE (cellule × effectif présent × taille déclarée)
+    par programme entier tenant taille_menage_personne et motorisation_menage ; les
+    ménages entrent dans l''ordre sha256(''panel_seal_v4:'' + household_id) à l''intérieur
+    de leur sous-cellule ; exclus : hors périmètre, moins de 5 ans, sans motorisation
+    ; puis descente par échanges de ménages de MÊME SOUS-CELLULE minimisant la somme
+    des écarts absolus (en points) aux marges : occupation, classe_age, motorisation_menage,
+    age_quinquennal, genre, taille_menage_personne, permis_adultes, abonnement_tc,
+    logement, immobile'
+  vivier:
+    n: 11329
+    eligibles: 10979
+    exclus:
+      moins_de_5_ans: 335
+      sans_couronne: 14
+      hors_perimetre: 1
+    menages: 5652
+    fichier: scripts/data/population/Temp/4_zone_enriched/toulouse_population_10000.json
+    sha256: e90dc9236e78d81879063e89cc6e3b972c8d3030b7268526c18e7a4d9bf296b7
+    residence_zone:
+      deja_pose: 11315
+      pose_sans_domicile: 14
+  menages_retenus:
+    n: 499
+    par_taille:
+      '1': 212
+      '2': 158
+      '3': 65
+      '4': 46
+      '5': 16
+      '6': 1
+      '7': 1
+    membres_declares: 1029
+    membres_presents: 1000
+  deficits: {}
+  reports: 0
+  allocation:
+    methode: 'programme entier (HiGHS via scipy.optimize.milp) sur les sous-cellules
+      (cellule × effectif présent × taille déclarée) : les douze effectifs de cellule
+      en personnes sont des égalités, les deux marges allouées sont bornées en écart
+      maximal — tolérance trouvée par bissection —, et l''objectif minimise le nombre
+      de ménages déplacés par rapport à la composition du vivier'
+    marges_allouees:
+    - taille_menage_personne
+    - motorisation_menage
+    ecarts_pt:
+      motorisation_menage:
+        sans voiture: 0.0003
+        une voiture: -0.057
+        deux voitures et +: 0.0567
+      taille_menage_personne:
+        '1': 0.006
+        '2': -0.058
+        '3': -0.033
+        '4': 0.042
+        5 et +: 0.043
+    ecart_max_pt: 0.058
+    tolerance_retenue_pt: 0.061
+    tolerance_borne_alarme_pt: 1.0
+    tolerance_depassee: false
+    programmes_entiers_resolus: 16
+    sous_cellules_servies: 70
+    sous_cellules_vivier: 130
+    menages: 499
+    menages_deplaces_vs_vivier: 41
+    sous_cellules_sous_remplies: 0
+  descente:
+    echanges: 347
+    passes: 3
+    perte_avant_pt: 60.98
+    perte_apres_pt: 3.5
+    candidats_par_menage: 150
+    marges_non_mesurees: []
+    duree_s: 2.43
+controle:
+  rapport: CONTROLE.md
+  verdicts:
+    conforme: 13
+    à corriger: 0
+    à publier: 0
+    non mesurable: 0
+  borne_tost_pt: 1.0
+  n_min: 30
+  n_min_cellule: 50
+  cible_jointe:
+    fichier: scripts/panel/cible_jointe_couronne_motorisation.yaml
+    version: cj1
+    sha256: ddea85edb98c7646d265d92976dccb2feb620836a387f2bf66455301ba1394a7
+  cibles_marges:
+    fichier: scripts/panel/cibles_marges_personne.yaml
+    version: cm1
+    sha256: 349bf820b4b89e6c352970503fcdc91ae56a5a98cbc9f69dfbd41056d14aa825
+  menages_et_mobilite:
+    scolaires_6_17: 157
+    scolaires_mobiles: 150
+    scolaires_avec_activite_etudes: 132
+    part_scolaires_avec_etudes_pct: 88.0
+    part_scolaires_avec_etudes_seuil_pct: 88.0
+    n_menages: 499
+    menages_complets_taille_declaree: 474
+    part_menages_complets_pct: 95.0
+    membres_presents: 1000
+    membres_declares: 1029
+    part_membres_presents_pct: 97.2
+    sans_household_id: 0
+    deplacements_par_persona: 3.299
+    deplacements_par_persona_mobile: 3.69
+    immobiles: 106
+    part_immobiles_pct: 10.6
+    reference_enquete:
+      deplacements_par_personne: 3.53
+      part_immobiles_pct: 10.6
+      deplacements_par_personne_mobile: 3.95
+      part_scolaires_avec_etudes_pct:
+      - 90.0
+      - 95.0
+      source: 'microdonnées EMC² 2023, PENQ = 1, COEP ; scolaires : 6-17 ans scolarisés
+        mobiles avec un déplacement vers l''école un jour de semaine'
+  synthese_des_ecarts: []
+depot:
+  git_head: 643bb3ae961fe180d01b3c07c68b128e2beaccaf
+  branche: feat_cache_population
+  arbre_propre: false
+regle: Ce dossier ne se modifie pas. Toute correction de la population produit un
+  nouveau dossier scellé ; les jeux gelés et les runs qui citent celui-ci citent son
+  sha256.
+note: Cohorte v6 — bascule anglaise du ticket 074. Même substrat que la v5 (mêmes
+  1 000 person_id, mêmes chaînes d'activités) ; seuls main_occupation, housing_type,
+  personal_bike, residence_zone et travel_purposes changent de langue, et les prénoms
+  sont désormais tirés d'une graine par person_id.

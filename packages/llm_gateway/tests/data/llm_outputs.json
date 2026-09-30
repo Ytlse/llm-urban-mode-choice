@@ -1,0 +1,11 @@
+[
+  {"name": "json propre", "raw": "{\"agents\": [{\"agent_id\": \"a1\", \"summary\": \"ok\"}]}", "expect": 1},
+  {"name": "cloture markdown", "raw": "```json\n{\"agents\": [{\"agent_id\": \"a1\", \"summary\": \"ok\"}]}\n```", "expect": 1},
+  {"name": "prose autour", "raw": "Voici la réponse demandée :\n{\"agents\": [{\"agent_id\": \"a1\", \"summary\": \"ok\"}]}\nJ'espère que cela convient.", "expect": 1},
+  {"name": "virgule finale", "raw": "{\"agents\": [{\"agent_id\": \"a1\", \"summary\": \"ok\"},]}", "expect": 1},
+  {"name": "guillemets simples", "raw": "{'agents': [{'agent_id': 'a1', 'summary': 'ok'}]}", "expect": 1},
+  {"name": "liste sous une autre cle", "raw": "{\"resultats\": [{\"agent_id\": \"a1\", \"summary\": \"ok\"}, {\"agent_id\": \"a2\", \"summary\": \"ok\"}]}", "expect": 2},
+  {"name": "agent_id entier", "raw": "{\"agents\": [{\"agent_id\": 42, \"summary\": \"ok\"}]}", "expect": 1},
+  {"name": "boucle de repetition", "raw": "{\"agents\": [{\"agent_id\": \"a1\", \"summary\": \"ok ok ok ok ok ok ok ok ok ok ok ok ok ok ok ok ok ok ok ok ok ok ok ok\"}]}", "expect": "error"},
+  {"name": "pas du json", "raw": "Je ne peux pas répondre à cette demande.", "expect": "error"}
+]

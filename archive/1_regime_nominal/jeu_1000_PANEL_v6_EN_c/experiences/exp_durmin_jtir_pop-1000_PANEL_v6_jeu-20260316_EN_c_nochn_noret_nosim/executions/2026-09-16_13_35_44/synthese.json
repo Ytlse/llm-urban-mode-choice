@@ -1,0 +1,186 @@
+{
+ "execution": "2026-09-16_13_35_44",
+ "experience": "exp_durmin_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nochn_noret_nosim",
+ "etat": {
+  "etat": "terminee",
+  "raison": null,
+  "reprise_possible_a": null,
+  "maj": "2026-09-16T13:35:52+00:00",
+  "decisions_archivees": 3299
+ },
+ "empreintes": {
+  "population": {
+   "nom": "population_1000_PANEL_v6",
+   "sha256": "675cfe31f59f450a2919dc1a6bacdbc34e51fdc846bbbe1dfce7160db2a6b253",
+   "fichier_sha256": "412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6",
+   "scellee": true
+  },
+  "jeu": {
+   "nom": "population_1000_PANEL_v6_20260316_EN_c",
+   "sha256": "e8f9eab14fb4a0600bc04bd85591053dd0fd3bd3571e6e9f98aec87e51bc9f53"
+  },
+  "gabarit": {
+   "categorie": "itinary_multi_agent",
+   "variante": null,
+   "sha256": "e9f21ddebfbd7b084ecd3a03ac08f2253d56245eb786a33fc917db9edaa4c65d",
+   "sources": [
+    "prompts.yaml:active.itinary_multi_agent",
+    "travel_plan_describe_v2.j2"
+   ]
+  },
+  "decideur": {
+   "type": "duree_minimale",
+   "modele": null,
+   "parametres": {},
+   "sha256": "7e086beae7017674eaca0a198b55d1baf418af4337aeafe289c00d9a7750ba26"
+  },
+  "depot": {
+   "commit": "d33c8e87034d6d8bbe325275cf0bb8ea24bd2e98",
+   "arbre_propre": false
+  }
+ },
+ "regime_applique": {
+  "parallelisme": 8,
+  "unite_sollicitation": "deplacement",
+  "decideur": "duree_minimale",
+  "reprise": false
+ },
+ "sources_alea": {
+  "graine_ordre": 42,
+  "graine_tirage": 42,
+  "graine_calendrier": 42,
+  "echantillonnage_decideur": false
+ },
+ "interruptions": [],
+ "couverture": {
+  "decides": 3155,
+  "comptes_dans_les_parts": 3155,
+  "attendus": 3161,
+  "attendus_bruts": 3299,
+  "inexploitables_exclus": 138,
+  "taux": 0.9981018664979436,
+  "complet": true
+ },
+ "methodes": {
+  "decideur": 3111,
+  "inexploitable": 138,
+  "choix_unique": 44,
+  "sans_solution": 6
+ },
+ "parts_modales": {
+  "n": 3155,
+  "effectifs": {
+   "walking": 133,
+   "cycling": 220,
+   "car": 2574,
+   "public_transport": 224,
+   "train": 4,
+   "motorbike": 0
+  },
+  "pourcent": {
+   "walking": 4.215530903328051,
+   "cycling": 6.9730586370839935,
+   "car": 81.58478605388272,
+   "public_transport": 7.0998415213946116,
+   "train": 0.12678288431061807,
+   "motorbike": 0.0
+  },
+  "couverture": {
+   "decides": 3155,
+   "comptes_dans_les_parts": 3155,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 138,
+   "taux": 0.9981018664979436,
+   "complet": true
+  },
+  "lecture": "toutes décisions, choix forcés compris — porte la conclusion"
+ },
+ "parts_modales_hors_choix_unique": {
+  "n": 3111,
+  "effectifs": {
+   "walking": 128,
+   "cycling": 219,
+   "car": 2544,
+   "public_transport": 216,
+   "train": 4,
+   "motorbike": 0
+  },
+  "pourcent": {
+   "walking": 4.114432658309226,
+   "cycling": 7.03953712632594,
+   "car": 81.77434908389586,
+   "public_transport": 6.943105110896818,
+   "train": 0.1285760205721633,
+   "motorbike": 0.0
+  },
+  "couverture": {
+   "decides": 3155,
+   "comptes_dans_les_parts": 3155,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 138,
+   "taux": 0.9981018664979436,
+   "complet": true
+  },
+  "lecture": "hors décisions à itinéraire unique — ce que le décideur a décidé"
+ },
+ "choix_forces": {
+  "n": 44,
+  "part": 0.013946117274167988,
+  "lecture": "décisions à itinéraire unique : une seule option existait, personne n'a choisi. Leur nombre dépend du bras, puisqu'il découle de ses propres choix antérieurs — les bras se ressemblent donc plus qu'ils ne le sont."
+ },
+ "referentiel": {
+  "source": "scripts/data/population/cerema_values.yaml",
+  "sha256": "9ac345979ef74071aa70f0eea93b0a9c2fccdb7dd88996f3bee3daba91d8d8b1",
+  "disponible": true,
+  "pourcent_normalise_4_modes": {
+   "car": 56.70103092783505,
+   "walking": 26.804123711340207,
+   "cycling": 4.123711340206185,
+   "public_transport": 12.371134020618557,
+   "train": 12.371134020618557
+  },
+  "note": "valeurs lues dans la source citée, renormalisées sur les modes qu'elle partage avec les canoniques"
+ },
+ "sources_propositions": {
+  "enregistree": 16694,
+  "locale": 26
+ },
+ "fournisseurs": {
+  "duree_minimale": 3111
+ },
+ "ecartees_par_motif": {
+  "non_possede": 1972,
+  "plafond": 3021,
+  "pas_de_conducteur": 33
+ },
+ "compteurs": {
+  "attendus": 3299,
+  "inexploitables": 138,
+  "attendus_exploitables": 3161,
+  "decides": 3155,
+  "non_couverts": 0,
+  "sans_solution": 6,
+  "choix_unique": 44,
+  "replis_uniformes": 0,
+  "attentes": 0,
+  "attentes_par_type": {},
+  "erreurs": 0,
+  "erreurs_par_type": {},
+  "sollicitations": 3111,
+  "resservies": 0,
+  "substitution_refusee": 0,
+  "couverture": {
+   "decides": 3155,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 138,
+   "taux": 0.9981018664979436
+  },
+  "duree_s": 8.472,
+  "quota": {
+   "sans_quota": true
+  }
+ }
+}

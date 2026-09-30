@@ -1,0 +1,19 @@
+nom: papier_court_nominal_20260929
+version: campagne1
+note: >-
+  Reprend la campagne papier_court_nominal_20260928, arrêtée le 29/09 à 01:56 sans avoir rien
+  joué : ses expériences, mises en file derrière une réservation de clés Google, y étaient
+  comptées comme des échecs. Ne garde que les expériences non terminées, dans l'ordre demandé par
+  l'auteur. Mistral Large en est retiré (crédits épuisés, relance prévue le 1er octobre par
+  l'auteur). Jamais en parallèle d'une autre campagne (règle du 2026-09-16).
+phases:
+- nom: papier_court_nominal
+  raison: >-
+    Cohorte c2 (calibration) : Gemini 3.5 Flash Lite sous prompt_expert_32 (78 % fait) puis sous
+    prompt_minimal_02 (4 %). Cohorte c1 scellée : graine 789 sous Gemini 3.5 Flash Lite
+    (jamais lancée). La graine 123 sous Gemini 3.1 Flash Lite s'est terminée le 29/09 à 08:02,
+    hors campagne ; elle n'y figure donc plus.
+  experiences:
+  - exp_gemini-35-fl_proexp32_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go789_gt789_gc789_t0_nosim

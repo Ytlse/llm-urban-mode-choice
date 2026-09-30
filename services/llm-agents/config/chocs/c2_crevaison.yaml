@@ -1,0 +1,31 @@
+# C2 — Flat tyre · bike
+# Individual, and it is the most interesting case: NOTHING changes in the graph, so any
+# effect observed on the following days can only come from memory.
+# ⚠ Day 13 does not make the bike really unavailable (cf. config/chocs/README.md): only
+#   the memory carries it.
+choc: c2_crevaison
+libelle: "Flat tyre on the way"
+source: "scénario déclaré — Aldred (2016), TR-A 90, sur le poids des incidents vécus à vélo"
+
+# CADENCE ADDED on 2026-09-24, as on c3 and c6: at most one application per agent and per
+# day. Without it, the `trajet` cadence injected the event at every trip of the targeted mode.
+cadence: jour
+
+exposition:
+  regle: tirage
+  part: 0.30
+  graine: 79
+
+jours:
+  - jour: 12
+    retard_min: 20
+    incident_reseau: true
+    vecu: >-
+      A tyre went flat on the way. I spent 20 minutes repairing it at the roadside, and my hands
+      were covered in grease for the rest of the journey. I arrived 20 minutes after the time I
+      had planned.
+  - jour: 13
+    retard_min: 0
+    incident_reseau: false
+    vecu: >-
+      I replaced the inner tube the same evening. The bike was available as usual.

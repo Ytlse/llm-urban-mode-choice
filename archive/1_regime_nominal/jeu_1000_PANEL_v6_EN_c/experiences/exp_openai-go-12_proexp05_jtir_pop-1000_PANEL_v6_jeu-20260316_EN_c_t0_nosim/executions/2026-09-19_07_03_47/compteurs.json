@@ -1,0 +1,58 @@
+{
+ "attendus": 3299,
+ "inexploitables": 8,
+ "attendus_exploitables": 3161,
+ "decides": 113,
+ "non_couverts": 0,
+ "sans_solution": 0,
+ "choix_unique": 26,
+ "replis_uniformes": 0,
+ "attentes": 7,
+ "attentes_par_type": {
+  "epuise": 1,
+  "passerelle_occupee": 6
+ },
+ "erreurs": 0,
+ "erreurs_par_type": {},
+ "sollicitations": 17,
+ "resservies": 104,
+ "substitution_refusee": 0,
+ "couverture": {
+  "decides": 113,
+  "attendus": 3161,
+  "attendus_bruts": 3299,
+  "inexploitables_exclus": 8,
+  "taux": 0.035748180955393866
+ },
+ "duree_s": 37.528,
+ "quota": [
+  {
+   "instance": "groq_openai_120_key1",
+   "modele": "openai/gpt-oss-120b",
+   "requetes_jour": 7,
+   "limite_jour": 1000,
+   "marge": 993,
+   "jetons_jour": 12841,
+   "limite_jetons_jour": null,
+   "rpm_observe": 5,
+   "rpm_limite": 30,
+   "epuisee": false,
+   "disponible": false,
+   "occupee": false
+  }
+ ],
+ "requetes": {
+  "ouverture": {
+   "groq_openai_120_key1": 0
+  },
+  "cloture": {
+   "groq_openai_120_key1": 7
+  },
+  "par_instance": {
+   "groq_openai_120_key1": 7
+  },
+  "delta": 7,
+  "fiable": true,
+  "depuis": "2026-09-24T05:07:46+00:00"
+ }
+}

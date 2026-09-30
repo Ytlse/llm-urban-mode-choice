@@ -1,0 +1,14 @@
+{#- Forme courte, utilisée pour interroger la mémoire long terme.
+    Le test porte sur `plan.direct_leg` et non sur `plan.legs | length == 1` :
+    depuis le ticket 013, un plan voiture ou vélo compte trois jambes (accès,
+    trajet routé, diffusion) et un test de longueur le ferait tomber dans la
+    branche « List of transits », qui n'affiche que les jambes de transport
+    collectif — donc rien du tout. La durée annoncée est celle du plan ENTIER,
+    temps terminal compris : c'est ce que la personne a vécu. -#}
+{%- if plan.direct_leg %}{%- set leg = plan.direct_leg %}Direct {{ leg.mode or 'trip' }}; Duration: {{ plan.total_seconds | duration_to_bucket_text }}; Distance: {{ leg.distance | humanize_distance }}.
+{%- else %}List of transits:
+{%- for leg in plan.legs %}{%- if not leg.is_transfer and not (leg.transit_route and '__DIRECT' in leg.transit_route) %}
+- {{ leg.transit_route | get_transit_route_type }} {{ leg.transit_route | format_route_id }} from '{{ leg.start_location.stop }}' to '{{ leg.end_location.stop }}';
+{%- endif %}
+{%- endfor %}
+{%- endif %}

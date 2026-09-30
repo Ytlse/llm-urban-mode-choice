@@ -1,0 +1,31 @@
+{
+ "revision_fr": "c3983cb",
+ "modele_gemini": "gemini-3.5-flash-lite",
+ "encodage_ouvert": "o200k_base",
+ "mesures": {
+  "prompt_minimal_02": {
+   "mots_fr": 234,
+   "mots_en": 242,
+   "o200k_fr": 425,
+   "o200k_en": 398,
+   "gemini_fr": 441,
+   "gemini_en": 409
+  },
+  "prompt_expert_05": {
+   "mots_fr": 425,
+   "mots_en": 437,
+   "o200k_fr": 709,
+   "o200k_en": 648,
+   "gemini_fr": 747,
+   "gemini_en": 664
+  },
+  "decision_template_source": {
+   "mots_fr": 617,
+   "mots_en": 645,
+   "o200k_fr": 983,
+   "o200k_en": 1022,
+   "gemini_fr": 1065,
+   "gemini_en": 1095
+  }
+ }
+}

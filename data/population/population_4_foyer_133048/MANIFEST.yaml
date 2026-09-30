@@ -1,0 +1,69 @@
+# Population de TEST — ticket 059, lot 6. Ce n'est PAS un sceau de cohorte.
+#
+# 4 agents ne représentent rien : ils servent à observer si une information
+# lue par un seul membre d'un foyer atteint l'autre, et à quelle date. Ils ne mesurent
+# aucune part modale. La référence de l'article reste
+# data/population/population_1000_PANEL_v6.
+#
+# Les foyers témoins sont dans le MÊME fichier, donc dans le même run : le plancher de
+# bruit mesuré au ticket 095 n'est pas nul, et un témoin lancé séparément le ferait
+# entrer dans l'effet mesuré.
+nom: population_4_foyer_133048
+extrait_le: '2026-09-24T12:17:01.097713+00:00'
+source:
+  fichier: data/population/population_1000_PANEL_v6/population.json
+  sha256: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6
+  n: 1000
+population:
+  fichier: population.json
+  sha256: 7614fabd5a1ffed8d83a65c9904b2a9fd9a5a81b3512b6fd6345f2e592270f77
+  n: 4
+selection:
+  methode: >-
+    Foyers de taille 4 dont tous les membres sont mobiles, dont 2 adultes (≥ 18 ans); exposés DÉSIGNÉS par --menage, témoins triés par rang stable
+    sha256(graine:household_id). Aucun tirage dépendant de l'ordre d'exécution.
+    Reproductible par scripts/data/population/extraire_foyers.py.
+  graine: 59
+  taille: 4
+  adultes_exiges: 2
+  menages_designes: ["133048"]
+  motif: "Mise au point de l'expérience presse a09 (vent d'autan) : deux adultes cyclistes réguliers qui recourent aussi à la voiture, aux TC et à la marche (runs du 2026-09-03/04), deux enfants de 6 et 9 ans surtout conduits. Le lecteur, tiré parmi les deux adultes, a toujours une alternative réelle au vélo."
+  abonnement_tc_exige: False
+  foyers_eligibles: 21
+groupes:
+  expose:
+    - household_id: '133048'
+      membres:
+        - person_id: '286920'
+          nom: "Arthur Guyot"
+          age: 40
+          occupation: "Full-time worker"
+          zone: "1st ring"
+          abonnement_tc: False
+          voiture: "all"
+          velo: "regular bike"
+        - person_id: '286921'
+          nom: "Adrienne Joly-Bertrand"
+          age: 42
+          occupation: "Full-time worker"
+          zone: "1st ring"
+          abonnement_tc: False
+          voiture: "all"
+          velo: "regular bike"
+        - person_id: '286922'
+          nom: "Josette Gomez"
+          age: 6
+          occupation: "Pupil (up to Baccalaureate)"
+          zone: "1st ring"
+          abonnement_tc: False
+          voiture: "all"
+          velo: "regular bike"
+        - person_id: '286923'
+          nom: "Denis Carlier"
+          age: 9
+          occupation: "Pupil (up to Baccalaureate)"
+          zone: "1st ring"
+          abonnement_tc: False
+          voiture: "all"
+          velo: "regular bike"
+  temoin:

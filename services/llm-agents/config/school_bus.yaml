@@ -1,0 +1,31 @@
+# Synthetic school bus — exogenous parameters (ticket 030).
+#
+# SINGLE source of truth of the Lot A constants. They are FROZEN (no
+# automatic calibrator): chosen once so that the median duration falls back
+# on the 30 min observed in EMC² over the median distance of school trips
+# (4.94 km as the crow flies), and checked a posteriori by acceptance criterion 3.
+#
+# Provenance of the durations: EMC² 2023 microdata (ProGEDO lil-1750, MODP=41) —
+# median 30 min (20-40), 7.45 km travelled for 4.94 km as the crow flies (detour 1.51),
+# ~16 km/h door to door. The liO regulation gives no duration figure: the survey
+# remains the source of the travel time, beyond eligibility (cf. ticket 030).
+#
+# Consistency: access 5 + pick-up 10 + (4.94 × 1.5 / 28) h ≈ 30.9 min; effective
+# door to door ≈ 14 km/h, close to the 16 observed.
+
+# Individual eligibility: age, and age alone (decision 2026-09-03).
+age_min: 5
+age_max: 17
+
+# Duration: access to the stop + (straight-line distance × detour / speed) + pick-up.
+access_minutes: 5          # walk home → stop
+detour_factor: 1.5        # distance travelled / straight-line distance (EMC²: 1.51)
+in_vehicle_speed_kmh: 28  # speed between stops; readjusted for median ≈ 30 min
+ramassage_minutes: 10     # round time (intermediate stops), flat rate
+
+# Schedule: margin around the school activity (the regulation aligns the circuits on
+# the first entry / last exit of the school; 30 min = best alignment).
+schedule_margin_minutes: 30
+
+# Cost: zero (regional school transport free since 2021). No fare field
+# in the model: free service is carried by the rendering label.

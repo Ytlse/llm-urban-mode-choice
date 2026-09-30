@@ -1,0 +1,763 @@
+x-gateway-env: &gateway-env
+  # Gateway settings (prefix LLM_GATEWAY_, `__` separates the levels — ticket 037, iteration 2).
+  # The old names (REDIS_URL, CELERY_*, APP_WORKDIR, SERVICE_NAME) are still read for one version with
+  # a warning; PROVIDER_KEYS__<name> remains the canonical name of the keys (shared with .env).
+  LLM_GATEWAY_REDIS__URL: redis://redis:6379/0
+  LLM_GATEWAY_EXECUTOR__CELERY_BROKER_URL: redis://redis:6379/1
+  LLM_GATEWAY_EXECUTOR__CELERY_RESULT_BACKEND: redis://redis:6379/2
+  # Providers file. Indirection added in ticket 075: the default does not change, but
+  # a run can designate a RESTRICTED file for the duration of its execution — for example
+  # providers.gemini31.yaml, which declares only gemini-3.1-flash-lite:
+  #   LLM_GATEWAY_PROVIDERS_FILE=/app/config/llm_gateway/providers.gemini31.yaml make run OFFLINE=1
+  LLM_GATEWAY_PROVIDERS_FILE: ${LLM_GATEWAY_PROVIDERS_FILE:-/app/config/llm_gateway/providers.yaml}
+  # The sources mounted under /app/<package> must COME BEFORE the copies installed in
+  # site-packages. WORKDIR is not enough: `celery` and `uvicorn` are console scripts,
+  # sys.path[0] is /usr/local/bin, not the current directory. Without this line, api and
+  # worker served the code and the prompts.yaml frozen when the image was built
+  # (observed on 2026-09-08: added variant invisible after `make passerelle-recharger`).
+  PYTHONPATH: /app
+  LLM_GATEWAY_TELEMETRY__WORKDIR: /app/experiments/current
+  # Exchange log: disabled by default in the gateway (potential personal data);
+  # the simulation enables it because make report and the dashboard read it.
+  LLM_GATEWAY_TELEMETRY__EXCHANGES_ENABLED: "true"
+  # The controller (hypercorn, Grafana Infinity server side) does not need CORS; ["*"]
+  # reproduces the old behaviour for tools that query the API from a browser.
+  LLM_GATEWAY_API__CORS_ORIGINS: '["*"]'
+  # Exact-prompt replay (2026-09-25): the API reads there, the worker writes there, both through the
+  # ./experiments mount. Active only for a request that names a space (REJEU_AB).
+  LLM_GATEWAY_REJEU__DIR: /app/experiments/rejeu_ab
+
+x-shared-env: &shared-env
+  REDIS_URL: redis://redis:6379/0
+  OTP_ENDPOINTS: http://otp1:8080/otp/transmodel/v3,http://otp2:8080/otp/transmodel/v3,http://otp3:8080/otp/transmodel/v3
+  # A single replica: `osmnx_direct` sizes its concurrency at `nb_endpoints × 3`.
+  # Listing more assumes osmnx2/osmnx3 have been enabled — see the measured
+  # warning at their definition before doing so.
+  OSMNX_ENDPOINTS: http://osmnx1:8090/route
+  APP_CONFIG_PATH: /app/config/${CONFIG_FILE:-config.yaml}
+  # Experiments directory, explicit rather than deduced: the code lives in
+  # /app and the runs in /app/experiments (mount of ./experiments), whereas
+  # on the host they are one level above the package (<repo>/experiments).
+  APP_EXPERIMENTS_DIR: /app/experiments
+  # Hot resume (`make run CONT=1`): the controller reuses the workdir
+  # pointed to by experiments/current instead of creating a new one (settings.py).
+  CONTINUE_RUN: ${CONTINUE_RUN:-}
+  # Ticket 091 — name of the resumed run. Empty = no reuse of memory or decisions.
+  REPRISE_RUN: ${REPRISE_RUN:-}
+  # Ticket 095, lot D — CHILD RUN. Name (or path) of the PARENT run whose common base this arm
+  # inherits: it starts from the parent's last checkpoint instead of replaying — and
+  # paying again for — the first fourteen days. Empty = ordinary run.
+  RUN_PARENT: ${RUN_PARENT:-}
+  # The identity fields that this child DECLARES it varies relative to its parent, separated
+  # by commas (e.g. `choc,mode_fenetre_changements`). Any other difference makes the
+  # startup refused: a child inherits its parent's MEMORY, and a memory produced under
+  # other settings describes another experiment than the one it is about to play.
+  CHAMPS_LIBRES: ${CHAMPS_LIBRES:-}
+  TZ: Europe/Paris
+  # ── SIMULATION Google keys (ticket 008) ────────────────────────────────────
+  # Gemini free tier quotas are counted per project AND per model: each key
+  # has its own 500 requests/day per model. The simulation runs on
+  # KEY 2, which leaves key 1's 500 requests/day intact for the
+  # lot C measurements (`common-set-eval`, `heldout-eval`), which query
+  # `google_gemini31_key1` — that is, key 1.
+  #
+  # A provider without a key is simply excluded from the rotation
+  # (`filter_providers_without_api_key`): blanking key 1 therefore removes
+  # `google_gemini31_key1` and `google_gemini35_key1` from the cascade, without touching mistral,
+  # groq or cerebras — the multi-provider cascade stays in place (decision D4).
+  #
+  # Decision of 2026-09-07: key 1 REJOINS the rotation. It was held back by default
+  # (read from SIM_PROVIDER_KEYS__google, hence empty unless explicitly exported), which left
+  # `gemini-3.5-flash-lite` on a single instance at 15 requests/minute — half of an
+  # experiment's requests came back as « Providers saturés ».
+  # To remove it for the duration of a run (to reserve it for the simulation, for example):
+  #   PROVIDER_KEYS__google="" make run
+  # Routing between providers (decision of 2026-09-07). `cascade` exhausts the first
+  # provider before touching the next: it is only passed over if it REFUSES — daily
+  # quota, cooldown, per-minute rate saturated — and the switch is logged. `swrr`
+  # would spread the load and eat into both 500-request buckets in parallel.
+  # The providers file accepts ONLY providers: the policy therefore goes through
+  # the environment, like the other gateway settings.
+  LLM_GATEWAY_ROUTING__POLICY: ${LLM_GATEWAY_ROUTING__POLICY:-cascade}
+  # ── One key per instance (convention <model>_key<N>, 2026-09-08) ───────────
+  # The gateway resolves an instance's key through PROVIDER_KEYS__<instance name>.
+  # An instance suffixed _keyN NO LONGER falls back on its adapter's key: without
+  # its line below it is refused at startup, instead of silently hitting
+  # another project's key (incident google2_36, cf. providers.yaml).
+  # What is edited in .env remains the SOURCES, at the end of the block; here, the mapping.
+  #
+  # Google key 1 — 9 instances, one quota bucket per model.
+  PROVIDER_KEYS__google_gemini31_key1: ${PROVIDER_KEYS__google:-}
+  PROVIDER_KEYS__google_gemini35_key1: ${PROVIDER_KEYS__google:-}
+  PROVIDER_KEYS__google_gemma42_key1: ${PROVIDER_KEYS__google:-}
+  PROVIDER_KEYS__google_gemma43_key1: ${PROVIDER_KEYS__google:-}
+  PROVIDER_KEYS__google_gemini_3_flash_preview_key1: ${PROVIDER_KEYS__google:-}
+  PROVIDER_KEYS__google_gemini_3_5_flash_key1: ${PROVIDER_KEYS__google:-}
+  PROVIDER_KEYS__google_gemini_3_6_flash_key1: ${PROVIDER_KEYS__google:-}
+  PROVIDER_KEYS__google_gemini_3_7_flash_key1: ${PROVIDER_KEYS__google:-}
+  PROVIDER_KEYS__google_gemini_3_8_flash_key1: ${PROVIDER_KEYS__google:-}
+  # Google key 2 — the secret is not duplicated in .env, it is derived from the
+  # source. `make run NO_GOOGLE=1` exports PROVIDER_KEYS__google2="" and blanks
+  # these two instances (filter_providers_without_api_key takes them out of the cascade).
+  PROVIDER_KEYS__google_gemini31_key2: ${PROVIDER_KEYS__google2:-}
+  PROVIDER_KEYS__google_gemini35_key2: ${PROVIDER_KEYS__google2:-}
+  # Mistral / Groq / Cerebras — one key each, which can be blanked the same way
+  # when their credits run out (HTTP 402). A dead provider left in
+  # rotation costs degraded decisions: the balancer probes it again when
+  # the withdrawal expires and tasks exhaust their retries on it (155 fallbacks
+  # « Default index » on the run 2026-08-19_11_01). Usage:
+  #   PROVIDER_KEYS__mistral="" PROVIDER_KEYS__cerebras="" make run
+  PROVIDER_KEYS__mistral_key1: ${PROVIDER_KEYS__mistral:-}
+  # Same key: the two Mistral instances differ by their model, not by their key.
+  PROVIDER_KEYS__mistral_large3_key1: ${PROVIDER_KEYS__mistral:-}
+  PROVIDER_KEYS__groq_openai_120_key1: ${PROVIDER_KEYS__groq:-}
+  PROVIDER_KEYS__groq_openai_20_key1: ${PROVIDER_KEYS__groq:-}
+  PROVIDER_KEYS__groq_qwen_qwen3_6_27b_key1: ${PROVIDER_KEYS__groq:-}
+  PROVIDER_KEYS__groq_qwen_qwen3_8_27b_key1: ${PROVIDER_KEYS__groq:-}
+  PROVIDER_KEYS__cerebras_gptoss120b_key1: ${PROVIDER_KEYS__cerebras:-}
+  PROVIDER_KEYS__cerebras_gemma_4_31b_key1: ${PROVIDER_KEYS__cerebras:-}
+  # OpenAI — 1 instance
+  PROVIDER_KEYS__openai_gpt56_luna_key1: ${PROVIDER_KEYS__openai:-}
+  PROVIDER_KEYS__openai_key1: ${PROVIDER_KEYS__openai:-}
+  # ── LM Studio (local models served by the host, port 1234; weight 0 = pinning only) ──
+  # A single switch: PROVIDER_KEYS__lmstudio in .env (any value, LM Studio does not
+  # check the key). Empty or absent, all lmstudio_* instances are excluded at startup.
+  PROVIDER_KEYS__lmstudio_mistral_small_3_2_key1: ${PROVIDER_KEYS__lmstudio:-}
+  PROVIDER_KEYS__lmstudio_mistral_nemo_12b_key1: ${PROVIDER_KEYS__lmstudio:-}
+  PROVIDER_KEYS__lmstudio_mistral_7b_v0_3_key1: ${PROVIDER_KEYS__lmstudio:-}
+  PROVIDER_KEYS__lmstudio_gemma_4_e4b_key1: ${PROVIDER_KEYS__lmstudio:-}
+  PROVIDER_KEYS__lmstudio_qwen3_vl_8b_key1: ${PROVIDER_KEYS__lmstudio:-}
+  PROVIDER_KEYS__lmstudio_qwen3_vl_32b_key1: ${PROVIDER_KEYS__lmstudio:-}
+  PROVIDER_KEYS__lmstudio_qwen3_8_27b_key1: ${PROVIDER_KEYS__lmstudio:-}
+  PROVIDER_KEYS__lmstudio_muse_glimmer_28b_key1: ${PROVIDER_KEYS__lmstudio:-}
+  # Sources — the only ones to fill in in .env. Kept in the container's
+  # environment for tools outside the gateway (scripts/synthesis/*) that resolve
+  # their keys themselves, and so they can still be overridden from the shell.
+  PROVIDER_KEYS__google: ${PROVIDER_KEYS__google:-}
+  PROVIDER_KEYS__google2: ${PROVIDER_KEYS__google2:-}
+  PROVIDER_KEYS__mistral: ${PROVIDER_KEYS__mistral:-}
+  PROVIDER_KEYS__groq: ${PROVIDER_KEYS__groq:-}
+  PROVIDER_KEYS__cerebras: ${PROVIDER_KEYS__cerebras:-}
+  PROVIDER_KEYS__openai: ${PROVIDER_KEYS__openai:-}
+  PROVIDER_KEYS__lmstudio: ${PROVIDER_KEYS__lmstudio:-}
+
+x-osmnx-service: &osmnx-service
+  build:
+    context: ./services/llm-agents
+    dockerfile: Dockerfile
+  command: uvicorn osmnx_server:app --host 0.0.0.0 --port 8090 --log-level warning
+  restart: "no"
+  stop_grace_period: 5s
+  volumes:
+    - ./data/cache/osmnx:/app/osmnx_cache
+    - ./services/llm-agents/config:/app/config:ro
+    # Ticket 031 (decision 4): congestion applies per node zone (city / conurbation /
+    # outside); the conurbation geometry comes from the survey's rings. Without this
+    # file, a graph without zones does not load (explicit error, no fallback).
+    - ./packages/mobility_core/src/mobility_core/data/couronne_perimetre.geojson:/app/mobility_core/data/couronne_perimetre.geojson:ro
+  environment:
+    APP_CONFIG_PATH: /app/config/${CONFIG_FILE:-config.yaml}
+  healthcheck:
+    test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8090/health')\""]
+    interval: 15s
+    timeout: 10s
+    retries: 20
+    start_period: 300s
+  mem_limit: 8g   # raised from 4g → 8g: the warmup loads foot+bike+car simultaneously (OOM 137 at 4g)
+
+x-otp-service: &otp-service
+  image: eclipse-temurin:21-jre-jammy
+  ports:
+    - "8080:8080"
+  mem_limit: 6g
+  volumes:
+    - ./services/otp-toulouse/bin:/otp/bin:ro
+    - ./data/gtfs/:/var/otp/toulouse:ro
+  command: ["sh", "-c", "java -Xmx4G -jar /otp/bin/*.jar --load /var/otp/toulouse --port 8080"]
+  healthcheck:
+    test: ["CMD-SHELL", "curl -sf http://localhost:8080/ || exit 1"]
+    interval: 15s
+    timeout: 10s
+    retries: 10
+    start_period: 300s 
+
+
+# ── EQUASIM env vars (override from .env or shell) ───────────────────────────
+# EQASIM_POPULATION_SIZE: if unset, read from APP_CONFIG_PATH
+# EQASIM_GENERATE_PERSONALITY: "true" to populate Big Five scores
+# EQASIM_RANDOM_SEED: reproducibility seed (default 1234)
+x-eqasim-env: &eqasim-env
+  APP_CONFIG_PATH: /app/config/${CONFIG_FILE:-config.yaml}
+  EQASIM_POPULATION_SIZE: ${EQASIM_POPULATION_SIZE:-}
+  EQASIM_GENERATE_PERSONALITY: ${EQASIM_GENERATE_PERSONALITY:-false}
+  EQASIM_RANDOM_SEED: ${EQASIM_RANDOM_SEED:-1234}
+  # Sampling frame = the EMC² survey scope (list of communes), and not a
+  # rectangle (ticket 026). `EQASIM_DEPARTMENTS` restricts it; since 2026-09-03 (ticket
+  # 031, gate 1 lifted: BD TOPO 2025-03-15 and BAN of the six departments present) the default
+  # is the whole scope — 453 communes. `31` alone gives back the Haute-Garonne rehearsal
+  # (346 communes, limit no. 6 of docs/arch/perimetre-population.md). The service refuses to
+  # generate if a requested department lacks its data. Set EQASIM_PERIMETER=false to
+  # go back to the former behaviour (whole department or bbox filtering).
+  EQASIM_PERIMETER: ${EQASIM_PERIMETER:-true}
+  EQASIM_DEPARTMENTS: ${EQASIM_DEPARTMENTS:-31,32,81,82,09,11}
+  OTP_ENDPOINT: http://otp1:8080
+
+services:
+
+  # ─────────────────────────────────────────────
+  # EQUASIM Toulouse — generation of the synthetic population
+  #
+  # One-shot service: exits once the population JSON is produced.
+  # The controller waits for its completion via service_completed_successfully.
+  #
+  # Volumes required on the host (mount the INSEE/OSM/GTFS/BAN/BDTOPO data):
+  #   ./data/eqasim/data   → raw input data (read only)
+  #   ./data/eqasim/cache  → intermediate pipeline cache (speeds up re-runs)
+  # Volume shared with the controller:
+  #   eqasim_output        → population JSON consumed by EqasimJSONPopulationLoader
+  # ─────────────────────────────────────────────
+
+  eqasim:
+    build:
+      context: ./services/eqasim-toulouse
+      dockerfile: Dockerfile
+    entrypoint: ["uv", "run", "python", "/eqasim/server.py"]
+    ports:
+      - "8003:8003"
+    mem_limit: 10g
+    environment:
+      <<: *eqasim-env
+      EQASIM_PROCESSES: ${EQASIM_PROCESSES:-2}
+    volumes:
+      - ./services/eqasim-toulouse/generate_population.py:/eqasim/generate_population.py:ro
+      - ./services/eqasim-toulouse/server.py:/eqasim/server.py:ro
+      # Ticket 031: the service's synpp config starts from config_toulouse.yml — the only source of the
+      # HTS matching settings (filter_hts, matching_attributes, threshold) and of the donor
+      # days. Without this mount, the wrapper refuses to generate (code 5): before, it silently
+      # fell back on synpp's defaults (308 ENTD donors resident in Haute-Garonne).
+      - ./services/eqasim-toulouse/config_toulouse.yml:/eqasim/config_toulouse.yml:ro
+      - ./services/llm-agents/config:/app/config:ro
+      - ./services/eqasim-toulouse/data:/eqasim-data:rw
+      - ./services/eqasim-toulouse/data/bpe:/eqasim/data/bpe:ro
+      - ./services/eqasim-toulouse/data/census:/eqasim/data/census:ro
+      # Ticket 031 § 1.2: the ENTD cleaning (donor days = school days) lives in
+      # data/hts; mounted like the other stages so that the fork's code is the one that runs,
+      # without rebuilding the image.
+      - ./services/eqasim-toulouse/data/hts:/eqasim/data/hts:ro
+      # Ticket 031: reading BATI/BATIMENT.shp from IGN's « TOUSTHEMES_SHP » .7z archives.
+      - ./services/eqasim-toulouse/data/bdtopo:/eqasim/data/bdtopo:ro
+      - ./services/eqasim-toulouse/data/spatial:/eqasim/data/spatial:ro
+      - ./services/eqasim-toulouse/data/sirene:/eqasim/data/sirene:ro
+      - ./services/eqasim-toulouse/synthesis:/eqasim/synthesis:ro
+      # Ticket 015, lot 4: `synthesis/population/enriched.py` learns bike
+      # ownership with `mobility_core.bike_ownership` (and `zone_resolver` for the home's
+      # fine zone), instead of copying the number of bikes of an ENTD household.
+      # WORKDIR is /eqasim, so the package is importable as is; the mount
+      # also brings its `mobility_core/data/` resources (bike_ownership.json,
+      # zf_zones.gpkg), which the module resolves relative to its own file.
+      # geopandas/shapely/pandas are already dependencies of the image.
+      - ./packages/mobility_core/src/mobility_core:/eqasim/mobility_core:ro
+      - ./data/cache/eqasim:/eqasim-cache:rw
+      - ./data/population:/eqasim-output:rw
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8003/health')\""]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ─────────────────────────────────────────────
+  # Infrastructure
+  # 
+  # - Redis is an in-memory, open-source database, used as a cache, 
+  #   message broker and key-value database.
+  #   It brokers the prompts and results between the API Gateway and the LLM Workers
+  # ─────────────────────────────────────────────
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ─────────────────────────────────────────────
+  # OpenTripPlanner — Toulouse multimodal routing
+  # ─────────────────────────────────────────────
+
+  otp1:
+    <<: *otp-service
+    ports:
+      - "8080:8080"
+
+  otp2:
+    <<: *otp-service
+    ports:
+      - "8081:8080"
+  
+  otp3:
+    <<: *otp-service
+    ports:
+      - "8082:8080"
+
+
+  # ─────────────────────────────────────────────
+  # OSMnx routing microservice — 3 replicas (walk / bike / drive)
+  # ─────────────────────────────────────────────
+
+  osmnx1:
+    <<: *osmnx-service
+    ports:
+      - "8090:8090"
+
+  # ⚠ 2026-08-17 — enabled then DISABLED AGAIN the same day, with measurements to back it. Read
+  # before trying again, because the natural reasoning is the wrong one here.
+  #
+  # The symptom invites scaling: while generating a prompt base (ticket 013),
+  # `osmnx1` alone saturated at 343 % CPU — one worker per mode, three modes — while
+  # the three OTPs ran at 1 %. The VM has 10 CPUs: room to spare, apparently.
+  #
+  # Measured after moving to 3 replicas: throughput FELL from 0.5 to 0.2 trips/s. The
+  # constraint was not the CPU but HOST MEMORY — ~12 MB free before the
+  # change, swap at 12.5 GB out of 13.3, 95 million swap-ins. Adding 4.8 GB of
+  # containers bought parallelism at the cost of paging.
+  #
+  # Next attempt, also measured: free OTP's memory (3 JVMs × 1.5 GB
+  # for 0.4 % CPU) in favour of the routers, keeping only one. Throughput
+  # stayed at 0.2 trips/s. On this machine, a single OSMnx replica is the optimum.
+  #
+  # So: do not uncomment without having checked the host's free memory, and without
+  # measuring throughput BEFORE/AFTER on the same slice of work. CPU alone is
+  # misleading.
+  # osmnx2:
+  #   <<: *osmnx-service
+  #   ports:
+  #     - "8091:8090"
+
+  # osmnx3:
+  #   <<: *osmnx-service
+  #   ports:
+  #     - "8092:8090"
+
+  # ─────────────────────────────────────────────
+  # LLM Agents — Architecture API Gateway + Worker Celery + Monitoring
+  #
+  # Description:
+  #   - API Gateway (FastAPI):
+  #       Interface between GAMA and the language models (LLM).
+  #       Receives GAMA's requests, turns them into suitable prompts,
+  #       and sends the asynchronous tasks to the Celery worker.
+  #       Returns the final results to GAMA after processing.
+  #
+  #   - Celery worker:
+  #       Runs the prompt generation tasks sent by the API.
+  #       Interacts with the LLMs and other services (OTP).
+  #       Returns the results to the API via Redis.
+  #
+  #   - Flower (Monitoring):
+  #       Web interface to view the state of Celery tasks,
+  #       monitor the workers, the queues and the results.
+  # ─────────────────────────────────────────────
+
+  api:
+    build:
+      context: .
+      dockerfile: packages/llm_gateway/Dockerfile
+    command: uvicorn llm_gateway.main:app --host 0.0.0.0 --port 8000 --reload --log-level warning
+    ports:
+      - "8000:8000"
+    env_file: ./.env
+    environment:
+      <<: [*shared-env, *gateway-env]
+      LLM_GATEWAY_TELEMETRY__SERVICE_NAME: api
+      # ws://gama:3001 in offline mode (make run OFFLINE=1), GUI on the host otherwise
+      GAMA_WS_URL: ${GAMA_WS_URL:-ws://host.docker.internal:3001}
+    volumes:
+      - ./packages/llm_gateway/src/llm_gateway:/app/llm_gateway
+      - ./config/llm_gateway:/app/config/llm_gateway:ro
+      - ./packages/mobility_core/src/mobility_core:/app/mobility_core
+      - ./packages/mobility_llm/src/mobility_llm:/app/mobility_llm
+      # The THREE networks in service, not Tisséo alone: OTP's proximity gate
+      # (`trip_helper/otp.py`, feeds_en_service) lists the feeds at the top
+      # level of this directory. Mounted on tisseo_gtfs alone, it refused
+      # the OTP call for 397 of the 2,580 points of the sealed v4 population — those
+      # that only have a liO stop or a TER station within reach (ticket 031, q. 16).
+      - ./data/gtfs:/data/gtfs
+      - ./experiments:/app/experiments
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\""]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 15s
+    depends_on:
+      redis:
+        condition: service_healthy
+      otp1:
+        condition: service_healthy
+      otp2:
+        condition: service_healthy
+      otp3:
+        condition: service_healthy
+
+  controller:
+    build:
+      context: ./services/llm-agents
+      dockerfile: Dockerfile
+    # `exec` is essential: without it, PID1 stays `sh`, which does not relay SIGTERM to
+    # hypercorn. Every `docker stop`/`compose restart` then degenerated into SIGKILL after the
+    # grace period (exit 137), taking down without notice the experiment runner launched with
+    # `docker compose exec` in this container. With `exec`, hypercorn IS PID1 and stops
+    # cleanly. The background jobs are forked before the `exec`: they are preserved.
+    command: sh -c "python /app/archive_log.py && python /app/vizpop.py 5050 & exec hypercorn handle.application:app --bind 0.0.0.0:8002 --keep-alive 120"
+    ports:
+      - "8002:8002"
+      - "5050:5050"
+    env_file: ./.env
+    environment:
+      <<: *shared-env
+      LLM_API_URL: http://api:8000
+      EQASIM_SERVICE_URL: http://eqasim:8003
+      #APP_WORKDIR: /app/workdir
+      # ws://gama:3001 in offline mode (make run OFFLINE=1), GUI on the host otherwise
+      GAMA_WS_URL: ${GAMA_WS_URL:-ws://host.docker.internal:3001}
+      PYTHONPATH: /app:/opt
+      # The controller reads the list of providers to size the experiments (ressources.py).
+      LLM_GATEWAY_PROVIDERS_FILE: ${LLM_GATEWAY_PROVIDERS_FILE:-/app/config/llm_gateway/providers.yaml}
+      # ── EXPERIMENT settings (ticket 077, lot L) ───────────────────────────────
+      # Pass-through, on the model of CONTINUE_RUN: compose passes to the container only what
+      # it declares. Without these lines, a `VEHICLE_CHAIN_ENABLED=false` set on the host
+      # reaches nothing, and the run uses the default values without anything saying so —
+      # which is exactly what happened on 2026-09-19 at 16:44.
+      #
+      # ⚠ BARE NAME, without the `AGENT__` prefix: the sub-configurations are `BaseSettings`
+      # without prefix (`settings.py`). `AGENT__VEHICLE_CHAIN_ENABLED` is read by nobody, and
+      # the cohort orchestrator set it for weeks without the slightest effect.
+      #
+      # ⚠ The defaults below MUST stay those of `settings.py` — two default values
+      # written in two places diverge. `test_077_lotL_passage_reglages.py` keeps them together.
+      #
+      # ⚠ A key present in `config/config.yaml` wins over these variables: the YAML is
+      # passed at initialisation, which takes precedence over the environment. That is why lot K
+      # removed them from the file.
+      VEHICLE_CHAIN_ENABLED: ${VEHICLE_CHAIN_ENABLED:-true}
+      VEHICLE_RETURN_HOME_LOCK: ${VEHICLE_RETURN_HOME_LOCK:-true}
+      MODE_CHOICE_TRUNCATION_THRESHOLD: ${MODE_CHOICE_TRUNCATION_THRESHOLD:-0.0}
+      STM_REFLECTION_MIN_ENTRIES: ${STM_REFLECTION_MIN_ENTRIES:-10}
+      WEATHER_PER_AGENT_DATES: ${WEATHER_PER_AGENT_DATES:-false}
+      # Ticket 084/085/095 — gateway instances allowed to serve THIS run's calls.
+      # Accepts a flat JSON list, or a `category → instances` TABLE (lot C of 095).
+      #
+      # ⚠ The name is the field's BARE name: `INSTANCES_ADMISES`, NOT `LLM__INSTANCES_ADMISES`.
+      # The campaign orchestrator set the latter from 2026-09-08 to 2026-09-21: wrong name,
+      # not declared here, and in any case `config.yaml` took precedence. It never did anything.
+      # The default reproduces what `config.yaml` set until 2026-09-21.
+      INSTANCES_ADMISES: '${INSTANCES_ADMISES:-["google_gemini31_key1","google_gemini31_key2"]}'
+      # 2026-09-25 — exact-prompt replay space, the same in both arms of an A/B
+      # (set by the memory orchestrator when the experiment declares `rejeu_ab: true`). Empty:
+      # no replay, former behaviour.
+      REJEU_AB: ${REJEU_AB:-}
+      REJEU_STRICT_AVANT_TS: ${REJEU_STRICT_AVANT_TS:-0}
+      WORLD__PREFIXE_COMMUN: ${WORLD__PREFIXE_COMMUN:-false}
+      MEMOIRE__IMPORTANCE_CHOC: ${MEMOIRE__IMPORTANCE_CHOC:-0.7}
+      # Ticket 095 — what the delay component becomes BEYOND the reference delay.
+      # `asymptote`: it keeps rising, decelerating. `palier`: the behaviour before
+      # 2026-09-21, where 30, 45 and 60 minutes were worth exactly the same severity. Declare
+      # `palier` to reproduce an earlier run.
+      MEMOIRE__RETARD_SATURATION: ${MEMOIRE__RETARD_SATURATION:-asymptote}
+      MEMOIRE__RETARD_GRAVITE_MAX: ${MEMOIRE__RETARD_GRAVITE_MAX:-0.7}
+      MEMOIRE__RETARD_REF_S: ${MEMOIRE__RETARD_REF_S:-1800}
+      MEMOIRE__FENETRE_CHANGEMENTS_JOURS: ${MEMOIRE__FENETRE_CHANGEMENTS_JOURS:-14}
+      MEMOIRE__CHANGEMENTS_MAX: ${MEMOIRE__CHANGEMENTS_MAX:-3}
+      # Ticket 095, lot A — the duration of a shock memory is DERIVED from its severity. `derivee`
+      # is the default; `fixe` reproduces the behaviour before the ticket and then reads
+      # MEMOIRE__FENETRE_CHANGEMENTS_JOURS above. The mode goes into identite_run.json.
+      MEMOIRE__MODE_FENETRE_CHANGEMENTS: ${MEMOIRE__MODE_FENETRE_CHANGEMENTS:-derivee}
+      MEMOIRE__SEUIL_SERVICE_CHANGEMENT: ${MEMOIRE__SEUIL_SERVICE_CHANGEMENT:-0.35}
+      MEMOIRE__PLANCHER_CHANGEMENT_JOURS: ${MEMOIRE__PLANCHER_CHANGEMENT_JOURS:-2.0}
+      MEMOIRE__PLAFOND_CHANGEMENT_JOURS: ${MEMOIRE__PLAFOND_CHANGEMENT_JOURS:-50.0}
+      # ── Sharing within the household (ticket 100, lot 4) and guard of decision D7 ────────
+      # A memory rule is varied through the ENVIRONMENT, never through config.yaml: it
+      # belongs to the run and ends up in its identity. Without these lines, `MEMOIRE__…` set
+      # on the host would not reach the container — which is exactly what L1.1 of 077 checks.
+      MEMOIRE__PARTAGE_FOYER_ENABLED: ${MEMOIRE__PARTAGE_FOYER_ENABLED:-false}
+      # IN-FLIGHT planning tasks (2026-09-24): they bound the size of the micro-batches.
+      # At 8, a batch could gather only 8 agents, whatever the population; an
+      # experiment sets it to its population size so that all leave together.
+      WORLD__WORKER_CONCURRENCY: ${WORLD__WORKER_CONCURRENCY:-8}
+      MEMOIRE__PARTAGE_FOYER_OBSERVATIONS_MIN: ${MEMOIRE__PARTAGE_FOYER_OBSERVATIONS_MIN:-1}
+      MEMOIRE__PARTAGE_FOYER_MAX_BLOC: ${MEMOIRE__PARTAGE_FOYER_MAX_BLOC:-12}
+      MEMOIRE__RECIT_SOIR_HEURE: ${MEMOIRE__RECIT_SOIR_HEURE:-18}
+      MEMOIRE__RECIT_SOIR_ALERTE_PAR_MEMBRE: ${MEMOIRE__RECIT_SOIR_ALERTE_PAR_MEMBRE:-8}
+      MEMOIRE__ECART_JUGEMENT_ALARME: ${MEMOIRE__ECART_JUGEMENT_ALARME:-0.3}
+      # ── Experiment devices (ticket 077) ───────────────────────────────────────
+      # Same omission as the settings above, found on 2026-09-21: the orchestrator
+      # set them on the host, compose did not declare them, and the two devices NEVER
+      # ran — neither the modal affinity survey nor the hibernation on quota. Zero
+      # `[enquete]` lines in the logs of the campaign's three arms.
+      EXPERIMENT_SURVEY_ENABLED: ${EXPERIMENT_SURVEY_ENABLED:-0}
+      EXPERIMENT_SURVEY_DAYS: ${EXPERIMENT_SURVEY_DAYS:-}
+      # Ticket 095, lot B — modes asked about by the evening survey. Empty: the four of Adam &
+      # Gaudou (voiture, transports_collectifs, velo, marche). Extend to `train` or
+      # `deux_roues` when the run's shock targets them (C4, C5), otherwise the instrument asks about
+      # four modes none of which is the one the shock hit.
+      EXPERIMENT_SURVEY_MODES: ${EXPERIMENT_SURVEY_MODES:-}
+      # Ticket 118 — delays between retries of one survey question (empty: 60,120,240 s), and
+      # the simulated provider outage of the functional bench (`<day>:<duration_s>`, empty: none).
+      # Never set the outage for a measurement.
+      EXPERIMENT_SURVEY_RETRIES_S: ${EXPERIMENT_SURVEY_RETRIES_S:-}
+      EXPERIMENT_SURVEY_PANNE: ${EXPERIMENT_SURVEY_PANNE:-}
+      EXPERIMENT_TARGET_PERSONAS: ${EXPERIMENT_TARGET_PERSONAS:-}
+      # Ticket 105 — the run stops rather than serve a default decision. Two reasons:
+      # daily quota (077) and consecutive fallbacks (105). The old name, which only spoke of
+      # the quota, is still accepted as an alias: it is written in campaign scripts already launched.
+      EXPERIMENT_STOP_ON_FALLBACK: ${EXPERIMENT_STOP_ON_FALLBACK:-0}
+      EXPERIMENT_HIBERNATE_ON_QUOTA: ${EXPERIMENT_HIBERNATE_ON_QUOTA:-0}
+      # Ticket 035 — experiment platform: where sets, experiments and the survey reference data live
+      EXPERIENCES_DIR: /app/data/experiences
+      JEUX_DIR: /app/data/jeux
+      REFERENTIEL_ENQUETE: /app/scripts/data/population/cerema_values.yaml
+      # Run interruptions: grace period left to in-flight requests before abandoning
+      # them, and inactivity beyond which the run pauses on its own (0 = never).
+      EXP_PAUSE_GRACE_S: ${EXP_PAUSE_GRACE_S:-15}
+      EXP_INACTIVITE_PAUSE_S: ${EXP_INACTIVITE_PAUSE_S:-420}
+    volumes:
+      - ./services/llm-agents:/app
+      - ./packages/llm_gateway/src/llm_gateway:/opt/llm_gateway
+      - ./config/llm_gateway:/app/config/llm_gateway:ro
+      - ./packages/mobility_core/src/mobility_core:/opt/mobility_core
+      - ./packages/mobility_llm/src/mobility_llm:/opt/mobility_llm
+      - ./scripts:/app/scripts
+      # Standalone prompt_calibration repository (endpoint POST /calibrate → CALIBRATION_DIR)
+      # Experiment plan, READ ONLY: `ratios_du_plan()` reads the tokens per
+      # request from it, last fallback of the cost estimate. Without this mount, the estimate
+      # of a paid arm reports « aucune mesure disponible » since the experiment base
+      # is empty — the previous fallback, the median of archived runs, has nothing left to
+      # answer with (ticket 045). Narrow mount: the container does not need the rest of `config/`.
+      # Under `config/` since ticket 115: the writing of the papers has left the repository.
+      - ./config/experience_plan:/app/config/experience_plan:ro
+      # Press corpus of ticket 059, READ ONLY (ticket 100, lot 2). The `lu` channel
+      # QUOTES these texts: their fingerprint is checked on loading against the declaration AND
+      # against the corpus manifest. Without this mount, an article run refuses to start,
+      # saying « texte introuvable » and listing the paths tried. Narrow mount, on the
+      # model of the experiment plan above: the container does not need the rest of `data/`.
+      # ⚠ Read only is non-negotiable — a corpus that the container could rewrite would
+      # no longer prove anything. Under `data/presse/` since ticket 115.
+      - ./data/presse/articles_txt:/app/data/presse/articles_txt:ro
+      # The THREE networks in service, not Tisséo alone: OTP's proximity gate
+      # (`trip_helper/otp.py`, feeds_en_service) lists the feeds at the top
+      # level of this directory. Mounted on tisseo_gtfs alone, it refused
+      # the OTP call for 397 of the 2,580 points of the sealed v4 population — those
+      # that only have a liO stop or a TER station within reach (ticket 031, q. 16).
+      - ./data/gtfs:/data/gtfs
+      - ./experiments:/app/experiments
+      - ./data/population:/data/eqasim-output:rw
+      # GRAPH pickles (`graphs_<key>.pkl`) — path shared with the `osmnx` replicas,
+      # whose image has this path baked in (`gtfs.osmnx_cache_dir`).
+      - ./data/cache/osmnx:/app/osmnx_cache
+      # SQLite ROUTE cache (`<population>/osmnx_cache.db`) — SAME host directory, mounted
+      # a second time on the path that `gtfs.osmnx_persistent_cache_dir` expects. This mount
+      # is what makes the bulk populator and the runtime write the SAME file; without
+      # it, the runtime starts from scratch in `services/llm-agents/data/osmnx_cache/` (cf. 2026-09-04).
+      - ./data/cache/osmnx:/app/data/cache/osmnx
+      - ./data/cache/llm:/app/data/llm_cache
+      - ./data/cache/otp:/app/data/cache/otp
+      - ./data/weather:/app/data/weather
+      - ./data/weather:/data/weather
+      # Ticket 035 — recorded trip sets and experiments (platform)
+      - ./data/jeux:/app/data/jeux
+      - ./data/experiences:/app/data/experiences
+      - ./services/GAMA:/services/GAMA
+    depends_on:
+      api:
+        condition: service_healthy
+      otp1:
+        condition: service_healthy
+      otp2:
+        condition: service_healthy
+      otp3:
+        condition: service_healthy
+      eqasim:
+        condition: service_started
+      osmnx1:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: .
+      dockerfile: packages/llm_gateway/Dockerfile
+    command: celery -A llm_gateway.worker.task_worker.celery_app worker --loglevel=info --concurrency=25 -P threads
+    env_file: ./.env
+    environment:
+      <<: [*shared-env, *gateway-env]
+      LLM_GATEWAY_TELEMETRY__SERVICE_NAME: worker
+    volumes:
+      - ./packages/llm_gateway/src/llm_gateway:/app/llm_gateway
+      - ./config/llm_gateway:/app/config/llm_gateway:ro
+      - ./packages/mobility_core/src/mobility_core:/app/mobility_core
+      - ./packages/mobility_llm/src/mobility_llm:/app/mobility_llm
+      # The THREE networks in service, not Tisséo alone: OTP's proximity gate
+      # (`trip_helper/otp.py`, feeds_en_service) lists the feeds at the top
+      # level of this directory. Mounted on tisseo_gtfs alone, it refused
+      # the OTP call for 397 of the 2,580 points of the sealed v4 population — those
+      # that only have a liO stop or a TER station within reach (ticket 031, q. 16).
+      - ./data/gtfs:/data/gtfs
+      - ./experiments:/app/experiments
+    depends_on:
+      redis:
+        condition: service_healthy
+      otp1:
+        condition: service_healthy
+      otp2:
+        condition: service_healthy
+      otp3:
+        condition: service_healthy
+
+
+  flower:
+    build:
+      context: .
+      dockerfile: packages/llm_gateway/Dockerfile
+    command: celery -A llm_gateway.worker.task_worker.celery_app flower --port=5555
+    ports:
+      - "5555:5555"
+    env_file: ./.env
+    environment:
+      <<: *gateway-env
+    volumes:
+      # Same mounted sources as api/worker: flower imports the worker's Celery application.
+      - ./packages/llm_gateway/src/llm_gateway:/app/llm_gateway
+      - ./packages/mobility_core/src/mobility_core:/app/mobility_core
+      - ./packages/mobility_llm/src/mobility_llm:/app/mobility_llm
+      - ./config/llm_gateway:/app/config/llm_gateway:ro
+    depends_on:
+      redis:
+        condition: service_healthy
+      worker:
+        condition: service_started
+
+  # ─────────────────────────────────────────────
+  # Monitoring: Prometheus & Grafana
+  # ─────────────────────────────────────────────
+
+  node_exporter:
+    image: prom/node-exporter:latest
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--path.rootfs=/rootfs'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+
+  # CPU/RAM/network PER CONTAINER (api, worker, otp, redis, qdrant…) — node_exporter
+  # only sees the Docker Desktop VM total. Feeds the 08_systeme dashboard.
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    ports:
+      - "8888:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    privileged: true
+    devices:
+      - /dev/kmsg
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infra/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_LOG_LEVEL=warn
+      # JSON datasource plugin for the cockpit's "Dernières erreurs LLM" panel
+      - GF_INSTALL_PLUGINS=yesoreyeram-infinity-datasource
+    volumes:
+      - ./infra/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./infra/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./infra/grafana/provisioning/alerting:/etc/grafana/provisioning/alerting
+      - grafana_data:/var/lib/grafana
+      - ./infra/grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      prometheus:
+        condition: service_healthy
+
+  # ─────────────────────────────────────────────
+  # GAMA Server — headless multi-agent simulation (profile "offline")
+  #
+  # Official image aligned with the locally installed version (2025-06-4): the
+  # GAML models are not portable across versions, do not change the tag without
+  # revalidating the models.
+  #
+  # GAMA starts in server mode (JSON WebSocket protocol on 6868) and waits for
+  # the load/play commands of the launcher `scripts/gama/launch_headless.py`, launched
+  # by `make run OFFLINE=1` in the controller container. The model then opens
+  # its own websocket_server on 3001 (existing data channel,
+  # LLMAgent.gaml) to which the controller connects via GAMA_WS_URL=ws://gama:3001.
+  #
+  # In GUI mode (default, no profile), this service does not start and
+  # GAMA_WS_URL falls back to ws://host.docker.internal:3001.
+  # ─────────────────────────────────────────────
+
+  gama:
+    image: gamaplatform/gama:2025.06.4
+    profiles: ["offline"]
+    command: ["-socket", "6868"]
+    ports:
+      - "6868:6868"
+    environment:
+      TZ: Europe/Paris
+    volumes:
+      # rw: the model writes ../results/*.csv and ../config/sim_params.yaml
+      - ./services/GAMA:/services/GAMA
+      # The symlink services/GAMA/CityTransport/results → ../../../experiments/archive/<run>/
+      # gama_results (repointed by the controller, settings.py) must resolve
+      # in this container as on the host. That is why GAMA is mounted on
+      # /services/GAMA and not /GAMA (ticket 039): the link target goes up three
+      # levels on both sides — /services/GAMA/CityTransport + ../../../ = /,
+      # <root>/services/GAMA/CityTransport + ../../../ = <root>.
+      - ./experiments:/experiments
+    # 12g: the OOM of 2026-08-19_11_01 showed that 8g is not enough for one simulated
+    # day of 1,000 agents in headless mode (Docker VM raised to 24 GB accordingly).
+    mem_limit: 12g
+    depends_on:
+      controller:
+        condition: service_started
+
+volumes:
+  redis_data:
+  grafana_data:
+  prometheus_data:

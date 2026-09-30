@@ -1,0 +1,108 @@
+version: execution1
+cree_le: '2026-09-17T01:13:43+00:00'
+experience:
+  nom: exp_mistral-l-25_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+  population:
+    chemin: /data/eqasim-output/population_1000_PANEL_v6
+  jeu:
+    nom: population_1000_PANEL_v6_20260316_EN_c
+    dossier: null
+  gabarit:
+    categorie: itinary_multi_agent
+    variante: prompt_minimal_02
+  decideur:
+    type: passerelle
+    modele: mistral-large-2512
+    portee: distant
+    parametres:
+      temperature: 0.0
+      top_p: 1.0
+      max_tokens: 4096
+      thinking_level: high
+    rejeu_de: null
+    graine: null
+    artefact: null
+  mode: sans_simulateur
+  calendrier:
+    politique: aleatoire
+    date: '2026-03-16'
+    graine: 42
+  horizon_jours: 1
+  memoire: false
+  evenements: []
+  graine_ordre: 42
+  graine_tirage: 42
+  regroupement:
+    parallelisme: 8
+  tolerances_horaires:
+    bike: insensible
+    car: heure
+    rail:
+      pas_min: 10
+    transit:
+      pas_min: 10
+    walk: insensible
+  max_candidats: 6
+  attente_max_s: 120
+  vehicule_chaine: true
+  verrou_retour: true
+  derive_de: exp_mistral-l-25_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_t0_nosim
+  renomme_de: null
+  executions_connues: []
+empreintes:
+  population:
+    nom: population_1000_PANEL_v6
+    sha256: 675cfe31f59f450a2919dc1a6bacdbc34e51fdc846bbbe1dfce7160db2a6b253
+    fichier_sha256: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6
+    scellee: true
+  jeu:
+    nom: population_1000_PANEL_v6_20260316_EN_c
+    sha256: e8f9eab14fb4a0600bc04bd85591053dd0fd3bd3571e6e9f98aec87e51bc9f53
+  gabarit:
+    categorie: itinary_multi_agent
+    variante: prompt_minimal_02
+    sha256: e1c3292726da1d2805a11d2c55ae46426b70398b53c6671f2ccfe6f4665ac7b0
+    sources:
+    - prompts.yaml:prompt_minimal_02
+    - travel_plan_describe_v2.j2
+  decideur:
+    type: passerelle
+    modele: mistral-large-2512
+    parametres:
+      temperature: 0.0
+      top_p: 1.0
+      max_tokens: 4096
+      thinking_level: high
+    sha256: 9d997d08fc972e6fbec3fc784d500c5599480619709780883a4a8cd2ab953fe2
+  depot:
+    commit: null
+    arbre_propre: null
+regime_demande:
+  parallelisme: 8
+  unite_sollicitation: deplacement
+regime_applique:
+  parallelisme: 8
+  unite_sollicitation: deplacement
+  decideur: passerelle:mistral-large-2512
+  reprise: false
+reglages_herites:
+  agenda_anticipation_enabled: true
+  max_trip_candidates: 6
+  vehicule_chaine: true
+  verrou_retour: true
+  instances_admises:
+  - mistral_large3_key1
+sources_alea:
+  graine_ordre: 42
+  graine_tirage: 42
+  graine_calendrier: 42
+  echantillonnage_decideur: true
+interruptions: []
+cloture:
+  le: '2026-09-17T02:47:53+00:00'
+  etat: terminee
+  sha256:
+    decisions.jsonl: 5e9e761d179231d89acfb7861e9d59d8569a2f528d8a7ed34b0bbf9c6526875d
+    erreurs.jsonl: 2b2b9d6cd13e96d8a28a643e1dfdf34beca5c6b54da05e7492bb6492fbc58857
+    moves.csv: 13ac1e77dd13fe831cd29fdec1a3953d6d047fd2a32b3ed30a5677885c86bf5c
+    compteurs.json: e01cb49d3f6341237b9ca179bc326aa93ddb80fe1dfd59375ad6b288556cc0ee

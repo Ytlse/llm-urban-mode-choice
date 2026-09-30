@@ -1,0 +1,138 @@
+# Manifest of the sources of the score synthesis page.
+#
+# Every path is relative to the repository root. A missing source is never an
+# error: it produces a « Données manquantes » card in the page, with the
+# action to take to fill it (cf. docs/arch/score-synthesis.md).
+
+output:
+  html: docs/synthesis/index.html
+  json: docs/synthesis/data.json
+
+# EMC² 2023 reference (target modal shares, all dimensions).
+cerema: scripts/data/population/cerema_values.yaml
+
+# ── Common evaluation set ────────────────────────────────────────────────────
+# Substrate shared by the three strands: a simulation run provides the
+# personas, the OTP choice sets and the socio-demographic attributes.
+common_set:
+  # Explicit archive path, not experiments/current: the symlink moves at every
+  # run, the page must stay reproducible. To evaluate another run:
+  # make synthesis RUN=experiments/archive/<run>, then pin it here if adopted.
+  run: experiments/archive/2026-08-27_17_57
+  moves: moves.csv                # relative to the run
+  population: null                # null → auto-detection of population_*.json
+  # Rows without a modal decision: excluded from scoring.
+  #
+  # « LLM Error (Default index) » is one of them since ticket 008 (A6.a): it is
+  # not a decision, it is a fallback. The prompt did not answer, the controller
+  # took the itinerary at index 0 — that is, on the previous run, 100 % the fastest
+  # and 64.7 % car. Keeping them meant grading the prompt on a choice it did
+  # not make. The count of rows thus set aside is shown in the page.
+  exclude_selection_methods:
+    - "Pas de déplacement (même localisation)"
+    - "Pas de solution de déplacement"
+    - "LLM Error (Default index)"
+
+# ── Score definition ────────────────────────────────────────────────────────
+score:
+  metric: emd_jsd                 # main loss (default of the calibration engine)
+  secondary: l1_composite         # loss readable in % points, shown alongside
+  # "Comparable" composite score: length_penalty neutralised (no prompt in the
+  # simulation and model strands). The other weights are the engine's.
+  weights:
+    global: 1.0
+    absent_penalty: 1.0
+    age: 0.5
+    occupation: 0.5
+    genre: 0.3
+    motif: 0.5
+    distance: 0.3
+    length_penalty: 0.0
+
+  # ── Second-oracle terms, at ZERO WEIGHT (decided on 2026-09-10) ─────────────
+  # `accord_mnl` (block B) and `coherence_mnl` (block C) are computed, logged and
+  # published, but carry no weight in the composite score: a prompt selected under a
+  # term measured against a model would be fitted to that model, not to the survey.
+  # Promoting them first requires measuring their scale over several runs — the
+  # composite score being linear, the change back-applies by simple addition.
+  bi_oracle:
+    accord_mnl: 0.0
+    coherence_mnl: 0.0
+
+# ── Strands ──────────────────────────────────────────────────────────────────
+arms:
+  simulation:
+    enabled: true
+
+  calibration:
+    repo: prompt_calibration
+    stores:
+      - id: cloud
+        label: Campagne cloud
+        path: prompt_calibration/calibration_results/calibration_cloud.db
+      - id: local
+        label: Campagne locale
+        path: prompt_calibration/calibration_results/calibration.db
+    # v2 since ticket 008 (A7, decision D2): weather drawn from the full climate
+    # year, where v1 only carried five values, all sunny. Comparability
+    # with the v1 scores is lost, and deliberately so — the page must
+    # make the weather regime visible.
+    datasets: prompt_calibration/calibration_datasets/v2
+    prompts_yaml: llm_module/prompts/prompts.yaml
+    # Verdicts kept for the "non-rejected prompts" trajectory.
+    keep_verdicts: [accepted, imported]
+    # Lineage measured under a single regime (action A5). Pinned for the same
+    # reason as the common-set run: an automatic reconstruction would change
+    # subject at every campaign, without the page saying so.
+    #   leaf   : leaf of the acceptance chain (walking it up gives the seed)
+    #   regime : expected measurement regime; null → the one covering the most
+    #            nodes of this lineage
+    # Produce the measurement: from prompt_calibration/,
+    #   calibrate reeval --config run.yaml --branch essai2
+    lineage:
+      leaf: 0fc427e7b55243bf
+      regime: gemini-3.1-flash-lite-preview · masse de probabilité
+    # Re-evaluation of the kept prompts on the common set — to be produced.
+    common_set_eval: scripts/synthesis/data/calibration_on_common_set.jsonl
+    # Frozen set used as HELD-OUT set (action A4): the only one the loop has never
+    # seen. `val` is used for early stopping — so it influenced the selection of
+    # prompts — and `screen` is a strict subset of `train`: neither one nor
+    # the other can carry a generalisation score.
+    # Produce the measurement (it lives in the store, not in a file):
+    #   make heldout-eval PROVIDER=google_gemini31_key2      # cost it first: DRY_RUN=1
+    # Name under which the eval is filed in the store. Qualified by the frozen-set
+    # version since v2: "test" denoted two different sets (weather of the
+    # run in v1, weather drawn from the year in v2) and the store, which indexes only on
+    # the split name, would have served the v1 measurement again for a v2 request.
+    heldout_dataset: test@v2
+
+  model:
+    feature_spec: scripts/progedo_logit/feature_spec.json
+    dataset: scripts/progedo_logit/progedo_mode_choice_v2.parquet
+    policy: scripts/progedo_logit/mode_choice_policy.json
+    predictions: scripts/synthesis/data/progedo_on_common_set.parquet
+    # Fine-zone layer of the resolver (action A7): it is what makes the six
+    # geographic variables computable on the common set. Outside the repository like
+    # its PROGEDO source — regenerable with `make zones`.
+    #
+    # The path followed the split of the LLM module into libraries (commit 2f27a27):
+    # the layer sits next to its consumer, `mobility_core.zone_resolver`. As long
+    # as it pointed to `llm_module/data/`, strand 3 regenerated as "layer missing"
+    # with nothing saying it was the manifest, not the resource, that was missing.
+    zones: packages/mobility_core/src/mobility_core/data/zf_zones.gpkg
+
+  # ── Second oracle: multinomial logit (strict parity, route 1) ───────────────
+  # Same variable contract, same set, same split as `model` — that is the condition
+  # of the comparison. It is NOT a fidelity target: it is a behavioural
+  # arbiter, cf. docs/arch/score-synthesis.md § « Score à deux oracles ».
+  model_mnl:
+    policy: scripts/progedo_logit/mnl_model.json
+    predictions: scripts/synthesis/data/mnl_on_common_set.parquet
+
+  # Third family (ticket 043): RBF-kernel logistic regression, non-linear like
+  # the booster and smooth like the logit. Same contract, same set, same split — and the SECOND
+  # ARBITER of block C: when the two arbiters disagree on the direction of a change, the
+  # transition leaves the score instead of being attributed to the prompt.
+  model_klr:
+    policy: scripts/progedo_logit/klr_model.json
+    predictions: scripts/synthesis/data/klr_on_common_set.parquet

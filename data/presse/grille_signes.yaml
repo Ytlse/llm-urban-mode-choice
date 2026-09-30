@@ -1,0 +1,78 @@
+# Grille des signes attendus — ticket 059, lot 2. PRÉ-ENREGISTRÉE.
+#
+# Cinq articles par quatre modes, soit VINGT cellules. Chaque cellule porte le sens attendu du
+# déplacement de part modale sous l'article brut (condition C2) par rapport à la journée
+# nominale (C1), son intensité ordinale, et la raison qui le fonde.
+#
+# CE FICHIER SE GÈLE AVANT LA PREMIÈRE REQUÊTE. Son empreinte SHA-256 est recopiée en tête de
+# tout rapport de dépouillement : c'est le seul point qui rend le « pré-enregistré » vérifiable.
+# Une grille modifiée après une campagne se voit.
+#
+# `signe: '0'` est une PRÉDICTION — « aucun déplacement net attendu » — et non une abstention.
+# Un déplacement significatif dans un sens ou dans l'autre la réfute, au même titre qu'un signe
+# inversé réfute un '+'. L'équivalence est stricte : signe '0' si et seulement si intensité 0.
+#
+# Les trois cellules à 0 sont celles que le rapport de scénarios laissait ambiguës — marche sous
+# La Machine (« polarité duale »), voiture sous la grève des éboueurs (« ralentissement et
+# contournement »), marche sous VélôToulouse (« réduction d'effort »). Elles ne se lisent pas
+# après la mesure : elles se déclarent ici, avec la raison de leur ambiguïté.
+
+version: 1
+gele_le: '2026-09-21'
+source: data/presse/RAPPORT_SCENARIOS_QUALITATIFS_TOULOUSE.md § 2 et § 3
+modes: [voiture, velo, marche, tc]
+
+articles:
+
+  a09_vent_autan:
+    titre: "Rafales à plus de 80 km/h, fermeture des parcs et jardins"
+    source_html: articles_html/09_vent_autan_fermeture_parcs.html
+    cellules:
+      voiture: {signe: '+', intensite: 2, motif: "l'habitacle abrite du bruit et de la fatigue nerveuse de l'Autan"}
+      velo:    {signe: '-', intensite: 3, motif: "déséquilibre sur les parapets des ponts, traversées de parcs fermées"}
+      marche:  {signe: '-', intensite: 3, motif: "poussière, chutes de branches, parcours rallongés le long des boulevards"}
+      tc:      {signe: '+', intensite: 2, motif: "le métro franchit la Garonne à l'abri complet"}
+
+  a13_punaises_metro:
+    titre: "Signalements de punaises de lit sur les sièges du métro"
+    source_html: articles_html/13_psychose_punaises_metro.html
+    cellules:
+      voiture: {signe: '+', intensite: 2, motif: "évitement du contact collectif pour les trajets non contraints"}
+      velo:    {signe: '+', intensite: 2, motif: "report vers un mode individuel perçu comme sous contrôle"}
+      marche:  {signe: '+', intensite: 2, motif: "allongement volontaire du pédestre pour éviter les banquettes"}
+      tc:      {signe: '-', intensite: 3, motif: "l'offre technique est intacte, la crédibilité du mode ne l'est pas"}
+
+  a07_greve_eboueurs:
+    titre: "Grève illimitée des éboueurs, ruelles de l'hypercentre encombrées"
+    source_html: articles_html/07_greve_eboueurs_hypercentre.html
+    cellules:
+      # Le rapport écrit « ralentissement et contournement » : deux effets de sens opposés sur le
+      # même mode — la congestion induite éloigne de la voiture, le contournement l'utilise.
+      # Aucun ne domine sur les données du dépôt, et trancher ici serait deviner.
+      voiture: {signe: '0', intensite: 0, motif: "congestion induite et contournement jouent en sens contraires, aucun ne domine"}
+      velo:    {signe: '-', intensite: 2, motif: "débris de verre, chaussée glissante, report sur la voie générale"}
+      marche:  {signe: '-', intensite: 3, motif: "trottoirs obstrués, odeurs, obligation de descendre sur la chaussée"}
+      tc:      {signe: '+', intensite: 2, motif: "le métro court-circuite l'espace public de surface"}
+
+  a18_la_machine:
+    titre: "Parade de rue de La Machine, hypercentre piétonnisé"
+    source_html: articles_html/18_minotaure_la_machine.html
+    cellules:
+      voiture: {signe: '-', intensite: 3, motif: "hypercentre cadenassé, parkings souterrains inaccessibles"}
+      velo:    {signe: '-', intensite: 3, motif: "densité humaine incompatible avec la rotation des pédales"}
+      # « Polarité duale » dans le rapport : attracteur pour le badaud, répulsif pour l'actif
+      # pressé. Le motif du déplacement décide du signe, et la grille ne le conditionne pas au
+      # motif ; la prédiction est donc l'absence de déplacement NET.
+      marche:  {signe: '0', intensite: 0, motif: "attracteur pour le loisir, répulsif pour l'actif pressé — aucun déplacement net attendu"}
+      tc:      {signe: '+', intensite: 3, motif: "seul moyen mécanique d'approcher le périmètre"}
+
+  a25_velotoulouse:
+    titre: "VélôToulouse électrique, dénivelé des coteaux effacé"
+    source_html: articles_html/25_velotoulouse_electrique.html
+    cellules:
+      voiture: {signe: '-', intensite: 2, motif: "bascule des navetteurs périurbains, évitement des embouteillages d'accès"}
+      velo:    {signe: '+', intensite: 3, motif: "suppression du coût métabolique et de la transpiration à l'arrivée"}
+      # « Réduction d'effort » dans le rapport : la densification des stations raccourcit la
+      # marche terminale, mais un report depuis le vélo mécanique l'allonge. Effet net indécis.
+      marche:  {signe: '0', intensite: 0, motif: "marche terminale raccourcie d'un côté, rabattement allongé de l'autre"}
+      tc:      {signe: '-', intensite: 2, motif: "concurrence directe des lignes de bus de colline, jugées lentes"}

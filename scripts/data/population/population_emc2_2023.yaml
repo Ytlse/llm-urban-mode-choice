@@ -1,0 +1,225 @@
+# Characteristics of the population SURVEYED by the survey used as target.
+#
+# ⚠ THIS FILE IS THE BINDING FRAME (ticket 020). It describes *whom* the survey
+# counted, *where*, *when* and *how*. Any comparison between a simulated modal share
+# and a target from `cerema_values.yaml` assumes that both sides speak of the same
+# population: this file is what makes that assumption verifiable.
+#
+# Source: Enquête Mobilité Certifiée CEREMA — EMC² 2023, Toulouse living area.
+# ProGEDO/ADISP lil-1750 microdata (restricted access, `data/PROGEDO 2023/`).
+#
+# ⚠ EVERY VALUE BELOW IS RECOMPUTED FROM THE MICRODATA by
+# `mobility_core.population_reference`, and the test `test_population_reference.py`
+# fails if any of them strays from its tolerance. Before ticket 020, most
+# of this file lay dormant as comments and NO code read it: a framing value
+# without a reader is a wrong value waiting to happen.
+#
+# What was REMOVED, and why — three commented blocks did not come back:
+#   * bike ownership by housing type: served by `mobility_core/data/bike_ownership.json`
+#     (ticket 015), single source of truth. A second copy here would end up diverging.
+#   * parking at home by housing type: no consumer, and the corresponding survey
+#     variable is not the one the block announced.
+#   * teleworking: no consumer, and the activity chain comes from eqasim, not from here.
+# A block commented out "just in case" is vacuity: it looks like data.
+
+enquete:
+  nom: "Enquête Mobilité Certifiée CEREMA - EMC²"
+  annee: 2023
+  periode_enquete:
+    debut: "2022-09-20"
+    fin: "2023-02-18"
+    hors_vacances_scolaires: true
+    contexte_sanitaire: "normalisé"
+  methodologie:
+    type: "EMC² (méthode nationale Cerema)"
+    selection: "tirage aléatoire des ménages"
+    modes_passation:
+      face_a_face: 0.50
+      telephone: 0.50
+    age_minimum_enquete: 5          # years — checked: min(P4) = 5 in the persons file
+    jours_enquetes: [1, 2, 3, 4, 5] # previous day = Monday to Friday; no weekend
+    populations_exclues:
+      - "touristes / visiteurs"
+      - "populations spécifiques (EHPAD...)"
+      - "flux de marchandises"
+    redressement:
+      effectue_par: "CEREMA"
+      etapes:
+        - "redressement de la non-réponse (fichier des Propriétés Bâties)"
+        - "redressement sur données RP2019"
+      variables_redressement:
+        - "taille des ménages"
+        - "motorisation"
+        - "âge"
+        - "occupation principale"
+        - "sexe"
+      poids:
+        COE0: "coefficient de redressement du MÉNAGE — toute cible ménage se pondère avec"
+        COEP: "coefficient de redressement de la PERSONNE — toute part modale se pondère avec"
+
+  echantillon:
+    menages_enquetes: 10783
+    personnes_interrogees: 15775    # aged 5 and over, surveyed in person (PENQ = 1)
+    personnes_recensees: 20890      # all members of surveyed households, persons file
+    deplacements_recenses: 54585    # ⚠ 54 585 and not 54 785: counted in the file
+    communes_couvertes: 453
+    secteurs_de_tirage: 88
+    zones_fines: 785
+    personnes_min_par_secteur: 160
+
+  # Trip location (variable TYPD), weighted by COEP. The targets of
+  # `cerema_values.yaml` correspond to INTERNAL trips: recomputed on
+  # internal trips only → car 55.0 % (published target 55); on ALL → 56.1 %.
+  localisation_deplacements:
+    interne_au_perimetre: 95.94
+    en_echange: 2.69
+    externe_au_perimetre: 1.37
+
+territoire:
+  perimetre_2023:
+    nom: "aire urbaine toulousaine"
+    communes: 453
+    superficie_km2: 5400
+    densite_hab_km2: 260
+  perimetre_2013:
+    communes: 178
+    habitants: 1200000
+    usage: "comparaison des évolutions sur 10 ans"
+  # ⚠ Split by LIST OF MUNICIPALITIES, never by distance to the centre. The counts
+  # below are those of the survey's GIS layer (`EMC2_Toulouse_2023_DTIR`,
+  # field `NOM_D2`), which is authoritative: it gives 69 and 108, where the publication
+  # rounds to 68 and 109. The municipality → ring mapping is exported to
+  # `mobility_core/data/commune_couronne.json` (`make communes-couronnes`).
+  decoupage_concentrique:
+    - nom: "Toulouse"
+      communes: 1
+    - nom: "1ere couronne"
+      communes: 69
+    - nom: "2eme couronne"
+      communes: 108
+    - nom: "3eme couronne"
+      communes: 275
+
+population:
+  totaux_perimetre_2023:
+    habitants: 1400000
+    habitants_5_ans_et_plus: 1320000   # survey target population (recomputed: 1 319 k)
+    nombre_menages: 674000             # recomputed, COE0-weighted: 673 k
+    taille_moyenne_menage: 2.08        # ⚠ mean PER HOUSEHOLD, not per person
+  repartition_par_territoire:
+    toulouse:
+      communes: 1
+      menages: 288000
+      habitants: 507000
+      habitants_5_ans_et_plus: 480000
+      densite_hab_km2: 4290
+      part_population_5_plus: 0.36
+      taille_moyenne_menage: 1.75
+    premiere_couronne:
+      communes: 69
+      menages: 215000
+      habitants: 479000
+      habitants_5_ans_et_plus: 450000
+      densite_hab_km2: 720
+      part_population_5_plus: 0.34
+      taille_moyenne_menage: 2.23
+    deuxieme_couronne:
+      communes: 108
+      menages: 80000
+      habitants: 200000
+      habitants_5_ans_et_plus: 187000
+      densite_hab_km2: 150
+      part_population_5_plus: 0.14
+      taille_moyenne_menage: 2.48
+    troisieme_couronne:
+      communes: 275
+      menages: 90000
+      habitants: 215000
+      habitants_5_ans_et_plus: 203000
+      densite_hab_km2: 65
+      part_population_5_plus: 0.15
+      taille_moyenne_menage: 2.39
+  concentration:
+    coeur_agglomeration_toulouse_plus_1ere_couronne: 0.70   # recomputed: 70.5 %
+
+  repartition_par_classe_age:
+    "5-17_ans": 16
+    "18-24_ans": 13
+    "25-34_ans": 14
+    "35-49_ans": 22
+    "50-64_ans": 19
+    "65_ans_et_plus": 16
+
+  repartition_par_occupation_principale:
+    scolaires_jusqu_au_bac: 17
+    etudiants: 9
+    actifs_temps_plein: 39
+    actifs_temps_partiel: 5
+    en_recherche_emploi: 7
+    retraites: 18
+    autres: 5
+
+# ⚠ HOUSEHOLD targets. A synthetic population is a sample of PERSONS: comparing
+# it as is produces a phantom gap (the size bias — large households are
+# over-represented in it in proportion to their size). Weighting each
+# person by 1/household_size restores the household base. Measured in ticket 020 on
+# `toulouse_population_1000.json`: 1.47 cars/household raw against 1.23 weighted,
+# for a target of 1.25.
+menages_equipement_voiture:
+  perimetre_2023:
+    voitures_par_menage_moyen: 1.25    # recomputed, COE0-weighted: 1.25
+    repartition_motorisation:          # in % — recomputed: 19.4 / 45.3 / 35.3
+      sans_voiture: 19
+      une_voiture: 45
+      deux_voitures_et_plus: 35
+  par_territoire:
+    toulouse:
+      voitures_par_menage: 0.82
+      sans_voiture_pct: 35
+      une_voiture_pct: 49
+      deux_voitures_plus_pct: 16
+    premiere_couronne:
+      voitures_par_menage: 1.47
+      sans_voiture_pct: 9
+      une_voiture_pct: 46
+      deux_voitures_plus_pct: 45
+    deuxieme_couronne:
+      voitures_par_menage: 1.71
+      sans_voiture_pct: 5
+      une_voiture_pct: 38
+      deux_voitures_plus_pct: 58
+    troisieme_couronne:
+      voitures_par_menage: 1.66
+      sans_voiture_pct: 6
+      une_voiture_pct: 38
+      deux_voitures_plus_pct: 55
+
+# ── Where each value above is PUBLISHED (reread on 2026-09-02) ───────────────────
+# AUAT/CEREMA final report « Enquête mobilité 2023 — bassin de vie toulousain », 68 pages,
+# May 2024 (https://www.aua-toulouse.org/wp-content/uploads/2024/05/Rapport-final-68-pages-
+# Enquete-mobilite-2023-Bassin-de-vie-toulousain.pdf). PDF pages.
+#
+# This block adds NO value: it says where the file's values come from, so that a
+# cross-check no longer depends on the memory of whoever entered them. The CEREMA
+# methodological sheets (https://www.cerema.fr/fr/actualites/enquetes-mobilite-certifiees-cerema-methodologie)
+# give the method — mode hierarchy, sizing per sector — but no Toulouse
+# marginal.
+sources_publication:
+  population.totaux_perimetre_2023: "p. 10 — 1,4 M habitants, 674 000 ménages, 1,32 M de 5 ans et +, 2,08 pers./ménage"
+  population.repartition_par_territoire: "p. 10 — chiffres clés par territoire (ménages, habitants, 5 ans et +, densité, part 36/34/14/15 %)"
+  population.repartition_par_classe_age: "p. 11 — 6 classes, population de 5 ans et + redressée"
+  population.repartition_par_occupation_principale: "p. 11 — 7 postes, population de 5 ans et + redressée"
+  menages_equipement_voiture.perimetre_2023: "p. 21 — 19 / 45 / 35 %, base MÉNAGE ; voitures par ménage par couronne 0,82 / 1,47 / 1,71 / 1,66"
+  menages_equipement_voiture.par_territoire: "p. 21 — répartition par couronne (35-49-16, 9-46-45, 5-38-58, 6-38-55)"
+  territoire.decoupage_concentrique: "p. 10 — 1 / 68 / 109 / 275 communes tels que publiés ; la couche SIG DTIR donne 69 / 108 et fait foi"
+  # ⚠ Missing from the report, hence without a published target: the split by SEX and the
+  # driving LICENCE holding rate (the word appears only once, p. 4, in the list of questions).
+  # The population check reports them as "non mesurable"; candidates recomputed on the
+  # microdata (P2, P7, COEP) live in scripts/panel/cible_jointe_couronne_motorisation.yaml.
+  non_publie: ["repartition_par_sexe", "taux_detention_permis"]
+  # ⚠ Trap: the appendix p. 66 is a historical series on the 2013 SCOPE (984 000 inhab.,
+  # 504 000 households, 1.09 cars/household, 24 % without a car). Do not mix it with 2023.
+  perimetre_2013_annexe: "p. 66 — série 1978-2023 sur le périmètre 2013, hors cadrage"
+  # Car ownership on a PERSON base (13.6 / 37.8 / 48.7 %) is published nowhere: it is
+  # a microdata recomputation, frozen with its provenance in
+  # scripts/panel/cible_jointe_couronne_motorisation.yaml — not a second copy here.

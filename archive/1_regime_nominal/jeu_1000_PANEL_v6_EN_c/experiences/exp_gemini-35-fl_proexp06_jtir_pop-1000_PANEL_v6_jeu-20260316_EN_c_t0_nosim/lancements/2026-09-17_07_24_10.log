@@ -1,0 +1,16 @@
+2026-09-17 09:24:11.712 | DEBUG    | experiences.ressources:charger_providers:69 - [ressources] 24 instance(s) lue(s) dans /app/config/llm_gateway/providers.yaml
+2026-09-17 09:24:12.017 | DEBUG    | settings:get:1035 - Configuration lue ; workdir de ce processus s'il ouvrait un run : 2026-09-17_07_18 (aucun artefact créé, cf. claim_run())
+2026-09-17 09:24:12.028 | WARNING  | experiences.jeu:dependances_courantes:346 - [jeu] état du dépôt non vérifiable : ni $EXP_DEPOT_COMMIT ni `git` ne répondent. La mesure ne pourra pas être rattachée à un état du code (ticket 045, A4).
+2026-09-17 09:24:14.498 | INFO     | trip_helper.osmnx_direct:<module>:54 - OSMnx HTTP mode: 1 endpoint(s): ['http://osmnx1:8090/route']
+2026-09-17 09:24:14.498 | INFO     | trip_helper.osmnx_direct:<module>:66 - OSMnx HTTP concurrency limit: 3
+2026-09-17 09:24:15.027 | DEBUG    | experiences.ressources:charger_providers:69 - [ressources] 24 instance(s) lue(s) dans /app/config/llm_gateway/providers.yaml
+2026-09-17 09:24:15.027 | WARNING  | experiences.cli:appliquer_instances_admises:509 - [execution] instances_admises du fichier ÉCRASÉE par l'expérience : ['groq_openai_120_key1', 'groq_qwen_qwen3_8_27b_key1'] → ['google_gemini35_key1', 'google_gemini35_key2']. Le fichier `config/config.yaml` reste la source du seul chemin `make run`.
+2026-09-17 09:24:15.125 | INFO     | inputs.population.eqasim_loader:_apply_perimeter_filter:108 - [EqasimJSONPopulationLoader/cache] filtre de périmètre : 1000 → 1000 (aucun rejet)
+2026-09-17 09:24:15.127 | WARNING  | experiences.jeu:dependances_courantes:346 - [jeu] état du dépôt non vérifiable : ni $EXP_DEPOT_COMMIT ni `git` ne répondent. La mesure ne pourra pas être rattachée à un état du code (ticket 045, A4).
+2026-09-17 09:24:15.410 | INFO     | experiences.archive:changer_etat:291 - [execution] 2026-09-17_07_24_15 → definie
+2026-09-17 09:24:15.422 | INFO     | experiences.reservations:admettre:301 - [reservations] exp_gemini-35-fl_proexp06_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim en file — clé(s) tenue(s) : google_key1←exp_gemini-35-fl_promin02_jtir_pop-enquete_058_test_jeu-58_test_20260316_t0_nosim, google_key2←exp_gemini-35-fl_promin02_jtir_pop-enquete_058_test_jeu-58_test_20260316_t0_nosim
+AVERTISSEMENT : quota journalier plus court que la charge pour 'gemini-3.5-flash-lite' : 1000 requêtes/jour déclarées contre 3161 sollicitations (~3.2 jours) → l'exécution s'étalera sur plusieurs fenêtres, avec reprise. Les limites de providers.yaml sont déclaratives et connues comme parfois fausses : ce n'est pas un refus
+mémoire : coupée — fenêtre d'âge au rappel 1 j (horizon 1 j, plafond 60 j)
+instances admises : google_gemini35_key1, google_gemini35_key2 (dérivées du modèle 'gemini-3.5-flash-lite', portée distant)
+[EqasimJSONPopulationLoader] Loaded 1000 people from pre-loaded data
+EN FILE — exp_gemini-35-fl_proexp06_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim attend qu'une clé se libère (['google_key1', 'google_key2']). L'ordonnanceur la démarrera automatiquement (FIFO).

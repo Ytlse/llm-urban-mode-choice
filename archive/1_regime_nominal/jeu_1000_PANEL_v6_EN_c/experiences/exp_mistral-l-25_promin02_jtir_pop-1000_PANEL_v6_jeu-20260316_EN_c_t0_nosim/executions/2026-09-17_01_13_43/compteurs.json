@@ -1,0 +1,44 @@
+{
+ "attendus": 3299,
+ "inexploitables": 138,
+ "attendus_exploitables": 3161,
+ "decides": 3154,
+ "non_couverts": 0,
+ "sans_solution": 7,
+ "choix_unique": 522,
+ "replis_uniformes": 7,
+ "attentes": 11,
+ "attentes_par_type": {
+  "[mistral_large3_key1] Parse error": 8,
+  "passerelle_occupee": 3
+ },
+ "erreurs": 0,
+ "erreurs_par_type": {},
+ "sollicitations": 2643,
+ "resservies": 0,
+ "substitution_refusee": 0,
+ "couverture": {
+  "decides": 3154,
+  "attendus": 3161,
+  "attendus_bruts": 3299,
+  "inexploitables_exclus": 138,
+  "taux": 0.9977855109142676
+ },
+ "duree_s": 5648.117,
+ "quota": [
+  {
+   "instance": "mistral_large3_key1",
+   "modele": "mistral-large-2512",
+   "requetes_jour": 447,
+   "limite_jour": null,
+   "marge": null,
+   "jetons_jour": 2204505,
+   "limite_jetons_jour": 33000000,
+   "rpm_observe": 3,
+   "rpm_limite": 30,
+   "epuisee": false,
+   "disponible": true,
+   "occupee": true
+  }
+ ]
+}

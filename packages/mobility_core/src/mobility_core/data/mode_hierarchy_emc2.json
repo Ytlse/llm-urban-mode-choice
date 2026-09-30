@@ -1,0 +1,2297 @@
+{
+  "version": "mh1",
+  "titre": "Hiérarchie des modes — mode principal d'un déplacement, EMC² Toulouse 2023",
+  "avertissement": "GELÉ : produit par scripts/progedo_logit/export_mode_hierarchy.py. Ne pas éditer à la main. L'ordre vient du rapport publié (p. 53) ; les effectifs viennent des microdonnées ProGEDO lil-1750 (accès restreint).",
+  "ordre_familles": [
+    "metro",
+    "tram",
+    "cableway",
+    "bus",
+    "rail",
+    "car",
+    "motorbike",
+    "bicycle",
+    "foot"
+  ],
+  "rang_famille": {
+    "metro": 1,
+    "tram": 2,
+    "cableway": 3,
+    "bus": 4,
+    "rail": 5,
+    "car": 6,
+    "motorbike": 7,
+    "bicycle": 8,
+    "foot": 9
+  },
+  "rang_jambe": {
+    "metro": 1,
+    "subway": 1,
+    "tram": 2,
+    "tramway": 2,
+    "cableway": 3,
+    "funicular": 3,
+    "gondola": 3,
+    "bus": 4,
+    "school_bus": 4,
+    "rail": 5,
+    "__car__": 6,
+    "car": 6,
+    "bicycle": 8,
+    "bike": 8,
+    "foot": 9,
+    "walk": 9
+  },
+  "libelle_journal": {
+    "metro": "Transports_collectifs",
+    "tram": "Transports_collectifs",
+    "cableway": "Transports_collectifs",
+    "bus": "Transports_collectifs",
+    "rail": "Train",
+    "car": "Voiture Privée",
+    "motorbike": "Deux-roues motorisé",
+    "bicycle": "Vélo",
+    "foot": "Marche"
+  },
+  "mode_canonique": {
+    "metro": "public_transport",
+    "tram": "public_transport",
+    "cableway": "public_transport",
+    "bus": "public_transport",
+    "rail": "train",
+    "car": "car",
+    "motorbike": "motorbike",
+    "bicycle": "cycling",
+    "foot": "walking"
+  },
+  "jambes_par_famille": {
+    "metro": [
+      "metro",
+      "subway"
+    ],
+    "tram": [
+      "tram",
+      "tramway"
+    ],
+    "cableway": [
+      "cableway",
+      "gondola",
+      "funicular"
+    ],
+    "bus": [
+      "bus",
+      "school_bus"
+    ],
+    "rail": [
+      "rail"
+    ],
+    "car": [
+      "car",
+      "__car__"
+    ],
+    "motorbike": [],
+    "bicycle": [
+      "bicycle",
+      "bike"
+    ],
+    "foot": [
+      "foot",
+      "walk"
+    ]
+  },
+  "codes_emc2_par_famille": {
+    "metro": [
+      "33"
+    ],
+    "tram": [
+      "32"
+    ],
+    "cableway": [
+      "34"
+    ],
+    "bus": [
+      "31",
+      "37",
+      "41",
+      "43"
+    ],
+    "rail": [
+      "51",
+      "52",
+      "53",
+      "54"
+    ],
+    "car": [
+      "21",
+      "22",
+      "61",
+      "62",
+      "81",
+      "82"
+    ],
+    "motorbike": [
+      "13",
+      "14",
+      "15",
+      "16",
+      "19",
+      "20"
+    ],
+    "bicycle": [
+      "10",
+      "11",
+      "12",
+      "17",
+      "18"
+    ],
+    "foot": [
+      "01"
+    ]
+  },
+  "source_publiee": {
+    "rapport": "AUAT/CEREMA, Rapport final « Enquête mobilité 2023 — bassin de vie toulousain » (68 p., mai 2024), annexe « Hiérarchie des modes », p. 53",
+    "url": "https://www.aua-toulouse.org/wp-content/uploads/2024/05/Rapport-final-68-pages-Enquete-mobilite-2023-Bassin-de-vie-toulousain.pdf",
+    "page": 53,
+    "renvoi": "« un seul des modes est pris en compte […] : c'est le « mode principal », qui découle d'une hiérarchisation des modes définie au niveau national » (p. 12)",
+    "transcription": {
+      "fichier": "scripts/panel/hierarchie_modes_emc2.yaml",
+      "version": "hm1",
+      "regle": "Le mode principal d'un déplacement est celui dont l'ordre est le plus petit parmi les modes de ses trajets. La marche n'est mode principal que si le déplacement est intégralement à pied (ordre 36, « Marche à pied UNIQUEMENT »)."
+    },
+    "ordre": [
+      {
+        "rang": 1,
+        "libelle": "Passager métro (Tisséo)",
+        "categorie_publiee": "transports_en_commun",
+        "codes": [
+          "33"
+        ],
+        "famille": "metro"
+      },
+      {
+        "rang": 2,
+        "libelle": "Passager tramway (Tisséo)",
+        "categorie_publiee": "transports_en_commun",
+        "codes": [
+          "32"
+        ],
+        "famille": "tram"
+      },
+      {
+        "rang": 3,
+        "libelle": "Passager Téléo (téléphérique Tisséo)",
+        "categorie_publiee": "transports_en_commun",
+        "codes": [
+          "34"
+        ],
+        "famille": "cableway"
+      },
+      {
+        "rang": 4,
+        "libelle": "Passager bus, navette (Tisséo)",
+        "categorie_publiee": "transports_en_commun",
+        "codes": [
+          "31"
+        ],
+        "famille": "bus"
+      },
+      {
+        "rang": 5,
+        "libelle": "Transport à la demande (TAD) (Tisséo)",
+        "categorie_publiee": "transports_en_commun",
+        "codes": [
+          "37"
+        ],
+        "famille": "bus"
+      },
+      {
+        "rang": 6,
+        "libelle": "Passager autocars interurbains (liO, Arc-en-ciel routier) et autres autocars (scolaires, périscolaires, occasionnels…)",
+        "categorie_publiee": "transports_en_commun",
+        "codes": [
+          "41",
+          "43"
+        ],
+        "famille": "bus"
+      },
+      {
+        "rang": 7,
+        "libelle": "Transport à la demande régional (TAD interurbain / hors Tisséo)",
+        "categorie_publiee": "transports_en_commun",
+        "codes": [],
+        "famille": "bus"
+      },
+      {
+        "rang": 8,
+        "libelle": "Passager train régional liO (TER)",
+        "categorie_publiee": "transports_en_commun",
+        "codes": [
+          "52"
+        ],
+        "famille": "rail"
+      },
+      {
+        "rang": 9,
+        "libelle": "Passager TGV",
+        "categorie_publiee": "transports_en_commun",
+        "codes": [
+          "51"
+        ],
+        "famille": "rail"
+      },
+      {
+        "rang": 10,
+        "libelle": "Passager autre TER",
+        "categorie_publiee": "transports_en_commun",
+        "codes": [],
+        "famille": "rail"
+      },
+      {
+        "rang": 11,
+        "libelle": "Passager autres trains (Intercités, TET…)",
+        "categorie_publiee": "transports_en_commun",
+        "codes": [
+          "53",
+          "54"
+        ],
+        "famille": "rail"
+      },
+      {
+        "rang": 12,
+        "libelle": "Passager cars longue distance (Flixbus, Blablabus…)",
+        "categorie_publiee": "transports_en_commun",
+        "codes": [
+          "42"
+        ],
+        "famille": null
+      },
+      {
+        "rang": 13,
+        "libelle": "Passager transport employeur (exclusivement)",
+        "categorie_publiee": "transports_en_commun",
+        "codes": [
+          "71"
+        ],
+        "famille": null
+      },
+      {
+        "rang": 14,
+        "libelle": "Passager taxi",
+        "categorie_publiee": "autres_modes",
+        "codes": [
+          "61"
+        ],
+        "famille": "car"
+      },
+      {
+        "rang": 15,
+        "libelle": "Passager VTC (Uber…)",
+        "categorie_publiee": "autres_modes",
+        "codes": [
+          "62"
+        ],
+        "famille": "car"
+      },
+      {
+        "rang": 16,
+        "libelle": "Conducteur de fourgon, camionnette, camion (tournées professionnelles ou déplacements privés)",
+        "categorie_publiee": "autres_modes",
+        "codes": [
+          "81"
+        ],
+        "famille": "car"
+      },
+      {
+        "rang": 17,
+        "libelle": "Passager de fourgon, camionnette, camion (tournées professionnelles ou déplacements privés)",
+        "categorie_publiee": "autres_modes",
+        "codes": [
+          "82"
+        ],
+        "famille": "car"
+      },
+      {
+        "rang": 18,
+        "libelle": "Autres modes (tracteur, engin agricole, quad, etc.)",
+        "categorie_publiee": "autres_modes",
+        "codes": [
+          "95"
+        ],
+        "famille": null
+      },
+      {
+        "rang": 19,
+        "libelle": "Conducteur de véhicule particulier (VP)",
+        "categorie_publiee": "vehicule_particulier",
+        "codes": [
+          "21"
+        ],
+        "famille": "car"
+      },
+      {
+        "rang": 20,
+        "libelle": "Passager de véhicule particulier (VP)",
+        "categorie_publiee": "vehicule_particulier",
+        "codes": [
+          "22"
+        ],
+        "famille": "car"
+      },
+      {
+        "rang": 21,
+        "libelle": "Conducteur de deux ou trois roues motorisés",
+        "categorie_publiee": "autres_modes",
+        "codes": [
+          "13",
+          "15",
+          "19"
+        ],
+        "famille": "motorbike"
+      },
+      {
+        "rang": 22,
+        "libelle": "Passager de deux ou trois roues motorisés",
+        "categorie_publiee": "autres_modes",
+        "codes": [
+          "14",
+          "16",
+          "20"
+        ],
+        "famille": "motorbike"
+      },
+      {
+        "rang": 23,
+        "libelle": "Conducteur de vélo à assistance électrique en libre-service",
+        "categorie_publiee": "velo",
+        "codes": [
+          "18"
+        ],
+        "famille": "bicycle"
+      },
+      {
+        "rang": 24,
+        "libelle": "Conducteur de vélo libre-service VélôToulouse",
+        "categorie_publiee": "velo",
+        "codes": [
+          "10"
+        ],
+        "famille": "bicycle"
+      },
+      {
+        "rang": 25,
+        "libelle": "Conducteur de vélo de location (hors VélôToulouse)",
+        "categorie_publiee": "velo",
+        "codes": [],
+        "famille": "bicycle"
+      },
+      {
+        "rang": 26,
+        "libelle": "Passager de vélo de location (hors VélôToulouse)",
+        "categorie_publiee": "velo",
+        "codes": [],
+        "famille": "bicycle"
+      },
+      {
+        "rang": 27,
+        "libelle": "Conducteur de vélo à assistance électrique",
+        "categorie_publiee": "velo",
+        "codes": [
+          "17"
+        ],
+        "famille": "bicycle"
+      },
+      {
+        "rang": 28,
+        "libelle": "Conducteur de vélo",
+        "categorie_publiee": "velo",
+        "codes": [
+          "11"
+        ],
+        "famille": "bicycle"
+      },
+      {
+        "rang": 29,
+        "libelle": "Passager de vélo",
+        "categorie_publiee": "velo",
+        "codes": [
+          "12"
+        ],
+        "famille": "bicycle"
+      },
+      {
+        "rang": 30,
+        "libelle": "Engins de déplacement personnel motorisés (trottinette, patinette, gyropode, monoroue, etc.)",
+        "categorie_publiee": "autres_modes",
+        "codes": [
+          "96"
+        ],
+        "famille": null
+      },
+      {
+        "rang": 31,
+        "libelle": "Roller, skate, trottinette (non électrique)",
+        "categorie_publiee": "autres_modes",
+        "codes": [
+          "93",
+          "97"
+        ],
+        "famille": null
+      },
+      {
+        "rang": 32,
+        "libelle": "Fauteuil roulant",
+        "categorie_publiee": "autres_modes",
+        "codes": [
+          "94"
+        ],
+        "famille": null
+      },
+      {
+        "rang": 33,
+        "libelle": "Passager autre réseau urbain",
+        "categorie_publiee": "autres_modes",
+        "codes": [
+          "38",
+          "39"
+        ],
+        "famille": null
+      },
+      {
+        "rang": 34,
+        "libelle": "Transport fluvial ou maritime",
+        "categorie_publiee": "autres_modes",
+        "codes": [
+          "91"
+        ],
+        "famille": null
+      },
+      {
+        "rang": 35,
+        "libelle": "Avion",
+        "categorie_publiee": "autres_modes",
+        "codes": [
+          "92"
+        ],
+        "famille": null
+      },
+      {
+        "rang": 36,
+        "libelle": "Marche à pied UNIQUEMENT",
+        "categorie_publiee": "marche",
+        "codes": [
+          "01"
+        ],
+        "famille": "foot"
+      }
+    ],
+    "rangs_sans_contrepartie_simulee": [
+      {
+        "rang": 12,
+        "libelle": "Passager cars longue distance (Flixbus, Blablabus…)",
+        "codes": [
+          "42"
+        ]
+      },
+      {
+        "rang": 13,
+        "libelle": "Passager transport employeur (exclusivement)",
+        "codes": [
+          "71"
+        ]
+      },
+      {
+        "rang": 18,
+        "libelle": "Autres modes (tracteur, engin agricole, quad, etc.)",
+        "codes": [
+          "95"
+        ]
+      },
+      {
+        "rang": 30,
+        "libelle": "Engins de déplacement personnel motorisés (trottinette, patinette, gyropode, monoroue, etc.)",
+        "codes": [
+          "96"
+        ]
+      },
+      {
+        "rang": 31,
+        "libelle": "Roller, skate, trottinette (non électrique)",
+        "codes": [
+          "93",
+          "97"
+        ]
+      },
+      {
+        "rang": 32,
+        "libelle": "Fauteuil roulant",
+        "codes": [
+          "94"
+        ]
+      },
+      {
+        "rang": 33,
+        "libelle": "Passager autre réseau urbain",
+        "codes": [
+          "38",
+          "39"
+        ]
+      },
+      {
+        "rang": 34,
+        "libelle": "Transport fluvial ou maritime",
+        "codes": [
+          "91"
+        ]
+      },
+      {
+        "rang": 35,
+        "libelle": "Avion",
+        "codes": [
+          "92"
+        ]
+      }
+    ],
+    "raccord_codebook_progedo": {
+      "codes_raccordes": 40,
+      "codes_observes_dans_les_microdonnees": 31,
+      "modes_confrontes_a_correspondance_simulation": [
+        "bicycle",
+        "bus",
+        "cableway",
+        "car",
+        "foot",
+        "metro",
+        "rail",
+        "tram"
+      ],
+      "ecarts_de_convention": {
+        "car": "ordre typique publié 19 ; rang de la famille 14 (le plus petit de [14, 15, 16, 17, 19, 20], même mode de jambe)",
+        "bicycle": "ordre typique publié 28 ; rang de la famille 23 (le plus petit de [23, 24, 25, 26, 27, 28, 29], même mode de jambe)"
+      }
+    }
+  },
+  "mesure": {
+    "unite": "déplacement de l'enquête, comptage NON pondéré (règle de codage, pas grandeur de population)",
+    "n_deplacements": 54585,
+    "n_deplacements_detailles": 39743,
+    "n_familles_par_deplacement": {
+      "0": 409,
+      "1": 37127,
+      "2": 1986,
+      "3": 213,
+      "4": 8
+    },
+    "accord_avec_l_ordre_publie": {
+      "paires_testees": 53,
+      "paires_conformes": 53,
+      "paires_non_tranchees_faute_d_effectif": 70,
+      "seuil_informatif_decisif": 3,
+      "observations_informatives": 2607,
+      "exceptions": [
+        {
+          "a": "51",
+          "b": "52",
+          "contient": 4,
+          "informatif": 3,
+          "gagne_a": 1,
+          "gagne_b": 2,
+          "rang_a": 9,
+          "rang_b": 8,
+          "contre_l_ordre_publie": 1
+        }
+      ],
+      "non_tranchees": [
+        {
+          "a": "39",
+          "b": "92",
+          "contient": 11,
+          "informatif": 1,
+          "gagne_a": 1,
+          "gagne_b": 0,
+          "rang_a": 33,
+          "rang_b": 35
+        },
+        {
+          "a": "10",
+          "b": "21",
+          "contient": 6,
+          "informatif": 2,
+          "gagne_a": 0,
+          "gagne_b": 2,
+          "rang_a": 24,
+          "rang_b": 19
+        },
+        {
+          "a": "31",
+          "b": "39",
+          "contient": 5,
+          "informatif": 1,
+          "gagne_a": 1,
+          "gagne_b": 0,
+          "rang_a": 4,
+          "rang_b": 33
+        },
+        {
+          "a": "21",
+          "b": "34",
+          "contient": 4,
+          "informatif": 2,
+          "gagne_a": 0,
+          "gagne_b": 2,
+          "rang_a": 19,
+          "rang_b": 3
+        },
+        {
+          "a": "21",
+          "b": "51",
+          "contient": 4,
+          "informatif": 2,
+          "gagne_a": 0,
+          "gagne_b": 2,
+          "rang_a": 19,
+          "rang_b": 9
+        },
+        {
+          "a": "22",
+          "b": "34",
+          "contient": 4,
+          "informatif": 1,
+          "gagne_a": 0,
+          "gagne_b": 1,
+          "rang_a": 20,
+          "rang_b": 3
+        },
+        {
+          "a": "32",
+          "b": "41",
+          "contient": 4,
+          "informatif": 2,
+          "gagne_a": 2,
+          "gagne_b": 0,
+          "rang_a": 2,
+          "rang_b": 6
+        },
+        {
+          "a": "32",
+          "b": "92",
+          "contient": 4,
+          "informatif": 2,
+          "gagne_a": 2,
+          "gagne_b": 0,
+          "rang_a": 2,
+          "rang_b": 35
+        },
+        {
+          "a": "21",
+          "b": "96",
+          "contient": 3,
+          "informatif": 2,
+          "gagne_a": 2,
+          "gagne_b": 0,
+          "rang_a": 19,
+          "rang_b": 30
+        },
+        {
+          "a": "22",
+          "b": "37",
+          "contient": 3,
+          "informatif": 0,
+          "gagne_a": 0,
+          "gagne_b": 0,
+          "rang_a": 20,
+          "rang_b": 5
+        },
+        {
+          "a": "52",
+          "b": "53",
+          "contient": 3,
+          "informatif": 2,
+          "gagne_a": 2,
+          "gagne_b": 0,
+          "rang_a": 8,
+          "rang_b": 11
+        },
+        {
+          "a": "10",
+          "b": "41",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 0,
+          "gagne_b": 2,
+          "rang_a": 24,
+          "rang_b": 6
+        },
+        {
+          "a": "10",
+          "b": "52",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 0,
+          "gagne_b": 2,
+          "rang_a": 24,
+          "rang_b": 8
+        },
+        {
+          "a": "11",
+          "b": "19",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 0,
+          "gagne_b": 2,
+          "rang_a": 28,
+          "rang_b": 21
+        },
+        {
+          "a": "11",
+          "b": "41",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 0,
+          "gagne_b": 2,
+          "rang_a": 28,
+          "rang_b": 6
+        },
+        {
+          "a": "11",
+          "b": "81",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 0,
+          "gagne_b": 2,
+          "rang_a": 28,
+          "rang_b": 16
+        },
+        {
+          "a": "17",
+          "b": "21",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 0,
+          "gagne_b": 2,
+          "rang_a": 27,
+          "rang_b": 19
+        },
+        {
+          "a": "17",
+          "b": "33",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 0,
+          "gagne_b": 2,
+          "rang_a": 27,
+          "rang_b": 1
+        },
+        {
+          "a": "19",
+          "b": "33",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 0,
+          "gagne_b": 2,
+          "rang_a": 21,
+          "rang_b": 1
+        },
+        {
+          "a": "19",
+          "b": "52",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 0,
+          "gagne_b": 2,
+          "rang_a": 21,
+          "rang_b": 8
+        },
+        {
+          "a": "19",
+          "b": "92",
+          "contient": 2,
+          "informatif": 0,
+          "gagne_a": 0,
+          "gagne_b": 0,
+          "rang_a": 21,
+          "rang_b": 35
+        },
+        {
+          "a": "21",
+          "b": "53",
+          "contient": 2,
+          "informatif": 0,
+          "gagne_a": 0,
+          "gagne_b": 0,
+          "rang_a": 19,
+          "rang_b": 11
+        },
+        {
+          "a": "22",
+          "b": "53",
+          "contient": 2,
+          "informatif": 1,
+          "gagne_a": 0,
+          "gagne_b": 1,
+          "rang_a": 20,
+          "rang_b": 11
+        },
+        {
+          "a": "22",
+          "b": "93",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 2,
+          "gagne_b": 0,
+          "rang_a": 20,
+          "rang_b": 31
+        },
+        {
+          "a": "22",
+          "b": "94",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 2,
+          "gagne_b": 0,
+          "rang_a": 20,
+          "rang_b": 32
+        },
+        {
+          "a": "22",
+          "b": "96",
+          "contient": 2,
+          "informatif": 0,
+          "gagne_a": 0,
+          "gagne_b": 0,
+          "rang_a": 20,
+          "rang_b": 30
+        },
+        {
+          "a": "31",
+          "b": "71",
+          "contient": 2,
+          "informatif": 0,
+          "gagne_a": 0,
+          "gagne_b": 0,
+          "rang_a": 4,
+          "rang_b": 13
+        },
+        {
+          "a": "31",
+          "b": "94",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 2,
+          "gagne_b": 0,
+          "rang_a": 4,
+          "rang_b": 32
+        },
+        {
+          "a": "32",
+          "b": "37",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 2,
+          "gagne_b": 0,
+          "rang_a": 2,
+          "rang_b": 5
+        },
+        {
+          "a": "32",
+          "b": "39",
+          "contient": 2,
+          "informatif": 1,
+          "gagne_a": 1,
+          "gagne_b": 0,
+          "rang_a": 2,
+          "rang_b": 33
+        },
+        {
+          "a": "32",
+          "b": "53",
+          "contient": 2,
+          "informatif": 0,
+          "gagne_a": 0,
+          "gagne_b": 0,
+          "rang_a": 2,
+          "rang_b": 11
+        },
+        {
+          "a": "32",
+          "b": "93",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 2,
+          "gagne_b": 0,
+          "rang_a": 2,
+          "rang_b": 31
+        },
+        {
+          "a": "32",
+          "b": "96",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 2,
+          "gagne_b": 0,
+          "rang_a": 2,
+          "rang_b": 30
+        },
+        {
+          "a": "33",
+          "b": "62",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 2,
+          "gagne_b": 0,
+          "rang_a": 1,
+          "rang_b": 15
+        },
+        {
+          "a": "33",
+          "b": "81",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 2,
+          "gagne_b": 0,
+          "rang_a": 1,
+          "rang_b": 16
+        },
+        {
+          "a": "33",
+          "b": "82",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 2,
+          "gagne_b": 0,
+          "rang_a": 1,
+          "rang_b": 17
+        },
+        {
+          "a": "39",
+          "b": "52",
+          "contient": 2,
+          "informatif": 1,
+          "gagne_a": 0,
+          "gagne_b": 1,
+          "rang_a": 33,
+          "rang_b": 8
+        },
+        {
+          "a": "41",
+          "b": "93",
+          "contient": 2,
+          "informatif": 2,
+          "gagne_a": 2,
+          "gagne_b": 0,
+          "rang_a": 6,
+          "rang_b": 31
+        },
+        {
+          "a": "51",
+          "b": "53",
+          "contient": 2,
+          "informatif": 1,
+          "gagne_a": 1,
+          "gagne_b": 0,
+          "rang_a": 9,
+          "rang_b": 11
+        },
+        {
+          "a": "10",
+          "b": "22",
+          "contient": 1,
+          "informatif": 1,
+          "gagne_a": 0,
+          "gagne_b": 1,
+          "rang_a": 24,
+          "rang_b": 20
+        }
+      ]
+    },
+    "matrice_familles": [
+      {
+        "a": "bus",
+        "b": "metro",
+        "contient": 1094,
+        "informatif": 1094,
+        "gagne_a": 0,
+        "gagne_b": 1094
+      },
+      {
+        "a": "car",
+        "b": "metro",
+        "contient": 490,
+        "informatif": 490,
+        "gagne_a": 0,
+        "gagne_b": 490
+      },
+      {
+        "a": "metro",
+        "b": "tram",
+        "contient": 235,
+        "informatif": 235,
+        "gagne_a": 235,
+        "gagne_b": 0
+      },
+      {
+        "a": "bus",
+        "b": "car",
+        "contient": 255,
+        "informatif": 185,
+        "gagne_a": 185,
+        "gagne_b": 0
+      },
+      {
+        "a": "metro",
+        "b": "rail",
+        "contient": 122,
+        "informatif": 122,
+        "gagne_a": 122,
+        "gagne_b": 0
+      },
+      {
+        "a": "bus",
+        "b": "tram",
+        "contient": 109,
+        "informatif": 62,
+        "gagne_a": 0,
+        "gagne_b": 62
+      },
+      {
+        "a": "car",
+        "b": "rail",
+        "contient": 127,
+        "informatif": 58,
+        "gagne_a": 0,
+        "gagne_b": 58
+      },
+      {
+        "a": "bus",
+        "b": "rail",
+        "contient": 53,
+        "informatif": 34,
+        "gagne_a": 34,
+        "gagne_b": 0
+      },
+      {
+        "a": "bicycle",
+        "b": "car",
+        "contient": 28,
+        "informatif": 24,
+        "gagne_a": 0,
+        "gagne_b": 24
+      },
+      {
+        "a": "bicycle",
+        "b": "metro",
+        "contient": 23,
+        "informatif": 23,
+        "gagne_a": 0,
+        "gagne_b": 23
+      },
+      {
+        "a": "cableway",
+        "b": "metro",
+        "contient": 23,
+        "informatif": 23,
+        "gagne_a": 0,
+        "gagne_b": 23
+      },
+      {
+        "a": "car",
+        "b": "tram",
+        "contient": 31,
+        "informatif": 20,
+        "gagne_a": 0,
+        "gagne_b": 20
+      },
+      {
+        "a": "bicycle",
+        "b": "bus",
+        "contient": 19,
+        "informatif": 15,
+        "gagne_a": 0,
+        "gagne_b": 15
+      },
+      {
+        "a": "bicycle",
+        "b": "rail",
+        "contient": 15,
+        "informatif": 15,
+        "gagne_a": 0,
+        "gagne_b": 15
+      },
+      {
+        "a": "bus",
+        "b": "cableway",
+        "contient": 15,
+        "informatif": 12,
+        "gagne_a": 0,
+        "gagne_b": 12
+      },
+      {
+        "a": "rail",
+        "b": "tram",
+        "contient": 9,
+        "informatif": 6,
+        "gagne_a": 0,
+        "gagne_b": 6
+      },
+      {
+        "a": "bicycle",
+        "b": "cableway",
+        "contient": 4,
+        "informatif": 4,
+        "gagne_a": 0,
+        "gagne_b": 4
+      },
+      {
+        "a": "cableway",
+        "b": "car",
+        "contient": 8,
+        "informatif": 3,
+        "gagne_a": 3,
+        "gagne_b": 0
+      },
+      {
+        "a": "metro",
+        "b": "motorbike",
+        "contient": 3,
+        "informatif": 3,
+        "gagne_a": 3,
+        "gagne_b": 0
+      },
+      {
+        "a": "bicycle",
+        "b": "motorbike",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 0,
+        "gagne_b": 2
+      },
+      {
+        "a": "car",
+        "b": "motorbike",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "motorbike",
+        "b": "rail",
+        "contient": 3,
+        "informatif": 2,
+        "gagne_a": 0,
+        "gagne_b": 2
+      },
+      {
+        "a": "bicycle",
+        "b": "tram",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "bus",
+        "b": "motorbike",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 1,
+        "gagne_b": 0
+      },
+      {
+        "a": "cableway",
+        "b": "tram",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      }
+    ],
+    "paires_de_codes": [
+      {
+        "a": "31",
+        "b": "33",
+        "contient": 1049,
+        "informatif": 1049,
+        "gagne_a": 0,
+        "gagne_b": 1049
+      },
+      {
+        "a": "21",
+        "b": "33",
+        "contient": 340,
+        "informatif": 340,
+        "gagne_a": 0,
+        "gagne_b": 340
+      },
+      {
+        "a": "32",
+        "b": "33",
+        "contient": 235,
+        "informatif": 235,
+        "gagne_a": 0,
+        "gagne_b": 235
+      },
+      {
+        "a": "22",
+        "b": "33",
+        "contient": 144,
+        "informatif": 144,
+        "gagne_a": 0,
+        "gagne_b": 144
+      },
+      {
+        "a": "33",
+        "b": "52",
+        "contient": 109,
+        "informatif": 109,
+        "gagne_a": 109,
+        "gagne_b": 0
+      },
+      {
+        "a": "22",
+        "b": "41",
+        "contient": 107,
+        "informatif": 101,
+        "gagne_a": 0,
+        "gagne_b": 101
+      },
+      {
+        "a": "31",
+        "b": "32",
+        "contient": 103,
+        "informatif": 58,
+        "gagne_a": 0,
+        "gagne_b": 58
+      },
+      {
+        "a": "33",
+        "b": "41",
+        "contient": 44,
+        "informatif": 44,
+        "gagne_a": 44,
+        "gagne_b": 0
+      },
+      {
+        "a": "22",
+        "b": "31",
+        "contient": 61,
+        "informatif": 38,
+        "gagne_a": 0,
+        "gagne_b": 38
+      },
+      {
+        "a": "21",
+        "b": "31",
+        "contient": 76,
+        "informatif": 36,
+        "gagne_a": 0,
+        "gagne_b": 36
+      },
+      {
+        "a": "21",
+        "b": "22",
+        "contient": 37,
+        "informatif": 34,
+        "gagne_a": 34,
+        "gagne_b": 0
+      },
+      {
+        "a": "21",
+        "b": "52",
+        "contient": 65,
+        "informatif": 31,
+        "gagne_a": 0,
+        "gagne_b": 31
+      },
+      {
+        "a": "31",
+        "b": "52",
+        "contient": 44,
+        "informatif": 29,
+        "gagne_a": 29,
+        "gagne_b": 0
+      },
+      {
+        "a": "33",
+        "b": "34",
+        "contient": 23,
+        "informatif": 23,
+        "gagne_a": 23,
+        "gagne_b": 0
+      },
+      {
+        "a": "22",
+        "b": "52",
+        "contient": 46,
+        "informatif": 18,
+        "gagne_a": 0,
+        "gagne_b": 18
+      },
+      {
+        "a": "11",
+        "b": "52",
+        "contient": 13,
+        "informatif": 13,
+        "gagne_a": 0,
+        "gagne_b": 13
+      },
+      {
+        "a": "21",
+        "b": "32",
+        "contient": 19,
+        "informatif": 13,
+        "gagne_a": 0,
+        "gagne_b": 13
+      },
+      {
+        "a": "10",
+        "b": "33",
+        "contient": 12,
+        "informatif": 12,
+        "gagne_a": 0,
+        "gagne_b": 12
+      },
+      {
+        "a": "11",
+        "b": "21",
+        "contient": 12,
+        "informatif": 12,
+        "gagne_a": 0,
+        "gagne_b": 12
+      },
+      {
+        "a": "31",
+        "b": "34",
+        "contient": 15,
+        "informatif": 12,
+        "gagne_a": 0,
+        "gagne_b": 12
+      },
+      {
+        "a": "21",
+        "b": "41",
+        "contient": 13,
+        "informatif": 10,
+        "gagne_a": 0,
+        "gagne_b": 10
+      },
+      {
+        "a": "21",
+        "b": "92",
+        "contient": 16,
+        "informatif": 10,
+        "gagne_a": 10,
+        "gagne_b": 0
+      },
+      {
+        "a": "31",
+        "b": "41",
+        "contient": 10,
+        "informatif": 10,
+        "gagne_a": 10,
+        "gagne_b": 0
+      },
+      {
+        "a": "33",
+        "b": "51",
+        "contient": 10,
+        "informatif": 10,
+        "gagne_a": 10,
+        "gagne_b": 0
+      },
+      {
+        "a": "11",
+        "b": "33",
+        "contient": 9,
+        "informatif": 9,
+        "gagne_a": 0,
+        "gagne_b": 9
+      },
+      {
+        "a": "11",
+        "b": "31",
+        "contient": 10,
+        "informatif": 8,
+        "gagne_a": 0,
+        "gagne_b": 8
+      },
+      {
+        "a": "33",
+        "b": "39",
+        "contient": 8,
+        "informatif": 8,
+        "gagne_a": 8,
+        "gagne_b": 0
+      },
+      {
+        "a": "22",
+        "b": "32",
+        "contient": 12,
+        "informatif": 7,
+        "gagne_a": 0,
+        "gagne_b": 7
+      },
+      {
+        "a": "22",
+        "b": "92",
+        "contient": 12,
+        "informatif": 7,
+        "gagne_a": 7,
+        "gagne_b": 0
+      },
+      {
+        "a": "33",
+        "b": "96",
+        "contient": 7,
+        "informatif": 7,
+        "gagne_a": 7,
+        "gagne_b": 0
+      },
+      {
+        "a": "21",
+        "b": "39",
+        "contient": 7,
+        "informatif": 6,
+        "gagne_a": 6,
+        "gagne_b": 0
+      },
+      {
+        "a": "22",
+        "b": "51",
+        "contient": 10,
+        "informatif": 6,
+        "gagne_a": 0,
+        "gagne_b": 6
+      },
+      {
+        "a": "32",
+        "b": "52",
+        "contient": 7,
+        "informatif": 6,
+        "gagne_a": 6,
+        "gagne_b": 0
+      },
+      {
+        "a": "61",
+        "b": "92",
+        "contient": 6,
+        "informatif": 6,
+        "gagne_a": 6,
+        "gagne_b": 0
+      },
+      {
+        "a": "11",
+        "b": "22",
+        "contient": 5,
+        "informatif": 5,
+        "gagne_a": 0,
+        "gagne_b": 5
+      },
+      {
+        "a": "31",
+        "b": "51",
+        "contient": 8,
+        "informatif": 5,
+        "gagne_a": 5,
+        "gagne_b": 0
+      },
+      {
+        "a": "39",
+        "b": "51",
+        "contient": 11,
+        "informatif": 5,
+        "gagne_a": 0,
+        "gagne_b": 5
+      },
+      {
+        "a": "52",
+        "b": "96",
+        "contient": 5,
+        "informatif": 5,
+        "gagne_a": 5,
+        "gagne_b": 0
+      },
+      {
+        "a": "11",
+        "b": "34",
+        "contient": 4,
+        "informatif": 4,
+        "gagne_a": 0,
+        "gagne_b": 4
+      },
+      {
+        "a": "22",
+        "b": "39",
+        "contient": 8,
+        "informatif": 4,
+        "gagne_a": 4,
+        "gagne_b": 0
+      },
+      {
+        "a": "33",
+        "b": "37",
+        "contient": 4,
+        "informatif": 4,
+        "gagne_a": 4,
+        "gagne_b": 0
+      },
+      {
+        "a": "33",
+        "b": "42",
+        "contient": 4,
+        "informatif": 4,
+        "gagne_a": 4,
+        "gagne_b": 0
+      },
+      {
+        "a": "33",
+        "b": "71",
+        "contient": 4,
+        "informatif": 4,
+        "gagne_a": 4,
+        "gagne_b": 0
+      },
+      {
+        "a": "10",
+        "b": "31",
+        "contient": 5,
+        "informatif": 3,
+        "gagne_a": 0,
+        "gagne_b": 3
+      },
+      {
+        "a": "21",
+        "b": "61",
+        "contient": 3,
+        "informatif": 3,
+        "gagne_a": 0,
+        "gagne_b": 3
+      },
+      {
+        "a": "21",
+        "b": "62",
+        "contient": 3,
+        "informatif": 3,
+        "gagne_a": 0,
+        "gagne_b": 3
+      },
+      {
+        "a": "31",
+        "b": "37",
+        "contient": 6,
+        "informatif": 3,
+        "gagne_a": 3,
+        "gagne_b": 0
+      },
+      {
+        "a": "31",
+        "b": "96",
+        "contient": 3,
+        "informatif": 3,
+        "gagne_a": 3,
+        "gagne_b": 0
+      },
+      {
+        "a": "33",
+        "b": "53",
+        "contient": 3,
+        "informatif": 3,
+        "gagne_a": 3,
+        "gagne_b": 0
+      },
+      {
+        "a": "33",
+        "b": "92",
+        "contient": 3,
+        "informatif": 3,
+        "gagne_a": 3,
+        "gagne_b": 0
+      },
+      {
+        "a": "33",
+        "b": "94",
+        "contient": 3,
+        "informatif": 3,
+        "gagne_a": 3,
+        "gagne_b": 0
+      },
+      {
+        "a": "51",
+        "b": "52",
+        "contient": 4,
+        "informatif": 3,
+        "gagne_a": 1,
+        "gagne_b": 2
+      },
+      {
+        "a": "62",
+        "b": "92",
+        "contient": 3,
+        "informatif": 3,
+        "gagne_a": 3,
+        "gagne_b": 0
+      },
+      {
+        "a": "10",
+        "b": "21",
+        "contient": 6,
+        "informatif": 2,
+        "gagne_a": 0,
+        "gagne_b": 2
+      },
+      {
+        "a": "10",
+        "b": "41",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 0,
+        "gagne_b": 2
+      },
+      {
+        "a": "10",
+        "b": "52",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 0,
+        "gagne_b": 2
+      },
+      {
+        "a": "11",
+        "b": "19",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 0,
+        "gagne_b": 2
+      },
+      {
+        "a": "11",
+        "b": "41",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 0,
+        "gagne_b": 2
+      },
+      {
+        "a": "11",
+        "b": "81",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 0,
+        "gagne_b": 2
+      },
+      {
+        "a": "17",
+        "b": "21",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 0,
+        "gagne_b": 2
+      },
+      {
+        "a": "17",
+        "b": "33",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 0,
+        "gagne_b": 2
+      },
+      {
+        "a": "19",
+        "b": "33",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 0,
+        "gagne_b": 2
+      },
+      {
+        "a": "19",
+        "b": "52",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 0,
+        "gagne_b": 2
+      },
+      {
+        "a": "21",
+        "b": "34",
+        "contient": 4,
+        "informatif": 2,
+        "gagne_a": 0,
+        "gagne_b": 2
+      },
+      {
+        "a": "21",
+        "b": "51",
+        "contient": 4,
+        "informatif": 2,
+        "gagne_a": 0,
+        "gagne_b": 2
+      },
+      {
+        "a": "21",
+        "b": "96",
+        "contient": 3,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "22",
+        "b": "93",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "22",
+        "b": "94",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "31",
+        "b": "94",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "32",
+        "b": "37",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "32",
+        "b": "41",
+        "contient": 4,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "32",
+        "b": "92",
+        "contient": 4,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "32",
+        "b": "93",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "32",
+        "b": "96",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "33",
+        "b": "62",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "33",
+        "b": "81",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "33",
+        "b": "82",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "41",
+        "b": "93",
+        "contient": 2,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "52",
+        "b": "53",
+        "contient": 3,
+        "informatif": 2,
+        "gagne_a": 2,
+        "gagne_b": 0
+      },
+      {
+        "a": "10",
+        "b": "22",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "11",
+        "b": "32",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "19",
+        "b": "21",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "19",
+        "b": "61",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "20",
+        "b": "33",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "20",
+        "b": "41",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "21",
+        "b": "81",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "22",
+        "b": "34",
+        "contient": 4,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "22",
+        "b": "53",
+        "contient": 2,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "22",
+        "b": "61",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "22",
+        "b": "71",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "22",
+        "b": "82",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "31",
+        "b": "39",
+        "contient": 5,
+        "informatif": 1,
+        "gagne_a": 1,
+        "gagne_b": 0
+      },
+      {
+        "a": "31",
+        "b": "53",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 1,
+        "gagne_b": 0
+      },
+      {
+        "a": "32",
+        "b": "39",
+        "contient": 2,
+        "informatif": 1,
+        "gagne_a": 1,
+        "gagne_b": 0
+      },
+      {
+        "a": "33",
+        "b": "61",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 1,
+        "gagne_b": 0
+      },
+      {
+        "a": "39",
+        "b": "52",
+        "contient": 2,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "39",
+        "b": "92",
+        "contient": 11,
+        "informatif": 1,
+        "gagne_a": 1,
+        "gagne_b": 0
+      },
+      {
+        "a": "41",
+        "b": "52",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 1,
+        "gagne_b": 0
+      },
+      {
+        "a": "42",
+        "b": "52",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 0,
+        "gagne_b": 1
+      },
+      {
+        "a": "51",
+        "b": "53",
+        "contient": 2,
+        "informatif": 1,
+        "gagne_a": 1,
+        "gagne_b": 0
+      },
+      {
+        "a": "51",
+        "b": "61",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 1,
+        "gagne_b": 0
+      },
+      {
+        "a": "53",
+        "b": "61",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 1,
+        "gagne_b": 0
+      },
+      {
+        "a": "61",
+        "b": "94",
+        "contient": 1,
+        "informatif": 1,
+        "gagne_a": 1,
+        "gagne_b": 0
+      },
+      {
+        "a": "10",
+        "b": "39",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "10",
+        "b": "96",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "19",
+        "b": "92",
+        "contient": 2,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "20",
+        "b": "51",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "21",
+        "b": "53",
+        "contient": 2,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "21",
+        "b": "94",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "22",
+        "b": "37",
+        "contient": 3,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "22",
+        "b": "42",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "22",
+        "b": "96",
+        "contient": 2,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "31",
+        "b": "71",
+        "contient": 2,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "31",
+        "b": "92",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "32",
+        "b": "34",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "32",
+        "b": "53",
+        "contient": 2,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "37",
+        "b": "52",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "39",
+        "b": "53",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "41",
+        "b": "92",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "42",
+        "b": "51",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "51",
+        "b": "62",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "52",
+        "b": "61",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      },
+      {
+        "a": "53",
+        "b": "96",
+        "contient": 1,
+        "informatif": 0,
+        "gagne_a": 0,
+        "gagne_b": 0
+      }
+    ]
+  },
+  "controles": {
+    "marche_residuelle": {
+      "question": "La marche à pied est-elle le résidu, c'est-à-dire le dernier rang ?",
+      "deplacements_sans_trajet": 14842,
+      "sans_trajet_dont_modp_marche": 14842,
+      "deplacements_avec_trajet": 39743,
+      "avec_trajet_dont_modp_marche": 0,
+      "trajets_codes_marche": 0,
+      "verdict": "rang mesuré : MODP=01 ⇔ aucun trajet mécanisé"
+    },
+    "a7_voiture_tc_convention_ticket_020": {
+      "n": 770,
+      "collectif": 759,
+      "autre": 10,
+      "collectif_au_sens_non_autre": 760,
+      "modp": {
+        "21": 6,
+        "22": 4,
+        "31": 74,
+        "32": 20,
+        "33": 493,
+        "34": 1,
+        "41": 112,
+        "51": 8,
+        "52": 50,
+        "53": 2
+      },
+      "attendu": {
+        "n": 770,
+        "collectif": 760,
+        "voiture": 10
+      },
+      "convention": "voiture au sens MODE_GROUP (deux-roues motorisés inclus) ; liste TC sans le téléphérique (34) ni le transport d'employeur (71)",
+      "verdict": "rejeu exact"
+    },
+    "a7_voiture_tc_listes_completes": {
+      "n": 767,
+      "collectif": 757,
+      "autre": 10,
+      "collectif_au_sens_non_autre": 757,
+      "modp": {
+        "21": 6,
+        "22": 4,
+        "31": 74,
+        "32": 20,
+        "33": 490,
+        "34": 3,
+        "41": 111,
+        "51": 8,
+        "52": 48,
+        "53": 2,
+        "71": 1
+      },
+      "convention": "voiture stricte (deux-roues motorisés à part) ; liste TC complète, téléphérique et transport d'employeur inclus"
+    },
+    "a7_velo_tc": {
+      "n": 58,
+      "collectif": 58,
+      "autre": 0,
+      "collectif_au_sens_non_autre": 58,
+      "modp": {
+        "31": 11,
+        "32": 1,
+        "33": 23,
+        "34": 4,
+        "41": 4,
+        "52": 15
+      },
+      "attendu": {
+        "n": 58,
+        "collectif": 58,
+        "voiture": 0
+      },
+      "convention": "liste TC complète",
+      "verdict": "rejeu exact"
+    },
+    "a7_velo_tc_convention_ticket_020": {
+      "n": 56,
+      "collectif": 54,
+      "autre": 0,
+      "collectif_au_sens_non_autre": 56,
+      "modp": {
+        "31": 11,
+        "32": 1,
+        "33": 23,
+        "34": 2,
+        "41": 4,
+        "52": 15
+      },
+      "convention": "liste TC sans téléphérique ni transport d'employeur — celle qui rejoue les 770 de voiture + TC"
+    }
+  },
+  "provenance": {
+    "source": "ordre publié (rapport AUAT/CEREMA p. 53, transcrit dans scripts/panel/hierarchie_modes_emc2.yaml) contrôlé sur les microdonnées EMC² 2023 (ProGEDO lil-1750), fichiers déplacements × trajets, comptage non pondéré",
+    "fichiers": {
+      "Toulouse_2023_std_depl.csv": "6285e50f30eda2b9155bf21c3c22438bd6b273e4c5d42a23becdeb3bba22ad5f",
+      "Toulouse_2023_std_traj.csv": "618fec271bbc7c1ff5453857828f316a728c4c896eab9b729733d12b5678b54f",
+      "hierarchie_modes_emc2.yaml": "27b2e6062af71f66c3d4f439eb40e93177d46b348243ce5054b4a3bc0b1e82bb"
+    },
+    "gele_le": "2026-09-04T09:05:48+00:00",
+    "par": "scripts/progedo_logit/export_mode_hierarchy.py"
+  }
+}

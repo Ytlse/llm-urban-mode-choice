@@ -1,0 +1,1302 @@
+{
+ "title": "04 · LLM Gateway",
+ "uid": "llm-gateway",
+ "refresh": "10s",
+ "time": {
+  "from": "now-1h",
+  "to": "now"
+ },
+ "timezone": "browser",
+ "schemaVersion": 38,
+ "version": 1,
+ "editable": true,
+ "tags": [
+  "sim",
+  "llm"
+ ],
+ "links": [
+  {
+   "title": "Dashboards simulation",
+   "type": "dashboards",
+   "tags": [
+    "sim"
+   ],
+   "asDropdown": true,
+   "includeVars": false,
+   "keepTime": true,
+   "icon": "dashboard"
+  }
+ ],
+ "panels": [
+  {
+   "id": 1,
+   "type": "row",
+   "title": "Débit & fiabilité",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 0
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Appels réussis par provider (/min)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "rate(llm_provider_calls_ok_total[1m]) * 60",
+     "legendFormat": "{{provider}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 1,
+      "fillOpacity": 10,
+      "spanNulls": true,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      }
+     },
+     "color": {
+      "mode": "palette-classic"
+     }
+    }
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "id": 2,
+   "gridPos": {
+    "h": 8,
+    "w": 6,
+    "x": 0,
+    "y": 1
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Erreurs par provider (/min)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "rate(llm_provider_calls_err_total[1m]) * 60",
+     "legendFormat": "{{provider}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 1,
+      "fillOpacity": 10,
+      "spanNulls": true,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      }
+     },
+     "color": {
+      "mode": "palette-classic"
+     }
+    }
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "id": 3,
+   "gridPos": {
+    "h": 8,
+    "w": 6,
+    "x": 6,
+    "y": 1
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Taux de réussite par provider (%/min)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * rate(llm_provider_calls_ok_total[1m]) / clamp_min(rate(llm_provider_calls_ok_total[1m]) + rate(llm_provider_calls_err_total[1m]), 0.0001)",
+     "legendFormat": "{{provider}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 1,
+      "fillOpacity": 10,
+      "spanNulls": true,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      }
+     },
+     "color": {
+      "mode": "palette-classic"
+     },
+     "unit": "percent"
+    }
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "description": "Fenêtre glissante 1 min ; clamp_min évite les trous (NaN) hors trafic.",
+   "id": 4,
+   "gridPos": {
+    "h": 8,
+    "w": 6,
+    "x": 12,
+    "y": 1
+   }
+  },
+  {
+   "type": "bargauge",
+   "title": "Taux de réussite par modèle (%)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sort_desc((100 * llm_provider_calls_ok_total / clamp_min(llm_provider_calls_ok_total + llm_provider_calls_err_total, 1)) * on(provider) group_left(model) llm_provider_info)",
+     "legendFormat": "{{provider}} · {{model}}",
+     "instant": true,
+     "range": false
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 80
+       },
+       {
+        "color": "green",
+        "value": 95
+       }
+      ]
+     },
+     "unit": "percent",
+     "max": 100,
+     "min": 0
+    }
+   },
+   "options": {
+    "displayMode": "gradient",
+    "orientation": "horizontal",
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    }
+   },
+   "description": "Fiabilité cumulée depuis le démarrage, du meilleur au pire (l'historique fin est dans le panel %/min).",
+   "id": 5,
+   "gridPos": {
+    "h": 8,
+    "w": 6,
+    "x": 18,
+    "y": 1
+   }
+  },
+  {
+   "id": 6,
+   "type": "row",
+   "title": "Saturation",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 9
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "File de tâches LLM (batch:*)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum(llm_task_queue_depth)",
+     "legendFormat": "total"
+    },
+    {
+     "refId": "B",
+     "expr": "llm_task_queue_depth",
+     "legendFormat": "{{batch_key}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 1,
+      "fillOpacity": 10,
+      "spanNulls": true,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      }
+     },
+     "color": {
+      "mode": "palette-classic"
+     }
+    }
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "description": "Tâches PENDING dans Redis. >50 et croissant = providers saturés.",
+   "id": 7,
+   "gridPos": {
+    "h": 8,
+    "w": 8,
+    "x": 0,
+    "y": 10
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Durée E2E tâche LLM (p50 / p95 par catégorie)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "histogram_quantile(0.50, sum(rate(llm_task_e2e_duration_seconds_bucket[5m])) by (le, category))",
+     "legendFormat": "p50 {{category}}"
+    },
+    {
+     "refId": "B",
+     "expr": "histogram_quantile(0.95, sum(rate(llm_task_e2e_duration_seconds_bucket[5m])) by (le, category))",
+     "legendFormat": "p95 {{category}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 1,
+      "fillOpacity": 10,
+      "spanNulls": true,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      }
+     },
+     "color": {
+      "mode": "palette-classic"
+     },
+     "unit": "s"
+    }
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "description": "POST /tasks → réponse finale, côté controller (queue + inférence).",
+   "id": 8,
+   "gridPos": {
+    "h": 8,
+    "w": 8,
+    "x": 8,
+    "y": 10
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Utilisation workers Celery",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "celery_worker_utilization_ratio",
+     "legendFormat": "{{provider}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 1,
+      "fillOpacity": 10,
+      "spanNulls": true,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      }
+     },
+     "color": {
+      "mode": "palette-classic"
+     },
+     "unit": "percentunit"
+    }
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "description": "active_workers / concurrency_limit. 1.0 en permanence = augmenter la concurrence.",
+   "id": 9,
+   "gridPos": {
+    "h": 8,
+    "w": 8,
+    "x": 16,
+    "y": 10
+   }
+  },
+  {
+   "id": 10,
+   "type": "row",
+   "title": "Erreurs & état des providers",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 18
+   }
+  },
+  {
+   "type": "stat",
+   "title": "État des providers",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "llm_provider_state",
+     "legendFormat": "{{provider}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "value",
+       "options": {
+        "0": {
+         "text": "Sans clé API",
+         "index": 0,
+         "color": "dark-grey"
+        },
+        "1": {
+         "text": "Désactivé (tmp)",
+         "index": 1,
+         "color": "red"
+        },
+        "2": {
+         "text": "Cooldown",
+         "index": 2,
+         "color": "orange"
+        },
+        "3": {
+         "text": "Actif",
+         "index": 3,
+         "color": "green"
+        }
+       }
+      }
+     ]
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value_and_name",
+    "justifyMode": "center"
+   },
+   "description": "Désactivé (tmp) = ban 180 s après erreurs consécutives ; cooldown = rate limit en cours.",
+   "id": 11,
+   "gridPos": {
+    "h": 6,
+    "w": 8,
+    "x": 0,
+    "y": 19
+   }
+  },
+  {
+   "type": "bargauge",
+   "title": "Réactivation dans (s)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "llm_provider_disable_ttl_seconds",
+     "legendFormat": "{{provider}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 1
+       }
+      ]
+     },
+     "unit": "s"
+    }
+   },
+   "options": {
+    "displayMode": "gradient",
+    "orientation": "horizontal",
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    }
+   },
+   "description": "TTL avant réactivation automatique (désactivation temporaire ou cooldown). 0 = actif.",
+   "id": 12,
+   "gridPos": {
+    "h": 6,
+    "w": 6,
+    "x": 8,
+    "y": 19
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Erreurs par type (/10 min)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum by (provider, error_type) (increase(llm_provider_errors_by_type_total[10m]))",
+     "legendFormat": "{{provider}} · {{error_type}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 1,
+      "fillOpacity": 10,
+      "spanNulls": true,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      }
+     },
+     "color": {
+      "mode": "palette-classic"
+     }
+    }
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "description": "rate_limit, tpm_exceeded, quota_exceeded… en fenêtre glissante (le cumul brut vit dans /debug-run).",
+   "id": 13,
+   "gridPos": {
+    "h": 6,
+    "w": 10,
+    "x": 14,
+    "y": 19
+   }
+  },
+  {
+   "type": "table",
+   "title": "Dernières erreurs (messages bruts)",
+   "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "infinity1"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "yesoreyeram-infinity-datasource",
+      "uid": "infinity1"
+     },
+     "type": "json",
+     "source": "url",
+     "format": "table",
+     "url": "/errors/recent",
+     "url_options": {
+      "method": "GET"
+     },
+     "root_selector": "",
+     "columns": [
+      {
+       "selector": "time",
+       "text": "Heure (UTC)",
+       "type": "string"
+      },
+      {
+       "selector": "provider",
+       "text": "Provider",
+       "type": "string"
+      },
+      {
+       "selector": "error_type",
+       "text": "Type",
+       "type": "string"
+      },
+      {
+       "selector": "http_status",
+       "text": "HTTP",
+       "type": "number"
+      },
+      {
+       "selector": "message",
+       "text": "Message",
+       "type": "string"
+      }
+     ]
+    }
+   ],
+   "options": {},
+   "id": 14,
+   "gridPos": {
+    "h": 7,
+    "w": 24,
+    "x": 0,
+    "y": 25
+   }
+  },
+  {
+   "id": 15,
+   "type": "row",
+   "title": "Quotas jour (fenêtre UTC)",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 32
+   }
+  },
+  {
+   "type": "bargauge",
+   "title": "Quota requêtes consommé (rpd)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "llm_provider_daily_usage_ratio"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 0.7
+       },
+       {
+        "color": "red",
+        "value": 0.9
+       }
+      ]
+     },
+     "unit": "percentunit",
+     "max": 1,
+     "min": 0
+    }
+   },
+   "options": {
+    "displayMode": "gradient",
+    "orientation": "horizontal",
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    }
+   },
+   "id": 16,
+   "gridPos": {
+    "h": 6,
+    "w": 8,
+    "x": 0,
+    "y": 33
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Requêtes consommées aujourd'hui",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "llm_provider_requests_today",
+     "legendFormat": "{{provider}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 1,
+      "fillOpacity": 10,
+      "spanNulls": true,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      }
+     },
+     "color": {
+      "mode": "palette-classic"
+     }
+    }
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "id": 17,
+   "gridPos": {
+    "h": 6,
+    "w": 8,
+    "x": 8,
+    "y": 33
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Tokens consommés aujourd'hui",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "llm_provider_tokens_today",
+     "legendFormat": "{{provider}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 1,
+      "fillOpacity": 10,
+      "spanNulls": true,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      }
+     },
+     "color": {
+      "mode": "palette-classic"
+     }
+    }
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "description": "Comptage a posteriori des tokens réels (tpd_limit).",
+   "id": 18,
+   "gridPos": {
+    "h": 6,
+    "w": 8,
+    "x": 16,
+    "y": 33
+   }
+  },
+  {
+   "id": 19,
+   "type": "row",
+   "title": "Coût en tokens",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 39
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Tokens consommés (in + out)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "llm_tokens_in_total{provider=\"__all__\"} + llm_tokens_out_total{provider=\"__all__\"}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     },
+     "unit": "short"
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Total depuis le démarrage, tous providers.",
+   "id": 20,
+   "gridPos": {
+    "h": 6,
+    "w": 6,
+    "x": 0,
+    "y": 40
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Tokens moyens par appel",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "llm_tokens_in_total{provider=\"__all__\"} / clamp_min(sum(llm_provider_calls_ok_total), 1)",
+     "legendFormat": "in"
+    },
+    {
+     "refId": "B",
+     "expr": "llm_tokens_out_total{provider=\"__all__\"} / clamp_min(sum(llm_provider_calls_ok_total), 1)",
+     "legendFormat": "out"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     },
+     "unit": "short",
+     "decimals": 0
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value_and_name"
+   },
+   "id": 21,
+   "gridPos": {
+    "h": 6,
+    "w": 6,
+    "x": 6,
+    "y": 40
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Tokens économisés par le cache (est.)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum(llm_cache_hits_total) * ((llm_tokens_in_total{provider=\"__all__\"} + llm_tokens_out_total{provider=\"__all__\"}) / clamp_min(sum(llm_provider_calls_ok_total), 1))"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     },
+     "unit": "short"
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Appels LLM évités par le cache sémantique × tokens moyens par appel. Estimation — le gain réel dépend des prompts évités.",
+   "id": 22,
+   "gridPos": {
+    "h": 6,
+    "w": 6,
+    "x": 12,
+    "y": 40
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Coût par heure simulée (tokens/h sim)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "(llm_tokens_in_total{provider=\"__all__\"} + llm_tokens_out_total{provider=\"__all__\"}) / clamp_min(gama_sim_step_count * gama_sim_step_logical_duration_seconds / 3600, 0.01)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     },
+     "unit": "short"
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Tokens consommés / heures simulées écoulées depuis /init. Unit economics du run.",
+   "id": 23,
+   "gridPos": {
+    "h": 6,
+    "w": 6,
+    "x": 18,
+    "y": 40
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Débit de tokens (tokens/s par provider)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "rate(llm_tokens_in_total[1m]) unless rate(llm_tokens_in_total{provider=\"__all__\"}[1m])",
+     "legendFormat": "in {{provider}}"
+    },
+    {
+     "refId": "B",
+     "expr": "rate(llm_tokens_out_total[1m]) unless rate(llm_tokens_out_total{provider=\"__all__\"}[1m])",
+     "legendFormat": "out {{provider}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 1,
+      "fillOpacity": 10,
+      "spanNulls": true,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      }
+     },
+     "color": {
+      "mode": "palette-classic"
+     }
+    }
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "id": 24,
+   "gridPos": {
+    "h": 7,
+    "w": 12,
+    "x": 0,
+    "y": 46
+   }
+  },
+  {
+   "type": "bargauge",
+   "title": "Tokens cumulés par provider & modèle",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "((llm_tokens_in_total + llm_tokens_out_total) unless llm_tokens_in_total{provider=\"__all__\"}) * on(provider) group_left(model) llm_provider_info",
+     "legendFormat": "{{provider}} · {{model}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "blue",
+        "value": null
+       }
+      ]
+     },
+     "unit": "short"
+    }
+   },
+   "options": {
+    "displayMode": "gradient",
+    "orientation": "horizontal",
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    }
+   },
+   "id": 25,
+   "gridPos": {
+    "h": 7,
+    "w": 12,
+    "x": 12,
+    "y": 46
+   }
+  },
+  {
+   "id": 26,
+   "type": "row",
+   "title": "Batching",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 53
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Prompts envoyés vs agents batchés (/min)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum(rate(llm_prompts_sent_total[1m])) * 60",
+     "legendFormat": "prompts"
+    },
+    {
+     "refId": "B",
+     "expr": "sum(rate(llm_agents_batched_total[1m])) * 60",
+     "legendFormat": "agents batchés"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 1,
+      "fillOpacity": 10,
+      "spanNulls": true,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      }
+     },
+     "color": {
+      "mode": "palette-classic"
+     }
+    }
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "description": "L'écart entre les deux courbes = gain du mini-batching.",
+   "id": 27,
+   "gridPos": {
+    "h": 7,
+    "w": 8,
+    "x": 0,
+    "y": 54
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Ratio batching (agents/prompt)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum(llm_agents_batched_total) / clamp_min(sum(llm_prompts_sent_total), 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "orange",
+        "value": null
+       },
+       {
+        "color": "green",
+        "value": 1.5
+       }
+      ]
+     },
+     "decimals": 2
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "id": 28,
+   "gridPos": {
+    "h": 7,
+    "w": 8,
+    "x": 8,
+    "y": 54
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Agents reçus de GAMA par catégorie (/min)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum by (category) (rate(gama_agents_received_total[1m])) * 60",
+     "legendFormat": "{{category}}"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 1,
+      "fillOpacity": 10,
+      "spanNulls": true,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      }
+     },
+     "color": {
+      "mode": "palette-classic"
+     }
+    }
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "id": 29,
+   "gridPos": {
+    "h": 7,
+    "w": 8,
+    "x": 16,
+    "y": 54
+   }
+  }
+ ]
+}

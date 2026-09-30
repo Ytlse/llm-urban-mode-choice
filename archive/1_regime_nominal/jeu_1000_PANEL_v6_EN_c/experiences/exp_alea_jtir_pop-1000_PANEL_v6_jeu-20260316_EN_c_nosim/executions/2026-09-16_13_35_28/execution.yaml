@@ -1,0 +1,98 @@
+version: execution1
+cree_le: '2026-09-16T13:35:28+00:00'
+experience:
+  nom: exp_alea_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+  population:
+    chemin: /data/eqasim-output/population_1000_PANEL_v6
+  jeu:
+    nom: population_1000_PANEL_v6_20260316_EN_c
+    dossier: null
+  gabarit:
+    categorie: itinary_multi_agent
+    variante: null
+  decideur:
+    type: aleatoire
+    modele: null
+    portee: null
+    parametres: {}
+    rejeu_de: null
+    graine: 42
+    artefact: null
+  mode: sans_simulateur
+  calendrier:
+    politique: aleatoire
+    date: '2026-03-16'
+    graine: 42
+  horizon_jours: 1
+  memoire: false
+  evenements: []
+  graine_ordre: 42
+  graine_tirage: 42
+  regroupement:
+    parallelisme: 8
+  tolerances_horaires:
+    walk: insensible
+    bike: insensible
+    car: heure
+    transit:
+      pas_min: 10
+    rail:
+      pas_min: 10
+  max_candidats: 6
+  attente_max_s: 120
+  vehicule_chaine: true
+  verrou_retour: true
+  derive_de: exp_alea_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_nosim
+  renomme_de: null
+  executions_connues: []
+empreintes:
+  population:
+    nom: population_1000_PANEL_v6
+    sha256: 675cfe31f59f450a2919dc1a6bacdbc34e51fdc846bbbe1dfce7160db2a6b253
+    fichier_sha256: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6
+    scellee: true
+  jeu:
+    nom: population_1000_PANEL_v6_20260316_EN_c
+    sha256: e8f9eab14fb4a0600bc04bd85591053dd0fd3bd3571e6e9f98aec87e51bc9f53
+  gabarit:
+    categorie: itinary_multi_agent
+    variante: null
+    sha256: e9f21ddebfbd7b084ecd3a03ac08f2253d56245eb786a33fc917db9edaa4c65d
+    sources:
+    - prompts.yaml:active.itinary_multi_agent
+    - travel_plan_describe_v2.j2
+  decideur:
+    type: aleatoire
+    modele: null
+    parametres: {}
+    sha256: 0bf15f85b4323b61d7119b896871d9917142882aeeb9d694f576b0ed78f05e19
+  depot:
+    commit: d33c8e87034d6d8bbe325275cf0bb8ea24bd2e98
+    arbre_propre: false
+regime_demande:
+  parallelisme: 8
+  unite_sollicitation: deplacement
+regime_applique:
+  parallelisme: 8
+  unite_sollicitation: deplacement
+  decideur: aleatoire:42
+  reprise: false
+reglages_herites:
+  agenda_anticipation_enabled: true
+  max_trip_candidates: 6
+  vehicule_chaine: true
+  verrou_retour: true
+  instances_admises: []
+sources_alea:
+  graine_ordre: 42
+  graine_tirage: 42
+  graine_calendrier: 42
+  echantillonnage_decideur: false
+interruptions: []
+cloture:
+  le: '2026-09-16T13:35:36+00:00'
+  etat: terminee
+  sha256:
+    decisions.jsonl: ec1322a254c8721d1c38568804d045c110f691eec8036ff06db8be0781dbd4b3
+    moves.csv: 377b780d7fb3b0ac1683f6ba5735e630a834404e2cabba96770a9fd9e57d6431
+    compteurs.json: 24d9a860bcfaeeee4a43057db21e4035c2d80518b2ffae30cadf6f92cbd9a604

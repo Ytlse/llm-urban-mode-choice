@@ -1,0 +1,178 @@
+# Population scellée pour l'article — ne pas modifier (cf. `regle`).
+version: sceau1
+nom: population_1000_PANEL_v6_c2
+scelle_le: '2026-09-22T11:34:13+00:00'
+population:
+  fichier: population.json
+  sha256: 4c446e5419e70b9031888191c6c9e4973edf782fd7e376eea8db859e3e9405d9
+  n: 1000
+  source: data/population/toulouse_population_1000_PANEL_v6_c2.json
+  source_sha256: 4c446e5419e70b9031888191c6c9e4973edf782fd7e376eea8db859e3e9405d9
+perimetre:
+  definition: 453 communes de l'enquête EMC² Toulouse 2023, six départements (31,
+    32, 81, 82, 09, 11), polygone communal — pas de rayon
+  table_communes: packages/mobility_core/src/mobility_core/data/commune_couronne.json
+  departements_attendus:
+    '31': 346
+    '32': 38
+    '81': 27
+    '82': 22
+    09: 10
+    '11': 10
+  retenus_par_departement:
+    09: 2
+    '31': 933
+    '32': 17
+    '81': 31
+    '82': 17
+  departements_representes: 5
+  retenus_sans_commune: 0
+  communes_distinctes: 135
+  activites_hors_perimetre:
+    controle: true
+    personas_controles: 1000
+    activites_hors_perimetre_supprimees: 0
+    personas_touches: 0
+disjonction:
+  regle: panel_seal_v5_disjoint
+  cohortes:
+  - nom: population_1000_PANEL_v6
+    dossier: data/population/population_1000_PANEL_v6
+    sha256: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6
+    personnes: 1000
+    menages: 499
+    menages_nouveaux: 499
+  menages_exclus: 499
+selection:
+  fichier: selection.json
+  version: panel_seal_v5_disjoint
+  regle: 'unité = ménage (household.id) ; effectifs de cellule proportionnels à la
+    cible jointe couronne × motorisation (base personne) par plus fort reste, puis
+    effectif cible par SOUS-CELLULE (cellule × effectif présent × taille déclarée)
+    par programme entier tenant taille_menage_personne et motorisation_menage ; les
+    ménages entrent dans l''ordre sha256(''panel_seal_v4:'' + household_id) à l''intérieur
+    de leur sous-cellule ; exclus : hors périmètre, moins de 5 ans, sans motorisation
+    ; puis descente par échanges de ménages de MÊME SOUS-CELLULE minimisant la somme
+    des écarts absolus (en points) aux marges : occupation, classe_age, motorisation_menage,
+    age_quinquennal, genre, taille_menage_personne, permis_adultes, abonnement_tc,
+    logement, immobile'
+  vivier:
+    n: 11329
+    eligibles: 9979
+    exclus:
+      moins_de_5_ans: 335
+      sans_couronne: 14
+      hors_perimetre: 1
+      exclus_cohorte_anterieure: 1000
+    menages: 5153
+    menages_exclus: 499
+    fichier: scripts/data/population/Temp/4_zone_enriched/toulouse_population_10000.json
+    sha256: e90dc9236e78d81879063e89cc6e3b972c8d3030b7268526c18e7a4d9bf296b7
+    residence_zone:
+      deja_pose: 11315
+      pose_sans_domicile: 14
+  menages_retenus:
+    n: 501
+    par_taille:
+      '1': 212
+      '2': 160
+      '3': 67
+      '4': 46
+      '5': 13
+      '6': 3
+    membres_declares: 1033
+    membres_presents: 1000
+  deficits: {}
+  reports: 0
+  allocation:
+    methode: 'programme entier (HiGHS via scipy.optimize.milp) sur les sous-cellules
+      (cellule × effectif présent × taille déclarée) : les douze effectifs de cellule
+      en personnes sont des égalités, les deux marges allouées sont bornées en écart
+      maximal — tolérance trouvée par bissection —, et l''objectif minimise le nombre
+      de ménages déplacés par rapport à la composition du vivier'
+    marges_allouees:
+    - taille_menage_personne
+    - motorisation_menage
+    ecarts_pt:
+      motorisation_menage:
+        sans voiture: 0.0213
+        une voiture: -0.0428
+        deux voitures et +: 0.0216
+      taille_menage_personne:
+        '1': 0.006
+        '2': -0.058
+        '3': -0.033
+        '4': 0.042
+        5 et +: 0.043
+    ecart_max_pt: 0.058
+    tolerance_retenue_pt: 0.061
+    tolerance_borne_alarme_pt: 1.0
+    tolerance_depassee: false
+    programmes_entiers_resolus: 16
+    sous_cellules_servies: 73
+    sous_cellules_vivier: 123
+    menages: 501
+    menages_deplaces_vs_vivier: 51
+    sous_cellules_sous_remplies: 0
+  descente:
+    echanges: 434
+    passes: 4
+    perte_avant_pt: 87.98
+    perte_apres_pt: 3.91
+    candidats_par_menage: 150
+    marges_non_mesurees: []
+    duree_s: 3.36
+controle:
+  rapport: CONTROLE.md
+  verdicts:
+    conforme: 13
+    à corriger: 0
+    à publier: 0
+    non mesurable: 0
+  borne_tost_pt: 1.0
+  n_min: 30
+  n_min_cellule: 50
+  cible_jointe:
+    fichier: scripts/panel/cible_jointe_couronne_motorisation.yaml
+    version: cj1
+    sha256: ddea85edb98c7646d265d92976dccb2feb620836a387f2bf66455301ba1394a7
+  cibles_marges:
+    fichier: scripts/panel/cibles_marges_personne.yaml
+    version: cm1
+    sha256: 349bf820b4b89e6c352970503fcdc91ae56a5a98cbc9f69dfbd41056d14aa825
+  menages_et_mobilite:
+    scolaires_6_17: 154
+    scolaires_mobiles: 147
+    scolaires_avec_activite_etudes: 139
+    part_scolaires_avec_etudes_pct: 94.6
+    part_scolaires_avec_etudes_seuil_pct: 88.0
+    n_menages: 501
+    menages_complets_taille_declaree: 472
+    part_menages_complets_pct: 94.2
+    membres_presents: 1000
+    membres_declares: 1033
+    part_membres_presents_pct: 96.8
+    sans_household_id: 0
+    deplacements_par_persona: 3.296
+    deplacements_par_persona_mobile: 3.687
+    immobiles: 106
+    part_immobiles_pct: 10.6
+    reference_enquete:
+      deplacements_par_personne: 3.53
+      part_immobiles_pct: 10.6
+      deplacements_par_personne_mobile: 3.95
+      part_scolaires_avec_etudes_pct:
+      - 90.0
+      - 95.0
+      source: 'microdonnées EMC² 2023, PENQ = 1, COEP ; scolaires : 6-17 ans scolarisés
+        mobiles avec un déplacement vers l''école un jour de semaine'
+  synthese_des_ecarts: []
+depot:
+  git_head: 2baf55b7ada520c684025289fd68553c73d22351
+  branche: main
+  arbre_propre: false
+regle: Ce dossier ne se modifie pas. Toute correction de la population produit un
+  nouveau dossier scellé ; les jeux gelés et les runs qui citent celui-ci citent son
+  sha256.
+note: 'Cohorte 2 de l''axe 2 du ticket 073 : disjointe de population_1000_PANEL_v6
+  au niveau du ménage (spec cohortes-disjointes-axe2).'

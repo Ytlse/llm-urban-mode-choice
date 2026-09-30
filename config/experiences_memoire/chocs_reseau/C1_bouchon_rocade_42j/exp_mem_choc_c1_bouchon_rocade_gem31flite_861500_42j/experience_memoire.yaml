@@ -1,0 +1,22 @@
+canal: vecu
+evenement: c1_bouchon_rocade
+modeles:
+  itinary_multi_agent: gemini-3.1-flash-lite
+  evenement_jugement: gemini-3.1-flash-lite
+  stm_reflection: gemini-3.5-flash-lite
+  ltm_self_reflection: gemini-3.1-flash-lite
+  enquete_affinite: gemini-3.5-flash-lite
+temperature_decision: 0.0
+variante_prompt: prompt_expert_05
+population: '861500'
+horizon_jours: 42
+arret_sur_extinction: false
+jours_apres_extinction: 5
+graine_calendrier: 42
+graine_tirage: 42
+memoire_importance_choc: 0.7
+stm_reflection_min_entries: 5
+contrefactuel_ab: true
+partage_foyer: false
+adaptateur: google
+nom: exp_mem_choc_c1_bouchon_rocade_gem31flite_861500_42j

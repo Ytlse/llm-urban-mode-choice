@@ -1,0 +1,28 @@
+2026-09-16 19:16:45.407 | DEBUG    | experiences.ressources:charger_providers:69 - [ressources] 26 instance(s) lue(s) dans /app/config/llm_gateway/providers.yaml
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/app/experiences/__main__.py", line 3, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/app/experiences/cli.py", line 1456, in main
+    return int(a.fn(a))
+               ^^^^^^^
+  File "/app/experiences/cli.py", line 525, in cmd_lancer
+    jeu, info, moniteur, refus = _preparer_lancement(
+                                 ^^^^^^^^^^^^^^^^^^^^
+  File "/app/experiences/cli.py", line 399, in _preparer_lancement
+    refus, avert = E.refuser_si_impossible(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/experiences/experience.py", line 739, in refuser_si_impossible
+    bornes = periodes if periodes is not None else periodes_couvertes()
+                                                   ^^^^^^^^^^^^^^^^^^^^
+  File "/app/experiences/experience.py", line 529, in periodes_couvertes
+    gtfs = Path(dossier_gtfs) if dossier_gtfs else Path(settings.gtfs.gtfs_file)
+                                                        ^^^^^^^^^^^^^
+  File "/app/settings.py", line 1059, in __getattribute__
+    return getattr(self.get(), name)
+                   ^^^^^^^^^^
+  File "/app/settings.py", line 994, in get
+    raise RuntimeError(
+RuntimeError: CONTINUE_RUN sans REPRISE : une reprise se nomme. Relancez avec `make run … REPRISE=<nom du run>` — sans quoi rien ne garantit que la mémoire retrouvée est celle de cette expérience (ticket 091).

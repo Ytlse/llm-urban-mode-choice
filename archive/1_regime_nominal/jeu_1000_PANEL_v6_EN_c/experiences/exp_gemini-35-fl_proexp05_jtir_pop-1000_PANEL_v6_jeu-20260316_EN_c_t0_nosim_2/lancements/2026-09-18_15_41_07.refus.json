@@ -1,0 +1,8 @@
+{
+ "classe": "quota_epuise",
+ "reportable": true,
+ "motifs": [
+  "les 2 instance(s) qui servent le modèle 'gemini-3.5-flash-lite' (google_gemini35_key1, google_gemini35_key2) sont momentanément épuisées — google_gemini35_key1 : 500/500 requêtes/jour (épuisée) ; google_gemini35_key2 : 511/500 requêtes/jour (épuisée) → attendez le renouvellement du quota, ou relancez avec --attendre-fenetre"
+ ],
+ "le": "2026-09-18T15:41:07+00:00"
+}

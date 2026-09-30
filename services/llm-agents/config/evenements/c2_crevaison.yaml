@@ -1,0 +1,39 @@
+# ══ MIGRATED TO THE TICKET 100 FORMAT (single channel) on 2026-09-21 ═════════════════════
+# `choc:` becomes `evenement:`, and three fields appear. They change NOTHING in what this
+# file did: `canal: vecu` and `moment: arrivee` are the suffered regime of ticket 079, and
+# `jugement: aucun` is the state before lot 3 — the agent does not judge yet what they suffer.
+# The golden test of lot 1 replays the original from `config/chocs/` and requires the same trace.
+# C2 — Flat tyre · bike
+# Individual, and it is the most interesting case: NOTHING changes in the graph, so any
+# effect observed on the following days can only come from memory.
+# ⚠ Day 13 does not make the bike really unavailable (cf. config/chocs/README.md): only
+#   the memory carries it.
+evenement: c2_crevaison
+canal: vecu                  # vecu | lu — where the text comes from
+moment: arrivee              # arrivee (after the decision) | reveil (before)
+jugement: aucun              # aucun | a_l_injection (lot 3 of ticket 100)
+# At most one application per agent and per day (ticket 100, § 13.2 point 9, 2026-09-24).
+# Without this line, the default `trajet` cadence injected the event at EACH trip
+# of the targeted mode on the same day — the defect that cost a measurement on c6 on 19/09.
+cadence: jour
+libelle: "Flat tyre on the way"
+source: "scénario déclaré — Aldred (2016), TR-A 90, sur le poids des incidents vécus à vélo"
+
+exposition:
+  regle: tirage
+  part: 0.30
+  graine: 79
+
+jours:
+  - jour: 12
+    retard_min: 20
+    incident_reseau: true
+    vecu: >-
+      A tyre went flat on the way. I spent 20 minutes repairing it at the roadside, and my hands
+      were covered in grease for the rest of the journey. I arrived 20 minutes after the time I
+      had planned.
+  - jour: 13
+    retard_min: 0
+    incident_reseau: false
+    vecu: >-
+      I replaced the inner tube the same evening. The bike was available as usual.

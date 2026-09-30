@@ -1,0 +1,118 @@
+# Population de TEST — ticket 093. Ce n'est PAS un sceau de cohorte.
+#
+# Dix agents ne représentent rien : ils servent à LIRE l'évolution d'une mémoire et
+# la rupture d'une habitude, jamais à mesurer une part modale. La référence de
+# l'article reste data/population/population_1000_PANEL_v6.
+nom: population_10_mesurables_093
+extrait_le: '2026-09-16T21:17:07.823228+00:00'
+source:
+  fichier: data/population/population_1000_PANEL_v6/population.json
+  sha256: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6
+  n: 1000
+population:
+  fichier: population.json
+  sha256: 3a79ae44e5ec116242b00e2d7b6be6665721f730f8efb9849e277f15c16fb91a
+  n: 10
+run_de_reference:
+  chemin: data/experiences/exp_gemini-35-fl_proexp08_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_t0_nosim/executions/2026-09-15_12_38_15
+  moves_sha256: 5b27dd66646586f683c13aab9f89e386be680d9bb86a853bcc199e592033a8c3
+  agents_mesures: 869
+  candidats: 234
+  journees_couvertes: ["2026-03-16", "2026-03-17", "2026-03-18"]
+critere:
+  trajets_min: 4
+  options_min: 2
+  modes_min: 2
+  enonce: >-
+    Sur la journée de référence : au moins trajets_min trajets, TOUJOURS au moins
+    options_min itinéraires proposés, et au moins modes_min modes réellement CHOISIS.
+    Le critère porte sur les modes choisis et jamais sur les modes proposés : un agent
+    à qui l'on propose tout et qui prend toujours la voiture est visible et inutile.
+selection:
+  methode: >-
+    Aucun tirage. Les agents conservés sont retenus de droit ; les autres sont pris
+    parmi les candidats, en tourniquet sur les quatre modes dominants, du plus
+    observable au moins observable — modes, puis trajets, puis choix offert — et
+    l'identifiant numérique départage les ex æquo. Reproductible par
+    scripts/data/population/selectionner_personas_mesurables.py.
+  agents:
+    - person_id: '899549'
+      motif: conservé
+      passe_le_critere: true
+      mode_dominant: car
+      trajets: 4
+      options: 8-9
+      modes_distincts: 2
+      modes: "Voiture 2 · Marche 2"
+    - person_id: '616478'
+      motif: conservé
+      passe_le_critere: true
+      mode_dominant: walking
+      trajets: 4
+      options: 7-9
+      modes_distincts: 2
+      modes: "Marche 3 · Transports collectifs 1"
+    - person_id: '1250941'
+      motif: critère
+      passe_le_critere: true
+      mode_dominant: car
+      trajets: 13
+      options: 5-9
+      modes_distincts: 4
+      modes: "Voiture 7 · Vélo 4 · Marche 1 · Transports collectifs 1"
+    - person_id: '920187'
+      motif: critère
+      passe_le_critere: true
+      mode_dominant: walking
+      trajets: 15
+      options: 5-9
+      modes_distincts: 4
+      modes: "Marche 9 · Transports collectifs 4 · Voiture 1 · Train 1"
+    - person_id: '442854'
+      motif: critère
+      passe_le_critere: true
+      mode_dominant: public_transport
+      trajets: 8
+      options: 5-9
+      modes_distincts: 4
+      modes: "Transports collectifs 3 · Marche 2 · Voiture 2 · Vélo 1"
+    - person_id: '991203'
+      motif: critère
+      passe_le_critere: true
+      mode_dominant: cycling
+      trajets: 11
+      options: 5-9
+      modes_distincts: 4
+      modes: "Vélo 4 · Transports collectifs 3 · Marche 2 · Voiture 2"
+    - person_id: '861500'
+      motif: critère
+      passe_le_critere: true
+      mode_dominant: car
+      trajets: 11
+      options: 5-9
+      modes_distincts: 4
+      modes: "Voiture 8 · Transports collectifs 1 · Train 1 · Marche 1"
+    - person_id: '239142'
+      motif: critère
+      passe_le_critere: true
+      mode_dominant: walking
+      trajets: 15
+      options: 6-9
+      modes_distincts: 3
+      modes: "Marche 10 · Vélo 4 · Transports collectifs 1"
+    - person_id: '962966'
+      motif: critère
+      passe_le_critere: true
+      mode_dominant: public_transport
+      trajets: 15
+      options: 5-9
+      modes_distincts: 3
+      modes: "Transports collectifs 6 · Marche 6 · Voiture 3"
+    - person_id: '454170'
+      motif: critère
+      passe_le_critere: true
+      mode_dominant: cycling
+      trajets: 12
+      options: 3-3
+      modes_distincts: 3
+      modes: "Vélo 8 · Marche 3 · Voiture 1"

@@ -1,0 +1,91 @@
+# Population de TEST — ticket 075. Ce n'est PAS un sceau de cohorte.
+#
+# Cinq agents ne représentent rien : ils servent à LIRE l'évolution d'une mémoire,
+# jamais à mesurer une part modale. La référence de l'article reste
+# data/population/population_1000_PANEL_v6.
+nom: population_5_memoire_075
+extrait_le: '2026-09-14T20:38:20.828682+00:00'
+source:
+  fichier: data/population/population_1000_PANEL_v6/population.json
+  sha256: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6
+  n: 1000
+population:
+  fichier: population.json
+  sha256: 30dd4919abf19cc3d78710f47cb791c9e837fc97e3e178fd780f1db7f36d52d5
+  n: 5
+selection:
+  methode: >-
+    Aucun tirage aléatoire. Chaque profil est un prédicat ; l'agent retenu est le
+    premier qui le satisfait dans l'ordre des identifiants numériques. Reproductible
+    par scripts/data/population/extraire_sous_population.py.
+  profils:
+    - profil: pendulaire_voiture
+      person_id: '609'
+      nom_persona: "Xavier Briand"
+      age: 40
+      occupation: "Full-time worker"
+      commune: "La Bastide-de-Besplas"
+      zone: "3rd ring"
+      voiture: "all"
+      velo: "No bike"
+      abonnement_tc: False
+      activites: 4
+      motifs: ["work"]
+      raison: >-
+        Travail à temps plein, voiture toujours disponible, permis, sans abonnement de transport collectif, domicile hors de Toulouse : le cas où la voiture est le choix par défaut et où la mémoire doit peser fort pour en faire dévier.
+    - profil: cycliste_urbain
+      person_id: '899549'
+      nom_persona: "Corinne de la Richard"
+      age: 53
+      occupation: "Part-time worker"
+      commune: "Toulouse"
+      zone: "Toulouse"
+      voiture: "some"
+      velo: "regular bike"
+      abonnement_tc: True
+      activites: 4
+      motifs: ["leisure", "work"]
+      raison: >-
+        Vélo personnel, domicile à Toulouse, voiture peu ou pas disponible : le profil le plus sensible à la météo et aux incidents, donc celui où les souvenirs marquants doivent apparaître le plus vite.
+    - profil: usager_transport_collectif
+      person_id: '616478'
+      nom_persona: "Adrienne Bonneau du Lejeune"
+      age: 59
+      occupation: "Unemployed / job seeker"
+      commune: "Colomiers"
+      zone: "1st ring"
+      voiture: "none"
+      velo: "No bike"
+      abonnement_tc: True
+      activites: 4
+      motifs: ["education", "shop"]
+      raison: >-
+        Abonnement de transport collectif et aucune voiture : la mémoire porte ici sur la fiabilité des lignes, c'est-à-dire sur des concepts qui se confirment et se contredisent.
+    - profil: scolaire
+      person_id: '11195'
+      nom_persona: "Constance Ledoux"
+      age: 12
+      occupation: "Pupil (up to Baccalaureate)"
+      commune: "Albiac"
+      zone: "3rd ring"
+      voiture: "all"
+      velo: "No bike"
+      abonnement_tc: False
+      activites: 2
+      motifs: ["education"]
+      raison: >-
+        Élève mineur avec une activité d'études : trajets très réguliers, donc un cas où une habitude doit se former nettement et où toute rupture se voit.
+    - profil: retraite_multi_motifs
+      person_id: '41275'
+      nom_persona: "Valérie Duhamel"
+      age: 66
+      occupation: "Retired"
+      commune: "Beaufort"
+      zone: "2nd ring"
+      voiture: "all"
+      velo: "regular bike"
+      abonnement_tc: False
+      activites: 4
+      motifs: ["leisure", "shop"]
+      raison: >-
+        Retraité avec au moins deux motifs distincts hors domicile : agenda irrégulier, donc une mémoire qui ne peut pas se réduire à un aller-retour répété.

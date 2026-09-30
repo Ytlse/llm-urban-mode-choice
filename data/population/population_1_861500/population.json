@@ -1,0 +1,213 @@
+[
+  {
+    "person_id": "861500",
+    "immobile": false,
+    "household": {
+      "id": "386066",
+      "iris_id": "315555901",
+      "commune_id": "31555"
+    },
+    "provenance": {
+      "census_person_id": "349337",
+      "hts_id": "39747.0"
+    },
+    "validation": {
+      "commute_mode": "car"
+    },
+    "identity": {
+      "name": "Capucine Boulay",
+      "traits_json": {
+        "name": "Capucine Boulay",
+        "age": 58,
+        "gender": "Female",
+        "main_occupation": "Full-time worker",
+        "travel_purposes": [
+          "Work",
+          "Shopping"
+        ],
+        "occupation": {
+          "title": "Executive",
+          "organization": "Utilities Company"
+        },
+        "household_size": 2,
+        "income": "Medium",
+        "socioprofessional_class": "Executive or Higher Intellectual Professional",
+        "professional_activity": "Full-Time Worker",
+        "employment_sector": "energy_water_waste_mining",
+        "car_availability": "all",
+        "has_driving_license": true,
+        "has_pt_subscription": false,
+        "number_of_cars": 2,
+        "employed": true,
+        "studies": false,
+        "residence_zone": "Toulouse",
+        "residence_insee": "31555",
+        "residence_commune": "Toulouse",
+        "housing_type": "Terraced house",
+        "personal_bike": "No bike"
+      },
+      "home": {
+        "lon": 1.3684314749513526,
+        "lat": 43.601722755940656,
+        "public_transport": true
+      },
+      "activities": [
+        {
+          "id": "e4aeec1c-88a8-55d1-9ea4-e7ae001f3167",
+          "scheduled_start_time": 78248.0,
+          "start_time": 79315.0,
+          "end_time": 23008.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.3684314749513526,
+            "lat": 43.601722755940656,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "aed95072-8296-5c1c-9b3d-d9af429efc62",
+          "scheduled_start_time": 23008.0,
+          "start_time": 23859.0,
+          "end_time": 24759.0,
+          "purpose": "shop",
+          "location": {
+            "lon": 1.3801046625960542,
+            "lat": 43.608881570982824,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "ae774a46-7355-5cab-9934-cdf320ba3480",
+          "scheduled_start_time": 24759.0,
+          "start_time": 25597.0,
+          "end_time": 26497.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.3684314749513526,
+            "lat": 43.601722755940656,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "00c17976-c72c-5da2-a1fb-20a399c7020a",
+          "scheduled_start_time": 26497.0,
+          "start_time": 27368.0,
+          "end_time": 43748.0,
+          "purpose": "work",
+          "location": {
+            "lon": 1.3818305595654197,
+            "lat": 43.61003493613084,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "a59bd018-464a-59ba-8231-1278035e513a",
+          "scheduled_start_time": 43748.0,
+          "start_time": 44348.0,
+          "end_time": 46748.0,
+          "purpose": "other",
+          "location": {
+            "lon": 1.3117878804562908,
+            "lat": 43.62903107664077,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Colomiers (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "c09c4103-af00-570f-96ff-2178d371538b",
+          "scheduled_start_time": 46748.0,
+          "start_time": 48207.0,
+          "end_time": 50007.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.3684314749513526,
+            "lat": 43.601722755940656,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "7b9a2ab2-029f-5e12-a426-13ffec608cc7",
+          "scheduled_start_time": 50007.0,
+          "start_time": 50838.0,
+          "end_time": 68606.0,
+          "purpose": "work",
+          "location": {
+            "lon": 1.3818305595654197,
+            "lat": 43.61003493613084,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "b0c43b32-4de6-5975-8e24-f63242600c51",
+          "scheduled_start_time": 68606.0,
+          "start_time": 69206.0,
+          "end_time": 70706.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.3684314749513526,
+            "lat": 43.601722755940656,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "32506179-261f-5059-bdd0-1fa94db5fad5",
+          "scheduled_start_time": 70706.0,
+          "start_time": 71976.0,
+          "end_time": 72876.0,
+          "purpose": "other",
+          "location": {
+            "lon": 1.3968910953543632,
+            "lat": 43.63058471840705,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Blagnac (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "426f9e8c-ec0a-57b3-a964-3a34bd0a0e71",
+          "scheduled_start_time": 72876.0,
+          "start_time": 74131.0,
+          "end_time": 76286.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.3684314749513526,
+            "lat": 43.601722755940656,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "77f5bd6b-782a-5308-9139-2015b61b767f",
+          "scheduled_start_time": 76286.0,
+          "start_time": 77348.0,
+          "end_time": 78248.0,
+          "purpose": "other",
+          "location": {
+            "lon": 1.337374186924461,
+            "lat": 43.60643300331076,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Colomiers (Toulouse urban area)"
+          }
+        }
+      ]
+    },
+    "state": {
+      "last_location": null,
+      "last_activity_index": 0,
+      "cache_current_activity": null,
+      "heading_to": null,
+      "scheduling_in_progress": false,
+      "scheduling_started_at": null
+    },
+    "is_llm_based": true,
+    "perimetre": {
+      "activites_hors_perimetre_supprimees": 0
+    }
+  }
+]

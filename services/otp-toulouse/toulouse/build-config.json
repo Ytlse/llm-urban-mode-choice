@@ -1,0 +1,28 @@
+{
+  // Graph BUILD configuration. Versioned source of truth: the recipe
+  // `make otp-graph` copies it into `data/gtfs/` (working directory, not versioned) before
+  // calling OTP. Before 2026-09-04, the graph rebuild wrote a minimal build-config
+  // directly into `data/gtfs/` and silently LOST the four settings below.
+
+  // The router-config is embedded IN the graph at build time: the instances start
+  // with `--load` and therefore do not need the file at run time. Without this key, they
+  // run on the OTP defaults without any log saying so.
+  "embedRouterConfig": true,
+
+  // Attachment of the stops to the street network: the OSM platforms and poles serve as access points,
+  // which prevents a stop from attaching in the middle of a roadway.
+  "boardingLocationTags": [
+    "public_transport=platform",
+    "highway=bus_stop",
+    "railway=tram_stop"
+  ],
+  "staticParkAndRide": true,
+  // 150 m: beyond that, a stop too far from its trace is not attached by force.
+  "maxStopToShapeSnapDistance": 150,
+
+  // Explicit service window, aligned on the annual feeds of `data/gtfs_year`
+  // (tisseo, ter and lio, 2026 and 2027) and on the simulated date (`Settings.gaml`: 2026-03-16).
+  // Without these two keys, OTP takes [build date − 1 year, build date + 3 years].
+  "transitServiceStart": "2026-01-01",
+  "transitServiceEnd": "2027-12-31"
+}

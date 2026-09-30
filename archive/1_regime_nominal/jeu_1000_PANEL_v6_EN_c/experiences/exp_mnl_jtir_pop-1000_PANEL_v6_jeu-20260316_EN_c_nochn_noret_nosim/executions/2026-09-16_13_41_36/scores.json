@@ -1,0 +1,964 @@
+{
+ "choix_forces": {
+  "lecture": "décisions à itinéraire unique : une seule option existait, personne n'a choisi. Elles RESTENT dans le composite principal — la journée a eu lieu — et sont retirées de la seconde lecture. Leur nombre dépend du bras.",
+  "n": 44,
+  "n_execution": 44,
+  "n_hors_choix_unique": 3111,
+  "n_scorees": 3155,
+  "part": 0.013946117274167988,
+  "part_execution": 0.013946117274167988,
+  "perimetre": "lecture du score : toutes les décisions du journal, tentative la plus récente",
+  "perimetre_execution": "toutes les décisions archivées (synthese.json)"
+ },
+ "composite": {
+  "emd_jsd": 3.9128811518797204,
+  "emd_jsd_hors_choix_unique": 3.7779314635026626,
+  "emd_jsd_tire": 4.1174733377640615,
+  "l1": 39.383072304159306,
+  "l1_hors_choix_unique": 38.08445204831987
+ },
+ "couverture": {
+  "attendus": 3161,
+  "attendus_bruts": 3299,
+  "complet": true,
+  "comptes_dans_les_parts": 3155,
+  "decides": 3155,
+  "inexploitables_exclus": 138,
+  "taux": 0.9981018664979436
+ },
+ "detail": {
+  "age": {
+   "label": "Âge",
+   "scored": true,
+   "strates": [
+    {
+     "actual": {
+      "marche": 26.977499724868153,
+      "transports_collectifs": 32.115726192041976,
+      "velo": 1.9647065772065757,
+      "voiture": 38.9420675058833
+     },
+     "cat": "5-9",
+     "covered": true,
+     "l1": 51.98655442490028,
+     "n": 56,
+     "target": {
+      "marche": 33.673469387755105,
+      "transports_collectifs": 6.122448979591836,
+      "velo": 3.061224489795918,
+      "voiture": 57.142857142857146
+     }
+    },
+    {
+     "actual": {
+      "marche": 26.536039963051447,
+      "transports_collectifs": 38.4371006962961,
+      "velo": 1.0505880994386745,
+      "voiture": 33.97627124121378
+     },
+     "cat": "10-14",
+     "covered": true,
+     "l1": 21.20409829980869,
+     "n": 61,
+     "target": {
+      "marche": 26.804123711340207,
+      "transports_collectifs": 27.835051546391753,
+      "velo": 5.154639175257732,
+      "voiture": 40.20618556701031
+     }
+    },
+    {
+     "actual": {
+      "marche": 27.836652842329713,
+      "transports_collectifs": 27.952317485068583,
+      "velo": 2.3613324477953297,
+      "voiture": 41.84969722480638
+     },
+     "cat": "15-19",
+     "covered": true,
+     "l1": 44.52413671765399,
+     "n": 61,
+     "target": {
+      "marche": 28.8659793814433,
+      "transports_collectifs": 47.422680412371136,
+      "velo": 4.123711340206185,
+      "voiture": 19.587628865979383
+     }
+    },
+    {
+     "actual": {
+      "marche": 30.103729475830924,
+      "transports_collectifs": 30.1879935937907,
+      "velo": 2.8846519303041043,
+      "voiture": 36.823625000074266
+     },
+     "cat": "20-24",
+     "covered": true,
+     "l1": 8.250041311441278,
+     "n": 77,
+     "target": {
+      "marche": 32.98969072164948,
+      "transports_collectifs": 29.896907216494846,
+      "velo": 4.123711340206185,
+      "voiture": 32.98969072164948
+     }
+    },
+    {
+     "actual": {
+      "marche": 27.474360629660165,
+      "transports_collectifs": 19.766077340270897,
+      "velo": 5.223858898974107,
+      "voiture": 47.53570313109482
+     },
+     "cat": "25-29",
+     "covered": true,
+     "l1": 14.190398794279488,
+     "n": 60,
+     "target": {
+      "marche": 29.473684210526315,
+      "transports_collectifs": 13.68421052631579,
+      "velo": 4.2105263157894735,
+      "voiture": 52.63157894736842
+     }
+    },
+    {
+     "actual": {
+      "marche": 21.854020407252342,
+      "transports_collectifs": 11.965224527201713,
+      "velo": 4.002439630196284,
+      "voiture": 62.17831543534967
+     },
+     "cat": "30-34",
+     "covered": true,
+     "l1": 9.497459363681767,
+     "n": 68,
+     "target": {
+      "marche": 23.711340206185568,
+      "transports_collectifs": 7.216494845360825,
+      "velo": 4.123711340206185,
+      "voiture": 64.94845360824742
+     }
+    },
+    {
+     "actual": {
+      "marche": 17.976920653447987,
+      "transports_collectifs": 9.032488212874068,
+      "velo": 2.246874890926337,
+      "voiture": 70.7437162427516
+     },
+     "cat": "35-39",
+     "covered": true,
+     "l1": 18.736082380639097,
+     "n": 70,
+     "target": {
+      "marche": 23.46938775510204,
+      "transports_collectifs": 6.122448979591836,
+      "velo": 6.122448979591836,
+      "voiture": 64.28571428571429
+     }
+    },
+    {
+     "actual": {
+      "marche": 21.338356624020964,
+      "transports_collectifs": 7.260789403097094,
+      "velo": 3.7380452565767235,
+      "voiture": 67.66280871630521
+     },
+     "cat": "40-44",
+     "covered": true,
+     "l1": 7.713755971761902,
+     "n": 63,
+     "target": {
+      "marche": 19.587628865979383,
+      "transports_collectifs": 5.154639175257732,
+      "velo": 4.123711340206185,
+      "voiture": 71.1340206185567
+     }
+    },
+    {
+     "actual": {
+      "marche": 23.812551676653154,
+      "transports_collectifs": 5.970381157014819,
+      "velo": 6.647989822306774,
+      "voiture": 63.56907734402526
+     },
+     "cat": "45-49",
+     "covered": true,
+     "l1": 9.374691245342529,
+     "n": 62,
+     "target": {
+      "marche": 20.61855670103093,
+      "transports_collectifs": 6.185567010309279,
+      "velo": 5.154639175257732,
+      "voiture": 68.04123711340206
+     }
+    },
+    {
+     "actual": {
+      "marche": 20.67010711672305,
+      "transports_collectifs": 6.970040810673484,
+      "velo": 4.7138566786561595,
+      "voiture": 67.64599539394732
+     },
+     "cat": "50-54",
+     "covered": true,
+     "l1": 1.4400816213469527,
+     "n": 63,
+     "target": {
+      "marche": 20.833333333333332,
+      "transports_collectifs": 6.25,
+      "velo": 5.208333333333333,
+      "voiture": 67.70833333333333
+     }
+    },
+    {
+     "actual": {
+      "marche": 19.601003802253803,
+      "transports_collectifs": 9.710976404726402,
+      "velo": 6.192039929123261,
+      "voiture": 64.49597986389654
+     },
+     "cat": "55-59",
+     "covered": true,
+     "l1": 8.889366001032657,
+     "n": 55,
+     "target": {
+      "marche": 22.916666666666668,
+      "transports_collectifs": 7.291666666666667,
+      "velo": 4.166666666666667,
+      "voiture": 65.625
+     }
+    },
+    {
+     "actual": {
+      "marche": 19.306551745313513,
+      "transports_collectifs": 6.218364308819114,
+      "velo": 2.276506385866238,
+      "voiture": 72.19857756000114
+     },
+     "cat": "60-64",
+     "covered": true,
+     "l1": 16.627698170630197,
+     "n": 49,
+     "target": {
+      "marche": 25.77319587628866,
+      "transports_collectifs": 5.154639175257732,
+      "velo": 4.123711340206185,
+      "voiture": 64.94845360824742
+     }
+    },
+    {
+     "actual": {
+      "marche": 24.043679293679286,
+      "transports_collectifs": 3.5444218821577307,
+      "velo": 2.849369471067583,
+      "voiture": 69.5625293530954
+     },
+     "cat": "65-69",
+     "covered": true,
+     "l1": 17.91293749406958,
+     "n": 34,
+     "target": {
+      "marche": 31.31313131313131,
+      "transports_collectifs": 5.05050505050505,
+      "velo": 3.0303030303030303,
+      "voiture": 60.60606060606061
+     }
+    },
+    {
+     "actual": {
+      "marche": 21.23493327346538,
+      "transports_collectifs": 2.7764071020951735,
+      "velo": 3.3558795063382205,
+      "voiture": 72.63278011810122
+     },
+     "cat": "70-74",
+     "covered": true,
+     "l1": 33.97731924887889,
+     "n": 32,
+     "target": {
+      "marche": 35.0,
+      "transports_collectifs": 6.0,
+      "velo": 3.0,
+      "voiture": 56.0
+     }
+    },
+    {
+     "actual": {
+      "marche": 30.774746440828324,
+      "transports_collectifs": 3.721015791776023,
+      "velo": 3.843134202783326,
+      "voiture": 61.661103564612326
+     },
+     "cat": "75-130",
+     "covered": true,
+     "l1": 26.92684288173008,
+     "n": 57,
+     "target": {
+      "marche": 41.83673469387755,
+      "transports_collectifs": 6.122448979591836,
+      "velo": 2.0408163265306123,
+      "voiture": 50.0
+     }
+    }
+   ]
+  },
+  "distance": {
+   "label": "Distance",
+   "scored": true,
+   "strates": [
+    {
+     "actual": {
+      "marche": 57.76232917145499,
+      "transports_collectifs": 6.2627230702888586,
+      "velo": 2.466892584346567,
+      "voiture": 33.50805517390958
+     },
+     "cat": "0-1km",
+     "covered": true,
+     "l1": 37.541556488396886,
+     "n": 231,
+     "target": {
+      "marche": 76.0,
+      "transports_collectifs": 3.0,
+      "velo": 3.0,
+      "voiture": 18.0
+     }
+    },
+    {
+     "actual": {
+      "marche": 44.13915803396751,
+      "transports_collectifs": 9.446823259235911,
+      "velo": 4.120075265367976,
+      "voiture": 42.2939434414286
+     },
+     "cat": "1-2km",
+     "covered": true,
+     "l1": 7.171962586406843,
+     "n": 210,
+     "target": {
+      "marche": 40.816326530612244,
+      "transports_collectifs": 9.183673469387756,
+      "velo": 6.122448979591836,
+      "voiture": 43.87755102040816
+     }
+    },
+    {
+     "actual": {
+      "marche": 22.996669893339206,
+      "transports_collectifs": 14.582788758821437,
+      "velo": 4.750783945392322,
+      "voiture": 57.66975740244704
+     },
+     "cat": "2-5km",
+     "covered": true,
+     "l1": 21.25107174544129,
+     "n": 334,
+     "target": {
+      "marche": 12.371134020618557,
+      "transports_collectifs": 15.463917525773196,
+      "velo": 7.216494845360825,
+      "voiture": 64.94845360824742
+     }
+    },
+    {
+     "actual": {
+      "marche": 4.177780589098155,
+      "transports_collectifs": 23.31303623499569,
+      "velo": 4.716208696614104,
+      "voiture": 67.79297447929207
+     },
+     "cat": "5-10km",
+     "covered": true,
+     "l1": 8.743947948632371,
+     "n": 278,
+     "target": {
+      "marche": 1.0309278350515463,
+      "transports_collectifs": 22.68041237113402,
+      "velo": 4.123711340206185,
+      "voiture": 72.16494845360825
+     }
+    },
+    {
+     "actual": {
+      "marche": 1.1489344638917276,
+      "transports_collectifs": 17.6287744531334,
+      "velo": 3.3351376509496125,
+      "voiture": 77.88715343202526
+     },
+     "cat": "10-20km",
+     "covered": true,
+     "l1": 6.3309562938442205,
+     "n": 243,
+     "target": {
+      "marche": 0.0,
+      "transports_collectifs": 16.842105263157894,
+      "velo": 2.1052631578947367,
+      "voiture": 81.05263157894737
+     }
+    },
+    {
+     "actual": {
+      "marche": 0.051538461538461484,
+      "transports_collectifs": 14.769374688220818,
+      "velo": 1.020383944614712,
+      "voiture": 84.158702905626
+     },
+     "cat": "20-50km",
+     "covered": true,
+     "l1": 2.273405246886981,
+     "n": 131,
+     "target": {
+      "marche": 0.0,
+      "transports_collectifs": 13.68421052631579,
+      "velo": 1.0526315789473684,
+      "voiture": 85.26315789473684
+     }
+    },
+    {
+     "actual": {
+      "marche": 0.0,
+      "transports_collectifs": 40.32972972972973,
+      "velo": 0.0,
+      "voiture": 59.670270270270265
+     },
+     "cat": "plus_50km",
+     "covered": true,
+     "l1": 55.39630156472262,
+     "n": 17,
+     "target": {
+      "marche": 0.0,
+      "transports_collectifs": 12.631578947368421,
+      "velo": 0.0,
+      "voiture": 87.36842105263158
+     }
+    }
+   ]
+  },
+  "genre": {
+   "label": "Genre",
+   "scored": true,
+   "strates": [
+    {
+     "actual": {
+      "marche": 22.219947269514734,
+      "transports_collectifs": 14.591022058077352,
+      "velo": 4.436484559143751,
+      "voiture": 58.75254611326417
+     },
+     "cat": "Homme",
+     "covered": true,
+     "l1": 7.739767921630405,
+     "n": 429,
+     "target": {
+      "marche": 25.263157894736842,
+      "transports_collectifs": 11.578947368421053,
+      "velo": 5.2631578947368425,
+      "voiture": 57.89473684210526
+     }
+    },
+    {
+     "actual": {
+      "marche": 24.882932402408176,
+      "transports_collectifs": 14.722254342845174,
+      "velo": 3.0385663959685627,
+      "voiture": 57.356246858778086
+     },
+     "cat": "Femme",
+     "covered": true,
+     "l1": 7.422308525695503,
+     "n": 439,
+     "target": {
+      "marche": 28.571428571428573,
+      "transports_collectifs": 13.26530612244898,
+      "velo": 3.061224489795918,
+      "voiture": 55.10204081632653
+     }
+    }
+   ]
+  },
+  "lieu_residence": {
+   "label": "Lieu de résidence",
+   "scored": false,
+   "strates": [
+    {
+     "actual": {
+      "marche": 32.11650591780348,
+      "transports_collectifs": 26.03030700496098,
+      "velo": 4.411493724296496,
+      "voiture": 37.44169335293904
+     },
+     "cat": "Toulouse",
+     "covered": true,
+     "l1": 19.72750587043922,
+     "n": 312,
+     "target": {
+      "marche": 40.20618556701031,
+      "transports_collectifs": 21.649484536082475,
+      "velo": 6.185567010309279,
+      "voiture": 31.95876288659794
+     }
+    },
+    {
+     "actual": {
+      "marche": 19.486487062984338,
+      "transports_collectifs": 8.628721871060971,
+      "velo": 3.719673315324173,
+      "voiture": 68.16511775063051
+     },
+     "cat": "1ere_couronne",
+     "covered": true,
+     "l1": 5.134070995960304,
+     "n": 304,
+     "target": {
+      "marche": 21.649484536082475,
+      "transports_collectifs": 8.24742268041237,
+      "velo": 4.123711340206185,
+      "voiture": 65.97938144329896
+     }
+    },
+    {
+     "actual": {
+      "marche": 13.536569814425294,
+      "transports_collectifs": 7.98013540903984,
+      "velo": 2.2439931314057184,
+      "voiture": 76.23930164512916
+     },
+     "cat": "2eme_couronne",
+     "covered": true,
+     "l1": 3.5391052691086102,
+     "n": 125,
+     "target": {
+      "marche": 15.306122448979592,
+      "transports_collectifs": 7.142857142857143,
+      "velo": 2.0408163265306123,
+      "voiture": 75.51020408163265
+     }
+    },
+    {
+     "actual": {
+      "marche": 22.4176805699612,
+      "transports_collectifs": 6.907496918363881,
+      "velo": 2.827917950041196,
+      "voiture": 67.84690456163372
+     },
+     "cat": "3eme_couronne",
+     "covered": true,
+     "l1": 10.697943454052137,
+     "n": 127,
+     "target": {
+      "marche": 18.556701030927837,
+      "transports_collectifs": 6.185567010309279,
+      "velo": 2.0618556701030926,
+      "voiture": 73.19587628865979
+     }
+    }
+   ]
+  },
+  "motif": {
+   "label": "Motif de déplacement",
+   "scored": true,
+   "strates": [
+    {
+     "actual": {
+      "marche": 12.795535546007036,
+      "transports_collectifs": 10.552275694793503,
+      "velo": 5.734784334100306,
+      "voiture": 70.91740442509915
+     },
+     "cat": "travail",
+     "covered": true,
+     "l1": 11.158081401292428,
+     "n": 311,
+     "target": {
+      "marche": 7.216494845360825,
+      "transports_collectifs": 12.371134020618557,
+      "velo": 8.24742268041237,
+      "voiture": 72.16494845360825
+     }
+    },
+    {
+     "actual": {
+      "marche": 27.138926029573504,
+      "transports_collectifs": 40.312565670119625,
+      "velo": 2.019624704516789,
+      "voiture": 30.528883595790084
+     },
+     "cat": "etudes",
+     "covered": true,
+     "l1": 7.662279975118386,
+     "n": 218,
+     "target": {
+      "marche": 27.835051546391753,
+      "transports_collectifs": 40.20618556701031,
+      "velo": 5.154639175257732,
+      "voiture": 26.804123711340207
+     }
+    },
+    {
+     "actual": {
+      "marche": 28.030136864934178,
+      "transports_collectifs": 9.276788505166884,
+      "velo": 2.6444806985347538,
+      "voiture": 60.04859393136418
+     },
+     "cat": "achats",
+     "covered": true,
+     "l1": 8.038519975102947,
+     "n": 245,
+     "target": {
+      "marche": 31.632653061224488,
+      "transports_collectifs": 6.122448979591836,
+      "velo": 3.061224489795918,
+      "voiture": 59.183673469387756
+     }
+    },
+    {
+     "actual": {},
+     "cat": "accompagnement",
+     "covered": false,
+     "l1": null,
+     "n": 0,
+     "target": {
+      "marche": 23.46938775510204,
+      "transports_collectifs": 2.0408163265306123,
+      "velo": 3.061224489795918,
+      "voiture": 71.42857142857143
+     }
+    }
+   ]
+  },
+  "occupation": {
+   "label": "Occupation",
+   "scored": true,
+   "strates": [
+    {
+     "actual": {
+      "marche": 25.831509834819542,
+      "transports_collectifs": 35.429199473171096,
+      "velo": 1.6092673184871766,
+      "voiture": 37.130023373522185
+     },
+     "cat": "scolaire",
+     "covered": true,
+     "l1": 22.941732279675527,
+     "n": 145,
+     "target": {
+      "marche": 28.125,
+      "transports_collectifs": 23.958333333333332,
+      "velo": 4.166666666666667,
+      "voiture": 43.75
+     }
+    },
+    {
+     "actual": {
+      "marche": 32.654232502149156,
+      "transports_collectifs": 33.59883179223458,
+      "velo": 1.4155507356896242,
+      "voiture": 32.33138496992663
+     },
+     "cat": "etudiant",
+     "covered": true,
+     "l1": 28.29913357621691,
+     "n": 77,
+     "target": {
+      "marche": 36.36363636363637,
+      "transports_collectifs": 41.41414141414141,
+      "velo": 4.040404040404041,
+      "voiture": 18.181818181818183
+     }
+    },
+    {
+     "actual": {
+      "marche": 17.613916036918603,
+      "transports_collectifs": 7.539132984310616,
+      "velo": 3.6217625765708754,
+      "voiture": 71.22518840219989
+     },
+     "cat": "actif_temps_plein",
+     "covered": true,
+     "l1": 3.361976106354366,
+     "n": 351,
+     "target": {
+      "marche": 18.75,
+      "transports_collectifs": 6.25,
+      "velo": 4.166666666666667,
+      "voiture": 70.83333333333333
+     }
+    },
+    {
+     "actual": {
+      "marche": 17.638717821135405,
+      "transports_collectifs": 21.370113767366497,
+      "velo": 8.761342845958234,
+      "voiture": 52.22982556553986
+     },
+     "cat": "actif_temps_partiel",
+     "covered": true,
+     "l1": 27.60985200215967,
+     "n": 52,
+     "target": {
+      "marche": 24.489795918367346,
+      "transports_collectifs": 10.204081632653061,
+      "velo": 6.122448979591836,
+      "voiture": 59.183673469387756
+     }
+    },
+    {
+     "actual": {
+      "marche": 35.59040858159631,
+      "transports_collectifs": 10.20237828628634,
+      "velo": 5.92132842094528,
+      "voiture": 48.28588471117206
+     },
+     "cat": "chomeur_recherche_emploi",
+     "covered": true,
+     "l1": 9.4245272743357,
+     "n": 58,
+     "target": {
+      "marche": 38.38383838383838,
+      "transports_collectifs": 12.121212121212121,
+      "velo": 4.040404040404041,
+      "voiture": 45.45454545454545
+     }
+    },
+    {
+     "actual": {
+      "marche": 36.72708469835873,
+      "transports_collectifs": 18.3586511061583,
+      "velo": 4.498190133354059,
+      "voiture": 40.416074062128914
+     },
+     "cat": "personne_au_foyer",
+     "covered": true,
+     "l1": 21.951306241400957,
+     "n": 42,
+     "target": {
+      "marche": 43.56435643564357,
+      "transports_collectifs": 9.900990099009901,
+      "velo": 1.9801980198019802,
+      "voiture": 44.554455445544555
+     }
+    },
+    {
+     "actual": {
+      "marche": 24.860299056177585,
+      "transports_collectifs": 3.2235334055290665,
+      "velo": 3.313366326598428,
+      "voiture": 68.60280121169491
+     },
+     "cat": "Retraité",
+     "covered": true,
+     "l1": 24.640415884667497,
+     "n": 143,
+     "target": {
+      "marche": 35.35353535353536,
+      "transports_collectifs": 5.05050505050505,
+      "velo": 3.0303030303030303,
+      "voiture": 56.56565656565657
+     }
+    }
+   ]
+  },
+  "type_logement": {
+   "label": "Type de logement",
+   "scored": false,
+   "strates": [
+    {
+     "actual": {
+      "marche": 19.321295379633842,
+      "transports_collectifs": 8.669966110086312,
+      "velo": 2.569686942122722,
+      "voiture": 69.43905156815713
+     },
+     "cat": "individuel_isole",
+     "covered": true,
+     "l1": 10.621698237172271,
+     "n": 370,
+     "target": {
+      "marche": 15.463917525773196,
+      "transports_collectifs": 7.216494845360825,
+      "velo": 3.0927835051546393,
+      "voiture": 74.22680412371135
+     }
+    },
+    {
+     "actual": {
+      "marche": 23.998712622930334,
+      "transports_collectifs": 13.223688413197307,
+      "velo": 4.436968257477239,
+      "voiture": 58.340630706395125
+     },
+     "cat": "individuel_accole",
+     "covered": true,
+     "l1": 7.69737682639461,
+     "n": 123,
+     "target": {
+      "marche": 26.041666666666668,
+      "transports_collectifs": 9.375,
+      "velo": 5.208333333333333,
+      "voiture": 59.375
+     }
+    },
+    {
+     "actual": {
+      "marche": 24.378998273883976,
+      "transports_collectifs": 18.11975746988381,
+      "velo": 4.269911756950979,
+      "voiture": 53.23133249928124
+     },
+     "cat": "petit_habitat_collectif",
+     "covered": true,
+     "l1": 24.334832999554582,
+     "n": 207,
+     "target": {
+      "marche": 35.714285714285715,
+      "transports_collectifs": 14.285714285714286,
+      "velo": 5.1020408163265305,
+      "voiture": 44.89795918367347
+     }
+    },
+    {
+     "actual": {
+      "marche": 33.329738984905056,
+      "transports_collectifs": 25.496985994218463,
+      "velo": 4.6715477233927425,
+      "voiture": 36.50172729748375
+     },
+     "cat": "grand_habitat_collectif",
+     "covered": true,
+     "l1": 17.876604504416697,
+     "n": 166,
+     "target": {
+      "marche": 42.2680412371134,
+      "transports_collectifs": 23.711340206185568,
+      "velo": 4.123711340206185,
+      "voiture": 29.896907216494846
+     }
+    },
+    {
+     "actual": {},
+     "cat": "— hors référentiel —",
+     "categories": {
+      "autres": {
+       "mass": 4.0,
+       "n": 2
+      }
+     },
+     "covered": false,
+     "excluded_mass": 4.0,
+     "l1": null,
+     "n": 2,
+     "target": {}
+    }
+   ]
+  }
+ },
+ "dimensions_non_mesurees": [],
+ "execution": "2026-09-16_13_41_36",
+ "experience": "exp_mnl_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nochn_noret_nosim",
+ "formule": {
+  "nom": "v1_reference",
+  "sha256": "0aeee565b01ac4eef982082016cd5d01fa3b09084705bdde8287de09b63210ea"
+ },
+ "genere_le": "2026-09-16T13:42:21+00:00",
+ "global": {
+  "actual": {
+   "marche": 23.73248906290458,
+   "transports_collectifs": 14.665560332024764,
+   "velo": 3.6424847656699213,
+   "voiture": 57.95946583940073
+  },
+  "excluded_mass": 0.0,
+  "gaps": {
+   "marche": -3.0716346484356265,
+   "transports_collectifs": 2.294426311406207,
+   "velo": -0.48122657453626383,
+   "voiture": 1.2584349115656792
+  },
+  "l1": 7.105722445943776,
+  "mass": 3154.9999999999977,
+  "n_agents": 868,
+  "target": {
+   "marche": 26.804123711340207,
+   "transports_collectifs": 12.371134020618557,
+   "velo": 4.123711340206185,
+   "voiture": 56.70103092783505
+  }
+ },
+ "lecture": {
+  "avec_distribution": 3111,
+  "contrainte::aucune": 2939,
+  "contrainte::passager": 216,
+  "coupe": "aucune",
+  "couples_repetes": 0,
+  "exclues_doublon": 0,
+  "exclues_methode": 6,
+  "exclues_reprise": 0,
+  "sans_distribution": 44,
+  "total": 3161,
+  "type_logement_hors_referentiel": 4
+ },
+ "moves_sha256": "c4a4a2ec83ed730e238d748429c5fba8a132de7e6230986e5671b1363991b57e",
+ "perimetre_verifie": {
+  "complet": true,
+  "decides": 3155,
+  "ecart": -6,
+  "ecart_relatif": -0.001901743264659271,
+  "lignes_journal": 3161,
+  "tolerance": 0.02
+ },
+ "referentiel": {
+  "sha256": "9ac345979ef74071aa70f0eea93b0a9c2fccdb7dd88996f3bee3daba91d8d8b1",
+  "source": "scripts/data/population/cerema_values.yaml"
+ },
+ "scores_bruts": {
+  "emd_jsd": {
+   "absent_penalty": 0.0,
+   "age": 2.9597348636512946,
+   "composite": 3.9128811518797204,
+   "distance": 4.933018809854348,
+   "genre": 0.17899073132203444,
+   "global": 0.15343330555739781,
+   "length_penalty": 0.0,
+   "motif": 0.5895409760402067,
+   "occupation": 0.902414128247315
+  },
+  "l1": {
+   "absent_penalty": 0.0,
+   "age": 19.416764261813164,
+   "composite": 39.383072304159306,
+   "distance": 19.81560026776162,
+   "genre": 7.58103822366294,
+   "global": 7.105722445943723,
+   "length_penalty": 0.0,
+   "motif": 8.95296045050459,
+   "occupation": 19.746991909258675
+  }
+ },
+ "scores_bruts_hors_choix_unique": {
+  "emd_jsd": {
+   "absent_penalty": 0.0,
+   "age": 2.9989559478872585,
+   "composite": 3.7779314635026626,
+   "distance": 4.479363060203399,
+   "genre": 0.1692807677072211,
+   "global": 0.1409237848764685,
+   "length_penalty": 0.0,
+   "motif": 0.6271613081937029,
+   "occupation": 0.8587118044250555
+  },
+  "l1": {
+   "absent_penalty": 0.0,
+   "age": 19.175796614939653,
+   "composite": 38.08445204831987,
+   "distance": 18.76246826427504,
+   "genre": 7.192920198919597,
+   "global": 6.717102164068262,
+   "length_penalty": 0.0,
+   "motif": 9.157451431685617,
+   "occupation": 18.828218643961158
+  }
+ },
+ "volet": "3"
+}

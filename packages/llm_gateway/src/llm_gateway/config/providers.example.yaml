@@ -1,0 +1,60 @@
+# Example providers file — copy it outside the package and designate it:
+#   LLM_GATEWAY_PROVIDERS_FILE=/path/to/providers.yaml
+# Without a designated file, the gateway loads THIS example with a warning; without an API key
+# (PROVIDER_KEYS__<name> or LLM_GATEWAY_PROVIDER_KEYS__<name>) no provider is active.
+#
+# Required fields: rpm_limit, base_url, default_model.
+# Optional: tpm_limit, rpd_limit and tpd_limit (daily quotas, enforced), weight,
+#   concurrency_limit, disable_timeout, adapter (default = entry name), max_tokens_per_request
+#   (capacity of a single request), max_output_tokens (completion cap; learned on HTTP 400
+#   and stored outside this file), inference: {temperature, top_p, max_tokens} (overrides).
+# Any unknown key makes startup fail, naming the provider and the key.
+# SWRR weight: weight = min(rpm_limit, tpm_limit / 3000) / 15.
+providers:
+  openai:
+    rpm_limit: 15
+    tpm_limit: 200000
+    base_url: https://api.openai.com/v1
+    default_model: gpt-4o-mini
+    max_output_tokens: 16384
+    weight: 1.0
+    concurrency_limit: 3
+  mistral:
+    rpm_limit: 60
+    tpm_limit: 500000
+    base_url: https://api.mistral.ai/v1
+    default_model: mistral-small-latest
+    weight: 4.0
+    concurrency_limit: 3
+  google:
+    adapter: google
+    rpm_limit: 15
+    tpm_limit: 250000
+    rpd_limit: 500
+    base_url: https://generativelanguage.googleapis.com/v1beta
+    default_model: gemini-3.5-flash-lite
+    weight: 1.0
+    concurrency_limit: 2
+    disable_timeout: 120
+  groq:
+    adapter: groq
+    rpm_limit: 30
+    tpm_limit: 8000
+    rpd_limit: 1000
+    max_tokens_per_request: 8000
+    base_url: https://api.groq.com/openai/v1
+    default_model: openai/gpt-oss-120b
+    max_output_tokens: 65536
+    weight: 0.18
+    concurrency_limit: 3
+    disable_timeout: 120
+  cerebras:
+    adapter: cerebras
+    rpm_limit: 5
+    tpm_limit: 30000
+    rpd_limit: 2400
+    base_url: https://api.cerebras.ai/v1
+    default_model: gpt-oss-120b
+    weight: 0.33
+    concurrency_limit: 4
+    disable_timeout: 120

@@ -1,0 +1,1393 @@
+{
+ "title": "01 · Cockpit",
+ "uid": "cockpit",
+ "refresh": "10s",
+ "time": {
+  "from": "now-1h",
+  "to": "now"
+ },
+ "timezone": "browser",
+ "schemaVersion": 38,
+ "version": 1,
+ "editable": true,
+ "tags": [
+  "sim",
+  "run"
+ ],
+ "links": [
+  {
+   "title": "Dashboards simulation",
+   "type": "dashboards",
+   "tags": [
+    "sim"
+   ],
+   "asDropdown": true,
+   "includeVars": false,
+   "keepTime": true,
+   "icon": "dashboard"
+  }
+ ],
+ "panels": [
+  {
+   "id": 1,
+   "type": "row",
+   "title": "Santé",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 0
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Santé globale",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "clamp_max(controller_agents_stuck, 1) + clamp_max(sum(increase(alarme_total[15m])) or vector(0), 1) + clamp_max(controller_drain_mode_active, 1) + clamp_max(sum(llm_provider_quota_exhausted), 1)",
+     "legendFormat": "santé"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 1
+       },
+       {
+        "color": "red",
+        "value": 2
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "value",
+       "options": {
+        "0": {
+         "text": "✓ OK",
+         "index": 0
+        }
+       }
+      }
+     ]
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "0 = tout va bien. Chaque point = un signal dégradé actif : agents bloqués, alarme récente (15 min), mode drainage, quota provider épuisé.",
+   "id": 2,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 0,
+    "y": 1
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Alarmes [ALARME] depuis démarrage",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum(alarme_total) or vector(0)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "red",
+        "value": 1
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "area",
+    "textMode": "value"
+   },
+   "description": "Compteur des logs ERROR [ALARME] (backlog, event loop, arrivée perdue, cache Qdrant, gateway, providers saturés). Détail : make error / dashboard 03.",
+   "id": 3,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 5,
+    "y": 1
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Agents bloqués",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "controller_agents_stuck"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "red",
+        "value": 1
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Agents sans planification réussie au-delà du seuil (heures sim).",
+   "id": 4,
+   "gridPos": {
+    "h": 5,
+    "w": 4,
+    "x": 10,
+    "y": 1
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Activités ratées faute de LLM (%)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * sum(agent_activity_decisions_total{outcome=\"llm_fallback\", phase=\"live\"}) / clamp_min(sum(agent_activity_decisions_total{phase=\"live\"}), 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 2
+       },
+       {
+        "color": "red",
+        "value": 10
+       }
+      ]
+     },
+     "unit": "percent",
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Décisions retombées sur l'index par défaut faute de réponse LLM — phase live uniquement (bootstrap exclu).",
+   "id": 5,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 14,
+    "y": 1
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Accélération sim / réel",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sim_wall_clock_ratio"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 1
+       },
+       {
+        "color": "green",
+        "value": 10
+       }
+      ]
+     },
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Temps simulé / temps réel entre deux /sync.",
+   "id": 6,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 19,
+    "y": 1
+   }
+  },
+  {
+   "id": 7,
+   "type": "row",
+   "title": "① Initialisation",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 6
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Étape d'init",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "controller_init_stage"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "orange",
+        "value": null
+       },
+       {
+        "color": "green",
+        "value": 5
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "value",
+       "options": {
+        "0": {
+         "text": "Idle",
+         "index": 0
+        },
+        "1": {
+         "text": "1 · Prépa population",
+         "index": 1
+        },
+        "2": {
+         "text": "2 · Population prête",
+         "index": 2
+        },
+        "3": {
+         "text": "3 · Scénario",
+         "index": 3
+        },
+        "4": {
+         "text": "4 · Bootstrap itinéraires",
+         "index": 4
+        },
+        "5": {
+         "text": "5 · Prêt ✓",
+         "index": 5
+        }
+       }
+      }
+     ]
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "id": 8,
+   "gridPos": {
+    "h": 5,
+    "w": 6,
+    "x": 0,
+    "y": 7
+   }
+  },
+  {
+   "type": "gauge",
+   "title": "Progression init",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "controller_init_progress_ratio"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1,
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "orange",
+        "value": null
+       },
+       {
+        "color": "green",
+        "value": 1
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "showThresholdMarkers": true
+   },
+   "id": 9,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 6,
+    "y": 7
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Agents dans la simulation",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "gama_sim_agents_total"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "id": 10,
+   "gridPos": {
+    "h": 5,
+    "w": 4,
+    "x": 11,
+    "y": 7
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Durée bootstrap (/init)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "agent_bootstrap_duration_seconds"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     },
+     "unit": "s",
+     "decimals": 0
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Temps du pré-calcul des itinéraires initiaux (bloque GAMA). Détail : dashboard 02.",
+   "id": 11,
+   "gridPos": {
+    "h": 5,
+    "w": 4,
+    "x": 15,
+    "y": 7
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Heure simulée",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "gama_sim_logical_time_seconds * 1000"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     },
+     "unit": "dateTimeAsIso"
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Horodatage logique courant de la simulation GAMA.",
+   "id": 12,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 19,
+    "y": 7
+   }
+  },
+  {
+   "id": 13,
+   "type": "row",
+   "title": "② Pile & cadence",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 12
+   }
+  },
+  {
+   "type": "gauge",
+   "title": "Remplissage de la pile",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "controller_backlog_fill_ratio"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit",
+     "min": 0,
+     "max": 1,
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 70
+       },
+       {
+        "color": "red",
+        "value": 90
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "showThresholdMarkers": true
+   },
+   "description": "Activités à calculer / population. 1.0 = pile pleine → drainage.",
+   "id": 14,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 0,
+    "y": 13
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Agents en attente de décision LLM",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "controller_scheduling_in_progress"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 50
+       },
+       {
+        "color": "red",
+        "value": 200
+       }
+      ]
+     }
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "scheduling_in_progress=True — pression instantanée sur le pipeline. Analyse : dashboard 03.",
+   "id": 15,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 5,
+    "y": 13
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Frein backpressure (s)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "controller_backpressure_interval_seconds"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 1
+       },
+       {
+        "color": "red",
+        "value": 5
+       }
+      ]
+     },
+     "unit": "s",
+     "decimals": 2
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Ralentissement imposé à GAMA à la dernière réponse /sync.",
+   "id": 16,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 10,
+    "y": 13
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Mode drainage",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "controller_drain_mode_active"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "red",
+        "value": 1
+       }
+      ]
+     },
+     "mappings": [
+      {
+       "type": "value",
+       "options": {
+        "0": {
+         "text": "Nominal",
+         "index": 0
+        },
+        "1": {
+         "text": "DRAINAGE",
+         "index": 1
+        }
+       }
+      }
+     ]
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "id": 17,
+   "gridPos": {
+    "h": 5,
+    "w": 4,
+    "x": 15,
+    "y": 13
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Délai réel / step",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "gama_sim_step_interval_seconds"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       }
+      ]
+     },
+     "unit": "s",
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "value",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Durée wall-clock entre deux /sync GAMA.",
+   "id": 18,
+   "gridPos": {
+    "h": 5,
+    "w": 5,
+    "x": 19,
+    "y": 13
+   }
+  },
+  {
+   "type": "timeseries",
+   "title": "Composition de la file LLM (décisions vs réflexions)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "sum by (category) (llm_task_queue_depth_by_category)",
+     "legendFormat": "gateway · {{category}}"
+    },
+    {
+     "refId": "B",
+     "expr": "controller_pending_reflections",
+     "legendFormat": "controller · réflexions STM (file EDF + en vol)"
+    },
+    {
+     "refId": "C",
+     "expr": "controller_overdue_decisions",
+     "legendFormat": "controller · décisions à échéance dépassée"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "drawStyle": "line",
+      "lineWidth": 1,
+      "fillOpacity": 10,
+      "spanNulls": true,
+      "stacking": {
+       "mode": "none",
+       "group": "A"
+      }
+     },
+     "color": {
+      "mode": "palette-classic"
+     }
+    }
+   },
+   "options": {
+    "legend": {
+     "displayMode": "list",
+     "placement": "bottom",
+     "showLegend": true
+    },
+    "tooltip": {
+     "mode": "multi",
+     "sort": "desc"
+    }
+   },
+   "description": "Ticket 010 : itinary_multi_agent vs stm_reflection. Un backlog dominé par les réflexions la nuit simulée est le drainage nominal ; l'alarme ne crie que si des décisions sont en retard (controller_overdue_decisions > 0).",
+   "id": 29,
+   "gridPos": {
+    "h": 6,
+    "w": 24,
+    "x": 0,
+    "y": 18
+   }
+  },
+  {
+   "id": 19,
+   "type": "row",
+   "title": "④ Providers & quotas",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 24
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Taux de réussite LLM global",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * sum(llm_provider_calls_ok_total) / clamp_min(sum(llm_provider_calls_ok_total) + sum(llm_provider_calls_err_total), 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 90
+       },
+       {
+        "color": "green",
+        "value": 98
+       }
+      ]
+     },
+     "unit": "percent",
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "id": 20,
+   "gridPos": {
+    "h": 6,
+    "w": 5,
+    "x": 0,
+    "y": 25
+   }
+  },
+  {
+   "type": "bargauge",
+   "title": "Quota jour consommé (rpd)",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "llm_provider_daily_usage_ratio"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 0.7
+       },
+       {
+        "color": "red",
+        "value": 0.9
+       }
+      ]
+     },
+     "unit": "percentunit",
+     "max": 1,
+     "min": 0
+    }
+   },
+   "options": {
+    "displayMode": "gradient",
+    "orientation": "horizontal",
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ]
+    }
+   },
+   "description": "requests_today / rpd_limit. 1.0 = provider écarté jusqu'à minuit UTC.",
+   "id": 21,
+   "gridPos": {
+    "h": 6,
+    "w": 9,
+    "x": 5,
+    "y": 25
+   }
+  },
+  {
+   "type": "table",
+   "title": "État providers",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "llm_provider_state",
+     "format": "table",
+     "instant": true
+    },
+    {
+     "refId": "B",
+     "expr": "llm_provider_requests_today",
+     "format": "table",
+     "instant": true
+    },
+    {
+     "refId": "C",
+     "expr": "llm_provider_rpd_limit",
+     "format": "table",
+     "instant": true
+    }
+   ],
+   "transformations": [
+    {
+     "id": "joinByField",
+     "options": {
+      "byField": "provider",
+      "mode": "outer"
+     }
+    },
+    {
+     "id": "organize",
+     "options": {
+      "excludeByName": {
+       "Time": true,
+       "Time 1": true,
+       "Time 2": true,
+       "Time 3": true,
+       "__name__": true,
+       "__name__ 1": true,
+       "__name__ 2": true,
+       "__name__ 3": true,
+       "instance": true,
+       "instance 1": true,
+       "instance 2": true,
+       "instance 3": true,
+       "job": true,
+       "job 1": true,
+       "job 2": true,
+       "job 3": true
+      },
+      "renameByName": {
+       "provider": "Provider",
+       "Value #A": "État",
+       "Value #B": "Req. aujourd'hui",
+       "Value #C": "Limite/jour"
+      }
+     }
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "État"
+      },
+      "properties": [
+       {
+        "id": "mappings",
+        "value": [
+         {
+          "type": "value",
+          "options": {
+           "0": {
+            "text": "Sans clé API",
+            "index": 0,
+            "color": "dark-grey"
+           },
+           "1": {
+            "text": "Désactivé (tmp)",
+            "index": 1,
+            "color": "red"
+           },
+           "2": {
+            "text": "Cooldown",
+            "index": 2,
+            "color": "orange"
+           },
+           "3": {
+            "text": "Actif",
+            "index": 3,
+            "color": "green"
+           }
+          }
+         }
+        ]
+       },
+       {
+        "id": "custom.cellOptions",
+        "value": {
+         "type": "color-text"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "options": {},
+   "id": 22,
+   "gridPos": {
+    "h": 6,
+    "w": 10,
+    "x": 14,
+    "y": 25
+   }
+  },
+  {
+   "id": 23,
+   "type": "row",
+   "title": "⑤ Caches (hit %)",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 31
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Cache LLM sémantique",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * sum(llm_cache_hits_total) / clamp_min(sum(llm_cache_hits_total) + sum(llm_cache_misses_total), 1)"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 30
+       },
+       {
+        "color": "green",
+        "value": 60
+       }
+      ]
+     },
+     "unit": "percent",
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Taux de hit. Détail : dashboard 06.",
+   "id": 24,
+   "gridPos": {
+    "h": 5,
+    "w": 8,
+    "x": 0,
+    "y": 32
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Cache OTP",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * trip_cache_hit_ratio"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 30
+       },
+       {
+        "color": "green",
+        "value": 60
+       }
+      ]
+     },
+     "unit": "percent",
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Taux de hit. Détail : dashboard 05.",
+   "id": 25,
+   "gridPos": {
+    "h": 5,
+    "w": 8,
+    "x": 8,
+    "y": 32
+   }
+  },
+  {
+   "type": "stat",
+   "title": "Cache OSMnx",
+   "datasource": {
+    "type": "prometheus",
+    "uid": "ffj2fwnh387pce"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "expr": "100 * osmnx_cache_hit_ratio"
+    }
+   ],
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "thresholds"
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "red",
+        "value": null
+       },
+       {
+        "color": "orange",
+        "value": 30
+       },
+       {
+        "color": "green",
+        "value": 60
+       }
+      ]
+     },
+     "unit": "percent",
+     "decimals": 1
+    }
+   },
+   "options": {
+    "colorMode": "background",
+    "graphMode": "none",
+    "textMode": "value"
+   },
+   "description": "Taux de hit. Détail : dashboard 05.",
+   "id": 26,
+   "gridPos": {
+    "h": 5,
+    "w": 8,
+    "x": 16,
+    "y": 32
+   }
+  },
+  {
+   "id": 27,
+   "type": "row",
+   "title": "⑥ Dernières erreurs LLM",
+   "collapsed": false,
+   "gridPos": {
+    "h": 1,
+    "w": 24,
+    "x": 0,
+    "y": 37
+   }
+  },
+  {
+   "type": "table",
+   "title": "Dernières erreurs remontées par les providers",
+   "datasource": {
+    "type": "yesoreyeram-infinity-datasource",
+    "uid": "infinity1"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "datasource": {
+      "type": "yesoreyeram-infinity-datasource",
+      "uid": "infinity1"
+     },
+     "type": "json",
+     "source": "url",
+     "format": "table",
+     "url": "/errors/recent",
+     "url_options": {
+      "method": "GET"
+     },
+     "root_selector": "",
+     "columns": [
+      {
+       "selector": "time",
+       "text": "Heure (UTC)",
+       "type": "string"
+      },
+      {
+       "selector": "provider",
+       "text": "Provider",
+       "type": "string"
+      },
+      {
+       "selector": "error_type",
+       "text": "Type",
+       "type": "string"
+      },
+      {
+       "selector": "http_status",
+       "text": "HTTP",
+       "type": "number"
+      },
+      {
+       "selector": "message",
+       "text": "Message",
+       "type": "string"
+      },
+      {
+       "selector": "task_id",
+       "text": "Task",
+       "type": "string"
+      }
+     ]
+    }
+   ],
+   "description": "Messages d'erreur bruts servis par GET /errors/recent (datasource Infinity — Prometheus ne stocke que du numérique).",
+   "options": {},
+   "id": 28,
+   "gridPos": {
+    "h": 8,
+    "w": 24,
+    "x": 0,
+    "y": 38
+   }
+  }
+ ]
+}

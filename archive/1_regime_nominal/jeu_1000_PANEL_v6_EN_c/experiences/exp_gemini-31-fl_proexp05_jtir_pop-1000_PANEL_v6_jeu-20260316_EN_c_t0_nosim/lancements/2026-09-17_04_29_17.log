@@ -1,0 +1,141 @@
+2026-09-17 06:29:19.880 | DEBUG    | experiences.ressources:charger_providers:69 - [ressources] 24 instance(s) lue(s) dans /app/config/llm_gateway/providers.yaml
+2026-09-17 06:29:20.180 | DEBUG    | settings:get:1035 - Configuration lue ; workdir de ce processus s'il ouvrait un run : 2026-09-17_06_29 (aucun artefact créé, cf. claim_run())
+2026-09-17 06:29:20.187 | WARNING  | experiences.jeu:dependances_courantes:346 - [jeu] état du dépôt non vérifiable : ni $EXP_DEPOT_COMMIT ni `git` ne répondent. La mesure ne pourra pas être rattachée à un état du code (ticket 045, A4).
+2026-09-17 06:29:22.958 | INFO     | trip_helper.osmnx_direct:<module>:54 - OSMnx HTTP mode: 1 endpoint(s): ['http://osmnx1:8090/route']
+2026-09-17 06:29:22.958 | INFO     | trip_helper.osmnx_direct:<module>:66 - OSMnx HTTP concurrency limit: 3
+2026-09-17 06:29:23.477 | DEBUG    | experiences.ressources:charger_providers:69 - [ressources] 24 instance(s) lue(s) dans /app/config/llm_gateway/providers.yaml
+2026-09-17 06:29:23.648 | INFO     | inputs.population.eqasim_loader:_apply_perimeter_filter:108 - [EqasimJSONPopulationLoader/cache] filtre de périmètre : 1000 → 1000 (aucun rejet)
+2026-09-17 06:29:23.787 | INFO     | experiences.reservations:admettre:295 - [reservations] exp_gemini-31-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim réserve ['google_key2']
+/usr/local/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'validate_default' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'validate_default' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+2026-09-17 06:29:25.491 | INFO     | inputs.gtfs.reader:_joindre_catalogues_des_autres_feeds:176 - [GTFS] catalogue des lignes : 443 ligne(s) au total, dont 319 venue(s) des autres feeds en service ({'lio_gtfs': 302, 'ter_gtfs': 17}) ; 37 nom(s) court(s) déjà pris, gardés au feed primaire
+2026-09-17 06:29:25.609 | INFO     | inputs.gtfs.reader:init_shape_lookup_maps:246 - [GTFS] table des tracés lue dans /services/GAMA/CityTransport/includes/shape_lookup.json (générée le 2026-09-15T06:54:28 par scripts/data/gama/export_trip_info.py) : 199 route_id, 962 tracé(s), 5965 arrêt(s) au catalogue ; réseaux {'tisseo': {'courses_retenues': 39343, 'traces_retenus': 395, 'lignes': 124, 'origine_trace': 'gtfs'}, 'ter': {'courses_retenues': 1137, 'traces_retenus': 266, 'lignes': 17, 'origine_trace': 'arrets'}, 'lio': {'courses_retenues': 1075, 'traces_retenus': 301, 'lignes': 58, 'origine_trace': 'gtfs'}} ; fraîcheur vérifiée sur routes.dbf, routes.shp, trip_info.json
+2026-09-17 06:29:25.663 | INFO     | urban_mobility_agents.agents.llm_agent:__init__:548 - Long-term memory disabled — ChromaDB initialization skipped
+2026-09-17 06:29:25.663 | INFO     | llm_gateway.sdk.client:__init__:162 - [gateway] restriction d'instances active sur TOUS les appels de ce client : ['google_gemini31_key1', 'google_gemini31_key2']
+2026-09-17 06:29:25.691 | INFO     | experiences.runner:executer:487 - [execution] dénominateur arrêté à l'ouverture : 3161 déplacements exploitables sur 3299 attendus (138 inexploitables dérivés du jeu 'population_1000_PANEL_v6_20260316_EN_c')
+2026-09-17 06:29:25.724 | INFO     | experiences.journal:regenerer:309 - [journal] Régénération de 2026-09-17_00_51_26 — début : 1444 décisions archivées, 1358 ligne(s) au journal actuel
+2026-09-17 06:29:27.382 | INFO     | experiences.journal:regenerer:364 - [journal] Régénération de 2026-09-17_00_51_26 terminée en 1.7 s — 1358 → 1358 ligne(s) ; reconstruites 1358, non couvertes 0, inexploitables 86, sans proposition 0, persona absente 0
+2026-09-17 06:29:27.385 | INFO     | experiences.archive:changer_etat:291 - [execution] 2026-09-17_00_51_26 → en_cours
+2026-09-17 06:29:27.389 | INFO     | experiences.runner:executer:540 - [execution] Début 2026-09-17_00_51_26 (exp_gemini-31-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim) : 3299 déplacements attendus, 894 personnes, 1444 décisions déjà archivées, décideur passerelle:gemini-3.1-flash-lite
+2026-09-17 06:29:27.901 | INFO     | urban_mobility_agents.agents.llm_agent:_weather_eligible_days:172 - [météo] une date par agent : 366 journée(s) éligible(s) dans 2024-01-01 → 2024-12-31
+2026-09-17 06:29:27.901 | WARNING  | urban_mobility_agents.utils.ancre_run:jours_ecoules:73 - [ancre] aucune ancre posée : tout ce qui dépend du nombre de jours écoulés se comporte comme au premier jour du run (progression météo figée). Attendu seulement avant le premier /sync.
+2026-09-17 06:29:32.394 | INFO     | experiences.runner:boucle:387 - [execution] 1444/3161 déplacements (45.7 %) · 402/894 personnes · 7 s écoulées · reste ≈ nan s · sollicitations 0 · attentes 0 
+2026-09-17 06:29:37.399 | INFO     | experiences.runner:boucle:387 - [execution] 1444/3161 déplacements (45.7 %) · 402/894 personnes · 12 s écoulées · reste ≈ nan s · sollicitations 0 · attentes 0 
+2026-09-17 06:29:42.402 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 17 s écoulées · reste ≈ 2853 s · sollicitations 8 · attentes 0 
+2026-09-17 06:29:47.404 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 22 s écoulées · reste ≈ 3707 s · sollicitations 8 · attentes 0 
+2026-09-17 06:29:52.408 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 27 s écoulées · reste ≈ 4561 s · sollicitations 8 · attentes 0 
+2026-09-17 06:29:57.416 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 32 s écoulées · reste ≈ 5416 s · sollicitations 8 · attentes 0 
+2026-09-17 06:30:02.420 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 37 s écoulées · reste ≈ 6270 s · sollicitations 8 · attentes 0 
+2026-09-17 06:30:07.429 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 42 s écoulées · reste ≈ 7125 s · sollicitations 8 · attentes 0 
+2026-09-17 06:30:12.432 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 47 s écoulées · reste ≈ 7979 s · sollicitations 8 · attentes 0 
+2026-09-17 06:30:17.441 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 52 s écoulées · reste ≈ 8834 s · sollicitations 8 · attentes 0 
+2026-09-17 06:30:22.447 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 57 s écoulées · reste ≈ 9689 s · sollicitations 8 · attentes 0 
+2026-09-17 06:30:27.450 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 62 s écoulées · reste ≈ 10543 s · sollicitations 8 · attentes 0 
+2026-09-17 06:30:32.454 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 67 s écoulées · reste ≈ 11397 s · sollicitations 8 · attentes 0 
+2026-09-17 06:30:37.461 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 72 s écoulées · reste ≈ 12251 s · sollicitations 8 · attentes 0 
+2026-09-17 06:30:42.467 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 77 s écoulées · reste ≈ 13106 s · sollicitations 8 · attentes 0 
+2026-09-17 06:30:47.471 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 82 s écoulées · reste ≈ 13960 s · sollicitations 8 · attentes 0 
+2026-09-17 06:30:52.476 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 87 s écoulées · reste ≈ 14815 s · sollicitations 8 · attentes 0 
+2026-09-17 06:30:57.490 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 92 s écoulées · reste ≈ 15671 s · sollicitations 8 · attentes 0 
+2026-09-17 06:31:02.494 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 97 s écoulées · reste ≈ 16525 s · sollicitations 8 · attentes 0 
+2026-09-17 06:31:07.497 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 102 s écoulées · reste ≈ 17379 s · sollicitations 8 · attentes 0 
+2026-09-17 06:31:12.506 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 107 s écoulées · reste ≈ 18234 s · sollicitations 8 · attentes 0 
+2026-09-17 06:31:17.525 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 112 s écoulées · reste ≈ 19088 s · sollicitations 8 · attentes 0 
+2026-09-17 06:31:22.528 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 117 s écoulées · reste ≈ 19942 s · sollicitations 8 · attentes 0 
+2026-09-17 06:31:27.534 | INFO     | experiences.runner:boucle:387 - [execution] 1454/3161 déplacements (46.0 %) · 404/894 personnes · 122 s écoulées · reste ≈ 20796 s · sollicitations 8 · attentes 0 
+2026-09-17 06:31:32.537 | INFO     | experiences.runner:boucle:387 - [execution] 1464/3161 déplacements (46.3 %) · 408/894 personnes · 127 s écoulées · reste ≈ 10762 s · sollicitations 16 · attentes 0 
+2026-09-17 06:31:37.547 | INFO     | experiences.runner:boucle:387 - [execution] 1464/3161 déplacements (46.3 %) · 408/894 personnes · 132 s écoulées · reste ≈ 11187 s · sollicitations 16 · attentes 0 
+2026-09-17 06:31:42.552 | INFO     | experiences.runner:boucle:387 - [execution] 1464/3161 déplacements (46.3 %) · 408/894 personnes · 137 s écoulées · reste ≈ 11612 s · sollicitations 16 · attentes 0 
+2026-09-17 06:31:47.562 | INFO     | experiences.runner:boucle:387 - [execution] 1464/3161 déplacements (46.3 %) · 408/894 personnes · 142 s écoulées · reste ≈ 12036 s · sollicitations 16 · attentes 0 
+2026-09-17 06:31:52.567 | INFO     | experiences.runner:boucle:387 - [execution] 1464/3161 déplacements (46.3 %) · 408/894 personnes · 147 s écoulées · reste ≈ 12461 s · sollicitations 16 · attentes 0 
+2026-09-17 06:31:57.571 | INFO     | experiences.runner:boucle:387 - [execution] 1464/3161 déplacements (46.3 %) · 408/894 personnes · 152 s écoulées · reste ≈ 12886 s · sollicitations 16 · attentes 0 
+2026-09-17 06:32:02.574 | INFO     | experiences.runner:boucle:387 - [execution] 1474/3161 déplacements (46.6 %) · 409/894 personnes · 157 s écoulées · reste ≈ 8821 s · sollicitations 24 · attentes 0 
+2026-09-17 06:32:07.579 | INFO     | experiences.runner:boucle:387 - [execution] 1474/3161 déplacements (46.6 %) · 409/894 personnes · 162 s écoulées · reste ≈ 9103 s · sollicitations 24 · attentes 0 
+2026-09-17 06:32:12.584 | INFO     | experiences.runner:boucle:387 - [execution] 1486/3161 déplacements (47.0 %) · 414/894 personnes · 167 s écoulées · reste ≈ 6655 s · sollicitations 32 · attentes 0 
+2026-09-17 06:32:17.592 | INFO     | experiences.runner:boucle:387 - [execution] 1486/3161 déplacements (47.0 %) · 414/894 personnes · 172 s écoulées · reste ≈ 6855 s · sollicitations 32 · attentes 0 
+2026-09-17 06:32:22.595 | INFO     | experiences.runner:boucle:387 - [execution] 1486/3161 déplacements (47.0 %) · 414/894 personnes · 177 s écoulées · reste ≈ 7054 s · sollicitations 32 · attentes 0 
+2026-09-17 06:32:27.610 | INFO     | experiences.runner:boucle:387 - [execution] 1486/3161 déplacements (47.0 %) · 414/894 personnes · 182 s écoulées · reste ≈ 7254 s · sollicitations 32 · attentes 0 
+2026-09-17 06:32:32.614 | INFO     | experiences.runner:boucle:387 - [execution] 1486/3161 déplacements (47.0 %) · 414/894 personnes · 187 s écoulées · reste ≈ 7454 s · sollicitations 32 · attentes 0 
+2026-09-17 06:32:37.618 | INFO     | experiences.runner:boucle:387 - [execution] 1486/3161 déplacements (47.0 %) · 414/894 personnes · 192 s écoulées · reste ≈ 7654 s · sollicitations 32 · attentes 0 
+2026-09-17 06:32:42.621 | INFO     | experiences.runner:boucle:387 - [execution] 1498/3161 déplacements (47.4 %) · 415/894 personnes · 197 s écoulées · reste ≈ 6064 s · sollicitations 40 · attentes 0 
+2026-09-17 06:32:47.624 | INFO     | experiences.runner:boucle:387 - [execution] 1498/3161 déplacements (47.4 %) · 415/894 personnes · 202 s écoulées · reste ≈ 6218 s · sollicitations 40 · attentes 0 
+2026-09-17 06:32:52.627 | INFO     | experiences.runner:boucle:387 - [execution] 1508/3161 déplacements (47.7 %) · 417/894 personnes · 207 s écoulées · reste ≈ 5344 s · sollicitations 48 · attentes 0 
+2026-09-17 06:32:57.631 | INFO     | experiences.runner:boucle:387 - [execution] 1508/3161 déplacements (47.7 %) · 417/894 personnes · 212 s écoulées · reste ≈ 5474 s · sollicitations 48 · attentes 0 
+2026-09-17 06:33:02.640 | INFO     | experiences.runner:boucle:387 - [execution] 1508/3161 déplacements (47.7 %) · 417/894 personnes · 217 s écoulées · reste ≈ 5603 s · sollicitations 48 · attentes 0 
+2026-09-17 06:33:07.644 | INFO     | experiences.runner:boucle:387 - [execution] 1518/3161 déplacements (48.0 %) · 419/894 personnes · 222 s écoulées · reste ≈ 4928 s · sollicitations 56 · attentes 0 
+2026-09-17 06:33:12.649 | INFO     | experiences.runner:boucle:387 - [execution] 1518/3161 déplacements (48.0 %) · 419/894 personnes · 227 s écoulées · reste ≈ 5039 s · sollicitations 56 · attentes 0 
+2026-09-17 06:33:17.652 | INFO     | experiences.runner:boucle:387 - [execution] 1518/3161 déplacements (48.0 %) · 419/894 personnes · 232 s écoulées · reste ≈ 5150 s · sollicitations 56 · attentes 0 
+2026-09-17 06:33:22.658 | INFO     | experiences.runner:boucle:387 - [execution] 1528/3161 déplacements (48.3 %) · 422/894 personnes · 237 s écoulées · reste ≈ 4606 s · sollicitations 64 · attentes 0 
+2026-09-17 06:33:27.663 | INFO     | experiences.runner:boucle:387 - [execution] 1538/3161 déplacements (48.7 %) · 424/894 personnes · 242 s écoulées · reste ≈ 4178 s · sollicitations 72 · attentes 0 
+2026-09-17 06:33:32.669 | INFO     | experiences.runner:boucle:387 - [execution] 1538/3161 déplacements (48.7 %) · 424/894 personnes · 247 s écoulées · reste ≈ 4264 s · sollicitations 72 · attentes 0 
+2026-09-17 06:33:37.683 | INFO     | experiences.runner:boucle:387 - [execution] 1549/3161 déplacements (49.0 %) · 427/894 personnes · 252 s écoulées · reste ≈ 3868 s · sollicitations 80 · attentes 0 
+2026-09-17 06:33:42.686 | INFO     | experiences.runner:boucle:387 - [execution] 1549/3161 déplacements (49.0 %) · 427/894 personnes · 257 s écoulées · reste ≈ 3945 s · sollicitations 80 · attentes 0 
+2026-09-17 06:33:47.692 | INFO     | experiences.runner:boucle:387 - [execution] 1562/3161 déplacements (49.4 %) · 432/894 personnes · 262 s écoulées · reste ≈ 3550 s · sollicitations 88 · attentes 0 
+2026-09-17 06:33:52.698 | INFO     | experiences.runner:boucle:387 - [execution] 1562/3161 déplacements (49.4 %) · 432/894 personnes · 267 s écoulées · reste ≈ 3618 s · sollicitations 88 · attentes 0 
+2026-09-17 06:33:57.701 | INFO     | experiences.runner:boucle:387 - [execution] 1574/3161 déplacements (49.8 %) · 435/894 personnes · 272 s écoulées · reste ≈ 3320 s · sollicitations 96 · attentes 0 
+2026-09-17 06:34:02.710 | INFO     | experiences.runner:boucle:387 - [execution] 1574/3161 déplacements (49.8 %) · 435/894 personnes · 277 s écoulées · reste ≈ 3382 s · sollicitations 96 · attentes 0 
+2026-09-17 06:34:07.715 | INFO     | experiences.runner:boucle:387 - [execution] 1574/3161 déplacements (49.8 %) · 435/894 personnes · 282 s écoulées · reste ≈ 3443 s · sollicitations 96 · attentes 0 
+2026-09-17 06:34:12.718 | INFO     | experiences.runner:boucle:387 - [execution] 1585/3161 déplacements (50.1 %) · 439/894 personnes · 287 s écoulées · reste ≈ 3208 s · sollicitations 104 · attentes 0 
+2026-09-17 06:34:17.724 | INFO     | experiences.runner:boucle:387 - [execution] 1585/3161 déplacements (50.1 %) · 439/894 personnes · 292 s écoulées · reste ≈ 3264 s · sollicitations 104 · attentes 0 
+2026-09-17 06:34:22.728 | INFO     | experiences.runner:boucle:387 - [execution] 1585/3161 déplacements (50.1 %) · 439/894 personnes · 297 s écoulées · reste ≈ 3320 s · sollicitations 104 · attentes 0 
+2026-09-17 06:34:22.957 | ERROR    | experiences.runner:veiller_quotas:880 - [ALARME] [execution] 2026-09-17_00_51_26 : plus aucune clé disponible — google_gemini31_key1 : 500/500 requêtes/jour (épuisée) ; google_gemini31_key2 : 434/500 requêtes/jour (désactivée côté passerelle : erreurs consécutives ou cooldown)
+2026-09-17 06:34:27.734 | INFO     | experiences.runner:boucle:387 - [execution] 1585/3161 déplacements (50.1 %) · 439/894 personnes · 302 s écoulées · reste ≈ 3376 s · sollicitations 104 · attentes 0 
+2026-09-17 06:34:32.737 | INFO     | experiences.runner:boucle:387 - [execution] 1585/3161 déplacements (50.1 %) · 439/894 personnes · 307 s écoulées · reste ≈ 3432 s · sollicitations 104 · attentes 0 
+2026-09-17 06:34:37.742 | INFO     | experiences.runner:boucle:387 - [execution] 1585/3161 déplacements (50.1 %) · 439/894 personnes · 312 s écoulées · reste ≈ 3488 s · sollicitations 104 · attentes 0 
+2026-09-17 06:34:42.746 | INFO     | experiences.runner:boucle:387 - [execution] 1585/3161 déplacements (50.1 %) · 439/894 personnes · 317 s écoulées · reste ≈ 3544 s · sollicitations 104 · attentes 0 
+2026-09-17 06:34:46.881 | WARNING  | llm_gateway.sdk.client:_observe:427 - Task failed | task_id=5954c995-9b18-4654-be37-a8ebaa3925c5 category=itinary_multi_agent wait=35.1s error=Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.881 | WARNING  | urban_mobility_agents.agents.llm_agent:evaluate_and_choose_travel_plan:1448 - aplan_trip: gateway a retourné un résultat invalide pour 715843: Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.885 | WARNING  | llm_gateway.sdk.client:_observe:427 - Task failed | task_id=6e0008b5-d0bb-400b-8a30-a9ee4289bc23 category=itinary_multi_agent wait=35.2s error=Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.886 | WARNING  | urban_mobility_agents.agents.llm_agent:evaluate_and_choose_travel_plan:1448 - aplan_trip: gateway a retourné un résultat invalide pour 715841: Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.886 | WARNING  | llm_gateway.sdk.client:_observe:427 - Task failed | task_id=9de69fe2-9194-4f69-b0a4-d7ecf2805463 category=itinary_multi_agent wait=35.2s error=Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.886 | WARNING  | urban_mobility_agents.agents.llm_agent:evaluate_and_choose_travel_plan:1448 - aplan_trip: gateway a retourné un résultat invalide pour 712223: Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.890 | WARNING  | llm_gateway.sdk.client:_observe:427 - Task failed | task_id=a58b9945-a5d9-451e-80db-f61cbdcc8536 category=itinary_multi_agent wait=35.2s error=Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.890 | WARNING  | urban_mobility_agents.agents.llm_agent:evaluate_and_choose_travel_plan:1448 - aplan_trip: gateway a retourné un résultat invalide pour 703094: Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.890 | WARNING  | llm_gateway.sdk.client:_observe:427 - Task failed | task_id=9b6f5190-01c0-49c5-9308-a973fd8a78cd category=itinary_multi_agent wait=35.1s error=Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.890 | WARNING  | urban_mobility_agents.agents.llm_agent:evaluate_and_choose_travel_plan:1448 - aplan_trip: gateway a retourné un résultat invalide pour 715842: Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.891 | WARNING  | llm_gateway.sdk.client:_observe:427 - Task failed | task_id=d3c7cc05-b98b-4da2-8e15-0518fae0c49f category=itinary_multi_agent wait=35.2s error=Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.891 | WARNING  | urban_mobility_agents.agents.llm_agent:evaluate_and_choose_travel_plan:1448 - aplan_trip: gateway a retourné un résultat invalide pour 684887: Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.891 | WARNING  | llm_gateway.sdk.client:_observe:427 - Task failed | task_id=1c8ec60a-8270-466c-906f-7227528fe0aa category=itinary_multi_agent wait=35.2s error=Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.892 | WARNING  | urban_mobility_agents.agents.llm_agent:evaluate_and_choose_travel_plan:1448 - aplan_trip: gateway a retourné un résultat invalide pour 691150: Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.892 | WARNING  | llm_gateway.sdk.client:_observe:427 - Task failed | task_id=19098a4e-664c-48d5-a6fe-b78c346d7f1e category=itinary_multi_agent wait=35.1s error=Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:46.892 | WARNING  | urban_mobility_agents.agents.llm_agent:evaluate_and_choose_travel_plan:1448 - aplan_trip: gateway a retourné un résultat invalide pour 712222: Providers saturés ou indisponibles après 8s (2 retries épuisés)
+2026-09-17 06:34:47.754 | INFO     | experiences.runner:boucle:387 - [execution] 1585/3161 déplacements (50.1 %) · 439/894 personnes · 322 s écoulées · reste ≈ 3600 s · sollicitations 112 · attentes 8 {'passerelle_occupee': 8}
+2026-09-17 06:34:52.314 | ERROR    | experiences.runner:executer:928 - [ALARME] dénominateur incohérent : 3161 exploitables dérivés du jeu à l'ouverture, 3212 observés à la clôture (87 inexploitables archivés contre 138 attendus). La couverture publiée retient le dénominateur d'ouverture.
+2026-09-17 06:34:52.314 | WARNING  | experiences.runner:executer:937 - [execution] 87 déplacement(s) INEXPLOITABLES exclus des attendus — aucune proposition des moteurs (origine_egale_destination × 87) ; personnes : 122192, 130368, 130369, 130580, 130584, 180733, 188485, 197522, 224219, 234100…
+2026-09-17 06:34:52.336 | ERROR    | experiences.archive:changer_etat:291 - [execution] 2026-09-17_00_51_26 → epuisee — epuise: google_gemini31_key1 : 500/500 requêtes/jour (épuisée) ; google_gemini31_key2 : 434/500 requêtes/jour (désactivée côté passerelle : erreurs consécutives ou cooldown) — reprise possible à 2026-09-17T07:00:00+00:00
+2026-09-17 06:34:52.336 | ERROR    | experiences.runner:executer:997 - [ALARME] [execution] 2026-09-17_00_51_26 épuisée — epuise: google_gemini31_key1 : 500/500 requêtes/jour (épuisée) ; google_gemini31_key2 : 434/500 requêtes/jour (désactivée côté passerelle : erreurs consécutives ou cooldown) ; reprise possible à 2026-09-17T07:00:00+00:00 ; 1586/3299 archivées
+2026-09-17 06:34:52.446 | WARNING  | experiences.runner:executer:1052 - [execution] Exécution epuisee 2026-09-17_00_51_26 en 326.6 s — décidés 1495, non couverts 0, inexploitables exclus 87, sans solution 4, choix unique 351, replis 0, attentes 16 · erreurs 0 · sollicitations 120, resservies 1444
+AVERTISSEMENT : quota journalier plus court que la charge pour 'gemini-3.1-flash-lite' : 1000 requêtes/jour déclarées contre 3161 sollicitations (~3.2 jours) → l'exécution s'étalera sur plusieurs fenêtres, avec reprise. Les limites de providers.yaml sont déclaratives et connues comme parfois fausses : ce n'est pas un refus
+mémoire : coupée — fenêtre d'âge au rappel 1 j (horizon 1 j, plafond 60 j)
+instances admises : google_gemini31_key1, google_gemini31_key2 (dérivées du modèle 'gemini-3.1-flash-lite', portée distant)
+[EqasimJSONPopulationLoader] Loaded 1000 people from pre-loaded data
+{
+ "attendus": 3299,
+ "inexploitables": 87,
+ "attendus_exploitables": 3161,
+ "decides": 1495,
+ "non_couverts": 0,
+ "sans_solution": 4,
+ "choix_unique": 351,
+ "replis_uniformes": 0,
+ "attentes": 16,
+ "attentes_par_type": {
+  "passerelle_occupee": 8,
+  "epuise": 8
+ },
+ "erreurs": 0,
+ "erreurs_par_type": {},
+ "sollicitations": 120,
+ "resservies": 1444,
+ "substitution_refusee": 0,
+ "couverture": {
+  "decides": 1495,
+  "attendus": 3161,
+  "attendus_bruts": 3299,
+  "inexploitables_exclus": 87,
+  "taux": 0.47295159759569755
+ },
+ "duree_s": 326.624,
+ "etat": "epuisee"
+}
+exécution : /app/data/experiences/exp_gemini-31-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim/executions/2026-09-17_00_51_26

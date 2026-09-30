@@ -1,0 +1,87 @@
+# Marges PERSONNE de l'EMC² Toulouse 2023 — recalculées, GELÉES (cm1).
+#
+# Générée par `python -m scripts.panel.reference_marges --recompute` depuis les microdonnées
+# ProGEDO (accès restreint). Ne pas éditer à la main. Ces marges ne sont PAS publiées par
+# le rapport AUAT (ou pas à ce pas) : leur source est ce recalcul, et le contrôle le dit.
+# Ce sont les marges que la sélection v3 (ticket 029) referme par échanges de ménages.
+version: cm1
+titre: Marges PERSONNE de l'EMC² Toulouse 2023 non publiées à ce pas, recalculées
+unite: personne interrogée (PENQ = 1, poids COEP), 5 ans et plus, périmètre 2023
+cibles_pct:
+  age_quinquennal:
+    5-9: 6.299
+    10-14: 6.847
+    15-19: 7.255
+    20-24: 8.81
+    25-29: 6.887
+    30-34: 7.503
+    35-39: 7.925
+    40-44: 7.039
+    45-49: 6.974
+    50-54: 7.019
+    55-59: 5.824
+    60-64: 5.688
+    65-69: 4.496
+    70-74: 4.296
+    75 et +: 7.139
+  genre:
+    Femmes: 51.281
+    Hommes: 48.719
+  taille_menage_personne:
+    '1': 21.194
+    '2': 29.458
+    '3': 19.133
+    '4': 20.158
+    5 et +: 10.057
+  permis_adultes:
+    Oui: 85.862
+    Non: 14.138
+  abonnement_tc:
+    Oui: 25.848
+    Non: 74.152
+  logement:
+    Individuel isolé: 41.721
+    Individuel accolé: 14.576
+    Petit habitat collectif: 23.905
+    Grand habitat collectif: 19.435
+    Autres: 0.363
+  immobile:
+    Oui: 10.645
+    Non: 89.355
+champs_effectifs:
+  age_quinquennal: 15775
+  genre: 15775
+  taille_menage_personne: 15775
+  permis_adultes: 13555
+  abonnement_tc: 15775
+  logement: 15775
+  immobile: 15775
+recodages:
+  age_quinquennal: P4, classes de 5 ans, 75 et + regroupés
+  genre: 'P2 : 1 Hommes, 2 Femmes'
+  taille_menage_personne: membres du ménage dans le fichier personnes (recensés, tous
+    âges), classes 1 / 2 / 3 / 4 / 5 et +
+  permis_adultes: P7 = 1 → Oui ; 2 (non), 3 (conduite accompagnée) → Non ; champ 18
+    ans et +
+  abonnement_tc: P12 ∈ {1, 2, 3, 5, 6} → Oui ; 4 → Non (même recodage que la loi d'équipement,
+    où le fichier standard porte le oui générique en 6)
+  logement: 'M1 du ménage : 1 isolé, 2 accolé, 3 petit collectif, 4 grand collectif,
+    5 autres'
+  immobile: 0 déplacement dans le fichier déplacements = Oui
+controles:
+  repartition_P12_pct:
+    '4': 74.15
+    '6': 25.85
+  abonnes_publies_p24_pct: 26
+  mobilite_moyenne_deplacements_par_personne: 3.529
+  mobilite_publiee: 3.5
+provenance:
+  source: recalcul microdonnées EMC² 2023 (ProGEDO lil-1750), personnes interrogées
+    (PENQ = 1) × ménages × déplacements, poids COEP
+  fichiers:
+    Toulouse_2023_std_pers.csv: 70bdbc8627892fc8c3a513e05ab27d9d4b026f9c19ac4bd724ed1cdffcc018a8
+    Toulouse_2023_std_men.csv: 67c6e8b8b2e6e08bd9dda36ea1ec21c81b482f706461880cfe14ebc005628a09
+    Toulouse_2023_std_depl.csv: 6285e50f30eda2b9155bf21c3c22438bd6b273e4c5d42a23becdeb3bba22ad5f
+  n_interrogees: 15775
+  gele_le: '2026-09-02T22:26:32+00:00'
+  par: scripts/panel/reference_marges.py --recompute

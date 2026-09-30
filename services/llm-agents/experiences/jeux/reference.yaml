@@ -1,0 +1,32 @@
+# The REFERENCE set (itinerary substrate) — spec `tableau-experiences-colonnes-et-filtres`,
+# rule R22.
+#
+# A composite score is only comparable within one set: same personas, same day,
+# same itinerary offer, same weather. The dashboard's "Mes expériences" table therefore greys
+# out any run that ran on a set other than the one named here — it stays readable,
+# resumable and scored, but its figure is not set against the others.
+#
+# This file is versioned in git BECAUSE it is a scientific decision: `data/jeux/` is
+# ignored, and a flag set in a set manifest would have left no trace. Changing the
+# reference = edit `jeu` below, move the old value into `anciens`, and say
+# why. The dashboard rereads this file on every tick: no restart.
+
+jeu: population_1000_PANEL_v6_20260316_EN_c
+depuis: '2026-09-16'
+raison: >-
+  Ticket 088. Le jeu précédent portait, pour 797 des 894 personas mobiles, une offre
+  d'itinéraires et une météo calculées pour le 17 mars au lieu du 16 : `deplacements_attendus()`
+  ancrait le curseur sur le `start_time` d'une activité « home » enjambant minuit, et la règle de
+  report datait le départ du matin du lendemain. Tout ce qui a été mesuré sur l'ancien substrat
+  est rejoué par la campagne `rejeu_jeu_corrige_v6`.
+
+# The previous references, kept so that today's greying can be reread tomorrow.
+anciens:
+  - jeu: population_1000_PANEL_v6_20260316_EN
+    jusquau: '2026-09-16'
+    raison: Substrat daté du 17 mars pour 797 des 894 personas mobiles (ticket 088).
+    # Frozen on 2026-09-21 (ticket 098): the substrate and the 31 runs decided on it have
+    # left `data/` for the cold archive below. They are no longer readable there without a
+    # written reason (`experiences.froid`). This field is read by nobody — it answers the question
+    # that yesterday's greying will raise tomorrow: "where did this set go?".
+    archive_froide: archive/2026-09-21_ancien_jeu_v6_EN

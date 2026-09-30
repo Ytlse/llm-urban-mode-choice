@@ -1,0 +1,1523 @@
+{
+ "date": "2026-09-22T11:34:13+00:00",
+ "population": {
+  "path": "data/population/toulouse_population_1000_PANEL_v6_c2.json",
+  "n": 1000,
+  "sha256": "4c446e5419e70b9031888191c6c9e4973edf782fd7e376eea8db859e3e9405d9"
+ },
+ "parametres": {
+  "borne_pt": 1.0,
+  "n_min": 30,
+  "n_min_cellule": 50,
+  "ic": "Clopper–Pearson, personas indépendants à poids 1 ; base ménage : n_eff de Kish",
+  "cible_jointe": {
+   "fichier": "scripts/panel/cible_jointe_couronne_motorisation.yaml",
+   "version": "cj1",
+   "sha256": "ddea85edb98c7646d265d92976dccb2feb620836a387f2bf66455301ba1394a7"
+  },
+  "cibles_marges": {
+   "fichier": "scripts/panel/cibles_marges_personne.yaml",
+   "version": "cm1",
+   "sha256": "349bf820b4b89e6c352970503fcdc91ae56a5a98cbc9f69dfbd41056d14aa825"
+  }
+ },
+ "compteurs": {
+  "scolaires_6_17": 154,
+  "immobiles": 106,
+  "total": 1000
+ },
+ "menages_et_mobilite": {
+  "scolaires_6_17": 154,
+  "scolaires_mobiles": 147,
+  "scolaires_avec_activite_etudes": 139,
+  "part_scolaires_avec_etudes_pct": 94.6,
+  "part_scolaires_avec_etudes_seuil_pct": 88.0,
+  "n_menages": 501,
+  "menages_complets_taille_declaree": 472,
+  "part_menages_complets_pct": 94.2,
+  "membres_presents": 1000,
+  "membres_declares": 1033,
+  "part_membres_presents_pct": 96.8,
+  "sans_household_id": 0,
+  "deplacements_par_persona": 3.296,
+  "deplacements_par_persona_mobile": 3.687,
+  "immobiles": 106,
+  "part_immobiles_pct": 10.6,
+  "reference_enquete": {
+   "deplacements_par_personne": 3.53,
+   "part_immobiles_pct": 10.6,
+   "deplacements_par_personne_mobile": 3.95,
+   "part_scolaires_avec_etudes_pct": [
+    90.0,
+    95.0
+   ],
+   "source": "microdonnées EMC² 2023, PENQ = 1, COEP ; scolaires : 6-17 ans scolarisés mobiles avec un déplacement vers l'école un jour de semaine"
+  }
+ },
+ "marges": [
+  {
+   "marge": "classe_age",
+   "unite": "personne",
+   "echelle": "ordinale",
+   "source_cible": "AUAT/CEREMA, Rapport final EMC² 2023 — bassin de vie toulousain (68 p., mai 2024) p. 11, via population_emc2_2023.yaml",
+   "n": 1000,
+   "n_eff": 1000.0,
+   "deff": 1.0,
+   "chi2": 0.15506072874493929,
+   "ddl": 5,
+   "p_value": 0.9995234460574326,
+   "cramer_v": 0.005568854976472979,
+   "divergence": 0.012999999999999873,
+   "divergence_type": "EMD (unités de classe)",
+   "ecart_max_pt": 0.3999999999999986,
+   "verdict": "conforme",
+   "raison": null,
+   "constats": [
+    {
+     "marge": "classe_age",
+     "modalite": "5-17 ans",
+     "n": 164,
+     "observe_pct": 16.4,
+     "ic95": [
+      14.156627645436181,
+      18.84313275260984
+     ],
+     "cible_pct": 16.0,
+     "ecart_pt": 0.3999999999999986,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "classe_age",
+     "modalite": "18-24 ans",
+     "n": 129,
+     "observe_pct": 12.9,
+     "ic95": [
+      10.884057120623474,
+      15.137141531495626
+     ],
+     "cible_pct": 13.0,
+     "ecart_pt": -0.09999999999999964,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "classe_age",
+     "modalite": "25-34 ans",
+     "n": 140,
+     "observe_pct": 14.0,
+     "ic95": [
+      11.907849738135582,
+      16.306571520095474
+     ],
+     "cible_pct": 14.0,
+     "ecart_pt": 0.0,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "classe_age",
+     "modalite": "35-49 ans",
+     "n": 220,
+     "observe_pct": 22.0,
+     "ic95": [
+      19.468003933887505,
+      24.69797923695605
+     ],
+     "cible_pct": 22.0,
+     "ecart_pt": 0.0,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "classe_age",
+     "modalite": "50-64 ans",
+     "n": 187,
+     "observe_pct": 18.7,
+     "ic95": [
+      16.328321992460094,
+      21.257507953142987
+     ],
+     "cible_pct": 19.0,
+     "ecart_pt": -0.3000000000000007,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "classe_age",
+     "modalite": "65 ans et +",
+     "n": 160,
+     "observe_pct": 16.0,
+     "ic95": [
+      13.780518522188329,
+      18.42167527585027
+     ],
+     "cible_pct": 16.0,
+     "ecart_pt": 0.0,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    }
+   ]
+  },
+  {
+   "marge": "occupation",
+   "unite": "personne",
+   "echelle": "nominale",
+   "source_cible": "AUAT/CEREMA, Rapport final EMC² 2023 — bassin de vie toulousain (68 p., mai 2024) p. 11, via population_emc2_2023.yaml",
+   "n": 1000,
+   "n_eff": 1000.0,
+   "deff": 1.0,
+   "chi2": 1.6564705882352941,
+   "ddl": 6,
+   "p_value": 0.9484320946835441,
+   "cramer_v": 0.016615608065085944,
+   "divergence": 0.00028346268801016355,
+   "divergence_type": "JSD (base 2, [0, 1])",
+   "ecart_max_pt": 0.8000000000000007,
+   "verdict": "conforme",
+   "raison": null,
+   "constats": [
+    {
+     "marge": "occupation",
+     "modalite": "Scolaires",
+     "n": 162,
+     "observe_pct": 16.2,
+     "ic95": [
+      13.968511158457794,
+      18.632465492476886
+     ],
+     "cible_pct": 17.0,
+     "ecart_pt": -0.8000000000000007,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "occupation",
+     "modalite": "Étudiants",
+     "n": 90,
+     "observe_pct": 9.0,
+     "ic95": [
+      7.29904664566228,
+      10.946657313833914
+     ],
+     "cible_pct": 9.0,
+     "ecart_pt": 0.0,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "occupation",
+     "modalite": "Actifs temps plein",
+     "n": 390,
+     "observe_pct": 39.0,
+     "ic95": [
+      35.96313399726173,
+      42.10183157288176
+     ],
+     "cible_pct": 39.0,
+     "ecart_pt": 0.0,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "occupation",
+     "modalite": "Actifs temps partiel",
+     "n": 58,
+     "observe_pct": 5.8,
+     "ic95": [
+      4.4332860252820705,
+      7.4336495382351595
+     ],
+     "cible_pct": 5.0,
+     "ecart_pt": 0.7999999999999998,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "occupation",
+     "modalite": "En recherche d'emploi",
+     "n": 70,
+     "observe_pct": 7.0,
+     "ic95": [
+      5.497152491916992,
+      8.761623348928461
+     ],
+     "cible_pct": 7.0,
+     "ecart_pt": 0.0,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "occupation",
+     "modalite": "Retraités",
+     "n": 180,
+     "observe_pct": 18.0,
+     "ic95": [
+      15.665810167101405,
+      20.52424940277865
+     ],
+     "cible_pct": 18.0,
+     "ecart_pt": 0.0,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "occupation",
+     "modalite": "Autres",
+     "n": 50,
+     "observe_pct": 5.0,
+     "ic95": [
+      3.7335397604661757,
+      6.539048791549364
+     ],
+     "cible_pct": 5.0,
+     "ecart_pt": 0.0,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    }
+   ]
+  },
+  {
+   "marge": "motorisation_personne",
+   "unite": "personne",
+   "echelle": "ordinale",
+   "source_cible": "recalcul microdonnées EMC² 2023 (ProGEDO lil-1750), fichiers personnes × ménages, poids COEP, couronne par secteur de tirage (DTIR NOM_D2)",
+   "n": 1000,
+   "n_eff": 1000.0,
+   "deff": 1.0,
+   "chi2": 0.003837239803836757,
+   "ddl": 2,
+   "p_value": 0.998083219472704,
+   "cramer_v": 0.0013851425565328567,
+   "divergence": 0.0009000000000000674,
+   "divergence_type": "EMD (unités de classe)",
+   "ecart_max_pt": 0.0899999999999963,
+   "verdict": "conforme",
+   "raison": null,
+   "constats": [
+    {
+     "marge": "motorisation_personne",
+     "modalite": "sans voiture",
+     "n": 136,
+     "observe_pct": 13.6,
+     "ic95": [
+      11.535017762388163,
+      15.88186309140217
+     ],
+     "cible_pct": 13.56,
+     "ecart_pt": 0.03999999999999915,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "motorisation_personne",
+     "modalite": "une voiture",
+     "n": 377,
+     "observe_pct": 37.7,
+     "ic95": [
+      34.68623546595492,
+      40.786417678951004
+     ],
+     "cible_pct": 37.79,
+     "ecart_pt": -0.0899999999999963,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "motorisation_personne",
+     "modalite": "deux voitures et +",
+     "n": 487,
+     "observe_pct": 48.7,
+     "ic95": [
+      45.55979922541278,
+      51.84787461735794
+     ],
+     "cible_pct": 48.65,
+     "ecart_pt": 0.05000000000000426,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    }
+   ]
+  },
+  {
+   "marge": "motorisation_menage",
+   "unite": "menage",
+   "echelle": "ordinale",
+   "source_cible": "AUAT/CEREMA, Rapport final EMC² 2023 — bassin de vie toulousain (68 p., mai 2024) p. 21, via population_emc2_2023.yaml",
+   "n": 1000,
+   "n_eff": 750.6736092600881,
+   "deff": 1.3321368803489226,
+   "chi2": 0.0005780627774794933,
+   "ddl": 2,
+   "p_value": 0.9997110103768081,
+   "cramer_v": 0.0005376163955272817,
+   "divergence": 0.0004281032651882455,
+   "divergence_type": "EMD (unités de classe)",
+   "ecart_max_pt": 0.04281032651882555,
+   "verdict": "conforme",
+   "raison": null,
+   "constats": [
+    {
+     "marge": "motorisation_menage",
+     "modalite": "sans voiture",
+     "n": 136,
+     "observe_pct": 19.213177844820912,
+     "ic95": [
+      16.45368841793369,
+      22.21694265143087
+     ],
+     "cible_pct": 19.19191919191919,
+     "ecart_pt": 0.021258652901721575,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "motorisation_menage",
+     "modalite": "une voiture",
+     "n": 377,
+     "observe_pct": 45.41173512802663,
+     "ic95": [
+      41.80749465955529,
+      49.05215583901721
+     ],
+     "cible_pct": 45.45454545454545,
+     "ecart_pt": -0.04281032651882555,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "motorisation_menage",
+     "modalite": "deux voitures et +",
+     "n": 487,
+     "observe_pct": 35.37508702715247,
+     "ic95": [
+      31.951332128990433,
+      38.91427768473195
+     ],
+     "cible_pct": 35.35353535353536,
+     "ecart_pt": 0.021551673617111078,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    }
+   ]
+  },
+  {
+   "marge": "couronne",
+   "unite": "personne",
+   "echelle": "nominale",
+   "source_cible": "AUAT/CEREMA, Rapport final EMC² 2023 — bassin de vie toulousain (68 p., mai 2024) p. 10 (habitants de 5 ans et +), via population_emc2_2023.yaml",
+   "n": 1000,
+   "n_eff": 1000.0,
+   "deff": 1.0,
+   "chi2": 0.0022147734956051153,
+   "ddl": 3,
+   "p_value": 0.9999722971632805,
+   "cramer_v": 0.0008592193153487482,
+   "divergence": 3.9937813326072704e-07,
+   "divergence_type": "JSD (base 2, [0, 1])",
+   "ecart_max_pt": 0.0636363636363626,
+   "verdict": "conforme",
+   "raison": null,
+   "constats": [
+    {
+     "marge": "couronne",
+     "modalite": "Toulouse",
+     "n": 363,
+     "observe_pct": 36.3,
+     "ic95": [
+      33.31368399380181,
+      39.36725204750732
+     ],
+     "cible_pct": 36.36363636363636,
+     "ecart_pt": -0.0636363636363626,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "couronne",
+     "modalite": "1st ring",
+     "n": 341,
+     "observe_pct": 34.1,
+     "ic95": [
+      31.162355284783178,
+      37.13160660736589
+     ],
+     "cible_pct": 34.090909090909086,
+     "ecart_pt": 0.009090909090915034,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "couronne",
+     "modalite": "2nd ring",
+     "n": 142,
+     "observe_pct": 14.2,
+     "ic95": [
+      12.094489570974321,
+      16.518703835359723
+     ],
+     "cible_pct": 14.166666666666663,
+     "ecart_pt": 0.03333333333333677,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "couronne",
+     "modalite": "3rd ring",
+     "n": 154,
+     "observe_pct": 15.4,
+     "ic95": [
+      13.217302837265333,
+      17.788548052787565
+     ],
+     "cible_pct": 15.378787878787877,
+     "ecart_pt": 0.021212121212123236,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    }
+   ]
+  },
+  {
+   "marge": "couronne_x_motorisation",
+   "unite": "personne",
+   "echelle": "nominale",
+   "source_cible": "recalcul microdonnées EMC² 2023 (ProGEDO lil-1750), fichiers personnes × ménages, poids COEP, couronne par secteur de tirage (DTIR NOM_D2)",
+   "n": 1000,
+   "n_eff": 1000.0,
+   "deff": 1.0,
+   "chi2": 0.04733856570625906,
+   "ddl": 11,
+   "p_value": 0.9999999999961087,
+   "cramer_v": 0.0020744893283158334,
+   "divergence": 8.240533020347006e-06,
+   "divergence_type": "JSD (base 2, [0, 1])",
+   "ecart_max_pt": 0.05117251172511672,
+   "verdict": "conforme",
+   "raison": null,
+   "constats": [
+    {
+     "marge": "couronne_x_motorisation",
+     "modalite": "Toulouse × sans voiture",
+     "n": 107,
+     "observe_pct": 10.7,
+     "ic95": [
+      8.852043664251635,
+      12.782864411706793
+     ],
+     "cible_pct": 10.66710667106671,
+     "ecart_pt": 0.03289332893328911,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "couronne_x_motorisation",
+     "modalite": "Toulouse × une voiture",
+     "n": 172,
+     "observe_pct": 17.2,
+     "ic95": [
+      14.91029641479786,
+      19.68460739447391
+     ],
+     "cible_pct": 17.251172511725116,
+     "ecart_pt": -0.05117251172511672,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "couronne_x_motorisation",
+     "modalite": "Toulouse × deux voitures et +",
+     "n": 84,
+     "observe_pct": 8.4,
+     "ic95": [
+      6.755274197058323,
+      10.294299899173502
+     ],
+     "cible_pct": 8.41908419084191,
+     "ecart_pt": -0.01908419084190882,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "couronne_x_motorisation",
+     "modalite": "1st ring × sans voiture",
+     "n": 19,
+     "observe_pct": 1.9,
+     "ic95": null,
+     "cible_pct": 1.9160191601916017,
+     "ecart_pt": -0.016019160191601767,
+     "tost": null,
+     "verdict": "non mesurable",
+     "raison": "effectif 19 < 30 : pas d'IC exploitable"
+    },
+    {
+     "marge": "couronne_x_motorisation",
+     "modalite": "1st ring × une voiture",
+     "n": 122,
+     "observe_pct": 12.2,
+     "ic95": [
+      10.23511374400767,
+      14.39042194274166
+     ],
+     "cible_pct": 12.234122341223411,
+     "ecart_pt": -0.03412234122341218,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "couronne_x_motorisation",
+     "modalite": "1st ring × deux voitures et +",
+     "n": 200,
+     "observe_pct": 20.0,
+     "ic95": [
+      17.562057483084224,
+      22.615937282137054
+     ],
+     "cible_pct": 19.979199791997917,
+     "ecart_pt": 0.0208002080020826,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "couronne_x_motorisation",
+     "modalite": "2nd ring × sans voiture",
+     "n": 4,
+     "observe_pct": 0.4,
+     "ic95": null,
+     "cible_pct": 0.3640036400364003,
+     "ecart_pt": 0.03599635996359973,
+     "tost": null,
+     "verdict": "non mesurable",
+     "raison": "effectif 4 < 30 : pas d'IC exploitable"
+    },
+    {
+     "marge": "couronne_x_motorisation",
+     "modalite": "2nd ring × une voiture",
+     "n": 39,
+     "observe_pct": 3.9,
+     "ic95": [
+      2.7877148795336413,
+      5.293093578544508
+     ],
+     "cible_pct": 3.9300393003930036,
+     "ecart_pt": -0.03003930039300373,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "couronne_x_motorisation",
+     "modalite": "2nd ring × deux voitures et +",
+     "n": 99,
+     "observe_pct": 9.9,
+     "ic95": [
+      8.119112894696874,
+      11.920848268620649
+     ],
+     "cible_pct": 9.89109891098911,
+     "ecart_pt": 0.008901089010890928,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "couronne_x_motorisation",
+     "modalite": "3rd ring × sans voiture",
+     "n": 6,
+     "observe_pct": 0.6,
+     "ic95": null,
+     "cible_pct": 0.6090060900609006,
+     "ecart_pt": -0.009006090060900585,
+     "tost": null,
+     "verdict": "non mesurable",
+     "raison": "effectif 6 < 30 : pas d'IC exploitable"
+    },
+    {
+     "marge": "couronne_x_motorisation",
+     "modalite": "3rd ring × une voiture",
+     "n": 44,
+     "observe_pct": 4.4,
+     "ic95": [
+      3.214949701087145,
+      5.86204192063309
+     ],
+     "cible_pct": 4.378043780437804,
+     "ecart_pt": 0.02195621956219629,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "couronne_x_motorisation",
+     "modalite": "3rd ring × deux voitures et +",
+     "n": 104,
+     "observe_pct": 10.4,
+     "ic95": [
+      8.576782262563757,
+      12.460015656989851
+     ],
+     "cible_pct": 10.36110361103611,
+     "ecart_pt": 0.038896388963889805,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    }
+   ]
+  },
+  {
+   "marge": "age_quinquennal",
+   "unite": "personne",
+   "echelle": "ordinale",
+   "source_cible": "recalcul microdonnées EMC² 2023 (ProGEDO lil-1750), personnes interrogées (PENQ = 1) × ménages × déplacements, poids COEP — gelé cm1, non publié à ce pas",
+   "n": 1000,
+   "n_eff": 1000.0,
+   "deff": 1.0,
+   "chi2": 0.17259829896456796,
+   "ddl": 14,
+   "p_value": 0.9999999999934409,
+   "cramer_v": 0.003511189246685597,
+   "divergence": 0.020039729602703713,
+   "divergence_type": "EMD (unités de classe)",
+   "ecart_max_pt": 0.2869311306886928,
+   "verdict": "conforme",
+   "raison": null,
+   "constats": [
+    {
+     "marge": "age_quinquennal",
+     "modalite": "5-9",
+     "n": 63,
+     "observe_pct": 6.3,
+     "ic95": [
+      4.874692755658053,
+      7.988804187335452
+     ],
+     "cible_pct": 6.298937010629895,
+     "ecart_pt": 0.0010629893701050719,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "age_quinquennal",
+     "modalite": "10-14",
+     "n": 69,
+     "observe_pct": 6.9,
+     "ic95": [
+      5.407933579325626,
+      8.651510934571158
+     ],
+     "cible_pct": 6.846931530684693,
+     "ecart_pt": 0.053068469315307176,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "age_quinquennal",
+     "modalite": "15-19",
+     "n": 73,
+     "observe_pct": 7.3,
+     "ic95": [
+      5.765362522793261,
+      9.091417539450122
+     ],
+     "cible_pct": 7.254927450725493,
+     "ecart_pt": 0.04507254927450699,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "age_quinquennal",
+     "modalite": "20-24",
+     "n": 88,
+     "observe_pct": 8.8,
+     "ic95": [
+      7.117513428528658,
+      10.729476503500855
+     ],
+     "cible_pct": 8.80991190088099,
+     "ecart_pt": -0.009911900880990032,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "age_quinquennal",
+     "modalite": "25-29",
+     "n": 66,
+     "observe_pct": 6.6,
+     "ic95": [
+      5.140856601891848,
+      8.320605046140273
+     ],
+     "cible_pct": 6.8869311306886924,
+     "ecart_pt": -0.2869311306886928,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "age_quinquennal",
+     "modalite": "30-34",
+     "n": 74,
+     "observe_pct": 7.4,
+     "ic95": [
+      5.8549444260652646,
+      9.201173601424914
+     ],
+     "cible_pct": 7.502924970750292,
+     "ecart_pt": -0.1029249707502915,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "age_quinquennal",
+     "modalite": "35-39",
+     "n": 79,
+     "observe_pct": 7.9,
+     "ic95": [
+      6.304120280945997,
+      9.748709490690116
+     ],
+     "cible_pct": 7.9249207507924915,
+     "ecart_pt": -0.02492075079249112,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "age_quinquennal",
+     "modalite": "40-44",
+     "n": 71,
+     "observe_pct": 7.1,
+     "ic95": [
+      5.586464824989748,
+      8.871644088678735
+     ],
+     "cible_pct": 7.038929610703892,
+     "ecart_pt": 0.06107038929610731,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "age_quinquennal",
+     "modalite": "45-49",
+     "n": 70,
+     "observe_pct": 7.0,
+     "ic95": [
+      5.497152491916992,
+      8.761623348928461
+     ],
+     "cible_pct": 6.973930260697393,
+     "ecart_pt": 0.026069739302607253,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "age_quinquennal",
+     "modalite": "50-54",
+     "n": 71,
+     "observe_pct": 7.1,
+     "ic95": [
+      5.586464824989748,
+      8.871644088678735
+     ],
+     "cible_pct": 7.018929810701892,
+     "ecart_pt": 0.08107018929810739,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "age_quinquennal",
+     "modalite": "55-59",
+     "n": 59,
+     "observe_pct": 5.9,
+     "ic95": [
+      4.5213354402796595,
+      7.5449073084240785
+     ],
+     "cible_pct": 5.823941760582394,
+     "ecart_pt": 0.07605823941760637,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "age_quinquennal",
+     "modalite": "60-64",
+     "n": 57,
+     "observe_pct": 5.7,
+     "ic95": [
+      4.34535819369586,
+      7.322272946066227
+     ],
+     "cible_pct": 5.687943120568794,
+     "ecart_pt": 0.012056879431206369,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "age_quinquennal",
+     "modalite": "65-69",
+     "n": 45,
+     "observe_pct": 4.5,
+     "ic95": [
+      3.300962543114874,
+      5.975283269340779
+     ],
+     "cible_pct": 4.495955040449595,
+     "ecart_pt": 0.0040449595504048474,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "age_quinquennal",
+     "modalite": "70-74",
+     "n": 43,
+     "observe_pct": 4.3,
+     "ic95": [
+      3.1291170456092585,
+      5.748625796197232
+     ],
+     "cible_pct": 4.295957040429596,
+     "ecart_pt": 0.004042959570403681,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "age_quinquennal",
+     "modalite": "75 et +",
+     "n": 72,
+     "observe_pct": 7.2,
+     "ic95": [
+      5.675868755456168,
+      8.981574917535086
+     ],
+     "cible_pct": 7.138928610713893,
+     "ecart_pt": 0.06107138928610745,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    }
+   ]
+  },
+  {
+   "marge": "genre",
+   "unite": "personne",
+   "echelle": "nominale",
+   "source_cible": "recalcul microdonnées EMC² 2023 (ProGEDO lil-1750), personnes interrogées (PENQ = 1) × ménages × déplacements, poids COEP — gelé cm1, non publié à ce pas",
+   "n": 1000,
+   "n_eff": 1000.0,
+   "deff": 1.0,
+   "chi2": 0.00014449484416175534,
+   "ddl": 1,
+   "p_value": 0.9904091791624781,
+   "cramer_v": 0.00038012477446458987,
+   "divergence": 2.6058004304799058e-08,
+   "divergence_type": "JSD (base 2, [0, 1])",
+   "ecart_max_pt": 0.019000000000005457,
+   "verdict": "conforme",
+   "raison": null,
+   "constats": [
+    {
+     "marge": "genre",
+     "modalite": "Femmes",
+     "n": 513,
+     "observe_pct": 51.3,
+     "ic95": [
+      48.15212538264206,
+      54.4402007745872
+     ],
+     "cible_pct": 51.28099999999999,
+     "ecart_pt": 0.019000000000005457,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "genre",
+     "modalite": "Hommes",
+     "n": 487,
+     "observe_pct": 48.7,
+     "ic95": [
+      45.55979922541278,
+      51.84787461735794
+     ],
+     "cible_pct": 48.71900000000001,
+     "ecart_pt": -0.019000000000005457,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    }
+   ]
+  },
+  {
+   "marge": "taille_menage_personne",
+   "unite": "personne",
+   "echelle": "ordinale",
+   "source_cible": "recalcul microdonnées EMC² 2023 (ProGEDO lil-1750), personnes interrogées (PENQ = 1) × ménages × déplacements, poids COEP — gelé cm1, non publié à ce pas",
+   "n": 1000,
+   "n_eff": 1000.0,
+   "deff": 1.0,
+   "chi2": 0.004441731697382798,
+   "ddl": 4,
+   "p_value": 0.9999975375256869,
+   "cramer_v": 0.0010537708120581532,
+   "divergence": 0.0018600000000001116,
+   "divergence_type": "EMD (unités de classe)",
+   "ecart_max_pt": 0.05799999999999983,
+   "verdict": "conforme",
+   "raison": null,
+   "constats": [
+    {
+     "marge": "taille_menage_personne",
+     "modalite": "1",
+     "n": 212,
+     "observe_pct": 21.2,
+     "ic95": [
+      18.704528955041322,
+      23.86625328691855
+     ],
+     "cible_pct": 21.194000000000003,
+     "ecart_pt": 0.005999999999996675,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "taille_menage_personne",
+     "modalite": "2",
+     "n": 294,
+     "observe_pct": 29.4,
+     "ic95": [
+      26.59037142365126,
+      32.33147195188709
+     ],
+     "cible_pct": 29.458,
+     "ecart_pt": -0.05799999999999983,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "taille_menage_personne",
+     "modalite": "3",
+     "n": 191,
+     "observe_pct": 19.1,
+     "ic95": [
+      16.707478505410926,
+      21.675938001346104
+     ],
+     "cible_pct": 19.133,
+     "ecart_pt": -0.0329999999999977,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "taille_menage_personne",
+     "modalite": "4",
+     "n": 202,
+     "observe_pct": 20.2,
+     "ic95": [
+      17.75223361722082,
+      22.82455781398834
+     ],
+     "cible_pct": 20.158,
+     "ecart_pt": 0.04199999999999804,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "taille_menage_personne",
+     "modalite": "5 et +",
+     "n": 101,
+     "observe_pct": 10.1,
+     "ic95": [
+      8.302011391180232,
+      12.136682351196837
+     ],
+     "cible_pct": 10.057,
+     "ecart_pt": 0.04299999999999926,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    }
+   ]
+  },
+  {
+   "marge": "permis_adultes",
+   "unite": "personne",
+   "echelle": "nominale",
+   "source_cible": "recalcul microdonnées EMC² 2023 (ProGEDO lil-1750), personnes interrogées (PENQ = 1) × ménages × déplacements, poids COEP — gelé cm1, non publié à ce pas",
+   "n": 836,
+   "n_eff": 836.0,
+   "deff": 1.0,
+   "chi2": 0.0003696360305030081,
+   "ddl": 1,
+   "p_value": 0.9846608796163867,
+   "cramer_v": 0.0006649423748308597,
+   "divergence": 7.979028284746045e-08,
+   "divergence_type": "JSD (base 2, [0, 1])",
+   "ecart_max_pt": 0.023167464114834502,
+   "verdict": "conforme",
+   "raison": null,
+   "constats": [
+    {
+     "marge": "permis_adultes",
+     "modalite": "Oui",
+     "n": 718,
+     "observe_pct": 85.88516746411483,
+     "ic95": [
+      83.33874669724362,
+      88.17532680224848
+     ],
+     "cible_pct": 85.862,
+     "ecart_pt": 0.023167464114834502,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "permis_adultes",
+     "modalite": "Non",
+     "n": 118,
+     "observe_pct": 14.114832535885167,
+     "ic95": [
+      11.824673197751526,
+      16.661253302756386
+     ],
+     "cible_pct": 14.138,
+     "ecart_pt": -0.023167464114832725,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    }
+   ]
+  },
+  {
+   "marge": "abonnement_tc",
+   "unite": "personne",
+   "echelle": "nominale",
+   "source_cible": "recalcul microdonnées EMC² 2023 (ProGEDO lil-1750), personnes interrogées (PENQ = 1) × ménages × déplacements, poids COEP — gelé cm1, non publié à ce pas",
+   "n": 1000,
+   "n_eff": 1000.0,
+   "deff": 1.0,
+   "chi2": 0.0012020780322943075,
+   "ddl": 1,
+   "p_value": 0.9723420880662512,
+   "cramer_v": 0.0010963931923786774,
+   "divergence": 2.1691028847500892e-07,
+   "divergence_type": "JSD (base 2, [0, 1])",
+   "ecart_max_pt": 0.04800000000000182,
+   "verdict": "conforme",
+   "raison": null,
+   "constats": [
+    {
+     "marge": "abonnement_tc",
+     "modalite": "Oui",
+     "n": 258,
+     "observe_pct": 25.8,
+     "ic95": [
+      23.11270769749136,
+      28.63056131684608
+     ],
+     "cible_pct": 25.848,
+     "ecart_pt": -0.047999999999998266,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "abonnement_tc",
+     "modalite": "Non",
+     "n": 742,
+     "observe_pct": 74.2,
+     "ic95": [
+      71.36943868315392,
+      76.88729230250864
+     ],
+     "cible_pct": 74.152,
+     "ecart_pt": 0.04800000000000182,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    }
+   ]
+  },
+  {
+   "marge": "logement",
+   "unite": "personne",
+   "echelle": "nominale",
+   "source_cible": "recalcul microdonnées EMC² 2023 (ProGEDO lil-1750), personnes interrogées (PENQ = 1) × ménages × déplacements, poids COEP — gelé cm1, non publié à ce pas",
+   "n": 1000,
+   "n_eff": 1000.0,
+   "deff": 1.0,
+   "chi2": 0.038855135141535026,
+   "ddl": 4,
+   "p_value": 0.9998137112790568,
+   "cramer_v": 0.0031166943682985272,
+   "divergence": 6.679795347081674e-06,
+   "divergence_type": "JSD (base 2, [0, 1])",
+   "ecart_max_pt": 0.03500000000000014,
+   "verdict": "conforme",
+   "raison": null,
+   "constats": [
+    {
+     "marge": "logement",
+     "modalite": "Individuel isolé",
+     "n": 417,
+     "observe_pct": 41.7,
+     "ic95": [
+      38.62230935768491,
+      44.826699000630185
+     ],
+     "cible_pct": 41.721,
+     "ecart_pt": -0.02099999999999369,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "logement",
+     "modalite": "Individuel accolé",
+     "n": 146,
+     "observe_pct": 14.6,
+     "ic95": [
+      12.46820382893768,
+      16.942537545385402
+     ],
+     "cible_pct": 14.576,
+     "ecart_pt": 0.023999999999999133,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "logement",
+     "modalite": "Petit habitat collectif",
+     "n": 239,
+     "observe_pct": 23.9,
+     "ic95": [
+      21.28674903759091,
+      26.66786188852103
+     ],
+     "cible_pct": 23.905,
+     "ecart_pt": -0.005000000000002558,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "logement",
+     "modalite": "Grand habitat collectif",
+     "n": 194,
+     "observe_pct": 19.4,
+     "ic95": [
+      16.992114094753656,
+      21.989493897314087
+     ],
+     "cible_pct": 19.435,
+     "ecart_pt": -0.03500000000000014,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "logement",
+     "modalite": "Autres",
+     "n": 4,
+     "observe_pct": 0.4,
+     "ic95": null,
+     "cible_pct": 0.363,
+     "ecart_pt": 0.03700000000000003,
+     "tost": null,
+     "verdict": "non mesurable",
+     "raison": "effectif 4 < 30 : pas d'IC exploitable"
+    }
+   ]
+  },
+  {
+   "marge": "immobile",
+   "unite": "personne",
+   "echelle": "nominale",
+   "source_cible": "recalcul microdonnées EMC² 2023 (ProGEDO lil-1750), personnes interrogées (PENQ = 1) × ménages × déplacements, poids COEP — gelé cm1, non publié à ce pas",
+   "n": 1000,
+   "n_eff": 1000.0,
+   "deff": 1.0,
+   "chi2": 0.0021289256896909387,
+   "ddl": 1,
+   "p_value": 0.9631984392125846,
+   "cramer_v": 0.0014590838528648511,
+   "divergence": 3.8464042669342224e-07,
+   "divergence_type": "JSD (base 2, [0, 1])",
+   "ecart_max_pt": 0.045000000000001705,
+   "verdict": "conforme",
+   "raison": null,
+   "constats": [
+    {
+     "marge": "immobile",
+     "modalite": "Oui",
+     "n": 106,
+     "observe_pct": 10.6,
+     "ic95": [
+      8.760236506921204,
+      12.675300878156254
+     ],
+     "cible_pct": 10.645,
+     "ecart_pt": -0.04499999999999993,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    },
+    {
+     "marge": "immobile",
+     "modalite": "Non",
+     "n": 894,
+     "observe_pct": 89.4,
+     "ic95": [
+      87.32469912184375,
+      91.2397634930788
+     ],
+     "cible_pct": 89.355,
+     "ecart_pt": 0.045000000000001705,
+     "tost": "non concluant",
+     "verdict": "conforme",
+     "raison": null
+    }
+   ]
+  }
+ ],
+ "independance": {
+  "n": 1000,
+  "chi2": 202.6796664739428,
+  "ddl": 6,
+  "p_value": 5.102353061932385e-41,
+  "cramer_v": 0.31833917955063495,
+  "cellules": [
+   {
+    "cellule": "Toulouse × sans voiture",
+    "n": 107,
+    "attendu_independance": 49.4,
+    "mesurable": true
+   },
+   {
+    "cellule": "Toulouse × une voiture",
+    "n": 172,
+    "attendu_independance": 136.9,
+    "mesurable": true
+   },
+   {
+    "cellule": "Toulouse × deux voitures et +",
+    "n": 84,
+    "attendu_independance": 176.8,
+    "mesurable": true
+   },
+   {
+    "cellule": "1st ring × sans voiture",
+    "n": 19,
+    "attendu_independance": 46.4,
+    "mesurable": false
+   },
+   {
+    "cellule": "1st ring × une voiture",
+    "n": 122,
+    "attendu_independance": 128.6,
+    "mesurable": true
+   },
+   {
+    "cellule": "1st ring × deux voitures et +",
+    "n": 200,
+    "attendu_independance": 166.1,
+    "mesurable": true
+   },
+   {
+    "cellule": "2nd ring × sans voiture",
+    "n": 4,
+    "attendu_independance": 19.3,
+    "mesurable": false
+   },
+   {
+    "cellule": "2nd ring × une voiture",
+    "n": 39,
+    "attendu_independance": 53.5,
+    "mesurable": false
+   },
+   {
+    "cellule": "2nd ring × deux voitures et +",
+    "n": 99,
+    "attendu_independance": 69.2,
+    "mesurable": true
+   },
+   {
+    "cellule": "3rd ring × sans voiture",
+    "n": 6,
+    "attendu_independance": 20.9,
+    "mesurable": false
+   },
+   {
+    "cellule": "3rd ring × une voiture",
+    "n": 44,
+    "attendu_independance": 58.1,
+    "mesurable": false
+   },
+   {
+    "cellule": "3rd ring × deux voitures et +",
+    "n": 104,
+    "attendu_independance": 75.0,
+    "mesurable": true
+   }
+  ],
+  "lecture": "dépendance couronne–motorisation présente dans la population"
+ },
+ "recoupement": [
+  {
+   "ligne": "Genre — Femmes",
+   "valeur_publiee_protocole": 51.3,
+   "reference": 51.3,
+   "ecart_pt": -0.0,
+   "source_reference": "recalcul microdonnées (P2, COEP) — non publié (cm1)",
+   "statut": "concordant"
+  },
+  {
+   "ligne": "Genre — Hommes",
+   "valeur_publiee_protocole": 48.7,
+   "reference": 48.7,
+   "ecart_pt": 0.0,
+   "source_reference": "recalcul microdonnées (P2, COEP) — non publié (cm1)",
+   "statut": "concordant"
+  },
+  {
+   "ligne": "Âge — 5-17 ans",
+   "valeur_publiee_protocole": 16.0,
+   "reference": 16.0,
+   "ecart_pt": 0.0,
+   "source_reference": "rapport p. 11 (6 classes publiées) — population de 5 ans et +",
+   "statut": "concordant"
+  },
+  {
+   "ligne": "Âge — 18-24 ans",
+   "valeur_publiee_protocole": 13.0,
+   "reference": 13.0,
+   "ecart_pt": 0.0,
+   "source_reference": "rapport p. 11 (6 classes publiées) — population de 5 ans et +",
+   "statut": "concordant"
+  },
+  {
+   "ligne": "Âge — 25-34 ans",
+   "valeur_publiee_protocole": 14.0,
+   "reference": 14.0,
+   "ecart_pt": 0.0,
+   "source_reference": "rapport p. 11 (6 classes publiées) — population de 5 ans et +",
+   "statut": "concordant"
+  },
+  {
+   "ligne": "Âge — 35-49 ans",
+   "valeur_publiee_protocole": 22.0,
+   "reference": 22.0,
+   "ecart_pt": 0.0,
+   "source_reference": "rapport p. 11 (6 classes publiées) — population de 5 ans et +",
+   "statut": "concordant"
+  },
+  {
+   "ligne": "Âge — 50-64 ans",
+   "valeur_publiee_protocole": 19.0,
+   "reference": 19.0,
+   "ecart_pt": 0.0,
+   "source_reference": "rapport p. 11 (6 classes publiées) — population de 5 ans et +",
+   "statut": "concordant"
+  },
+  {
+   "ligne": "Âge — 65 ans et plus",
+   "valeur_publiee_protocole": 16.0,
+   "reference": 16.0,
+   "ecart_pt": 0.0,
+   "source_reference": "rapport p. 11 (6 classes publiées) — population de 5 ans et +",
+   "statut": "concordant"
+  },
+  {
+   "ligne": "Ménages sans voiture",
+   "valeur_publiee_protocole": 19.0,
+   "reference": 19.0,
+   "ecart_pt": 0.0,
+   "source_reference": "rapport p. 21 (base ménage)",
+   "statut": "concordant"
+  },
+  {
+   "ligne": "Ménages avec 1 voiture",
+   "valeur_publiee_protocole": 45.0,
+   "reference": 45.0,
+   "ecart_pt": 0.0,
+   "source_reference": "rapport p. 21 (base ménage)",
+   "statut": "concordant"
+  },
+  {
+   "ligne": "Ménages avec 2 voitures et +",
+   "valeur_publiee_protocole": 35.0,
+   "reference": 35.0,
+   "ecart_pt": 0.0,
+   "source_reference": "rapport p. 21 (base ménage)",
+   "statut": "concordant"
+  },
+  {
+   "ligne": "Détention du permis (18 ans et +)",
+   "valeur_publiee_protocole": 85.9,
+   "reference": 85.9,
+   "ecart_pt": -0.0,
+   "source_reference": "recalcul microdonnées (P7 = 1, 18 ans et +, COEP) — non publié (cm1)",
+   "statut": "concordant"
+  },
+  {
+   "ligne": "Personnes sans déplacement la veille",
+   "valeur_publiee_protocole": 10.6,
+   "reference": 10.6,
+   "ecart_pt": 0.0,
+   "source_reference": "recalcul microdonnées (aucun déplacement la veille, COEP) — non publié (cm1)",
+   "statut": "concordant"
+  }
+ ],
+ "synthese": [],
+ "verdicts": {
+  "conforme": 13,
+  "à corriger": 0,
+  "à publier": 0,
+  "non mesurable": 0
+ },
+ "duree_s": 1.08
+}

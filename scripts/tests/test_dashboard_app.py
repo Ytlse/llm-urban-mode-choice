@@ -1,0 +1,1187 @@
+"""The dashboard loads without exception, tab by tab (Streamlit AppTest harness).
+
+A NameError or a missing import in `scripts/dashboard/app.py` only shows on the first
+click in the browser; this test brings it out before. External calls (Docker, make)
+fail cleanly in the test environment: what is checked is the absence of exceptions
+raised by the script itself.
+"""
+
+import contextlib
+from pathlib import Path
+
+import pytest
+
+streamlit = pytest.importorskip("streamlit")
+from streamlit.testing.v1 import AppTest  # noqa: E402
+
+APP = Path(__file__).resolve().parents[1] / "dashboard" / "app.py"
+
+
+@pytest.fixture(scope="module", autouse=True)
+def eager(monkeypatch_module):
+    """All panels evaluated at once, and ONLY for the duration of this file.
+
+    The flag applies to the whole process: set hard in `os.environ`, it rendered the
+    complete page on any import of `app` made outside the Streamlit runtime by another file —
+    which marked the main generator "inside a `st.form`" and killed the AppTests of
+    the whole suite. `monkeypatch` sets it identically, but removes it whatever happens,
+    harness panic included.
+    """
+    monkeypatch_module.setenv("DASHBOARD_EAGER", "1")
+
+
+@pytest.fixture(scope="module")
+def monkeypatch_module():
+    """`monkeypatch` is function-scoped; this file needs its module scope."""
+    from _pytest.monkeypatch import MonkeyPatch
+
+    patcheur = MonkeyPatch()
+    yield patcheur
+    patcheur.undo()
+
+
+@pytest.fixture(scope="module")
+def app(tmp_path_factory):
+    # The experiment form remembers its choices in a file: the harness must neither
+    # read it nor overwrite it, otherwise the test would depend on the user's last draft.
+    import sys
+
+    sys.path.insert(0, str(APP.parents[2]))
+    from scripts.dashboard import experiences
+
+    origine = experiences.ETAT_FORMULAIRE
+    origine_vue = experiences.ETAT_VUE_REGISTRE  # registry columns and filters: same precaution
+    experiences.ETAT_FORMULAIRE = tmp_path_factory.mktemp("brouillon") / "formulaire.yaml"
+    experiences.ETAT_VUE_REGISTRE = tmp_path_factory.mktemp("vue") / "tableau.yaml"
+    at = AppTest.from_file(str(APP), default_timeout=240)
+    at.run()
+    yield at
+    experiences.ETAT_FORMULAIRE = origine  # the constant is shared by all test files
+    experiences.ETAT_VUE_REGISTRE = origine_vue
+
+
+# ── Button resolution ─────────────────────────────────────────────────────────
+# A label is interface: it must be able to change without breaking an assertion.
+# The experiment button, a plain `st.button` outside any form, is the only
+# "💾 Enregistrer" with no `form_id`.
+def _bouton_enregistrer_experience(at):
+    """The "💾 Enregistrer" button of the experiment form, outside any Streamlit form."""
+    return next(b for b in at.button if not b.form_id and b.label == "💾 Enregistrer")
+
+
+def test_le_tableau_de_bord_se_charge_sans_exception(app):
+    assert not app.exception, "\n".join(str(e.value) for e in app.exception)
+
+
+def test_l_onglet_experiences_est_present(app):
+    libelles = [t.label for t in app.tabs]
+    assert any("Expériences" in lib for lib in libelles), libelles
+
+
+def test_le_module_experiences_liste_le_registre():
+    import sys
+    sys.path.insert(0, str(APP.parents[2]))
+    from scripts.dashboard import experiences
+    lignes = experiences.lister()
+    assert isinstance(lignes, list)
+    for l in lignes:
+        assert {"experience", "etat", "dossier"} <= set(l)
+
+
+def test_les_cibles_de_la_plateforme_ont_leurs_variables():
+    import sys
+    sys.path.insert(0, str(APP.parents[2]))
+    from scripts.dashboard import makefiles
+    _, par_projet = makefiles.all_targets()
+    par_nom = {t.name: t for t in par_projet["root"]}
+    assert par_nom["jeu"].variables == ("POP", "NOM", "JOUR", "CONCURRENCE", "REQUIS")
+    assert "EXP" in par_nom["experience-lancer"].variables and "JEU" in par_nom["run"].variables
+    assert par_nom["experience-lancer"].group == "Plateforme d'expériences"
+    variables = makefiles._root_variables()
+    # The EXP choices are read ON DISK. Pinning them on the name of a local experiment
+    # turned this test red the day it left `data/experiences/`: it is the property
+    # "the list comes from the registry" that is checked, not the content of the current registry.
+    # The whole tree, families included: a one-level `iterdir()` returned two empty tuples,
+    # and the test stayed green by vacuity (0 flat experiments, 77 filed on 2026-09-28).
+    racine = APP.parents[2] / "data" / "experiences"
+    attendues = tuple(sorted({f.parent.name for f in racine.rglob("experience.yaml")
+                              if "archive" not in f.parts and ".system_generated" not in f.parts})) if racine.is_dir() else ()
+    assert variables["EXP"].kind == "choice"
+    assert variables["EXP"].choices == attendues
+
+
+def _arbre_d_experiences(racine: Path) -> None:
+    """One experiment filed by family, one flat, one archived, one generated by the system."""
+    for rel in ("regime_nominal/jeu_x/exp_rangee", "exp_a_plat",
+                "archive/regime_nominal/jeu_x/exp_archivee", ".system_generated/exp_generee"):
+        (racine / rel).mkdir(parents=True)
+        (racine / rel / "experience.yaml").write_text(f"nom: {Path(rel).name}\n", encoding="utf-8")
+
+
+def test_exp_propose_les_experiences_rangees_par_famille(tmp_path):
+    """The EXP choices walk the whole tree, with the exclusion of the resolver.
+
+    Experiments live under `regime_nominal/<jeu>/<exp>/`: reading only the first level
+    returned an empty list. The choices remain NAMES — they become `EXP=` for make.
+    """
+    import sys
+    sys.path.insert(0, str(APP.parents[2]))
+    from scripts.dashboard import makefiles
+    _arbre_d_experiences(tmp_path)
+    assert makefiles._experience_choices(racine=tmp_path) == ("exp_a_plat", "exp_rangee")
+
+
+def test_chaque_choix_d_exp_se_resout_par_le_resolveur(tmp_path):
+    """A proposed name that the CLI could not find again would be worse than a missing name."""
+    import sys
+    sys.path.insert(0, str(APP.parents[2]))
+    from experiences.experience import trouver_dossier_experience
+    from scripts.dashboard import makefiles
+    _arbre_d_experiences(tmp_path)
+    choix = makefiles._experience_choices(racine=tmp_path)
+    assert choix, "non-empty tree: an empty list would make this test green by vacuity"
+    for nom in choix:
+        trouve = trouver_dossier_experience(nom, racine=tmp_path)
+        assert trouve is not None and trouve.name == nom, nom
+    for exclu in ("exp_archivee", "exp_generee"):
+        assert exclu not in choix
+        assert trouver_dossier_experience(exclu, racine=tmp_path) is None, exclu
+
+
+def test_le_formulaire_produit_un_experience_yaml_complet():
+    import sys
+    sys.path.insert(0, str(APP.parents[2]))
+    from scripts.dashboard import experiences
+    v = experiences.defauts()
+    v.update({"population": "data/population/population_1000_PANEL_v5", "jeu": "v5_j1", "variante": "prompt_expert_02"})
+    exp = experiences.construire_experience(v)
+    for champ in ("nom", "population", "jeu", "gabarit", "decideur", "mode", "calendrier", "horizon_jours", "memoire", "evenements",
+                  "graine_ordre", "graine_tirage", "regroupement", "tolerances_horaires", "max_candidats", "attente_max_s"):
+        assert champ in exp, champ
+    assert exp["population"]["chemin"] == "/data/eqasim-output/population_1000_PANEL_v5" and exp["gabarit"]["variante"] == "prompt_expert_02"
+    # round trip: an experiment read back fills the form (duplicate / take inspiration)
+    base = experiences.depuis_experience(exp)
+    assert base["population"] == "data/population/population_1000_PANEL_v5" and base["variante"] == "prompt_expert_02"
+    assert base["derive_de"] == exp["nom"], "the lineage cites the computed name of the source"
+    assert "nom" not in base, "the name is not copied: it is recomputed (N1)"
+    variantes, active = experiences.variantes_prompt()
+    assert "prompt_expert_02" in variantes and active
+    assert experiences.modeles()
+
+
+def test_les_prompts_sont_lisibles_avant_de_choisir():
+    import sys
+    sys.path.insert(0, str(APP.parents[2]))
+    from scripts.dashboard import experiences
+    textes = experiences.prompts_textes()
+    assert "prompt_expert_02" in textes and textes["prompt_expert_02"]["mots"] and "probabilit" in textes["prompt_expert_02"]["contenu"].lower()
+    assert textes["prompt_expert_02"]["provenance"].get("role")
+
+
+def test_ajouter_variante_sans_jamais_ecraser(tmp_path):
+    import sys, shutil
+    sys.path.insert(0, str(APP.parents[2]))
+    import yaml
+    from scripts.dashboard import experiences
+    copie = tmp_path / "prompts.yaml"
+    shutil.copy(experiences.PROMPTS_YAML, copie)
+    avant = yaml.safe_load(copie.read_text())
+    experiences.ajouter_variante("test_dash", "Ligne 1.\n\nLigne 2 : « accents » — ok.", derive_de="prompt_expert_02", chemin=copie)
+    apres = yaml.safe_load(copie.read_text())
+    assert set(apres["prompts"]) == set(avant["prompts"]) | {"test_dash"} and apres["active"] == avant["active"]
+    assert apres["prompts"]["test_dash"]["content"].strip() == "Ligne 1.\n\nLigne 2 : « accents » — ok."
+    assert apres["prompts"]["test_dash"]["_provenance"]["derive_de"] == "prompt_expert_02"
+    with pytest.raises(ValueError, match="already exists"):
+        experiences.ajouter_variante("prompt_expert_02", "x", chemin=copie)
+    with pytest.raises(ValueError, match="invalide"):
+        experiences.ajouter_variante("nom avec espaces", "x", chemin=copie)
+    assert yaml.safe_load(copie.read_text()) == apres, "a refusal does not touch the file"
+
+
+def test_quotas_par_modele_et_passerelle_injoignable():
+    import sys
+    sys.path.insert(0, str(APP.parents[2]))
+    from scripts.dashboard import experiences
+    assert experiences.etat_passerelle("http://127.0.0.1:1/health", timeout=0.2) is None
+    q = experiences.quotas_par_modele({"google_gemini31_key1": {"daily_requests": 120, "rpd_limit": 500}, "google_gemini31_key2": {"daily_requests": 0, "rpd_limit": 500}})
+    g = q["gemini-3.1-flash-lite"]
+    assert g["marge"] == 880 and g["limite"] == 1000 and set(g["instances"]) == {"google_gemini31_key1", "google_gemini31_key2"}
+    inconnu = experiences.quotas_par_modele(None)["gemini-3.1-flash-lite"]
+    assert inconnu["inconnu"] is True and inconnu["limite"] == 1000
+
+
+def test_R5_l_onglet_commandes_a_disparu(app):
+    libelles = [t.label for t in app.tabs]
+    assert not any("Commandes" in lib for lib in libelles), libelles
+    for fichier in sorted(APP.parent.glob("*.py")):
+        source = fichier.read_text(encoding="utf-8")
+        assert "render_commands" not in source, f"catalogue left as dead code in {fichier.name}"
+        assert "▶ Commandes" not in source, f"stale reference in {fichier.name}"
+
+
+def test_R7_l_onglet_s_appelle_activites_en_cours(app):
+    libelles = [t.label for t in app.tabs]
+    assert "📟 Activités en cours" in libelles, libelles
+    for fichier in sorted(APP.parent.glob("*.py")):
+        assert "📟 Lancements" not in fichier.read_text(encoding="utf-8"), f"stale reference in {fichier.name}"
+
+
+def test_R4_la_vue_d_ensemble_montre_les_experiences_dans_son_fragment(app):
+    source = APP.read_text(encoding="utf-8")
+    debut = source.index("def render_overview()")
+    fin = source.index("def agent_states_chart")
+    corps = source[debut:fin]
+    assert "rendre_activites" in corps, "the experiments tile must live in the overview"
+    entete = source[source.index("@st.fragment", debut - 200):debut]
+    assert 'run_every="10s"' in entete, "the tile must refresh with the others (10 s)"
+    cablage = source[source.index('with ONGLET["vue"]:'):source.index('with ONGLET["run"]:')]
+    assert "render_overview()" in cablage, "the overview must be wired to its tab"
+
+
+def test_R8_l_onglet_activites_montre_le_disque_avant_les_jobs(app):
+    source = APP.read_text(encoding="utf-8")
+    corps = source[source.index("def render_activites()"):source.index("# ── Metrics panel")]
+    assert corps.index("render_activites_disque()") < corps.index("render_jobs_live()")
+
+
+def test_R20_aucun_bouton_desactive_sans_motif(app):
+    from scripts.dashboard import experiences
+
+    # The rule is "no greyed-out control without a reason", NOT "there is always a reason":
+    # on a machine where the stack runs and where the draft's set is closed, nothing blocks
+    # the form any more — and since 2026-09-09 a stopped controller no longer blocks "Lancer",
+    # which starts it. What is checked here is that every greyed-out button carries its reason.
+    motifs = [str(c.value) for c in app.caption if "indisponible :" in str(c.value)]
+    assert all(len(m.split("indisponible :", 1)[1].strip()) > 3 for m in motifs), motifs
+    grises = [b.label for b in app.button if b.label in ("💾 Enregistrer", "🧮 Estimer le coût", "▶ Lancer")
+              and b.disabled]
+    assert all(any(label in m for m in motifs) for label in grises), (grises, motifs)
+    # The name being computed (N1), no reason can any longer be "the name is empty": on a
+    # blank form it already exists, and the reasons concern the set and the services.
+    assert not any("nom de l'expérience est vide" in m for m in motifs), motifs
+
+    # No greyed-out button of the WHOLE page remains without a signal: failing a written line,
+    # a hover help that says what it is waiting for.
+    muets = [b.label for b in app.button
+             if b.disabled and not (b.help or "").strip()
+             and not any(b.label in m for m in motifs)]
+    assert muets == [], f"disabled buttons without hover help or reason: {muets}"
+
+    # Greyed-out fields and boxes: the rule applies to every control, not only buttons
+    controles = [(genre, c) for genre, liste in (("champ", app.number_input), ("case", app.checkbox))
+                 for c in liste if getattr(c, "disabled", False)]
+    assert controles, "on first load, \"Horizon (jours)\" and \"Mémoire des agents\" are greyed out"
+    sans_aide = [f"{genre} « {c.label} »" for genre, c in controles if not (getattr(c, "help", "") or "").strip()]
+    assert sans_aide == [], f"disabled controls without hover help: {sans_aide}"
+
+    # The written lines required outside the form. Conditional on the real state of the
+    # machine: the rule is about "a disabled button says why", not about the state.
+    lignes = [str(c.value) for c in app.caption]
+    for fragment, motif in (("make stop-run", "Aucun run en cours"),
+                            ("Reprendre", "Aucune exécution reprenable")):
+        bouton = next((b for b in app.button if fragment in b.label), None)
+        if bouton is not None and bouton.disabled:
+            assert any(motif in l for l in lignes), f"\"{bouton.label}\" must say why"
+
+    # the rule itself, outside the interface: each gap names its cause
+    exp = {"nom": "", "jeu": {"nom": ""}}
+    vides = experiences.motifs_indisponibilite(exp, jeu_clos=False, controleur_ok=False, registre=False)
+    # The name is computed (N1): when it is missing, the reason names the field that prevents it.
+    assert "decideur" in vides["lancer"][0], vides["lancer"]
+    assert vides["lancer"][1] == "aucun jeu de déplacements n'est préparé pour cette population"
+    # The stopped controller no longer blocks "Lancer" nor "Construire": the make target
+    # starts it. It remains the lock of "Estimer", which reads the platform's answer live.
+    assert "le service `controller` ne tourne pas" in vides["estimer"], vides["estimer"]
+    assert "le service `controller` ne tourne pas" not in vides["lancer"], vides["lancer"]
+    # What blocks "Construire" is a silent Docker daemon: there, nobody starts anything.
+    muet = experiences.motifs_indisponibilite(exp, jeu_clos=False, controleur_ok=False,
+                                              registre=True, docker_ok=False)
+    assert any("démon Docker" in m for m in muet["construire"]), muet["construire"]
+    assert any("démon Docker" in m for m in muet["lancer"]), muet["lancer"]
+
+    pret = {"nom": "exp", "jeu": {"nom": "j1"}}
+    aucun = experiences.motifs_indisponibilite(pret, jeu_clos=True, controleur_ok=True, registre=True)
+    assert all(v == [] for v in aucun.values()), aucun
+
+    encours = experiences.motifs_indisponibilite(pret, jeu_clos=False, controleur_ok=True, registre=True)
+    assert encours["lancer"] == ["le jeu « j1 » n'est pas encore clos"]
+    assert encours["enregistrer"] == [], "an experiment whose set is being built can be saved"
+
+
+def test_R6_les_boutons_contextuels_gardent_leurs_cibles_make(app):
+    """The target catalogue has left the interface, not the code: the buttons still use it."""
+    from scripts.dashboard import makefiles
+
+    _, cibles = makefiles.all_targets()
+    noms = {t.name for t in cibles.get("root", [])}
+    attendues = {"up", "down", "restart", "run", "synthesis", "synthesis-open", "jeu",
+                 "experience-definir", "experience-estimer", "experience-lancer", "experience-reprendre"}
+    assert attendues <= noms, sorted(attendues - noms)
+
+    # And the path each button takes: a listed job, its log, a stop that stops.
+    from scripts.dashboard import runner
+
+    registre = runner.Registry()
+    job = registre.launch("test:sommeil", ["sleep", "30"], APP.parents[2])
+    journaux = [job.log_path]
+    try:
+        assert job in registre.jobs() and job.running
+        assert job.log_path.exists(), "the launch must write its log"
+        assert registre.stop(job.id) is True
+        assert not job.running and job.state in ("arrêté", "échec")
+    finally:
+        if job.running:
+            registre.stop(job.id)
+        registre.clear_finished()
+        for journal in journaux:  # do not leave test logs in experiments/.dashboard/
+            journal.unlink(missing_ok=True)
+
+
+@contextlib.contextmanager
+def _app_patchee(tmp_path, patchs: dict):
+    """The dashboard started with replaced attributes, which stay so during the clicks."""
+    import sys
+
+    sys.path.insert(0, str(APP.parents[2]))
+    from scripts.dashboard import experiences
+
+    origines = {}
+    for cible, remplacements in patchs.items():
+        for nom, valeur in remplacements.items():
+            origines[(cible, nom)] = getattr(cible, nom)
+            setattr(cible, nom, valeur)
+    brouillon = experiences.ETAT_FORMULAIRE
+    experiences.ETAT_FORMULAIRE = tmp_path / "formulaire.yaml"
+    # Columns and filters of the "Mes expériences" table are also remembered on disk:
+    # without this redirection, scrolling the page during a test would write into the
+    # user's view — with only the columns that the pocket platform exposes.
+    vue = experiences.ETAT_VUE_REGISTRE
+    experiences.ETAT_VUE_REGISTRE = tmp_path / "vue_tableau.yaml"
+    try:
+        at = AppTest.from_file(str(APP), default_timeout=240)
+        at.run()
+        yield at
+    finally:
+        for (cible, nom), valeur in origines.items():
+            setattr(cible, nom, valeur)
+        experiences.ETAT_FORMULAIRE = brouillon
+        experiences.ETAT_VUE_REGISTRE = vue
+
+
+def test_R6_un_bouton_contextuel_resout_sa_cible_et_appelle_le_registre(tmp_path):
+    """The click, not the decor: the target is resolved from the Makefile and handed to the registry."""
+    from scripts.dashboard import runner
+
+    appels = []
+
+    def faux_launch(self, label, argv, cwd, flags=()):
+        appels.append((label, argv, cwd, flags))
+        return None
+
+    with _app_patchee(tmp_path, {runner.Registry: {"launch": faux_launch}}) as at:
+        bouton = next(b for b in at.button if "make synthesis" in b.label and "open" not in b.label)
+        assert not bouton.disabled
+        bouton.click().run()
+
+    assert appels, "the click must go through the job registry"
+    label, argv, cwd, _flags = appels[-1]
+    assert label.endswith(":synthesis")
+    assert argv[:2] == ["make", "synthesis"], argv
+    assert Path(cwd) == APP.parents[2]
+
+
+def test_R18_le_clic_lance_la_construction_et_arme_la_surveillance(tmp_path):
+    from scripts.dashboard import experiences, runner
+
+    appels = []
+
+    def faux_launch(self, label, argv, cwd, flags=()):
+        appels.append((label, argv))
+        return None
+
+    # The warm-up button appears ONLY when no set exists yet for the population:
+    # preparing a second set is no longer done from here. So we place ourselves without any set.
+    with _app_patchee(tmp_path, {runner.Registry: {"launch": faux_launch},
+                                 experiences: {"jeux": lambda: []}}) as at:
+        bouton = next(b for b in at.button if "Warm-up" in b.label)
+        bouton.click().run()
+        arme = at.session_state["_warmup_lance_a"]
+
+    assert appels, "the click must launch `make jeu`"
+    label, argv = appels[-1]
+    assert label.endswith(":jeu") and argv[:2] == ["make", "jeu"], argv
+    assert arme > 0, "the watch on the directory must be armed"
+
+
+def test_R17_l_avertissement_ne_parait_que_sans_aucun_jeu(tmp_path):
+    from scripts.dashboard import experiences
+
+    # The form's population is PINNED to that of the fabricated set, and not a name written
+    # here: `jeux_de()` filters on strict equality. The frozen name "population_1000_PANEL"
+    # survived the renaming to v6; then `populations()[0]` (alphabetical order) stopped being
+    # the form's default (last sealed by date) the day c2 was sealed. Both
+    # times, this test failed on a correct dashboard. The pin applies to BOTH renders:
+    # the first writes a draft that the second reads back, population included.
+    choisie = experiences.populations()[0]
+    with _app_patchee(tmp_path, {experiences: {"jeux": lambda: [],
+                                               "population_par_defaut": lambda: choisie}}) as sans:
+        avertissements = [str(w.value) for w in sans.warning]
+    assert any("Aucun jeu de déplacements préparé" in a for a in avertissements), avertissements
+
+    premiere = Path(choisie).name.replace(".json", "")
+    en_cours = [{"nom": "j_prep", "population": premiere, "jour": "2026-03-16",
+                 "clos": False, "couverts": 10, "attendus": 100}]
+    with _app_patchee(tmp_path, {experiences: {"jeux": lambda: en_cours,
+                                               "population_par_defaut": lambda: choisie}}) as avec:
+        muet = not any("Aucun jeu de déplacements préparé" in str(w.value) for w in avec.warning)
+        libelles = [str(o) for s in avec.selectbox for o in s.options]
+    assert muet, "a set under construction is enough: the warning must no longer appear"
+    assert any("(EN PRÉPARATION)" in lib for lib in libelles), \
+        "the set under construction must be labelled as such in the list"
+
+
+def test_R8_les_jobs_en_cours_passent_avant_les_termines():
+    from scripts.dashboard import runner
+
+    registre = runner.Registry()
+    import time as _t
+
+    fini = registre.launch("test:fini", ["true"], APP.parents[2])
+    for _ in range(300):
+        registre.jobs()  # it is the read that reaps finished processes
+        if not fini.running:
+            break
+        _t.sleep(0.02)
+    tourne = registre.launch("test:tourne", ["sleep", "30"], APP.parents[2])
+    try:
+        assert not fini.running and tourne.running
+        brut = registre.jobs()
+        assert brut.index(tourne) < brut.index(fini), "the registry returns reverse chronological order"
+        trie = runner.par_priorite(brut)
+        assert trie[0] is tourne, "what is running goes first"
+        assert trie.index(tourne) < trie.index(fini)
+    finally:
+        registre.stop(tourne.id)
+        registre.clear_finished()
+        for job in (fini, tourne):
+            job.log_path.unlink(missing_ok=True)
+
+
+def _definitions(racine: Path) -> list[str]:
+    """All definitions under `racine`, families included: a first level alone would
+    not see a write in `regime_nominal/<jeu>/`, which already exists in the repository."""
+    return sorted(str(p.relative_to(racine)) for p in racine.rglob("experience.yaml")) if racine.is_dir() else []
+
+
+def test_R22_un_brouillon_restaure_n_ecrit_aucune_experience(tmp_path):
+    """The real risk: a full start with a restored form that would save on its own."""
+    import sys
+
+    sys.path.insert(0, str(APP.parents[2]))
+    from scripts.dashboard import experiences
+
+    brouillon = tmp_path / "formulaire.yaml"
+    origine = experiences.ETAT_FORMULAIRE, experiences.ETAT_VUE_REGISTRE, experiences.DOSSIER
+    experiences.ETAT_FORMULAIRE = brouillon
+    # Registry and table view isolated too. On the real `data/experiences/`, the registry
+    # draws its filters by bounds — `number_input`s empty by construction (value None) —,
+    # and a campaign that defines an experiment during the test would pass it off as a
+    # write of the start. The temporary directory is the one the page would write to.
+    experiences.ETAT_VUE_REGISTRE = tmp_path / "vue_tableau.yaml"
+    experiences.DOSSIER = tmp_path / "experiences"
+    experiences.DOSSIER.mkdir()
+    try:
+        experiences.sauver_etat_formulaire({**experiences.defauts(), "attente_max_s": 300})
+        avant = _definitions(experiences.DOSSIER)
+
+        def refuser(*_a, **_k):
+            raise AssertionError("un démarrage ne doit rien enregistrer sans clic")
+
+        origine_enregistrer = experiences.enregistrer
+        experiences.enregistrer = refuser
+        try:
+            at = AppTest.from_file(str(APP), default_timeout=240)
+            at.run()
+            assert not at.exception, "\n".join(str(e.value) for e in at.exception)
+            assert int(_champ(at, "Attente max d'une ressource (s)").value) == 300, "the draft must be restored"
+        finally:
+            experiences.enregistrer = origine_enregistrer
+
+        apres = _definitions(experiences.DOSSIER)
+        assert apres == avant
+    finally:
+        experiences.ETAT_FORMULAIRE, experiences.ETAT_VUE_REGISTRE, experiences.DOSSIER = origine
+
+
+def _job_fabrique(tmp_path, ident: str, *, tourne: bool):
+    """A registry job, without a real process: `running` = proc set and returncode absent.
+
+    The log lives under `experiments/.dashboard/` (ignored by git): the panel shows it as a
+    path relative to the repository root.
+    """
+    import time
+
+    from scripts.dashboard import runner
+
+    dossier = APP.parents[2] / "experiments" / ".dashboard"
+    dossier.mkdir(parents=True, exist_ok=True)
+    journal = dossier / f"essai-{ident}.log"
+    journal.write_text(f"sortie de {ident}\n", encoding="utf-8")
+    return runner.Job(
+        id=ident, label=f"root:{ident}", argv=["make", ident], cwd=APP.parents[2],
+        log_path=journal, started_at=time.time() - (10 if tourne else 600),
+        proc=object() if tourne else None,
+        returncode=None if tourne else 0,
+        finished_at=None if tourne else time.time() - 60,
+    )
+
+
+def test_R8_le_panneau_montre_ce_qui_tourne_en_premier(tmp_path):
+    """The sort must be used BY the panel: tested on the rendering, not on the source."""
+    from scripts.dashboard import runner
+
+    fini = _job_fabrique(tmp_path, "termine", tourne=False)
+    tourne = _job_fabrique(tmp_path, "encours", tourne=True)
+    # `jobs()` returns the most recent first: here the FINISHED job is the most recent.
+    with _app_patchee(tmp_path, {runner.Registry: {"jobs": lambda self: [fini, tourne]}}) as at:
+        titres = [str(e.label) for e in at.expander]
+        resume = [str(m.value) for m in at.markdown if "en cours" in str(m.value) and "terminé" in str(m.value)]
+        purge = next(b for b in at.button if "Purger" in b.label)
+        purge_grisee = purge.disabled
+
+    for reste in (APP.parents[2] / "experiments" / ".dashboard").glob("essai-*.log"):
+        reste.unlink()
+
+    lignes = [x for x in titres if "root:" in x]
+    assert lignes, titres
+    assert "encours" in lignes[0], f"what is running must go first: {lignes}"
+    assert any("root:termine" in x for x in lignes), "finished jobs remain listed"
+    assert resume, "the panel must summarise how many are running and how many are finished"
+    assert not purge_grisee, "with a finished job, the purge is available"
+
+
+def test_R8_la_purge_est_grisee_quand_tout_tourne(tmp_path):
+    from scripts.dashboard import runner
+
+    tourne = _job_fabrique(tmp_path, "encours", tourne=True)
+    try:
+        with _app_patchee(tmp_path, {runner.Registry: {"jobs": lambda self: [tourne]}}) as at:
+            purge = next(b for b in at.button if "Purger" in b.label)
+            assert purge.disabled, "nothing to purge as long as they are all running"
+            assert (purge.help or "").strip(), "and the reason is given on hover (R20)"
+    finally:
+        for reste in (APP.parents[2] / "experiments" / ".dashboard").glob("essai-*.log"):
+            reste.unlink()
+
+
+def _plateforme_isolee(tmp_path):
+    """Patches to click "Enregistrer" without a set, without a container, and without writing to the repo."""
+    import sys
+
+    sys.path.insert(0, str(APP.parents[2]))
+    from scripts.dashboard import experiences
+
+    dossier = tmp_path / "experiences"
+    dossier.mkdir(parents=True, exist_ok=True)
+    return experiences, {experiences: {
+        "jeux": lambda: [],                        # the population has no prepared set
+        "services_actifs": lambda *a, **k: set(),  # `controller` stopped: no real docker exec
+        "DOSSIER": dossier,
+    }}  # REPO_ROOT is NOT patched: `populations()` needs it for the real directories
+
+
+def test_R1_R2_le_clic_enregistre_sans_jeu_et_nomme_le_jeu_attendu(tmp_path):
+    """End to end: the written file names exactly the set that the warm-up would build."""
+    import yaml
+
+    from scripts.dashboard import runner
+
+    experiences, patchs = _plateforme_isolee(tmp_path)
+    lancements = []
+    patchs[runner.Registry] = {"launch": lambda self, label, argv, cwd, flags=(): lancements.append(argv)}
+
+    with _app_patchee(tmp_path, patchs) as at:
+        enregistrer = _bouton_enregistrer_experience(at)
+        assert not enregistrer.disabled, "without a set and without a container, saving must remain possible"
+        enregistrer.click().run()
+        message = "\n".join(str(c.value) for c in at.code)
+        next(b for b in at.button if "Warm-up" in b.label or "Préparer un autre jeu" in b.label).click().run()
+
+    # Filed in the family of its set, as by the CLI: we search at all levels.
+    ecrits = list((tmp_path / "experiences").rglob("experience.yaml"))
+    assert len(ecrits) == 1, f"the click must write one experiment file, and only one: {ecrits}"
+    ecrit = ecrits[0]
+    nom_jeu = yaml.safe_load(ecrit.read_text(encoding="utf-8"))["jeu"]["nom"]
+
+    assert lancements, "the warm-up button must launch `make jeu`"
+    nom_passe = dict(a.split("=", 1) for a in lancements[-1] if "=" in a)["NOM"]
+    assert nom_jeu == nom_passe, f"the named set ({nom_jeu}) must be the one the warm-up builds ({nom_passe})"
+
+    assert "validation non tentée" in message, message
+    assert f"jeu attendu « {nom_jeu} » : absent" in message, message
+    assert f"{ecrit.parent.name}/experience.yaml" in message, message
+    assert not (ecrit.parent / "executions").exists()
+
+
+def test_reenregistrer_un_nom_deja_execute_ne_demande_plus_de_confirmation(tmp_path):
+    """The overwrite safeguard was removed: re-saving an already-run name is direct.
+
+    Runs already archived keep their frozen copy of the definition; only the
+    current definition is rewritten, without a checkbox.
+    """
+    experiences, patchs = _plateforme_isolee(tmp_path)
+
+    with _app_patchee(tmp_path, patchs) as at:
+        # The name computed by the form, then a run archived under this name: this is
+        # exactly the case "this name has already run".
+        nom = str(next(c for c in at.code if str(c.value).startswith("exp_")).value)
+        execution = tmp_path / "experiences" / nom / "executions" / "2026-09-01_10_00_00"
+        execution.mkdir(parents=True)
+        (execution / "etat.json").write_text('{"etat": "terminee"}', encoding="utf-8")
+
+    with _app_patchee(tmp_path, patchs) as at:
+        assert not [c for c in at.checkbox if "porte déjà" in c.label], \
+            "no more overwrite confirmation checkbox"
+        enregistrer = _bouton_enregistrer_experience(at)
+        assert not enregistrer.disabled, "re-saving an already-run name is now direct"
+
+
+def test_les_deux_lectures_de_providers_pointent_le_meme_fichier():
+    """Two constants for one file: the refactor of the LLM module moved only one,
+    and the form's list of models emptied without saying so."""
+    from scripts.dashboard import experiences, metrics
+
+    assert experiences.PROVIDERS_YAML == metrics.PROVIDERS_YAML
+    assert experiences.PROVIDERS_YAML.is_file(), f"{experiences.PROVIDERS_YAML} cannot be found"
+    assert experiences.modeles(), "the form's list of models must not be empty"
+
+
+def _plateforme_avec_survivante(tmp_path):
+    """An experiment ready to launch, plus a run still running elsewhere."""
+    import json
+    import sys
+
+    import yaml
+
+    sys.path.insert(0, str(APP.parents[2]))
+    from scripts.dashboard import experiences
+
+    exps = tmp_path / "experiences"
+    patchs = {experiences: {"DOSSIER": exps, "services_actifs": lambda *a, **k: {"controller"}}}
+    population = _cohorte_epinglee(experiences, patchs)
+    # The name is computed from the parameters (N1): the surviving run must carry the name that
+    # the blank form will produce, otherwise it belongs to another experiment.
+    with _nomme_contre(experiences, exps):
+        definition = experiences.construire_experience(
+            {**experiences.defauts(), "population": population, "sans_jeu": False,
+             "jeu": experiences.nom_jeu_attendu(population, "2026-03-16")})
+    nom = definition["nom"]
+    survivante = exps / nom / "executions" / "2026-09-07_10_00_00"
+    survivante.mkdir(parents=True)
+    (survivante / "etat.json").write_text(json.dumps({"etat": "en_cours"}), encoding="utf-8")
+    # The WHOLE definition, not a skeleton: a different definition would carry another
+    # name (suffix `_2`, N10) and the run would no longer be that of this experiment.
+    (exps / nom / "experience.yaml").write_text(
+        yaml.safe_dump(definition, allow_unicode=True, sort_keys=False), encoding="utf-8")
+
+    nom_jeu = experiences.nom_jeu_attendu(population, "2026-03-16")
+    jeu = [{"nom": nom_jeu, "population": Path(population).name, "jour": "2026-03-16",
+            "clos": True, "couverts": 98, "attendus": 100}]
+    patchs[experiences]["jeux"] = lambda: jeu
+    return experiences, patchs, survivante  # `lister()` reads DOSSIER at call time
+
+
+def test_le_lancement_ne_stoppe_plus_les_concurrents(tmp_path):
+    """The "Arrêter d'abord" checkbox was removed: launching no longer interrupts what is running.
+
+    The launch goes directly (the experiment is saved then `experience-lancer`),
+    and the run that was running elsewhere is not signalled with a `STOP`.
+    """
+    from scripts.dashboard import runner
+
+    experiences, patchs, survivante = _plateforme_avec_survivante(tmp_path)
+    lances = []
+    patchs[runner.Registry] = {
+        "launch": lambda self, label, argv, cwd, flags=(): lances.append(label),
+    }
+
+    with _app_patchee(tmp_path, patchs) as at:
+        assert not [c for c in at.checkbox if "Arrêter d'abord" in c.label], \
+            "no more \"Arrêter d'abord\" checkbox"
+
+        lancer = next(b for b in at.button if b.label == "▶ Lancer")
+        assert not lancer.disabled, "the set is closed and the controller is running"
+        lancer.click().run()
+
+    assert not (survivante / "STOP").is_file(), "the launch no longer asks competitors to stop"
+    assert any(l.endswith(":experience-lancer") for l in lances), lances
+
+
+def test_N1_le_nom_est_affiche_calcule_et_non_saisi(tmp_path):
+    """The input field has disappeared: the page SHOWS the name that the parameters impose."""
+    experiences, patchs = _plateforme_isolee(tmp_path)
+
+    with _app_patchee(tmp_path, patchs) as at:
+        assert not [i for i in at.text_input if i.label == "Nom de l'expérience"], \
+            "the name is no longer entered"
+        assert any("calculé" in str(m.value) for m in at.markdown), \
+            "the page must say that the name is computed"
+        # In the form's tab: the 🧠 tab displays the computed name of ITS memory
+        # experiment (`exp_mem_…`), which is not a second display of this one.
+        onglet = next(t for t in at.tabs if any("Nouvelle expérience" in str(s.value) for s in t.subheader))
+        noms = [str(c.value) for c in onglet.code if str(c.value).startswith("exp_")]
+        assert len(noms) == 1, f"one computed name, displayed once: {noms}"
+        assert experiences.MOTIF_NOM.match(noms[0]), noms[0]
+        assert not [b for b in at.button if "Utiliser «" in b.label], \
+            "nothing left to propose: the name is no longer an input to correct"
+        assert not _bouton_enregistrer_experience(at).disabled
+
+
+def test_N10_une_definition_deja_enregistree_est_annoncee_comme_telle(tmp_path):
+    """Same parameters = same experiment: the page says so instead of rewriting it silently."""
+    experiences, patchs = _plateforme_isolee(tmp_path)
+
+    with _app_patchee(tmp_path, patchs) as at:
+        _bouton_enregistrer_experience(at).click().run()
+
+    with _app_patchee(tmp_path, patchs) as at:
+        infos = [str(i.value) for i in at.info]
+        assert any("déjà" in i and "exécution" in i for i in infos), infos
+
+
+def test_R1_R3_le_bloc_des_services_dit_ce_qui_manque_et_le_lancement_le_demarre(tmp_path):
+    """The block says what is missing, and it is "▶ Lancer" that starts it — no button any more.
+
+    The "Démarrer les N service(s) manquant(s)" button was removed on 2026-09-09: it was
+    a step not to forget before clicking "Lancer", whereas the make target can
+    guarantee its services itself (`services-pretes`). The launch therefore carries `REQUIS=` —
+    just the experiment's services, never the metrology.
+    """
+    from scripts.dashboard import runner
+
+    experiences, patchs = _plateforme_isolee(tmp_path)
+    population = _cohorte_epinglee(experiences, patchs)
+    jeu = [{"nom": experiences.nom_jeu_attendu(population, "2026-03-16"),
+            "population": Path(population).name, "jour": "2026-03-16", "clos": True,
+            "couverts": 98, "attendus": 100}]
+    patchs[experiences]["jeux"] = lambda: jeu
+    patchs[experiences]["services_actifs"] = lambda *a, **k: {"controller", "redis"}
+    lances = []
+    patchs[runner.Registry] = {"launch": lambda self, label, argv, cwd, flags=(): lances.append(argv)}
+
+    with _app_patchee(tmp_path, patchs) as at:
+        bloc = " ".join(str(m.value) for m in at.markdown)
+        assert "🐳 Services nécessaires" in bloc, bloc[:400]
+        assert "🟢 `controller`" in bloc, "a running service must be visible"
+        assert "⚪ `api`" in bloc and "⚪ `worker`" in bloc, "and a stopped service too"
+
+        legendes = " ".join(str(c.value) for c in at.caption)
+        assert "2 service(s) à démarrer" in legendes, legendes[:600]
+        assert not [b for b in at.button if "Démarrer les" in b.label], "no more start button"
+
+        next(b for b in at.button if b.label == "▶ Lancer").click().run()
+
+    assert lances, "the click must go through the job registry"
+    argv = lances[-1]
+    assert argv[1].startswith("experience-lancer"), argv
+    demandes = dict(a.split("=", 1) for a in argv if "=" in a)["REQUIS"].split()
+    assert demandes == ["controller", "api", "worker"], demandes
+    assert not set(demandes) & set(experiences.SERVICES_MONITORING)
+
+
+def test_R1_tout_en_marche_le_bloc_reste_visible_sans_bouton(tmp_path):
+    experiences, patchs = _plateforme_isolee(tmp_path)
+    population = _cohorte_epinglee(experiences, patchs)
+    patchs[experiences]["jeux"] = lambda: [{"nom": experiences.nom_jeu_attendu(population, "2026-03-16"),
+                                           "population": Path(population).name, "jour": "2026-03-16",
+                                           "clos": True, "couverts": 98, "attendus": 100}]
+    patchs[experiences]["services_actifs"] = lambda *a, **k: {"controller", "api", "worker", "redis"}
+
+    with _app_patchee(tmp_path, patchs) as at:
+        bloc = " ".join(str(m.value) for m in at.markdown)
+        assert "🐳 Services nécessaires" in bloc, "the block must remain visible when everything runs"
+        assert "⚪" not in bloc.split("Services nécessaires")[1][:120]
+        assert not [b for b in at.button if "Démarrer les" in b.label], \
+            "nothing is missing: no start button"
+
+
+def test_R8_la_tuile_services_offre_un_demarrage_quand_il_manque_des_conteneurs(app):
+    from scripts.dashboard import metrics
+
+    docker = metrics.docker_status()
+    if not docker.available:
+        pytest.skip("docker injoignable sur cette machine")
+    if docker.services and not docker.missing:
+        pytest.skip("complete stack: the button has no reason to be")
+
+    boutons = [b.label for b in app.button if "make up" in b.label]
+    assert boutons, "the Services tile must offer a start when the stack is incomplete"
+
+
+def test_R10_R15_la_case_d_arret_final_chaine_la_cible_et_ne_fait_rien_sans_lancement(tmp_path):
+    """Unchecked by default; checked, the launch goes through the target that stops afterwards."""
+    from scripts.dashboard import runner
+
+    experiences, patchs, survivante = _plateforme_avec_survivante(tmp_path)
+    lances = []
+    patchs[runner.Registry] = {
+        "launch": lambda self, label, argv, cwd, flags=(): lances.append((label, argv)),
+        "stop": lambda self, ident, grace=5.0: True,
+    }
+    patchs[experiences]["attendre_arret"] = lambda executions, **kwargs: []
+
+    with _app_patchee(tmp_path, patchs) as at:
+        case = next(c for c in at.checkbox if "à la fin de l'expérience" in c.label)
+        assert case.value is False, "the final stop is not checked in advance"
+        assert "rend la RAM" in case.label
+        assert "osmnx1" in (case.help or ""), "the help names the stopped services"
+
+        next(c for c in at.checkbox if "à la fin de l'expérience" in c.label).check().run()
+        next(b for b in at.button if b.label == "▶ Lancer").click().run()
+
+    assert lances, "the click must launch something"
+    label, argv = lances[-1]
+    assert label.endswith(":experience-lancer-arret"), label
+    services = dict(a.split("=", 1) for a in argv if "=" in a)["SERVICES"].split()
+    assert "osmnx1" in services and "otp1" in services, services
+    assert not set(services) & set(experiences.SERVICES_MONITORING)
+
+
+def test_R12_R13_la_page_offre_la_reprise_et_avertit_avant_de_relancer(tmp_path):
+    """After a killed runner: "Reprendre" must be offered, and "Lancer" must warn."""
+    import json
+
+    experiences, patchs, survivante = _plateforme_avec_survivante(tmp_path)
+    # The run has not written for 20 minutes: runner killed, not a competitor (R11)
+    from datetime import datetime, timedelta, timezone
+    vieux = (datetime.now(timezone.utc) - timedelta(minutes=20)).isoformat()
+    (survivante / "progression.json").write_text(
+        json.dumps({"faits": 209, "attendus": 2693, "maj": vieux}), encoding="utf-8")
+    (survivante / "etat.json").write_text(
+        json.dumps({"etat": "en_cours", "decisions_archivees": 209}), encoding="utf-8")
+
+    with _app_patchee(tmp_path, patchs) as at:
+        assert not [c for c in at.checkbox if "Arrêter d'abord" in c.label], \
+            "a dead run must no longer be presented as a competitor (R11)"
+
+        alertes = [str(w.value) for w in at.warning]
+        assert any("exécution reprenable" in a and "209 décisions" in a for a in alertes), alertes
+
+        reprendre = next(b for b in at.button if "Reprendre" in b.label)
+        assert not reprendre.disabled, "an abandoned in-progress run must be resumable (R12)"
+
+
+def test_R14_un_demon_docker_muet_est_nomme(tmp_path):
+    experiences, patchs = _plateforme_isolee(tmp_path)
+    patchs[experiences]["services_actifs"] = lambda *a, **k: None  # docker unreachable
+
+    with _app_patchee(tmp_path, patchs) as at:
+        legendes = " ".join(str(c.value) for c in at.caption)
+        assert "démon Docker ne répond pas" in legendes, legendes
+        assert "Docker Desktop" in legendes, "the gesture that repairs must be stated"
+
+
+# ── "S'inspirer d'une expérience existante" copies as soon as chosen (spec inspirer-recopie-immediate) ──
+
+_JOUR = "2026-03-16"
+# All numeric and boolean fields of the form differ from the defaults: a PARTIAL
+# copy would otherwise be invisible (a forgotten field would keep the right value by chance).
+_REGLAGES_A = {"parallelisme": 16, "temperature": 0.7, "variante": "prompt_expert_02", "max_candidats": 4, "attente_max_s": 60,
+               "graine_ordre": 7, "graine_tirage": 11, "graine_calendrier": 5, "graine_decideur": 9, "memoire": True}
+# (no horizon_jours: outside the simulator the field is greyed out and forced to 1 by the form itself)
+_REGLAGES_B = {"parallelisme": 24, "temperature": 0.3}
+
+
+REPO_ROOT_TEST = APP.parents[2]
+
+
+def _cohorte_ou_saut(experiences):
+    """The first sealed cohort, or a test skip that SAYS why.
+
+    Ticket 074, lot A: the v5 cohort went to COLD archive and v6 is not yet
+    produced — `data/population/` no longer holds any sealed directory. The tests that mount a
+    complete experiment then have nothing to mount.
+
+    Without this guard, `populations()[0]` raises `IndexError: list index out of range` in sixteen
+    places: a failure that does not name its cause reads as a regression of the
+    dashboard and sends one looking in the wrong place. The dashboard, for its part, renders without exception
+    in this state — checked.
+    """
+    import pytest as _pytest
+
+    # SEALED cohorts only. `populations()` also returns bare JSONs (EF-02: any
+    # population is admissible), and eqasim's raw output lands in `data/population/` — it is
+    # the container's `eqasim_output` mount. An unselected pool of 11,329 personas there
+    # looks like a cohort: these tests then mount an experiment around a substrate that
+    # is not one, and fail for a reason unrelated to what they check.
+    cohortes = [c for c in experiences.populations()
+                if (REPO_ROOT_TEST / c / "MANIFEST.yaml").is_file()]
+    if not cohortes:
+        _pytest.skip(
+            "no SEALED cohort in data/population (substrate in cold archive, "
+            "ticket 074 lot A; a bare pool is not one) — these tests come back at the "
+            "sealing of v6"
+        )
+    return cohortes[0]
+
+
+@contextlib.contextmanager
+def _nomme_contre(experiences, dossier: Path):
+    """Computes the names of a fixture against ITS registry, not against `data/experiences/`.
+
+    `construire_experience` names via `attribuer_nom(exp, DOSSIER)`: a different definition
+    already filed under the same base name gets a `_2` suffix (N10). Called before entering
+    `_app_patchee`, the fixture would name against the real registry and the page against the
+    temporary directory — two names for the same experiment as soon as the machine holds a neighbouring one.
+    """
+    origine = experiences.DOSSIER
+    experiences.DOSSIER = dossier
+    try:
+        yield
+    finally:
+        experiences.DOSSIER = origine
+
+
+def _cohorte_epinglee(experiences, patchs: dict) -> str:
+    """The cohort of `_cohorte_ou_saut`, AND the one the form will propose during the test.
+
+    The form starts from `population_par_defaut()` — the last sealed by SEAL DATE —,
+    whereas `_cohorte_ou_saut` returns the first in alphabetical order. As long as a single
+    cohort was sealed, the two coincided; the sealing of c2 (2026-09-22) separated
+    them, and nine tests mounted their fabricated set on a population that the form
+    no longer selected: set not found, "Lancer" greyed out, routing requested, name recomputed
+    without a set. The pin makes these tests independent of the cohorts sealed on the machine and of
+    their dates; only the requirement to have one remains, which the skip above states.
+    """
+    population = _cohorte_ou_saut(experiences)
+    patchs[experiences]["population_par_defaut"] = lambda: population
+    return population
+
+
+def _plateau(tmp_path, retouches_a=None, avec_b=False):
+    """Experiment A (all settings distinct from the defaults) — and B on demand — written to disk, with the
+    patches to see them in the list. `retouches_a` corrects A's definition AFTER its computation, by dotted
+    path ("regroupement.parallelisme"), to fabricate an out-of-bounds experiment or one with a historical name."""
+    import sys
+    from types import SimpleNamespace
+
+    import yaml
+
+    sys.path.insert(0, str(APP.parents[2]))
+    from scripts.dashboard import experiences
+
+    exps = tmp_path / "experiences"
+    patchs = {experiences: {"DOSSIER": exps, "services_actifs": lambda *a, **k: set()}}
+    population = _cohorte_epinglee(experiences, patchs)
+    nom_jeu = experiences.nom_jeu_attendu(population, _JOUR)
+
+    def ecrire(reglages, retouches):
+        # The population is explicit: `defauts()` is read here OUTSIDE the pin, hence on the
+        # machine's default — A would otherwise have the population of one and the set of the other.
+        with _nomme_contre(experiences, exps):
+            definition = experiences.construire_experience(
+                {**experiences.defauts(), "population": population, "sans_jeu": False, "jeu": nom_jeu, **reglages})
+        nom_calcule = definition["nom"]  # the one the form will recompute, touch-ups or not
+        for chemin, valeur in (retouches or {}).items():
+            cible = definition
+            *parents, feuille = chemin.split(".")
+            for cle in parents:
+                cible = cible[cle]
+            cible[feuille] = valeur
+        (exps / definition["nom"]).mkdir(parents=True)
+        (exps / definition["nom"] / "experience.yaml").write_text(
+            yaml.safe_dump(definition, allow_unicode=True, sort_keys=False), encoding="utf-8")
+        return definition["nom"], definition, nom_calcule  # definition["nom"]: the name under which the list offers it
+
+    nom_a, def_a, nom_calcule_a = ecrire(_REGLAGES_A, retouches_a)
+    nom_b = ecrire(_REGLAGES_B, None)[0] if avec_b else None
+    jeu = [{"nom": nom_jeu, "population": Path(population).name, "jour": _JOUR,
+            "clos": True, "couverts": 98, "attendus": 100}]
+    patchs[experiences]["jeux"] = lambda: jeu
+    return SimpleNamespace(experiences=experiences, patchs=patchs, exps=exps, nom_a=nom_a, def_a=def_a,
+                           nom_calcule_a=nom_calcule_a, nom_b=nom_b)
+
+
+def _champ(at, label):
+    """The form widget that carries this label — to be read again after each `run()`, references go stale."""
+    return next(w for w in [*at.number_input, *at.selectbox] if w.label == label)
+
+
+def _parallelisme(at) -> int:
+    return int(_champ(at, "Personnes en parallèle").value)
+
+
+def _brouillon(tmp_path) -> dict:
+    """What the form remembered at the end of the last run: its values, field by field (R21)."""
+    import yaml
+
+    return yaml.safe_load((tmp_path / "formulaire.yaml").read_text(encoding="utf-8"))
+
+
+def _ecarts(brut: dict, attendu: dict) -> dict:
+    """The draft fields that are not worth what we expect (dates and numbers compared as text)."""
+    def norme(x):
+        return x if isinstance(x, dict) else str(x)
+
+    return {k: (brut.get(k), v) for k, v in attendu.items() if norme(brut.get(k)) != norme(v)}
+
+
+def _nom_affiche(at) -> str:
+    return " ".join(str(c.value) for c in at.code)
+
+
+def test_inspirer_R1_le_choix_recopie_tous_les_champs_sans_autre_clic(tmp_path):
+    pl = _plateau(tmp_path)
+    with _app_patchee(tmp_path, pl.patchs) as at:
+        assert _parallelisme(at) == 8, "the form starts from the defaults"
+        at.selectbox(key="exp-source").select(pl.nom_a).run()
+        assert not at.exception, "\n".join(str(e.value) for e in at.exception)
+        attendu = pl.experiences._valider_base(pl.experiences.depuis_experience(pl.def_a))
+        assert not _ecarts(_brouillon(tmp_path), attendu), _ecarts(_brouillon(tmp_path), attendu)
+        assert _parallelisme(at) == 16 and _champ(at, "Prompt système").value == "prompt_expert_02"
+        assert at.session_state["exp_version"] == 1, "the widget keys are reset"
+        assert pl.nom_a in _nom_affiche(at), "the computed name at the top is that of the source"
+
+
+def test_inspirer_R2_partir_de_zero_remet_les_defauts(tmp_path):
+    pl = _plateau(tmp_path)
+    with _app_patchee(tmp_path, pl.patchs) as at:
+        at.selectbox(key="exp-source").select(pl.nom_a).run()
+        assert _parallelisme(at) == 16
+        at.selectbox(key="exp-source").select(pl.experiences.SANS_SOURCE).run()
+        assert not at.exception, "\n".join(str(e.value) for e in at.exception)
+        defauts = pl.experiences.defauts()
+        assert not _ecarts(_brouillon(tmp_path), defauts), _ecarts(_brouillon(tmp_path), defauts)
+        assert _parallelisme(at) == 8 and at.session_state["exp_version"] == 2
+
+
+def test_inspirer_R3_la_recopie_ne_recopie_pas_le_nom_mais_la_filiation(tmp_path):
+    pl = _plateau(tmp_path, retouches_a={"nom": "un_nom_historique"})  # the list offers it under this name
+    with _app_patchee(tmp_path, pl.patchs) as at:
+        at.selectbox(key="exp-source").select("un_nom_historique").run()
+        assert not at.exception, "\n".join(str(e.value) for e in at.exception)
+        assert not [w for w in at.text_input if "nom" in w.label.lower() and "expérience" in w.label.lower()], \
+            "no \"nom\" field to enter: it is computed (N1)"
+        assert pl.nom_calcule_a in _nom_affiche(at) and "un_nom_historique" not in _nom_affiche(at), \
+            "the displayed name is recomputed from the parameters, not copied"
+        assert _brouillon(tmp_path)["derive_de"] == "un_nom_historique", "the lineage cites the source"
+
+
+def test_inspirer_R4_l_ouverture_ne_recopie_rien_et_garde_le_brouillon(tmp_path):
+    import yaml
+
+    pl = _plateau(tmp_path)
+    (tmp_path / "formulaire.yaml").write_text(  # the draft of the last pass (R21), same path as _app_patchee
+        yaml.safe_dump({**pl.experiences.defauts(), "parallelisme": 12}, allow_unicode=True), encoding="utf-8")
+    with _app_patchee(tmp_path, pl.patchs) as at:
+        assert at.selectbox(key="exp-source").value == pl.experiences.SANS_SOURCE
+        assert _parallelisme(at) == 12, "the draft, not the defaults nor the source"
+        assert not [c for c in at.caption if "recopiés" in str(c.value)]
+
+
+def test_inspirer_R5_recopier_a_nouveau_reapplique_la_source_apres_retouche(tmp_path):
+    pl = _plateau(tmp_path)
+    with _app_patchee(tmp_path, pl.patchs) as at:
+        at.selectbox(key="exp-source").select(pl.nom_a).run()
+        _champ(at, "Personnes en parallèle").set_value(4).run()
+        assert _parallelisme(at) == 4, "the manual touch-up is taken"
+        bouton = next(b for b in at.button if "Recopier à nouveau" in b.label)
+        assert not bouton.disabled
+        bouton.click().run()
+        assert not at.exception, "\n".join(str(e.value) for e in at.exception)
+        assert _parallelisme(at) == 16
+        at.selectbox(key="exp-source").select(pl.experiences.SANS_SOURCE).run()
+        assert next(b for b in at.button if "Recopier à nouveau" in b.label).disabled
+
+
+def test_inspirer_R6_une_experience_disparue_au_choix_laisse_le_formulaire_intact_et_le_dit(tmp_path):
+    import shutil
+
+    pl = _plateau(tmp_path, avec_b=True)
+    with _app_patchee(tmp_path, pl.patchs) as at:
+        at.selectbox(key="exp-source").select(pl.nom_a).run()
+        assert _parallelisme(at) == 16, "a state that is NOT that of the defaults, to tell \"intact\" from \"reset\""
+        shutil.rmtree(pl.exps / pl.nom_b)  # between the display of the list and the choice
+        at.selectbox(key="exp-source").select(pl.nom_b).run()
+        assert not at.exception, "\n".join(str(e.value) for e in at.exception)
+        assert any(pl.nom_b in str(w.value) and "n'existe plus" in str(w.value) for w in at.warning), \
+            [str(w.value) for w in at.warning]
+        assert _parallelisme(at) == 16, "the form keeps the settings of A"
+        assert at.selectbox(key="exp-source").value == pl.nom_a, "the list comes back to what the form contains"
+
+
+def test_inspirer_R7_une_valeur_inconnue_ou_hors_bornes_ne_casse_pas_la_page(tmp_path):
+    pl = _plateau(tmp_path, retouches_a={"regroupement.parallelisme": 128, "decideur.modele": "fantome/absent"})
+    with _app_patchee(tmp_path, pl.patchs) as at:
+        at.selectbox(key="exp-source").select(pl.nom_a).run()
+        assert not at.exception, "\n".join(str(e.value) for e in at.exception)
+        assert _parallelisme(at) == 64, "out of bounds: brought back into the interval (R21b)"
+        modele = _champ(at, "Modèle (RPD = requêtes/jour restantes)").value
+        assert modele != "fantome/absent" and modele in pl.experiences.modeles(), "unknown: back to the default"
+        assert abs(float(_champ(at, "Température").value) - 0.7) < 1e-9, "the other fields are copied"
+        assert _champ(at, "Prompt système").value == "prompt_expert_02"
+
+
+def test_inspirer_R8_la_page_dit_ce_qu_elle_a_recopie_tant_que_c_est_vrai(tmp_path):
+    pl = _plateau(tmp_path)
+    with _app_patchee(tmp_path, pl.patchs) as at:
+        at.selectbox(key="exp-source").select(pl.nom_a).run()
+        legendes = [str(c.value) for c in at.caption]
+        assert any(pl.nom_a in l and "recopiés" in l and "recalcule" in l for l in legendes), legendes
+        at.run()  # a rerun without touch-up: the form is still that of A, the caption stays
+        assert [c for c in at.caption if "recopiés" in str(c.value)], "still true, still displayed"
+        _champ(at, "Personnes en parallèle").set_value(3).run()  # a touch-up: the caption would lie
+        assert not [c for c in at.caption if "recopiés" in str(c.value)], "erased at the first touch-up"
+
+
+def test_inspirer_R9_la_recopie_n_ecrit_que_le_brouillon_et_des_valeurs_valides(tmp_path):
+    import hashlib
+
+    pl = _plateau(tmp_path)
+
+    def empreinte(dossier):
+        return {str(p.relative_to(dossier)): hashlib.sha256(p.read_bytes()).hexdigest()
+                for p in dossier.rglob("*") if p.is_file()}
+
+    avant = empreinte(pl.exps)
+    with _app_patchee(tmp_path, pl.patchs) as at:
+        at.selectbox(key="exp-source").select(pl.nom_a).run()
+        assert empreinte(pl.exps) == avant, "data/experiences/ is unchanged to the byte"
+        brut = _brouillon(tmp_path)
+        assert brut["parallelisme"] == 16 and brut["derive_de"] == pl.nom_a
+        assert not _ecarts(brut, pl.experiences._valider_base(brut)), \
+            "the draft contains only values accepted by R21b"
+
+
+def test_inspirer_R10_une_source_supprimee_apres_coup_est_dite_et_la_liste_revient(tmp_path):
+    import shutil
+
+    pl = _plateau(tmp_path)
+    with _app_patchee(tmp_path, pl.patchs) as at:
+        at.selectbox(key="exp-source").select(pl.nom_a).run()
+        shutil.rmtree(pl.exps / pl.nom_a)  # A chosen, then deleted from disk
+        at.run()  # any subsequent interaction
+        assert not at.exception, "\n".join(str(e.value) for e in at.exception)
+        assert any(pl.nom_a in str(w.value) and "n'existe plus" in str(w.value) for w in at.warning), \
+            [str(w.value) for w in at.warning]
+        assert _parallelisme(at) == 16, "the form keeps its settings"
+        assert at.selectbox(key="exp-source").value == pl.experiences.SANS_SOURCE
+        assert next(b for b in at.button if "Recopier à nouveau" in b.label).disabled
+        at.run()  # rerun without touch-up: the warning stays, the form is still that of A
+        assert [w for w in at.warning if "n'existe plus" in str(w.value)]
+        _champ(at, "Personnes en parallèle").set_value(3).run()  # a touch-up: it no longer has reason to be
+        assert not [w for w in at.warning if "n'existe plus" in str(w.value)], "erased at the first touch-up"
+
+
+def test_inspirer_R11_recopier_a_nouveau_sur_une_source_disparue_ne_remet_rien_aux_defauts(tmp_path):
+    import shutil
+
+    pl = _plateau(tmp_path)
+    with _app_patchee(tmp_path, pl.patchs) as at:
+        at.selectbox(key="exp-source").select(pl.nom_a).run()
+        bouton = next(b for b in at.button if "Recopier à nouveau" in b.label)  # active: A still exists
+        shutil.rmtree(pl.exps / pl.nom_a)
+        bouton.click().run()  # the click leaves before the disappearance, arrives after
+        assert not at.exception, "\n".join(str(e.value) for e in at.exception)
+        assert _parallelisme(at) == 16, "above all not the defaults (8): the source has disappeared, the form stays"
+        assert any("n'existe plus" in str(w.value) for w in at.warning), [str(w.value) for w in at.warning]

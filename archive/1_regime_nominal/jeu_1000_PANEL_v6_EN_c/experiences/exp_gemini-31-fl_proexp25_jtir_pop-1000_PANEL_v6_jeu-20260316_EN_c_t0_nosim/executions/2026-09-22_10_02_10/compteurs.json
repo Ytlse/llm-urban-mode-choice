@@ -1,0 +1,74 @@
+{
+ "attendus": 3299,
+ "inexploitables": 66,
+ "attendus_exploitables": 3161,
+ "decides": 930,
+ "non_couverts": 0,
+ "sans_solution": 4,
+ "choix_unique": 200,
+ "replis_uniformes": 0,
+ "attentes": 16,
+ "attentes_par_type": {
+  "epuise": 16
+ },
+ "erreurs": 0,
+ "erreurs_par_type": {},
+ "sollicitations": 32,
+ "resservies": 975,
+ "substitution_refusee": 0,
+ "couverture": {
+  "decides": 930,
+  "attendus": 3161,
+  "attendus_bruts": 3299,
+  "inexploitables_exclus": 66,
+  "taux": 0.29421069281872825
+ },
+ "duree_s": 25.947,
+ "quota": [
+  {
+   "instance": "google_gemini31_key1",
+   "modele": "gemini-3.1-flash-lite",
+   "requetes_jour": 539,
+   "limite_jour": 500,
+   "marge": 0,
+   "jetons_jour": 1197014,
+   "limite_jetons_jour": null,
+   "rpm_observe": 1,
+   "rpm_limite": 15,
+   "epuisee": true,
+   "disponible": true,
+   "occupee": false
+  },
+  {
+   "instance": "google_gemini31_key2",
+   "modele": "gemini-3.1-flash-lite",
+   "requetes_jour": 581,
+   "limite_jour": 500,
+   "marge": 0,
+   "jetons_jour": 1631791,
+   "limite_jetons_jour": null,
+   "rpm_observe": 1,
+   "rpm_limite": 15,
+   "epuisee": true,
+   "disponible": true,
+   "occupee": false
+  }
+ ],
+ "requetes": {
+  "ouverture": {
+   "google_gemini31_key1": 537,
+   "google_gemini31_key2": 579
+  },
+  "cloture": {
+   "google_gemini31_key1": 539,
+   "google_gemini31_key2": 581
+  },
+  "par_instance": {
+   "google_gemini31_key1": 2,
+   "google_gemini31_key2": 2
+  },
+  "delta": 4,
+  "fiable": true,
+  "depuis": "2026-09-26T06:43:33+00:00"
+ }
+}

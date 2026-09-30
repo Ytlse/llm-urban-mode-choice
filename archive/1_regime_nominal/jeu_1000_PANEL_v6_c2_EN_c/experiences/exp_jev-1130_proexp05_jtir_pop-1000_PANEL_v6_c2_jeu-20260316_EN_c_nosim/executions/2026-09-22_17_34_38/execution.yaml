@@ -1,0 +1,104 @@
+version: execution1
+cree_le: '2026-09-22T17:34:38+00:00'
+experience:
+  nom: exp_jev-1130_proexp05_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_nosim
+  population:
+    chemin: /data/eqasim-output/population_1000_PANEL_v6_c2
+  jeu:
+    nom: population_1000_PANEL_v6_c2_20260316_EN_c
+    dossier: null
+  gabarit:
+    categorie: itinary_multi_agent
+    variante: prompt_expert_05
+  decideur:
+    type: typesafe
+    modele: jev-1.13.0
+    portee: null
+    parametres: {}
+    rejeu_de: null
+    graine: null
+    artefact: null
+  mode: sans_simulateur
+  calendrier:
+    politique: aleatoire
+    date: '2026-03-16'
+    graine: 42
+  horizon_jours: 1
+  memoire: false
+  evenements: []
+  graine_ordre: 42
+  graine_tirage: 42
+  regroupement:
+    parallelisme: 8
+  tolerances_horaires:
+    walk: insensible
+    bike: insensible
+    car: heure
+    transit:
+      pas_min: 10
+    rail:
+      pas_min: 10
+  max_candidats: 6
+  attente_max_s: 120
+  vehicule_chaine: true
+  verrou_retour: true
+  troncature_15: false
+  derive_de: exp_jev-1130_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+  renomme_de: null
+  executions_connues:
+  - 2026-09-22_17_21_25
+empreintes:
+  population:
+    nom: population_1000_PANEL_v6_c2
+    sha256: 26d1baf4aabcb8c9f659c7dce13cdff0b2ae80780a320c136ba0dbcd877e845d
+    fichier_sha256: 4c446e5419e70b9031888191c6c9e4973edf782fd7e376eea8db859e3e9405d9
+    scellee: true
+  jeu:
+    nom: population_1000_PANEL_v6_c2_20260316_EN_c
+    sha256: 3d286db12ace71f936b00c5e28402eb2ff41e35bdf5d50a64bc41642428dd1fc
+  gabarit:
+    categorie: itinary_multi_agent
+    variante: prompt_expert_05
+    sha256: 18c6ee969b5723ce27e0b520aabb161431f1a41c1f24e6e004d4b91f657acac9
+    sources:
+    - prompts.yaml:prompt_expert_05
+    - travel_plan_describe_v2.j2
+  decideur:
+    type: typesafe
+    modele: jev-1.13.0
+    parametres: {}
+    sha256: d166bc7ac18f9006f3c44da9f16b6f5526c90318cd797202f3833eb5594273a7
+    variante: prompt_expert_05
+    instructions_sha256: 01e0673c8b9bc86ddadf1bf7774db67e351c650e56d321a186d8f0a869bde11d
+  depot:
+    commit: null
+    arbre_propre: null
+regime_demande:
+  parallelisme: 8
+  unite_sollicitation: deplacement
+regime_applique:
+  parallelisme: 8
+  unite_sollicitation: deplacement
+  decideur: typesafe:jev-1.13.0
+  reprise: false
+reglages_herites:
+  agenda_anticipation_enabled: true
+  max_trip_candidates: 6
+  vehicule_chaine: true
+  verrou_retour: true
+  troncature_15: false
+  mode_choice_truncation_threshold: 0.0
+  instances_admises: []
+sources_alea:
+  graine_ordre: 42
+  graine_tirage: 42
+  graine_calendrier: 42
+  echantillonnage_decideur: false
+interruptions: []
+cloture:
+  le: '2026-09-22T17:36:39+00:00'
+  etat: terminee
+  sha256:
+    decisions.jsonl: 1306e5602b4fb0e8bf2ec70263b5e843b4a0e0d9320ede0695beedfe19764c32
+    moves.csv: 406b0729a5c39f57e470fc05187bb3634dca3f5d2ed4a09b1cd5488d9fa15306
+    compteurs.json: a5d024b8e59cd34763417aea9bd6c6f8c6d0f031c6a1f606b7d474f202bd8a99

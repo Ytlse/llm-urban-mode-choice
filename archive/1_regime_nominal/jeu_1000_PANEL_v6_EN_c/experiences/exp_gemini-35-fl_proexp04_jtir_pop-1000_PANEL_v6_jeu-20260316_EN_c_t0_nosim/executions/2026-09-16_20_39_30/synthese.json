@@ -1,0 +1,234 @@
+{
+ "execution": "2026-09-16_20_39_30",
+ "experience": "exp_gemini-35-fl_proexp04_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim",
+ "etat": {
+  "etat": "terminee",
+  "raison": null,
+  "reprise_possible_a": null,
+  "maj": "2026-09-16T22:20:16+00:00",
+  "decisions_archivees": 3299
+ },
+ "empreintes": {
+  "population": {
+   "nom": "population_1000_PANEL_v6",
+   "sha256": "675cfe31f59f450a2919dc1a6bacdbc34e51fdc846bbbe1dfce7160db2a6b253",
+   "fichier_sha256": "412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6",
+   "scellee": true
+  },
+  "jeu": {
+   "nom": "population_1000_PANEL_v6_20260316_EN_c",
+   "sha256": "e8f9eab14fb4a0600bc04bd85591053dd0fd3bd3571e6e9f98aec87e51bc9f53"
+  },
+  "gabarit": {
+   "categorie": "itinary_multi_agent",
+   "variante": "prompt_expert_04",
+   "sha256": "3a704427aa2f311a30be63630f90507478c9ce1128adfaf760cf90ce516620b6",
+   "sources": [
+    "prompts.yaml:prompt_expert_04",
+    "travel_plan_describe_v2.j2"
+   ]
+  },
+  "decideur": {
+   "type": "passerelle",
+   "modele": "gemini-3.5-flash-lite",
+   "parametres": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_tokens": 4096,
+    "thinking_level": "high"
+   },
+   "sha256": "41183911d7bb80b09d54607085157b800ea88359a850e392376efb982c0dbf29"
+  },
+  "depot": {
+   "commit": null,
+   "arbre_propre": null
+  }
+ },
+ "regime_applique": {
+  "parallelisme": 8,
+  "unite_sollicitation": "deplacement",
+  "decideur": "passerelle:gemini-3.5-flash-lite",
+  "reprise": true
+ },
+ "sources_alea": {
+  "graine_ordre": 42,
+  "graine_tirage": 42,
+  "graine_calendrier": 42,
+  "echantillonnage_decideur": true
+ },
+ "interruptions": [
+  {
+   "instant": "2026-09-16T21:11:13+00:00",
+   "cause": "epuisement",
+   "decisions_archivees": 1121,
+   "raison": "epuise: Quota journalier épuisé sur google_gemini35_key1, fenêtre rouverte à 2026-09-17T07:00:00+00:00"
+  },
+  {
+   "instant": "2026-09-16T21:11:26+00:00",
+   "cause": "reprise",
+   "decisions_archivees": 1121,
+   "depuis": "2026-09-16T21:11:13+00:00"
+  }
+ ],
+ "couverture": {
+  "decides": 3154,
+  "comptes_dans_les_parts": 3154,
+  "attendus": 3161,
+  "attendus_bruts": 3299,
+  "inexploitables_exclus": 138,
+  "taux": 0.9977855109142676,
+  "complet": true
+ },
+ "methodes": {
+  "decideur": 2474,
+  "choix_unique": 680,
+  "inexploitable": 138,
+  "sans_solution": 7
+ },
+ "parts_modales": {
+  "n": 3154,
+  "effectifs": {
+   "walking": 812,
+   "cycling": 232,
+   "car": 1621,
+   "public_transport": 483,
+   "train": 6,
+   "motorbike": 0
+  },
+  "pourcent": {
+   "walking": 25.745085605580215,
+   "cycling": 7.35573874445149,
+   "car": 51.39505389980977,
+   "public_transport": 15.313887127457198,
+   "train": 0.19023462270133165,
+   "motorbike": 0.0
+  },
+  "couverture": {
+   "decides": 3154,
+   "comptes_dans_les_parts": 3154,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 138,
+   "taux": 0.9977855109142676,
+   "complet": true
+  },
+  "lecture": "toutes décisions, choix forcés compris — porte la conclusion"
+ },
+ "parts_modales_hors_choix_unique": {
+  "n": 2474,
+  "effectifs": {
+   "walking": 789,
+   "cycling": 150,
+   "car": 1054,
+   "public_transport": 475,
+   "train": 6,
+   "motorbike": 0
+  },
+  "pourcent": {
+   "walking": 31.891673403395313,
+   "cycling": 6.063055780113177,
+   "car": 42.60307194826193,
+   "public_transport": 19.19967663702506,
+   "train": 0.2425222312045271,
+   "motorbike": 0.0
+  },
+  "couverture": {
+   "decides": 3154,
+   "comptes_dans_les_parts": 3154,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 138,
+   "taux": 0.9977855109142676,
+   "complet": true
+  },
+  "lecture": "hors décisions à itinéraire unique — ce que le décideur a décidé"
+ },
+ "choix_forces": {
+  "n": 680,
+  "part": 0.21559923906150918,
+  "lecture": "décisions à itinéraire unique : une seule option existait, personne n'a choisi. Leur nombre dépend du bras, puisqu'il découle de ses propres choix antérieurs — les bras se ressemblent donc plus qu'ils ne le sont."
+ },
+ "referentiel": {
+  "source": "scripts/data/population/cerema_values.yaml",
+  "sha256": "9ac345979ef74071aa70f0eea93b0a9c2fccdb7dd88996f3bee3daba91d8d8b1",
+  "disponible": true,
+  "pourcent_normalise_4_modes": {
+   "car": 56.70103092783505,
+   "walking": 26.804123711340207,
+   "cycling": 4.123711340206185,
+   "public_transport": 12.371134020618557,
+   "train": 12.371134020618557
+  },
+  "note": "valeurs lues dans la source citée, renormalisées sur les modes qu'elle partage avec les canoniques"
+ },
+ "sources_propositions": {
+  "enregistree": 13763,
+  "locale": 25
+ },
+ "fournisseurs": {
+  "google_gemini35_key1": 792,
+  "google_gemini35_key2": 1682
+ },
+ "ecartees_par_motif": {
+  "non_possede": 1972,
+  "plafond": 1891,
+  "vehicule_ailleurs": 1175,
+  "retour_force": 2887,
+  "pas_de_conducteur": 33
+ },
+ "compteurs": {
+  "attendus": 3299,
+  "inexploitables": 138,
+  "attendus_exploitables": 3161,
+  "decides": 3154,
+  "non_couverts": 0,
+  "sans_solution": 7,
+  "choix_unique": 680,
+  "replis_uniformes": 0,
+  "attentes": 0,
+  "attentes_par_type": {},
+  "erreurs": 0,
+  "erreurs_par_type": {},
+  "sollicitations": 1682,
+  "resservies": 1121,
+  "substitution_refusee": 0,
+  "couverture": {
+   "decides": 3154,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 138,
+   "taux": 0.9977855109142676
+  },
+  "duree_s": 4129.346,
+  "quota": [
+   {
+    "instance": "google_gemini35_key1",
+    "modele": "gemini-3.5-flash-lite",
+    "requetes_jour": 500,
+    "limite_jour": 500,
+    "marge": 0,
+    "jetons_jour": 5327572,
+    "limite_jetons_jour": null,
+    "rpm_observe": 0,
+    "rpm_limite": 15,
+    "epuisee": true,
+    "disponible": true,
+    "occupee": false
+   },
+   {
+    "instance": "google_gemini35_key2",
+    "modele": "gemini-3.5-flash-lite",
+    "requetes_jour": 212,
+    "limite_jour": 500,
+    "marge": 288,
+    "jetons_jour": 2364373,
+    "limite_jetons_jour": null,
+    "rpm_observe": 1,
+    "rpm_limite": 15,
+    "epuisee": false,
+    "disponible": true,
+    "occupee": false
+   }
+  ]
+ }
+}

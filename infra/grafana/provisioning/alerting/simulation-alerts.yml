@@ -1,0 +1,190 @@
+# Grafana alerts (unified alerting) — critical cases of the simulation.
+# Provisioned at startup; visible in Grafana → Alerting → Alert rules.
+# Each rule: A = Prometheus query (instant), C = threshold.
+apiVersion: 1
+
+groups:
+  - orgId: 1
+    name: simulation-critique
+    folder: Alertes simulation
+    interval: 1m
+    rules:
+      - uid: alert-agents-stuck
+        title: Agents bloqués sans planification
+        condition: C
+        for: 5m
+        noDataState: OK
+        execErrState: OK
+        labels: { severity: critical }
+        annotations:
+          summary: "Des agents n'ont plus de planification réussie depuis plus que le seuil (heures sim). Voir dashboard 03 et make error."
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: ffj2fwnh387pce
+            model: { refId: A, expr: "controller_agents_stuck", instant: true, range: false }
+          - refId: C
+            relativeTimeRange: { from: 0, to: 0 }
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [0] }
+
+      - uid: alert-llm-fallback
+        title: Activités ratées faute de LLM (fallback > 10%)
+        condition: C
+        for: 5m
+        noDataState: OK
+        execErrState: OK
+        labels: { severity: critical }
+        annotations:
+          summary: "Plus de 10% des décisions live retombent sur l'index par défaut : le LLM ne répond plus assez vite. Vérifier providers (dashboard 04)."
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: ffj2fwnh387pce
+            model:
+              refId: A
+              expr: '100 * sum(increase(agent_activity_decisions_total{outcome="llm_fallback", phase="live"}[10m])) / clamp_min(sum(increase(agent_activity_decisions_total{phase="live"}[10m])), 1)'
+              instant: true
+              range: false
+          - refId: C
+            relativeTimeRange: { from: 0, to: 0 }
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [10] }
+
+      - uid: alert-alarme-emise
+        title: Alarme [ALARME] émise
+        condition: C
+        for: 0s
+        noDataState: OK
+        execErrState: OK
+        labels: { severity: critical }
+        annotations:
+          summary: "Une alarme [ALARME] vient d'être émise (backlog, event loop, arrivée perdue, cache Qdrant, gateway, providers saturés). Détail : make error."
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: ffj2fwnh387pce
+            model:
+              refId: A
+              expr: "sum(increase(alarme_total[5m]))"
+              instant: true
+              range: false
+          - refId: C
+            relativeTimeRange: { from: 0, to: 0 }
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [0] }
+
+      - uid: alert-drain-prolonge
+        title: Mode drainage prolongé (>10 min)
+        condition: C
+        for: 10m
+        noDataState: OK
+        execErrState: OK
+        labels: { severity: critical }
+        annotations:
+          summary: "La simulation est retenue en drainage depuis plus de 10 min : le pipeline LLM ne draine plus la pile. Voir dashboards 03 et 04."
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: ffj2fwnh387pce
+            model: { refId: A, expr: "controller_drain_mode_active", instant: true, range: false }
+          - refId: C
+            relativeTimeRange: { from: 0, to: 0 }
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [0] }
+
+      - uid: alert-aucun-provider
+        title: Aucun provider LLM actif
+        condition: C
+        for: 3m
+        noDataState: OK
+        execErrState: OK
+        labels: { severity: critical }
+        annotations:
+          summary: "Aucun provider à l'état actif (tous sans clé, désactivés, en cooldown ou quota épuisé). Plus aucune décision LLM ne peut partir."
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: ffj2fwnh387pce
+            model:
+              refId: A
+              expr: "sum(llm_provider_state == bool 3)"
+              instant: true
+              range: false
+          - refId: C
+            relativeTimeRange: { from: 0, to: 0 }
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: lt, params: [1] }
+
+      - uid: alert-event-loop
+        title: Event loop controller bloquée (>5 s)
+        condition: C
+        for: 0s
+        noDataState: OK
+        execErrState: OK
+        labels: { severity: critical }
+        annotations:
+          summary: "Stall asyncio > 5 s dans le controller — risque de coupure WebSocket 1006 avec GAMA. Voir dashboard 03."
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: ffj2fwnh387pce
+            model: { refId: A, expr: "controller_event_loop_lag_seconds", instant: true, range: false }
+          - refId: C
+            relativeTimeRange: { from: 0, to: 0 }
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [5] }
+
+      - uid: alert-backlog-plein
+        title: Pile d'activités quasi pleine (>90%)
+        condition: C
+        for: 10m
+        noDataState: OK
+        execErrState: OK
+        labels: { severity: warning }
+        annotations:
+          summary: "Le backlog dépasse 90% de la population depuis 10 min — saturation durable du pipeline malgré le backpressure."
+        data:
+          - refId: A
+            relativeTimeRange: { from: 600, to: 0 }
+            datasourceUid: ffj2fwnh387pce
+            model: { refId: A, expr: "controller_backlog_fill_ratio", instant: true, range: false }
+          - refId: C
+            relativeTimeRange: { from: 0, to: 0 }
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [0.9] }

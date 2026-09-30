@@ -1,0 +1,19 @@
+{
+  "echo": {
+    "type": "object",
+    "properties": {
+      "agents": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "agent_id": {"type": "string"},
+            "summary": {"type": "string"}
+          },
+          "required": ["agent_id", "summary"]
+        }
+      }
+    },
+    "required": ["agents"]
+  }
+}

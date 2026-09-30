@@ -1,0 +1,165 @@
+# Mode hierarchy of the EMC² Toulouse 2023 — frozen target `hm1`
+#
+# WHAT IT IS. The order in which the survey picks the **main mode** of a trip that
+# combines several: the mode kept is the one whose order is the SMALLEST among the
+# modes used. It is the table published by the AUAT/CEREMA report under the title
+# « Hiérarchie des modes », a page supplied by the repository author on 2026-09-04.
+#
+# WHY IT IS FROZEN HERE. The code does not need the restricted-access microdata to
+# classify a trip, and an order copied by hand into several modules drifts at the first
+# change — which is exactly what happened: the repository carried four tables and three
+# answers for one and the same coach + train trip (ticket 022).
+#
+# ⚠ WHAT IT CORRECTS IN OUR READING. Before we had this page, the 2026-09-04 session
+# had assumed that the train ranked above the bus, and presented the 16.7 % of itineraries with a
+# rail leg as the "true" rail share. The published table says the opposite: the Tisséo
+# bus (order 4) and the liO interurban coach (order 6) come BEFORE the regional train
+# (order 8). A coach + TER trip therefore has the coach as its main mode, and our cascade
+# — which tests the bus before rail — already complied on that point. What does not:
+# `task_worker._extract_primary_mode`, which declares « train > métro > tram > bus ».
+#
+# CROSS-CHECK — DONE on 2026-09-04, see the `recoupement:` block at the end of the file. The
+# repository rule wants a published figure to be recomputed from its source (README of the
+# papers repository, rule 5). The cross-check on the ProGEDO lil-1750 microdata — for each pair
+# of modes present in one trip, which main mode the survey keeps — gives 53 code pairs
+# settled by 2,607 informative observations and **53 compliant out of 53**. The only
+# observation going the other way confirms the table (a Flixbus, order 12, loses to a TER,
+# order 8). Three steps are NOT settled by the measurement, and say so.
+# Already cross-checked (axis A7 of `docs/arch/perimetre-population.md`): of 770 mixed car +
+# public transport trips, the survey codes 760 as "public transport" and 10 as
+# "car". Consistent with the table: public transport holds orders 1 to 13, the private
+# vehicle orders 19 and 20.
+
+version: hm1
+source:
+  document: Rapport AUAT/CEREMA — Enquête mobilité 2023, bassin de vie toulousain (68 p.)
+  url: https://www.aua-toulouse.org/wp-content/uploads/2024/05/Rapport-final-68-pages-Enquete-mobilite-2023-Bassin-de-vie-toulousain.pdf
+  section: « Hiérarchie des modes »
+  transmis_le: '2026-09-04'
+  transmis_par: auteur du dépôt (capture de la page)
+  note_du_rapport: >-
+    36 modes de déplacement différents ont été enquêtés. Afin de simplifier la lecture, ils sont
+    le plus souvent agrégés en catégories : véhicule particulier, transports en commun, marche à
+    pied, vélo et autres modes.
+
+# Application rule, in one sentence: mode_principal = argmin(ordre) over the modes of the trip.
+regle: >-
+  Le mode principal d'un déplacement est celui dont l'ordre est le plus petit parmi les modes de
+  ses trajets. La marche n'est mode principal que si le déplacement est intégralement à pied
+  (ordre 36, « Marche à pied UNIQUEMENT »).
+
+# The five aggregation categories of the report. They are what the modal shares publish, and
+# they do NOT follow continuous order ranges: « autres modes » appears three times.
+categories:
+  - transports_en_commun
+  - autres_modes
+  - vehicule_particulier
+  - velo
+  - marche
+
+modes:
+  - {ordre: 1,  categorie: transports_en_commun, libelle: "Passager métro (Tisséo)"}
+  - {ordre: 2,  categorie: transports_en_commun, libelle: "Passager tramway (Tisséo)"}
+  - {ordre: 3,  categorie: transports_en_commun, libelle: "Passager Téléo (téléphérique Tisséo)"}
+  - {ordre: 4,  categorie: transports_en_commun, libelle: "Passager bus, navette (Tisséo)"}
+  - {ordre: 5,  categorie: transports_en_commun, libelle: "Transport à la demande (TAD) (Tisséo)"}
+  - {ordre: 6,  categorie: transports_en_commun, libelle: "Passager autocars interurbains (liO, Arc-en-ciel routier) et autres autocars (scolaires, périscolaires, occasionnels…)"}
+  - {ordre: 7,  categorie: transports_en_commun, libelle: "Transport à la demande régional (TAD interurbain / hors Tisséo)"}
+  - {ordre: 8,  categorie: transports_en_commun, libelle: "Passager train régional liO (TER)"}
+  - {ordre: 9,  categorie: transports_en_commun, libelle: "Passager TGV"}
+  - {ordre: 10, categorie: transports_en_commun, libelle: "Passager autre TER"}
+  - {ordre: 11, categorie: transports_en_commun, libelle: "Passager autres trains (Intercités, TET…)"}
+  - {ordre: 12, categorie: transports_en_commun, libelle: "Passager cars longue distance (Flixbus, Blablabus…)"}
+  - {ordre: 13, categorie: transports_en_commun, libelle: "Passager transport employeur (exclusivement)"}
+  - {ordre: 14, categorie: autres_modes,         libelle: "Passager taxi"}
+  - {ordre: 15, categorie: autres_modes,         libelle: "Passager VTC (Uber…)"}
+  - {ordre: 16, categorie: autres_modes,         libelle: "Conducteur de fourgon, camionnette, camion (tournées professionnelles ou déplacements privés)"}
+  - {ordre: 17, categorie: autres_modes,         libelle: "Passager de fourgon, camionnette, camion (tournées professionnelles ou déplacements privés)"}
+  - {ordre: 18, categorie: autres_modes,         libelle: "Autres modes (tracteur, engin agricole, quad, etc.)"}
+  - {ordre: 19, categorie: vehicule_particulier, libelle: "Conducteur de véhicule particulier (VP)"}
+  - {ordre: 20, categorie: vehicule_particulier, libelle: "Passager de véhicule particulier (VP)"}
+  - {ordre: 21, categorie: autres_modes,         libelle: "Conducteur de deux ou trois roues motorisés"}
+  - {ordre: 22, categorie: autres_modes,         libelle: "Passager de deux ou trois roues motorisés"}
+  - {ordre: 23, categorie: velo,                 libelle: "Conducteur de vélo à assistance électrique en libre-service"}
+  - {ordre: 24, categorie: velo,                 libelle: "Conducteur de vélo libre-service VélôToulouse"}
+  - {ordre: 25, categorie: velo,                 libelle: "Conducteur de vélo de location (hors VélôToulouse)"}
+  - {ordre: 26, categorie: velo,                 libelle: "Passager de vélo de location (hors VélôToulouse)"}
+  - {ordre: 27, categorie: velo,                 libelle: "Conducteur de vélo à assistance électrique"}
+  - {ordre: 28, categorie: velo,                 libelle: "Conducteur de vélo"}
+  - {ordre: 29, categorie: velo,                 libelle: "Passager de vélo"}
+  - {ordre: 30, categorie: autres_modes,         libelle: "Engins de déplacement personnel motorisés (trottinette, patinette, gyropode, monoroue, etc.)"}
+  - {ordre: 31, categorie: autres_modes,         libelle: "Roller, skate, trottinette (non électrique)"}
+  - {ordre: 32, categorie: autres_modes,         libelle: "Fauteuil roulant"}
+  - {ordre: 33, categorie: autres_modes,         libelle: "Passager autre réseau urbain"}
+  - {ordre: 34, categorie: autres_modes,         libelle: "Transport fluvial ou maritime"}
+  - {ordre: 35, categorie: autres_modes,         libelle: "Avion"}
+  - {ordre: 36, categorie: marche,               libelle: "Marche à pied UNIQUEMENT"}
+
+# Mapping to the modes the simulation actually produces. The legs returned by OTP
+# and by direct routing are: foot, bus, metro, tram, cableway, rail, car, bicycle. The
+# project models neither taxi, nor ride-hailing, nor motorised two-wheeler, nor shared vehicles
+# (declared limits): the matching orders stay in the table so that the aggregation is
+# complete, without any leg reaching them.
+correspondance_simulation:
+  metro:    {ordre: 1,  categorie: transports_en_commun}
+  tram:     {ordre: 2,  categorie: transports_en_commun}
+  cableway: {ordre: 3,  categorie: transports_en_commun}   # Téléo
+  # OTP returns `bus` for route_type 3 of all three networks. Tisséo (order 4) and the liO
+  # interurban coach (order 6) are therefore told apart only by the line operator, not by
+  # the mode of the leg: to be settled on the GTFS agency if the detail must be published.
+  bus:      {ordre: 4,  categorie: transports_en_commun, note: "ordre 6 si l'exploitant est liO ou un autocar interurbain"}
+  rail:     {ordre: 8,  categorie: transports_en_commun}   # TER
+  car:      {ordre: 19, categorie: vehicule_particulier}
+  bicycle:  {ordre: 28, categorie: velo}
+  foot:     {ordre: 36, categorie: marche}
+
+# ── CROSS-CHECK ON THE MICRODATA — recorded on 2026-09-04 (ticket 022, lot 1) ──
+#
+# The block the header comment announced. Method: for each pair of modes
+# co-present in one survey trip, which `MODP` mode does the survey keep? An
+# observation is INFORMATIVE for the pair (a, b) when the trip carries both and
+# its `MODP` is a or b; otherwise a third mode won, and the observation informs
+# the pairs of that third mode, not this one.
+#
+# Produced and checkable by `scripts/progedo_logit/export_mode_hierarchy.py`, which READS this
+# file (it does not copy the order) and publishes the full matrix, pair by pair, in
+# `mobility_core/data/mode_hierarchy_emc2.json`. `--check` redoes the measurement and refuses to
+# conclude if the agreement falls for lack of observations rather than for lack of errors.
+recoupement:
+  mesure_le: '2026-09-04'
+  par: scripts/progedo_logit/export_mode_hierarchy.py
+  matrice_complete: packages/mobility_core/src/mobility_core/data/mode_hierarchy_emc2.json
+  trace: docs/traces/2026-09-04_10-17_hierarchie_modes_enquete/README.md
+  effectifs:
+    deplacements: 54585
+    deplacements_avec_trajets_detailles: 39743
+    deplacements_mixtes: 2281
+    observations_informatives: 2607
+    paires_de_codes_tranchees: 53
+    paires_conformes: 53
+    seuil_informatif_decisif: 3
+    paires_non_tranchees_faute_d_effectif: 70
+  # The single observation going the other way, and it CONFIRMS the table: the Flixbus is at
+  # order 12, below the trains (8 to 11), so a "Flixbus + TER" is indeed a TER.
+  seule_exception: >-
+    1 déplacement mêlant un car longue distance (code 42, ordre 12) et un TER (code 52,
+    ordre 8), codé TER par l'enquête — conforme à l'ordre publié.
+  crans_les_mieux_mesures:
+    metro_avant_tout: "0 exception sur ~2 000 observations informatives"
+    bus_avant_train: "34 déplacements sur 35 codés bus (codes 31/41 contre 51/52/53)"
+    collectif_avant_voiture: "770 déplacements mixtes voiture + TC, 760 codés TC, 10 voiture (axe A7, rejoué à l'unité)"
+    voiture_avant_velo: "24 observations sur 24"
+    marche_en_dernier: >-
+      rang MESURÉ et non supposé : le fichier trajets ne porte aucun code 01 (l'accès à
+      pied est une durée T2/T6), et MODP = 01 désigne exactement les 14 842 déplacements
+      sans trajet mécanisé — aucun des 39 743 déplacements détaillés n'est codé marche.
+  # Steps the measurement does not settle: their rank comes from the published table ALONE, and
+  # this must be known rather than believing they are measured.
+  crans_non_tranches_par_la_mesure:
+    tram_vs_cableway: "1 déplacement les mêle, aucune observation informative"
+    voiture_vs_deux_roues_motorises: "2 observations (les deux pour la voiture)"
+    deux_roues_motorises_vs_velo: "2 observations (les deux pour le deux-roues)"
+  # ⚠ One step of the published table is COUNTER-INTUITIVE and the measurement confirms it: order 33
+  # (« Passager autre réseau urbain », codes 38/39) is BELOW the private vehicle — 10
+  # observations out of 10 give the car. Do not attach it to the `bus` family of the
+  # simulation: that would import a misreading.

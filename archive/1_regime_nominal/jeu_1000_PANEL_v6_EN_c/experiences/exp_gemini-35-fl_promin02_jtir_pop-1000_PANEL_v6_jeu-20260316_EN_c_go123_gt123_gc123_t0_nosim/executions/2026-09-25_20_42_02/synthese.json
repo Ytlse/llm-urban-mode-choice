@@ -1,0 +1,259 @@
+{
+ "execution": "2026-09-25_20_42_02",
+ "experience": "exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim",
+ "etat": {
+  "etat": "epuisee",
+  "raison": "epuise: Quota journalier épuisé sur google_gemini35_key2, fenêtre rouverte à 2026-09-26T07:00:00+00:00",
+  "reprise_possible_a": "2026-09-26T07:00:00+00:00",
+  "maj": "2026-09-25T23:09:23+00:00",
+  "decisions_archivees": 1399
+ },
+ "empreintes": {
+  "population": {
+   "nom": "population_1000_PANEL_v6",
+   "sha256": "675cfe31f59f450a2919dc1a6bacdbc34e51fdc846bbbe1dfce7160db2a6b253",
+   "fichier_sha256": "412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6",
+   "scellee": true
+  },
+  "jeu": {
+   "nom": "population_1000_PANEL_v6_20260316_EN_c",
+   "sha256": "e8f9eab14fb4a0600bc04bd85591053dd0fd3bd3571e6e9f98aec87e51bc9f53"
+  },
+  "gabarit": {
+   "categorie": "itinary_multi_agent",
+   "variante": "prompt_minimal_02",
+   "sha256": "e1c3292726da1d2805a11d2c55ae46426b70398b53c6671f2ccfe6f4665ac7b0",
+   "sources": [
+    "prompts.yaml:prompt_minimal_02",
+    "travel_plan_describe_v2.j2"
+   ]
+  },
+  "decideur": {
+   "type": "passerelle",
+   "modele": "gemini-3.5-flash-lite",
+   "parametres": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_tokens": 4096,
+    "thinking_level": "high"
+   },
+   "sha256": "41183911d7bb80b09d54607085157b800ea88359a850e392376efb982c0dbf29"
+  },
+  "depot": {
+   "commit": "15e94790d8aa4823b7041d893df4afcbcfc9a149",
+   "arbre_propre": false
+  }
+ },
+ "regime_applique": {
+  "parallelisme": 8,
+  "unite_sollicitation": "deplacement",
+  "decideur": "passerelle:gemini-3.5-flash-lite",
+  "reprise": true
+ },
+ "sources_alea": {
+  "graine_ordre": 123,
+  "graine_tirage": 123,
+  "graine_calendrier": 123,
+  "echantillonnage_decideur": true
+ },
+ "interruptions": [
+  {
+   "instant": "2026-09-25T22:59:22+00:00",
+   "cause": "arret_force",
+   "decisions_archivees": 1032,
+   "depuis": null
+  },
+  {
+   "instant": "2026-09-25T22:59:22+00:00",
+   "cause": "reprise",
+   "decisions_archivees": 1032,
+   "depuis": null
+  },
+  {
+   "instant": "2026-09-25T23:09:23+00:00",
+   "cause": "epuisement",
+   "decisions_archivees": 1399,
+   "raison": "epuise: Quota journalier épuisé sur google_gemini35_key2, fenêtre rouverte à 2026-09-26T07:00:00+00:00"
+  }
+ ],
+ "couverture": {
+  "decides": 1314,
+  "comptes_dans_les_parts": 1314,
+  "attendus": 3161,
+  "attendus_bruts": 3299,
+  "inexploitables_exclus": 81,
+  "taux": 0.41569123695033217,
+  "complet": false
+ },
+ "methodes": {
+  "decideur": 1002,
+  "choix_unique": 312,
+  "inexploitable": 81,
+  "sans_solution": 4
+ },
+ "parts_modales": {
+  "n": 1314,
+  "effectifs": {
+   "walking": 269,
+   "cycling": 113,
+   "car": 737,
+   "public_transport": 194,
+   "train": 1,
+   "motorbike": 0
+  },
+  "pourcent": {
+   "walking": 20.47184170471842,
+   "cycling": 8.599695585996956,
+   "car": 56.0882800608828,
+   "public_transport": 14.76407914764079,
+   "train": 0.076103500761035,
+   "motorbike": 0.0
+  },
+  "couverture": {
+   "decides": 1314,
+   "comptes_dans_les_parts": 1314,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 81,
+   "taux": 0.41569123695033217,
+   "complet": false
+  },
+  "lecture": "toutes décisions, choix forcés compris — porte la conclusion"
+ },
+ "parts_modales_hors_choix_unique": {
+  "n": 1002,
+  "effectifs": {
+   "walking": 259,
+   "cycling": 76,
+   "car": 479,
+   "public_transport": 187,
+   "train": 1,
+   "motorbike": 0
+  },
+  "pourcent": {
+   "walking": 25.848303393213573,
+   "cycling": 7.584830339321357,
+   "car": 47.80439121756487,
+   "public_transport": 18.6626746506986,
+   "train": 0.0998003992015968,
+   "motorbike": 0.0
+  },
+  "couverture": {
+   "decides": 1314,
+   "comptes_dans_les_parts": 1314,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 81,
+   "taux": 0.41569123695033217,
+   "complet": false
+  },
+  "lecture": "hors décisions à itinéraire unique — ce que le décideur a décidé"
+ },
+ "choix_forces": {
+  "n": 312,
+  "part": 0.2374429223744292,
+  "lecture": "décisions à itinéraire unique : une seule option existait, personne n'a choisi. Leur nombre dépend du bras, puisqu'il découle de ses propres choix antérieurs — les bras se ressemblent donc plus qu'ils ne le sont."
+ },
+ "referentiel": {
+  "source": "scripts/data/population/cerema_values.yaml",
+  "sha256": "9ac345979ef74071aa70f0eea93b0a9c2fccdb7dd88996f3bee3daba91d8d8b1",
+  "disponible": true,
+  "pourcent_normalise_4_modes": {
+   "car": 56.70103092783505,
+   "walking": 26.804123711340207,
+   "cycling": 4.123711340206185,
+   "public_transport": 12.371134020618557,
+   "train": 12.371134020618557
+  },
+  "note": "valeurs lues dans la source citée, renormalisées sur les modes qu'elle partage avec les canoniques"
+ },
+ "sources_propositions": {
+  "enregistree": 5498,
+  "locale": 16
+ },
+ "fournisseurs": {
+  "google_gemini35_key2": 994,
+  "google_gemini35_key1": 8
+ },
+ "ecartees_par_motif": {
+  "non_possede": 585,
+  "plafond": 838,
+  "vehicule_ailleurs": 563,
+  "retour_force": 1173,
+  "pas_de_conducteur": 24
+ },
+ "compteurs": {
+  "attendus": 3299,
+  "inexploitables": 81,
+  "attendus_exploitables": 3161,
+  "decides": 1314,
+  "non_couverts": 0,
+  "sans_solution": 4,
+  "choix_unique": 312,
+  "replis_uniformes": 0,
+  "attentes": 16,
+  "attentes_par_type": {
+   "epuise": 16
+  },
+  "erreurs": 0,
+  "erreurs_par_type": {},
+  "sollicitations": 280,
+  "resservies": 1032,
+  "substitution_refusee": 0,
+  "couverture": {
+   "decides": 1314,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 81,
+   "taux": 0.41569123695033217
+  },
+  "duree_s": 601.515,
+  "quota": [
+   {
+    "instance": "google_gemini35_key1",
+    "modele": "gemini-3.5-flash-lite",
+    "requetes_jour": 529,
+    "limite_jour": 500,
+    "marge": 0,
+    "jetons_jour": 1688565,
+    "limite_jetons_jour": null,
+    "rpm_observe": 0,
+    "rpm_limite": 15,
+    "epuisee": true,
+    "disponible": true,
+    "occupee": false
+   },
+   {
+    "instance": "google_gemini35_key2",
+    "modele": "gemini-3.5-flash-lite",
+    "requetes_jour": 551,
+    "limite_jour": 500,
+    "marge": 0,
+    "jetons_jour": 2586495,
+    "limite_jetons_jour": null,
+    "rpm_observe": 0,
+    "rpm_limite": 15,
+    "epuisee": true,
+    "disponible": true,
+    "occupee": false
+   }
+  ],
+  "requetes": {
+   "ouverture": {
+    "google_gemini35_key1": 527,
+    "google_gemini35_key2": 518
+   },
+   "cloture": {
+    "google_gemini35_key1": 529,
+    "google_gemini35_key2": 551
+   },
+   "par_instance": {
+    "google_gemini35_key1": 2,
+    "google_gemini35_key2": 33
+   },
+   "delta": 35,
+   "fiable": true,
+   "depuis": "2026-09-25T22:59:23+00:00"
+  }
+ }
+}

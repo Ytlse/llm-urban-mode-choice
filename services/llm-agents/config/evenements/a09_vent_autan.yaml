@@ -1,0 +1,74 @@
+# Autan gales, parks closed — `lu` channel, injection at wake-up
+#
+# Ticket 100 (single channel), corpus of ticket 059 lot 1. The article is CITED, never rewritten:
+# its fingerprint is checked at loading against this declaration AND against the manifest of the
+# corpus. Two comparisons, because a file and its declaration can move together.
+#
+# WHY THE PUBLICATION DAY IS DRAWN. If all households read on the same morning, the effect of
+# the article and the effect of the calendar — a Monday, the eve of a holiday, a rainy day —
+# would be strictly inseparable. The day is therefore drawn per HOUSEHOLD, with a fixed seed: two
+# households do not read on the same morning, and the replay stays identical.
+#
+# WHY A SINGLE READER PER HOUSEHOLD (059, Q2). The co-resident not drawn is the INTERNAL CONTROL
+# of the set-up. If everybody read, there would be nobody left in whom to observe what
+# is passed on — and the diffusion stage would lose its purpose.
+#
+# JUDGEMENT AT INJECTION (lot 3, delivered on 2026-09-22). Without it, the article entered with a
+# severity of 0.00 and its silence passed for an absence of effect.
+#
+# TRANSLATION. The articles are French press texts; the set-up has been in English
+# since ticket 074. The mention "Translated from French" is carried INSIDE
+# the entry, visible to the model: it is information the agent has, and there is no need to hide it
+# from them.
+
+evenement: a09_vent_autan
+libelle: "Autan gales, parks closed"
+source: "presse locale toulousaine — archivé sous articles_html/09_vent_autan_fermeture_parcs.html"
+
+canal: lu                      # the agent READ it, they did not suffer it
+moment: reveil                 # BEFORE the first decision of the day
+jugement: a_l_injection        # the agent judges what they have just read (lot 3)
+
+texte:
+  fichier: data/presse/articles_txt/a09_vent_autan/brut.txt
+  sha256: "8dae2d4e14d5e8a9b1026780d54f6d4b35fbe59cd36bc18a7438a518afabb359"
+  mention: "Translated from French"
+  # The only instruction marker of the corpus of five articles, and it is a false positive: the
+  # list was calibrated on lived texts that WE write in the first person, not on
+  # press narrative. Exempted by name, with its reason, and the exemption lapses if the text
+  # changes — it travels with the fingerprint above.
+  marqueurs_exemptes:
+    - marqueur: "make sure"
+      motif: >-
+        « City staff must first inspect each site to make sure there is no danger » — le sujet
+        est le personnel municipal, pas le lecteur. Aucune adresse à la deuxième personne dans
+        l'article, et l'adresse à la deuxième personne ne s'exempte jamais.
+
+calendrier:
+  fenetre_jours: [9, 13]
+  graine: 59
+
+exposition:
+  regle: foyers
+  # The SIX households declared "exposé" in the MANIFEST of population_20_foyers_059 (ticket 059,
+  # lot 6). They are not chosen here: copying them by hand would make them diverge from the
+  # manifest the day the population moves, and nobody would see it.
+  # The four control households — 231569, 602079, 497875, 199718 — are in the SAME file, hence
+  # in the same run: the noise floor measured in ticket 095 is not zero, and a control
+  # launched separately would enter the measured effect.
+  foyers: ['605813', '234839', '471076', '538432', '73563', '625551']
+  lecteurs_par_foyer: 1
+  graine: 59
+
+cadence: jour                  # an article is read once
+
+# Ticket 111 — the article is GUARANTEED in the prompt for 5 travel days (weekends excluded,
+# the reading day counts as day 1), whatever the judged severity: the decision of the reading
+# day is precomputed the day before, and a severity below `memoire__importance_choc` left
+# the article outside the "What changed recently" block. Afterwards, memory decides alone.
+service:
+  jours_de_deplacement: 5
+# The reader writes one message per member of their household, or chooses to say nothing; for a
+# minor, the message is the parents' decision (ticket 111, D5).
+relais:
+  mode: par_destinataire

@@ -1,0 +1,130 @@
+{
+  "type": "object",
+  "properties": {
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "reflection": {
+            "type": "string",
+            "description": "Narrative reflection on the day, 200 words max"
+          },
+          "press_service_considered": {
+            "type": "boolean",
+            "description": "true only when a present press_service was explicitly considered; false when no press_service was supplied"
+          },
+          "concepts": {
+            "type": "array",
+            "description": "0-5 concepts for long-term memory. Each concept is an object; `severity` and `valence` qualify how much it mattered.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "description": "The concept itself, one sentence"
+                },
+                "keywords": {
+                  "type": "string"
+                },
+                "spatial_scope": {
+                  "type": "string",
+                  "description": "e.g. \"Bus 69\", \"Stop (Jean Jaures)\""
+                },
+                "temporal_scope": {
+                  "type": "string"
+                },
+                "purpose": {
+                  "type": "string"
+                },
+                "severity": {
+                  "type": "string",
+                  "enum": [
+                    "negligible",
+                    "noticeable",
+                    "inconvenient",
+                    "serious",
+                    "memorable"
+                  ],
+                  "description": "How much this mattered, on the five anchored levels given in the instructions"
+                },
+                "valence": {
+                  "type": "string",
+                  "enum": [
+                    "negative",
+                    "neutral",
+                    "positive"
+                  ],
+                  "description": "Whether this was experienced as bad, neutral or good"
+                },
+                "mode": {
+                  "type": "string",
+                  "enum": [
+                    "walking",
+                    "cycling",
+                    "car",
+                    "public_transport",
+                    "train",
+                    "motorbike",
+                    "any"
+                  ],
+                  "description": "The transport mode this concept is about; 'any' if it is not about a mode"
+                },
+                "operation": {
+                  "type": "string",
+                  "enum": [
+                    "create",
+                    "confirm",
+                    "refine",
+                    "contradict"
+                  ],
+                  "description": "What to do with your existing knowledge: create a new belief, confirm one you already hold, refine it, or contradict it"
+                },
+                "target_id": {
+                  "type": "string",
+                  "description": "The id of the existing belief this operation applies to (e.g. 'K3'), or an empty string for 'create'"
+                },
+                "source": {
+                  "type": "string",
+                  "enum": [
+                    "lived",
+                    "heard"
+                  ],
+                  "description": "Whether this belief comes from your own day, or from something you were told at home"
+                }
+              },
+              "required": [
+                "content",
+                "keywords",
+                "spatial_scope",
+                "temporal_scope",
+                "purpose",
+                "mode",
+                "severity",
+                "valence",
+                "operation",
+                "target_id",
+                "source"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "agent_id",
+          "reflection",
+          "press_service_considered",
+          "concepts"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "agents"
+  ],
+  "additionalProperties": false
+}

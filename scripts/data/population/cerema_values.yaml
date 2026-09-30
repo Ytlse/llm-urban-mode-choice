@@ -1,0 +1,101 @@
+parts_modales_2023:
+
+  global:
+      voiture: 55
+      marche: 26
+      transports_collectifs: 12
+      velo: 4
+      autres_modes: 3
+
+  lieu_residence:
+    Toulouse:
+      voiture: 31
+      marche: 39
+      transports_collectifs: 21
+      velo: 6
+      autres_modes: 3
+    1ere_couronne:
+      voiture: 64
+      marche: 21
+      transports_collectifs: 8
+      velo: 4
+      autres_modes: 3
+    2eme_couronne:
+      voiture: 74
+      marche: 15
+      transports_collectifs: 7
+      velo: 2
+      autres_modes: 2
+    3eme_couronne:
+      voiture: 71
+      marche: 18
+      transports_collectifs: 6
+      velo: 2
+      autres_modes: 3
+
+  # Critère : Genre [cite: 57]
+  genre:
+    Homme:
+      voiture: 55
+      marche: 24
+      transports_collectifs: 11
+      velo: 5
+      autres_modes: 5
+    Femme:
+      voiture: 54
+      marche: 28
+      transports_collectifs: 13
+      velo: 3
+      autres_modes: 2
+
+  # Critère : Âge (par tranches) [cite: 63]
+  Age:
+    5-9: {voiture: 56, marche: 33, transports_collectifs: 6, velo: 3, autres: 2}
+    10-14: {voiture: 39, marche: 26, transports_collectifs: 27, velo: 5, autres: 3}
+    15-19: {voiture: 19, marche: 28, transports_collectifs: 46, velo: 4, autres: 3}
+    20-24: {voiture: 32, marche: 32, transports_collectifs: 29, velo: 4, autres: 3}
+    25-29: {voiture: 50, marche: 28, transports_collectifs: 13, velo: 4, autres: 5}
+    30-34: {voiture: 63, marche: 23, transports_collectifs: 7, velo: 4, autres: 3}
+    35-39: {voiture: 63, marche: 23, transports_collectifs: 6, velo: 6, autres: 2}
+    40-44: {voiture: 69, marche: 19, transports_collectifs: 5, velo: 4, autres: 3}
+    45-49: {voiture: 66, marche: 20, transports_collectifs: 6, velo: 5, autres: 3}
+    50-54: {voiture: 65, marche: 20, transports_collectifs: 6, velo: 5, autres: 4}
+    55-59: {voiture: 63, marche: 22, transports_collectifs: 7, velo: 4, autres: 4}
+    60-64: {voiture: 63, marche: 25, transports_collectifs: 5, velo: 4, autres: 3}
+    65-69: {voiture: 60, marche: 31, transports_collectifs: 5, velo: 3, autres: 1}
+    70-74: {voiture: 56, marche: 35, transports_collectifs: 6, velo: 3, autres: 0}
+    75-130: {voiture: 49, marche: 41, transports_collectifs: 6, velo: 2, autres: 2}
+
+  # Critère : Occupation principale [cite: 65, 66]
+  occupation:
+    scolaire: {voiture: 42, marche: 27, transports_collectifs: 23, velo: 4, autres: 4}
+    etudiant: {voiture: 18, marche: 36, transports_collectifs: 41, velo: 4, autres: 1}
+    actif_temps_plein: {voiture: 68, marche: 18, transports_collectifs: 6, velo: 4, autres: 4}
+    actif_temps_partiel: {voiture: 58, marche: 24, transports_collectifs: 10, velo: 6, autres: 2}
+    chomeur_recherche_emploi: {voiture: 45, marche: 38, transports_collectifs: 12, velo: 4, autres: 1}
+    personne_au_foyer: {voiture: 45, marche: 44, transports_collectifs: 10, velo: 2, autres: 0}
+    Retraité: {voiture: 56, marche: 35, transports_collectifs: 5, velo: 3, autres: 1}
+
+  # Critère : Type de logement [cite: 69]
+  type_logement:
+    individuel_isole: {voiture: 72, marche: 15, transports_collectifs: 7, velo: 3, autres: 3}
+    individuel_accole: {voiture: 57, marche: 25, transports_collectifs: 9, velo: 5, autres: 4}
+    petit_habitat_collectif: {voiture: 44, marche: 35, transports_collectifs: 14, velo: 5, autres: 2}
+    grand_habitat_collectif: {voiture: 29, marche: 41, transports_collectifs: 23, velo: 4, autres: 3}
+
+  # Critère : Motif de déplacement [cite: 71]
+  motif_deplacement:
+    travail: {voiture: 70, marche: 7, transports_collectifs: 12, velo: 8, autres: 5}
+    etudes: {voiture: 26, marche: 27, transports_collectifs: 39, velo: 5, autres: 3}
+    achats: {voiture: 58, marche: 31, transports_collectifs: 6, velo: 3, autres: 2}
+    accompagnement: {voiture: 70, marche: 23, transports_collectifs: 2, velo: 3, autres: 2}
+
+  # Critère : Distance du déplacement [cite: 133]
+  distance:
+    0-1km: {voiture: 18, marche: 76, transports_collectifs: 3, velo: 3, autres: 0}
+    1-2km: {voiture: 43, marche: 40, transports_collectifs: 9, velo: 6, autres: 2}
+    2-5km: {voiture: 63, marche: 12, transports_collectifs: 15, velo: 7, autres: 3}
+    5-10km: {voiture: 70, marche: 1, transports_collectifs: 22, velo: 4, autres: 3}
+    10-20km: {voiture: 77, marche: 0, transports_collectifs: 16, velo: 2, autres: 5}
+    20-50km: {voiture: 81, marche: 0, transports_collectifs: 13, velo: 1, autres: 5}
+    plus_50km: {voiture: 83, marche: 0, transports_collectifs: 12,velo: 0, autres: 5}

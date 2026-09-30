@@ -1,0 +1,7 @@
+mobility-core
+Copyright 2026 The authors
+
+This product is part of a multi-agent simulation of urban mobility in Toulouse.
+Licensed under the Apache License 2.0 OR GNU General Public License v2.0 or later, at your option.
+The GPL option lets the GPL-2.0 population synthesis in services/eqasim-toulouse
+import this package.

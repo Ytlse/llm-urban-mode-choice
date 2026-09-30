@@ -1,0 +1,288 @@
+{
+  "schema": "equipment_propensity/v1",
+  "trait": "has_pt_subscription",
+  "law": {
+    "features": [
+      "age10",
+      "age10_sq",
+      "female",
+      "cars0",
+      "cars2p",
+      "log_density",
+      "dist_center10",
+      "under_26",
+      "age_62p",
+      "age_65p",
+      "occ_Autre",
+      "occ_Chômeur/recherche d'emploi",
+      "occ_Personne au foyer",
+      "occ_Retraité",
+      "occ_Scolaire (jusqu'au Bac)",
+      "occ_Travail à plein temps",
+      "occ_Travail à temps partiel",
+      "occ_Étudiant"
+    ],
+    "occupations": [
+      "Autre",
+      "Chômeur/recherche d'emploi",
+      "Personne au foyer",
+      "Retraité",
+      "Scolaire (jusqu'au Bac)",
+      "Travail à plein temps",
+      "Travail à temps partiel",
+      "Étudiant"
+    ],
+    "intercept": -4.26891041,
+    "coefficients": [
+      1.26266066,
+      -0.12841725,
+      0.25322088,
+      1.05865596,
+      -0.33040771,
+      0.13824578,
+      -0.26791456,
+      1.54951365,
+      -0.22123344,
+      0.99847342,
+      -0.29620681,
+      -0.76575706,
+      -0.8677205,
+      -1.01414782,
+      0.29858116,
+      -1.17907313,
+      -0.8721611,
+      0.42757895
+    ],
+    "median_density": 702.979804
+  },
+  "validation": {
+    "scope": "5 ans et plus",
+    "overall": {
+      "observed_pct": 25.85,
+      "predicted_oof_pct": 25.86,
+      "gap_pt": 0.01,
+      "ticket_target_pct": 25.8
+    },
+    "by_occupation": [
+      {
+        "stratum": "Étudiant",
+        "n_persons": 1473,
+        "n_weighted": 127657.2,
+        "observed_pct": 72.24,
+        "predicted_oof_pct": 72.25,
+        "gap_pt": 0.01,
+        "ticket_target_pct": 74.3,
+        "thin_cell": false
+      },
+      {
+        "stratum": "Scolaire (jusqu'au Bac)",
+        "n_persons": 2229,
+        "n_weighted": 219688.0,
+        "observed_pct": 33.29,
+        "predicted_oof_pct": 33.29,
+        "gap_pt": 0.0,
+        "ticket_target_pct": 33.3,
+        "thin_cell": false
+      },
+      {
+        "stratum": "Chômeur/recherche d'emploi",
+        "n_persons": 866,
+        "n_weighted": 91513.2,
+        "observed_pct": 28.83,
+        "predicted_oof_pct": 28.78,
+        "gap_pt": -0.04,
+        "ticket_target_pct": 28.8,
+        "thin_cell": false
+      },
+      {
+        "stratum": "Personne au foyer",
+        "n_persons": 370,
+        "n_weighted": 39395.3,
+        "observed_pct": 24.04,
+        "predicted_oof_pct": 23.96,
+        "gap_pt": -0.08,
+        "ticket_target_pct": 24.0,
+        "thin_cell": false
+      },
+      {
+        "stratum": "Travail à temps partiel",
+        "n_persons": 850,
+        "n_weighted": 70896.3,
+        "observed_pct": 21.48,
+        "predicted_oof_pct": 21.53,
+        "gap_pt": 0.05,
+        "ticket_target_pct": 21.5,
+        "thin_cell": false
+      },
+      {
+        "stratum": "Retraité",
+        "n_persons": 3858,
+        "n_weighted": 241125.6,
+        "observed_pct": 17.65,
+        "predicted_oof_pct": 17.68,
+        "gap_pt": 0.03,
+        "ticket_target_pct": 17.7,
+        "thin_cell": false
+      },
+      {
+        "stratum": "Travail à plein temps",
+        "n_persons": 5950,
+        "n_weighted": 512992.3,
+        "observed_pct": 14.83,
+        "predicted_oof_pct": 14.84,
+        "gap_pt": 0.01,
+        "ticket_target_pct": 14.8,
+        "thin_cell": false
+      }
+    ],
+    "by_age": [
+      {
+        "stratum": "5-17",
+        "n_persons": 2220,
+        "n_weighted": 216469.9,
+        "observed_pct": 32.92,
+        "predicted_oof_pct": 32.89,
+        "gap_pt": -0.03,
+        "ticket_target_pct": 32.9,
+        "thin_cell": false
+      },
+      {
+        "stratum": "18-24",
+        "n_persons": 1791,
+        "n_weighted": 169076.5,
+        "observed_pct": 63.33,
+        "predicted_oof_pct": 62.06,
+        "gap_pt": -1.27,
+        "ticket_target_pct": 63.3,
+        "thin_cell": false
+      },
+      {
+        "stratum": "25-34",
+        "n_persons": 1830,
+        "n_weighted": 189936.5,
+        "observed_pct": 22.65,
+        "predicted_oof_pct": 20.46,
+        "gap_pt": -2.19,
+        "ticket_target_pct": 22.7,
+        "thin_cell": false
+      },
+      {
+        "stratum": "35-49",
+        "n_persons": 3023,
+        "n_weighted": 289547.9,
+        "observed_pct": 15.17,
+        "predicted_oof_pct": 16.3,
+        "gap_pt": 1.13,
+        "ticket_target_pct": 15.2,
+        "thin_cell": false
+      },
+      {
+        "stratum": "50-64",
+        "n_persons": 3467,
+        "n_weighted": 244598.9,
+        "observed_pct": 14.79,
+        "predicted_oof_pct": 16.05,
+        "gap_pt": 1.27,
+        "ticket_target_pct": 14.8,
+        "thin_cell": false
+      },
+      {
+        "stratum": "65+",
+        "n_persons": 3444,
+        "n_weighted": 210266.0,
+        "observed_pct": 18.88,
+        "predicted_oof_pct": 18.95,
+        "gap_pt": 0.06,
+        "ticket_target_pct": 18.9,
+        "thin_cell": false
+      }
+    ],
+    "by_gender": [
+      {
+        "stratum": "Female",
+        "n_persons": 8436,
+        "n_weighted": 676854.5,
+        "observed_pct": 28.03,
+        "predicted_oof_pct": 28.04,
+        "gap_pt": 0.01,
+        "ticket_target_pct": 28.0,
+        "thin_cell": false
+      },
+      {
+        "stratum": "Male",
+        "n_persons": 7339,
+        "n_weighted": 643041.2,
+        "observed_pct": 23.55,
+        "predicted_oof_pct": 23.56,
+        "gap_pt": 0.01,
+        "ticket_target_pct": 23.6,
+        "thin_cell": false
+      }
+    ],
+    "by_household_cars": [
+      {
+        "stratum": "0",
+        "n_persons": 2308,
+        "n_weighted": 178935.6,
+        "observed_pct": 61.78,
+        "predicted_oof_pct": 61.76,
+        "gap_pt": -0.02,
+        "ticket_target_pct": 61.8,
+        "thin_cell": false
+      },
+      {
+        "stratum": "1",
+        "n_persons": 6423,
+        "n_weighted": 498830.7,
+        "observed_pct": 25.47,
+        "predicted_oof_pct": 25.53,
+        "gap_pt": 0.06,
+        "ticket_target_pct": 25.5,
+        "thin_cell": false
+      },
+      {
+        "stratum": "2+",
+        "n_persons": 7044,
+        "n_weighted": 642129.4,
+        "observed_pct": 16.13,
+        "predicted_oof_pct": 16.11,
+        "gap_pt": -0.02,
+        "ticket_target_pct": 16.1,
+        "thin_cell": false
+      }
+    ],
+    "intra_household": {
+      "households_with_2plus_respondents": 3545,
+      "all_equipped_pct_observed": 10.35,
+      "note": "à comparer au niveau d'indépendance ; un modèle qui y reste signale que la motorisation ne porte pas la corrélation"
+    },
+    "fit": {
+      "n_persons": 15775,
+      "restriction": "PENQ = 1 (personnes enquêtées)",
+      "weighting": "COEP — coefficient de redressement de la personne enquêtée",
+      "regularisation_C": 1000.0,
+      "cv": "GroupKFold(5) groupée par ménage — un découpage par personne mettrait le même foyer des deux côtés",
+      "auc_in_sample": 0.8008,
+      "auc_out_of_sample_grouped_by_household": 0.7982,
+      "knots_offered": [
+        "under_26",
+        "age_62p",
+        "age_65p"
+      ],
+      "knots_retained": true,
+      "knot_auc_gain": 0.00788,
+      "knot_min_gain_rule": 0.002
+    }
+  },
+  "meta": {
+    "generated_at": "2026-08-27T10:06:45+00:00",
+    "target": "P12 == 6 — possession d'un abonnement TC valide hier",
+    "draw_salt": "pt_subscription_v1",
+    "min_age": 5,
+    "source": "EMC² Toulouse 2023 — ProGEDO/ADISP lil-1750, fichier standard `pers`",
+    "tickets": [
+      "016",
+      "017"
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=77"]   # PEP 639 : license = expression SPDX + license-files
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mobility-llm"
+description = "Catégories LLM de la simulation de mobilité : persona, templates, schémas, variantes de prompt, choix modal probabiliste, métriques métier. Bundle enregistré auprès de llm-gateway."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+requires-python = ">=3.12"
+dynamic = ["version"]
+dependencies = [
+    "llm-gateway>=1.3",
+    "mobility-core>=0.1",
+    "pydantic>=2.9,<3",
+    "loguru>=0.7,<0.8",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0", "pytest-cov>=5.0", "httpx>=0.27"]
+dev = ["ruff>=0.6", "mypy>=1.11", "import-linter>=2.0"]
+
+# The gateway discovers this bundle without knowing it: cf. llm_gateway.ports.category.
+[project.entry-points."llm_gateway.categories"]
+mobility = "mobility_llm:bundle"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+mobility_llm = ["py.typed", "prompts/*.yaml", "categories/*/*.j2", "categories/*/*.json"]
+
+[tool.setuptools.dynamic]
+version = { attr = "mobility_llm.__version__" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+markers = [
+    "unit: logique pure et rendu des prompts, sans réseau",
+    "e2e: exige un gateway en marche (LLM_GATEWAY_E2E_URL)",
+]
+filterwarnings = [
+    "error::DeprecationWarning:mobility_llm.*",
+]
+
+[tool.coverage.run]
+source = ["mobility_llm"]
+branch = true
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = ["tests/data"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "W"]
+ignore = ["E501", "B905"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["E731", "E402"]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]

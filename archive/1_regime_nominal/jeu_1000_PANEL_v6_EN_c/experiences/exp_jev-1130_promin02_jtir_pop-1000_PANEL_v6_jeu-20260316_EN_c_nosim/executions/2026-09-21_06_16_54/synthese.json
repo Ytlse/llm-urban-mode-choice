@@ -1,0 +1,197 @@
+{
+ "execution": "2026-09-21_06_16_54",
+ "experience": "exp_jev-1130_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim",
+ "etat": {
+  "etat": "en_pause",
+  "raison": "pause — 948/3299 archivées",
+  "reprise_possible_a": null,
+  "maj": "2026-09-21T06:20:19+00:00",
+  "decisions_archivees": 948
+ },
+ "empreintes": {
+  "population": {
+   "nom": "population_1000_PANEL_v6",
+   "sha256": "675cfe31f59f450a2919dc1a6bacdbc34e51fdc846bbbe1dfce7160db2a6b253",
+   "fichier_sha256": "412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6",
+   "scellee": true
+  },
+  "jeu": {
+   "nom": "population_1000_PANEL_v6_20260316_EN_c",
+   "sha256": "e8f9eab14fb4a0600bc04bd85591053dd0fd3bd3571e6e9f98aec87e51bc9f53"
+  },
+  "gabarit": {
+   "categorie": "itinary_multi_agent",
+   "variante": "prompt_minimal_02",
+   "sha256": "e1c3292726da1d2805a11d2c55ae46426b70398b53c6671f2ccfe6f4665ac7b0",
+   "sources": [
+    "prompts.yaml:prompt_minimal_02",
+    "travel_plan_describe_v2.j2"
+   ]
+  },
+  "decideur": {
+   "type": "typesafe",
+   "modele": "jev-1.13.0",
+   "parametres": {},
+   "sha256": "d166bc7ac18f9006f3c44da9f16b6f5526c90318cd797202f3833eb5594273a7",
+   "variante": "prompt_minimal_02",
+   "instructions_sha256": "0ebc0f99cbeb150d474f76cb2527aa50a434ea90658be5486dc9679b878650ec"
+  },
+  "depot": {
+   "commit": "8c1871ae1cfdef34c29219fdc04aba336d1f1ed5",
+   "arbre_propre": false
+  }
+ },
+ "regime_applique": {
+  "parallelisme": 8,
+  "unite_sollicitation": "deplacement",
+  "decideur": "typesafe:jev-1.13.0",
+  "reprise": false
+ },
+ "sources_alea": {
+  "graine_ordre": 42,
+  "graine_tirage": 42,
+  "graine_calendrier": 42,
+  "echantillonnage_decideur": false
+ },
+ "interruptions": [
+  {
+   "instant": "2026-09-21T06:20:19+00:00",
+   "cause": "pause",
+   "decisions_archivees": 948,
+   "raison": "signal:SIGTERM"
+  }
+ ],
+ "couverture": {
+  "decides": 883,
+  "comptes_dans_les_parts": 883,
+  "attendus": 3161,
+  "attendus_bruts": 3299,
+  "inexploitables_exclus": 61,
+  "taux": 0.2793419803859538,
+  "complet": false
+ },
+ "methodes": {
+  "decideur": 711,
+  "choix_unique": 172,
+  "inexploitable": 61,
+  "sans_solution": 4
+ },
+ "parts_modales": {
+  "n": 883,
+  "effectifs": {
+   "walking": 208,
+   "cycling": 62,
+   "car": 381,
+   "public_transport": 231,
+   "train": 1,
+   "motorbike": 0
+  },
+  "pourcent": {
+   "walking": 23.556058890147224,
+   "cycling": 7.021517553793885,
+   "car": 43.14835787089468,
+   "public_transport": 26.160815402038505,
+   "train": 0.11325028312570781,
+   "motorbike": 0.0
+  },
+  "couverture": {
+   "decides": 883,
+   "comptes_dans_les_parts": 883,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 61,
+   "taux": 0.2793419803859538,
+   "complet": false
+  },
+  "lecture": "toutes décisions, choix forcés compris — porte la conclusion"
+ },
+ "parts_modales_hors_choix_unique": {
+  "n": 711,
+  "effectifs": {
+   "walking": 189,
+   "cycling": 41,
+   "car": 249,
+   "public_transport": 231,
+   "train": 1,
+   "motorbike": 0
+  },
+  "pourcent": {
+   "walking": 26.582278481012658,
+   "cycling": 5.766526019690577,
+   "car": 35.0210970464135,
+   "public_transport": 32.48945147679325,
+   "train": 0.14064697609001406,
+   "motorbike": 0.0
+  },
+  "couverture": {
+   "decides": 883,
+   "comptes_dans_les_parts": 883,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 61,
+   "taux": 0.2793419803859538,
+   "complet": false
+  },
+  "lecture": "hors décisions à itinéraire unique — ce que le décideur a décidé"
+ },
+ "choix_forces": {
+  "n": 172,
+  "part": 0.19479048697621745,
+  "lecture": "décisions à itinéraire unique : une seule option existait, personne n'a choisi. Leur nombre dépend du bras, puisqu'il découle de ses propres choix antérieurs — les bras se ressemblent donc plus qu'ils ne le sont."
+ },
+ "referentiel": {
+  "source": "scripts/data/population/cerema_values.yaml",
+  "sha256": "9ac345979ef74071aa70f0eea93b0a9c2fccdb7dd88996f3bee3daba91d8d8b1",
+  "disponible": true,
+  "pourcent_normalise_4_modes": {
+   "car": 56.70103092783505,
+   "walking": 26.804123711340207,
+   "cycling": 4.123711340206185,
+   "public_transport": 12.371134020618557,
+   "train": 12.371134020618557
+  },
+  "note": "valeurs lues dans la source citée, renormalisées sur les modes qu'elle partage avec les canoniques"
+ },
+ "sources_propositions": {
+  "enregistree": 3850,
+  "locale": 16
+ },
+ "fournisseurs": {
+  "typesafe:jev-1.13.0": 711
+ },
+ "ecartees_par_motif": {
+  "non_possede": 384,
+  "plafond": 543,
+  "vehicule_ailleurs": 452,
+  "retour_force": 570,
+  "pas_de_conducteur": 10
+ },
+ "compteurs": {
+  "attendus": 3299,
+  "inexploitables": 61,
+  "attendus_exploitables": 3161,
+  "decides": 883,
+  "non_couverts": 0,
+  "sans_solution": 4,
+  "choix_unique": 172,
+  "replis_uniformes": 0,
+  "attentes": 0,
+  "attentes_par_type": {},
+  "erreurs": 0,
+  "erreurs_par_type": {},
+  "sollicitations": 711,
+  "resservies": 0,
+  "substitution_refusee": 0,
+  "couverture": {
+   "decides": 883,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 61,
+   "taux": 0.2793419803859538
+  },
+  "duree_s": 202.924,
+  "quota": {
+   "sans_quota": true
+  }
+ }
+}

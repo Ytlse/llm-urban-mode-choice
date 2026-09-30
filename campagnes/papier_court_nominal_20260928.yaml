@@ -1,0 +1,20 @@
+nom: papier_court_nominal_20260928
+version: campagne1
+note: >-
+  Expériences classiques (régime nominal, sans simulateur) du papier court restant à finir le
+  2026-09-28, dans l'ordre demandé par l'auteur. Lancée APRÈS la reprise du témoin v5 d'a13,
+  jamais en parallèle d'une campagne mémoire (règle du 2026-09-16). Quatre des cinq ont déjà une
+  exécution arrêtée sur quota (reprises là où elles en étaient) ; la dernière n'a jamais tourné.
+phases:
+- nom: papier_court_nominal
+  raison: >-
+    Cohorte c2 (calibration) : Gemini 3.5 Flash Lite sous prompt_expert_32 (78 % fait) puis sous
+    prompt_minimal_02 (4 %). Cohorte c1 scellée : graine 123 pour prompt_minimal_02 sous
+    Gemini 3.1 Flash Lite (33 %) et Mistral Large (5 %), puis graine 789 sous Gemini 3.5 Flash
+    Lite (jamais lancée).
+  experiences:
+  - exp_gemini-35-fl_proexp32_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-31-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+  - exp_mistral-l-25_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+  - exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go789_gt789_gc789_t0_nosim

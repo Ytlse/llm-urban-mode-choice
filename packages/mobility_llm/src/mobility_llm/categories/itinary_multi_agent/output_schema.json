@@ -1,0 +1,57 @@
+{
+  "type": "object",
+  "properties": {
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "Copy exactly the agent_id provided for this persona (numeric identifier only, no prefix and no name)."
+          },
+          "probabilities": {
+            "type": "array",
+            "description": "One entry per option offered to this persona, without exception. The `probability` values must sum to exactly 100.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "index": {
+                  "type": "integer",
+                  "description": "Index of the option, as shown in brackets."
+                },
+                "mode": {
+                  "type": "string",
+                  "description": "Mode of the option, copied from the option."
+                },
+                "probability": {
+                  "type": "number",
+                  "description": "Probability in % (0 to 100) that this persona picks this option. 0 if the option is impossible for them."
+                }
+              },
+              "required": [
+                "index",
+                "mode",
+                "probability"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "agent_id",
+          "probabilities",
+          "reason"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "agents"
+  ],
+  "additionalProperties": false
+}

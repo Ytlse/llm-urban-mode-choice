@@ -1,0 +1,240 @@
+{
+  "schema": "equipment_propensity/v1",
+  "trait": "has_driving_license",
+  "law": {
+    "features": [
+      "age10",
+      "age10_sq",
+      "female",
+      "cars0",
+      "cars2p",
+      "log_density",
+      "dist_center10",
+      "occ_Autre",
+      "occ_Chômeur/recherche d'emploi",
+      "occ_Personne au foyer",
+      "occ_Retraité",
+      "occ_Scolaire (jusqu'au Bac)",
+      "occ_Travail à plein temps",
+      "occ_Travail à temps partiel",
+      "occ_Étudiant"
+    ],
+    "occupations": [
+      "Autre",
+      "Chômeur/recherche d'emploi",
+      "Personne au foyer",
+      "Retraité",
+      "Scolaire (jusqu'au Bac)",
+      "Travail à plein temps",
+      "Travail à temps partiel",
+      "Étudiant"
+    ],
+    "intercept": -2.91278537,
+    "coefficients": [
+      1.63380066,
+      -0.12619771,
+      -0.30574438,
+      -1.9670097,
+      0.96322898,
+      0.03285608,
+      -0.00840356,
+      -0.64041166,
+      0.02167502,
+      -0.81432467,
+      0.61771172,
+      -5.3194216,
+      1.48059284,
+      0.49608937,
+      1.24531057
+    ],
+    "median_density": 702.979804
+  },
+  "validation": {
+    "scope": "18 ans et plus",
+    "overall": {
+      "observed_pct": 85.86,
+      "predicted_oof_pct": 85.69,
+      "gap_pt": -0.18,
+      "ticket_target_pct": 85.9
+    },
+    "by_occupation": [
+      {
+        "stratum": "Travail à plein temps",
+        "n_persons": 5950,
+        "n_weighted": 512992.3,
+        "observed_pct": 94.84,
+        "predicted_oof_pct": 94.85,
+        "gap_pt": 0.01,
+        "ticket_target_pct": 94.8,
+        "thin_cell": false
+      },
+      {
+        "stratum": "Retraité",
+        "n_persons": 3858,
+        "n_weighted": 241125.6,
+        "observed_pct": 92.57,
+        "predicted_oof_pct": 92.56,
+        "gap_pt": -0.0,
+        "ticket_target_pct": 92.6,
+        "thin_cell": false
+      },
+      {
+        "stratum": "Travail à temps partiel",
+        "n_persons": 850,
+        "n_weighted": 70896.3,
+        "observed_pct": 86.54,
+        "predicted_oof_pct": 86.57,
+        "gap_pt": 0.04,
+        "ticket_target_pct": 86.5,
+        "thin_cell": false
+      },
+      {
+        "stratum": "Chômeur/recherche d'emploi",
+        "n_persons": 863,
+        "n_weighted": 91369.4,
+        "observed_pct": 69.35,
+        "predicted_oof_pct": 69.5,
+        "gap_pt": 0.14,
+        "ticket_target_pct": 69.4,
+        "thin_cell": false
+      },
+      {
+        "stratum": "Personne au foyer",
+        "n_persons": 370,
+        "n_weighted": 39395.3,
+        "observed_pct": 63.85,
+        "predicted_oof_pct": 63.97,
+        "gap_pt": 0.12,
+        "ticket_target_pct": 63.9,
+        "thin_cell": false
+      },
+      {
+        "stratum": "Étudiant",
+        "n_persons": 1453,
+        "n_weighted": 125858.1,
+        "observed_pct": 60.61,
+        "predicted_oof_pct": 59.55,
+        "gap_pt": -1.06,
+        "ticket_target_pct": 59.2,
+        "thin_cell": false
+      }
+    ],
+    "by_age": [
+      {
+        "stratum": "18-24",
+        "n_persons": 1791,
+        "n_weighted": 169076.5,
+        "observed_pct": 58.07,
+        "predicted_oof_pct": 58.26,
+        "gap_pt": 0.18,
+        "ticket_target_pct": 58.1,
+        "thin_cell": false
+      },
+      {
+        "stratum": "25-34",
+        "n_persons": 1830,
+        "n_weighted": 189936.5,
+        "observed_pct": 84.34,
+        "predicted_oof_pct": 81.12,
+        "gap_pt": -3.22,
+        "ticket_target_pct": 84.3,
+        "thin_cell": false
+      },
+      {
+        "stratum": "35-49",
+        "n_persons": 3023,
+        "n_weighted": 289547.9,
+        "observed_pct": 91.77,
+        "predicted_oof_pct": 92.64,
+        "gap_pt": 0.87,
+        "ticket_target_pct": 91.8,
+        "thin_cell": false
+      },
+      {
+        "stratum": "50-64",
+        "n_persons": 3467,
+        "n_weighted": 244598.9,
+        "observed_pct": 94.34,
+        "predicted_oof_pct": 94.87,
+        "gap_pt": 0.53,
+        "ticket_target_pct": 94.3,
+        "thin_cell": false
+      },
+      {
+        "stratum": "65-74",
+        "n_persons": 1865,
+        "n_weighted": 116039.0,
+        "observed_pct": 93.77,
+        "predicted_oof_pct": 94.33,
+        "gap_pt": 0.56,
+        "ticket_target_pct": 93.8,
+        "thin_cell": false
+      },
+      {
+        "stratum": "75+",
+        "n_persons": 1579,
+        "n_weighted": 94227.0,
+        "observed_pct": 88.9,
+        "predicted_oof_pct": 88.24,
+        "gap_pt": -0.65,
+        "ticket_target_pct": 88.9,
+        "thin_cell": false
+      }
+    ],
+    "by_gender": [
+      {
+        "stratum": "Male",
+        "n_persons": 6151,
+        "n_weighted": 522334.4,
+        "observed_pct": 88.62,
+        "predicted_oof_pct": 88.31,
+        "gap_pt": -0.3,
+        "ticket_target_pct": 88.6,
+        "thin_cell": false
+      },
+      {
+        "stratum": "Female",
+        "n_persons": 7404,
+        "n_weighted": 581091.3,
+        "observed_pct": 83.38,
+        "predicted_oof_pct": 83.32,
+        "gap_pt": -0.06,
+        "ticket_target_pct": 83.4,
+        "thin_cell": false
+      }
+    ],
+    "intra_household": {
+      "households_with_2plus_respondents": 2640,
+      "all_equipped_pct_observed": 79.24,
+      "note": "à comparer au niveau d'indépendance ; un modèle qui y reste signale que la motorisation ne porte pas la corrélation"
+    },
+    "fit": {
+      "n_persons": 15775,
+      "restriction": "PENQ = 1 (personnes enquêtées)",
+      "weighting": "COEP — coefficient de redressement de la personne enquêtée",
+      "regularisation_C": 1000.0,
+      "cv": "GroupKFold(5) groupée par ménage — un découpage par personne mettrait le même foyer des deux côtés",
+      "auc_in_sample": 0.9536,
+      "auc_out_of_sample_grouped_by_household": 0.953,
+      "knots_offered": [
+        "under_26",
+        "age_62p",
+        "age_65p"
+      ],
+      "knots_retained": false,
+      "knot_auc_gain": -5e-05,
+      "knot_min_gain_rule": 0.002
+    }
+  },
+  "meta": {
+    "generated_at": "2026-08-27T10:06:48+00:00",
+    "target": "P7 == 1 — titulaire du permis voiture (P7 == 3, conduite accompagnée, compte NON)",
+    "draw_salt": "driving_license_v1",
+    "min_age": 18,
+    "source": "EMC² Toulouse 2023 — ProGEDO/ADISP lil-1750, fichier standard `pers`",
+    "tickets": [
+      "016",
+      "017"
+    ]
+  }
+}

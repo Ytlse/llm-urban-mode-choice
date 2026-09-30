@@ -1,0 +1,237 @@
+{
+ "execution": "2026-09-21_17_00_49",
+ "experience": "exp_gemini-35-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim",
+ "etat": {
+  "etat": "terminee",
+  "raison": null,
+  "reprise_possible_a": null,
+  "maj": "2026-09-21T19:53:52+00:00",
+  "decisions_archivees": 3299
+ },
+ "empreintes": {
+  "population": {
+   "nom": "population_1000_PANEL_v6",
+   "sha256": "675cfe31f59f450a2919dc1a6bacdbc34e51fdc846bbbe1dfce7160db2a6b253",
+   "fichier_sha256": "412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6",
+   "scellee": true
+  },
+  "jeu": {
+   "nom": "population_1000_PANEL_v6_20260316_EN_c",
+   "sha256": "e8f9eab14fb4a0600bc04bd85591053dd0fd3bd3571e6e9f98aec87e51bc9f53"
+  },
+  "gabarit": {
+   "categorie": "itinary_multi_agent",
+   "variante": "prompt_expert_05",
+   "sha256": "18c6ee969b5723ce27e0b520aabb161431f1a41c1f24e6e004d4b91f657acac9",
+   "sources": [
+    "prompts.yaml:prompt_expert_05",
+    "travel_plan_describe_v2.j2"
+   ]
+  },
+  "decideur": {
+   "type": "passerelle",
+   "modele": "gemini-3.5-flash-lite",
+   "parametres": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "max_tokens": 4096,
+    "thinking_level": "high"
+   },
+   "sha256": "41183911d7bb80b09d54607085157b800ea88359a850e392376efb982c0dbf29"
+  },
+  "depot": {
+   "commit": "2baf55b7ada520c684025289fd68553c73d22351",
+   "arbre_propre": false
+  }
+ },
+ "regime_applique": {
+  "parallelisme": 8,
+  "unite_sollicitation": "deplacement",
+  "decideur": "passerelle:gemini-3.5-flash-lite",
+  "reprise": true
+ },
+ "sources_alea": {
+  "graine_ordre": 123,
+  "graine_tirage": 123,
+  "graine_calendrier": 123,
+  "echantillonnage_decideur": true
+ },
+ "interruptions": [
+  {
+   "instant": "2026-09-21T17:15:46+00:00",
+   "cause": "epuisement",
+   "decisions_archivees": 348,
+   "raison": "epuise: google_gemini35_key1 : 504/500 requêtes/jour (épuisée) ; google_gemini35_key2 : 115/500 requêtes/jour (désactivée côté passerelle : erreurs consécutives ou cooldown)"
+  },
+  {
+   "instant": "2026-09-21T18:16:34+00:00",
+   "cause": "reprise",
+   "decisions_archivees": 348,
+   "depuis": "2026-09-21T17:15:46+00:00"
+  }
+ ],
+ "couverture": {
+  "decides": 3154,
+  "comptes_dans_les_parts": 3154,
+  "attendus": 3161,
+  "attendus_bruts": 3299,
+  "inexploitables_exclus": 138,
+  "taux": 0.9977855109142676,
+  "complet": true
+ },
+ "methodes": {
+  "decideur": 2452,
+  "choix_unique": 702,
+  "inexploitable": 138,
+  "sans_solution": 7
+ },
+ "parts_modales": {
+  "n": 3154,
+  "effectifs": {
+   "walking": 755,
+   "cycling": 248,
+   "car": 1689,
+   "public_transport": 458,
+   "train": 4,
+   "motorbike": 0
+  },
+  "pourcent": {
+   "walking": 23.937856689917567,
+   "cycling": 7.863031071655041,
+   "car": 53.55104629042486,
+   "public_transport": 14.521242866201648,
+   "train": 0.12682308180088775,
+   "motorbike": 0.0
+  },
+  "couverture": {
+   "decides": 3154,
+   "comptes_dans_les_parts": 3154,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 138,
+   "taux": 0.9977855109142676,
+   "complet": true
+  },
+  "lecture": "toutes décisions, choix forcés compris — porte la conclusion"
+ },
+ "parts_modales_hors_choix_unique": {
+  "n": 2452,
+  "effectifs": {
+   "walking": 733,
+   "cycling": 161,
+   "car": 1104,
+   "public_transport": 450,
+   "train": 4,
+   "motorbike": 0
+  },
+  "pourcent": {
+   "walking": 29.893964110929854,
+   "cycling": 6.566068515497553,
+   "car": 45.02446982055465,
+   "public_transport": 18.35236541598695,
+   "train": 0.1631321370309951,
+   "motorbike": 0.0
+  },
+  "couverture": {
+   "decides": 3154,
+   "comptes_dans_les_parts": 3154,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 138,
+   "taux": 0.9977855109142676,
+   "complet": true
+  },
+  "lecture": "hors décisions à itinéraire unique — ce que le décideur a décidé"
+ },
+ "choix_forces": {
+  "n": 702,
+  "part": 0.22257450856055802,
+  "lecture": "décisions à itinéraire unique : une seule option existait, personne n'a choisi. Leur nombre dépend du bras, puisqu'il découle de ses propres choix antérieurs — les bras se ressemblent donc plus qu'ils ne le sont."
+ },
+ "referentiel": {
+  "source": "scripts/data/population/cerema_values.yaml",
+  "sha256": "9ac345979ef74071aa70f0eea93b0a9c2fccdb7dd88996f3bee3daba91d8d8b1",
+  "disponible": true,
+  "pourcent_normalise_4_modes": {
+   "car": 56.70103092783505,
+   "walking": 26.804123711340207,
+   "cycling": 4.123711340206185,
+   "public_transport": 12.371134020618557,
+   "train": 12.371134020618557
+  },
+  "note": "valeurs lues dans la source citée, renormalisées sur les modes qu'elle partage avec les canoniques"
+ },
+ "sources_propositions": {
+  "enregistree": 13657,
+  "locale": 26
+ },
+ "fournisseurs": {
+  "google_gemini35_key1": 16,
+  "google_gemini35_key2": 2436
+ },
+ "ecartees_par_motif": {
+  "non_possede": 1972,
+  "plafond": 1875,
+  "vehicule_ailleurs": 1147,
+  "retour_force": 3036,
+  "pas_de_conducteur": 33
+ },
+ "compteurs": {
+  "attendus": 3299,
+  "inexploitables": 138,
+  "attendus_exploitables": 3161,
+  "decides": 3154,
+  "non_couverts": 0,
+  "sans_solution": 7,
+  "choix_unique": 702,
+  "replis_uniformes": 0,
+  "attentes": 9,
+  "attentes_par_type": {
+   "epuise": 8,
+   "passerelle_occupee": 1
+  },
+  "erreurs": 0,
+  "erreurs_par_type": {},
+  "sollicitations": 2229,
+  "resservies": 348,
+  "substitution_refusee": 0,
+  "couverture": {
+   "decides": 3154,
+   "attendus": 3161,
+   "attendus_bruts": 3299,
+   "inexploitables_exclus": 138,
+   "taux": 0.9977855109142676
+  },
+  "duree_s": 5837.124,
+  "quota": [
+   {
+    "instance": "google_gemini35_key1",
+    "modele": "gemini-3.5-flash-lite",
+    "requetes_jour": 506,
+    "limite_jour": 500,
+    "marge": 0,
+    "jetons_jour": 1299717,
+    "limite_jetons_jour": null,
+    "rpm_observe": 0,
+    "rpm_limite": 15,
+    "epuisee": true,
+    "disponible": true,
+    "occupee": false
+   },
+   {
+    "instance": "google_gemini35_key2",
+    "modele": "gemini-3.5-flash-lite",
+    "requetes_jour": 425,
+    "limite_jour": 500,
+    "marge": 75,
+    "jetons_jour": 3611935,
+    "limite_jetons_jour": null,
+    "rpm_observe": 3,
+    "rpm_limite": 15,
+    "epuisee": false,
+    "disponible": true,
+    "occupee": false
+   }
+  ]
+ }
+}

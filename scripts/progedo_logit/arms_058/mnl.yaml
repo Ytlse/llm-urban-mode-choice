@@ -1,0 +1,43 @@
+nom: exp_mnl_jtir_pop-enquete_058_test_jeu-58_test_20260316_nosim
+population:
+  chemin: /data/eqasim-output/population_enquete_058_test
+jeu:
+  nom: enquete_058_test_20260316
+  dossier: null
+gabarit:
+  categorie: itinary_multi_agent
+  variante: null
+decideur:
+  type: modele
+  modele: null
+  portee: null
+  parametres: {}
+  rejeu_de: null
+  graine: null
+  artefact: scripts/progedo_logit/mnl_model.json
+mode: sans_simulateur
+calendrier:
+  politique: aleatoire
+  date: '2026-03-16'
+  graine: 42
+horizon_jours: 1
+memoire: false
+evenements: []
+graine_ordre: 42
+graine_tirage: 42
+regroupement:
+  parallelisme: 8
+tolerances_horaires:
+  walk: insensible
+  bike: insensible
+  car: heure
+  transit:
+    pas_min: 10
+  rail:
+    pas_min: 10
+max_candidats: 6
+attente_max_s: 120
+vehicule_chaine: true
+verrou_retour: true
+derive_de: null
+renomme_de: null

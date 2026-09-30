@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "reflection": {
+            "type": "string",
+            "description": "Summary of patterns and habits observed over several days, 200 words max"
+          }
+        },
+        "required": [
+          "agent_id",
+          "reflection"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "agents"
+  ],
+  "additionalProperties": false
+}

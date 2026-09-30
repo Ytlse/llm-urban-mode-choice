@@ -1,0 +1,46 @@
+nom: exp_alea_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_nosim
+population:
+  chemin: /data/eqasim-output/population_1000_PANEL_v6_c2
+jeu:
+  nom: population_1000_PANEL_v6_c2_20260316_EN_c
+  dossier: null
+gabarit:
+  categorie: itinary_multi_agent
+  variante: null
+decideur:
+  type: aleatoire
+  modele: null
+  portee: null
+  parametres: {}
+  rejeu_de: null
+  graine: 42
+  artefact: null
+mode: sans_simulateur
+calendrier:
+  politique: aleatoire
+  date: '2026-03-16'
+  graine: 42
+horizon_jours: 1
+memoire: false
+evenements: []
+graine_ordre: 42
+graine_tirage: 42
+regroupement:
+  parallelisme: 8
+tolerances_horaires:
+  walk: insensible
+  bike: insensible
+  car: heure
+  transit:
+    pas_min: 10
+  rail:
+    pas_min: 10
+max_candidats: 6
+attente_max_s: 120
+vehicule_chaine: true
+verrou_retour: true
+troncature_15: false
+derive_de: exp_alea_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nosim
+renomme_de: null
+executions_connues:
+- 2026-09-22_17_13_40

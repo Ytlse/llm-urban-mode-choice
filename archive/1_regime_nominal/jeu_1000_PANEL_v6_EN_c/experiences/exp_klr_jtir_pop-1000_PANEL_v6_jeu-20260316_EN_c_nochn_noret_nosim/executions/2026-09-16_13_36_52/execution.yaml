@@ -1,0 +1,100 @@
+version: execution1
+cree_le: '2026-09-16T13:36:52+00:00'
+experience:
+  nom: exp_klr_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_nochn_noret_nosim
+  population:
+    chemin: /data/eqasim-output/population_1000_PANEL_v6
+  jeu:
+    nom: population_1000_PANEL_v6_20260316_EN_c
+    dossier: null
+  gabarit:
+    categorie: itinary_multi_agent
+    variante: null
+  decideur:
+    type: modele
+    modele: null
+    portee: null
+    parametres: {}
+    rejeu_de: null
+    graine: null
+    artefact: scripts/progedo_logit/klr_model.json
+  mode: sans_simulateur
+  calendrier:
+    politique: aleatoire
+    date: '2026-03-16'
+    graine: 42
+  horizon_jours: 1
+  memoire: false
+  evenements: []
+  graine_ordre: 42
+  graine_tirage: 42
+  regroupement:
+    parallelisme: 8
+  tolerances_horaires:
+    walk: insensible
+    bike: insensible
+    car: heure
+    transit:
+      pas_min: 10
+    rail:
+      pas_min: 10
+  max_candidats: 6
+  attente_max_s: 120
+  vehicule_chaine: false
+  verrou_retour: false
+  derive_de: exp_klr_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_nochn_noret_nosim
+  renomme_de: null
+  executions_connues: []
+empreintes:
+  population:
+    nom: population_1000_PANEL_v6
+    sha256: 675cfe31f59f450a2919dc1a6bacdbc34e51fdc846bbbe1dfce7160db2a6b253
+    fichier_sha256: 412efada802f79e8a72976ba25e0c7db8c9404adaed7c1f5e3e3d6afa3531db6
+    scellee: true
+  jeu:
+    nom: population_1000_PANEL_v6_20260316_EN_c
+    sha256: e8f9eab14fb4a0600bc04bd85591053dd0fd3bd3571e6e9f98aec87e51bc9f53
+  gabarit:
+    categorie: itinary_multi_agent
+    variante: null
+    sha256: e9f21ddebfbd7b084ecd3a03ac08f2253d56245eb786a33fc917db9edaa4c65d
+    sources:
+    - prompts.yaml:active.itinary_multi_agent
+    - travel_plan_describe_v2.j2
+  decideur:
+    type: modele
+    modele: null
+    parametres: {}
+    sha256: 34f4791ffe7a6e6d0c8a630bf0e8b7b7755895784862c8b5572027eb121c377a
+    artefact: scripts/progedo_logit/klr_model.json
+    artefact_sha256: 42a24c607e5be36e6204a96cc1474eeb780f378413484319a78f4eb4a6c2172a
+  depot:
+    commit: d33c8e87034d6d8bbe325275cf0bb8ea24bd2e98
+    arbre_propre: false
+regime_demande:
+  parallelisme: 8
+  unite_sollicitation: deplacement
+regime_applique:
+  parallelisme: 8
+  unite_sollicitation: deplacement
+  decideur: modele:klr@42a24c607e5b
+  reprise: false
+reglages_herites:
+  agenda_anticipation_enabled: true
+  max_trip_candidates: 6
+  vehicule_chaine: false
+  verrou_retour: false
+  instances_admises: []
+sources_alea:
+  graine_ordre: 42
+  graine_tirage: 42
+  graine_calendrier: 42
+  echantillonnage_decideur: false
+interruptions: []
+cloture:
+  le: '2026-09-16T13:37:35+00:00'
+  etat: terminee
+  sha256:
+    decisions.jsonl: ca41fc22a80f2e385fc2a19c2b93c3b6fcee2047c19d22954efb182ad496faa7
+    moves.csv: aa2a2bcea25304075c0972ca79212a80da4ceab92d535166cc934a878c052eae
+    compteurs.json: 2d5ec975b2b2beacc40d2db1a49e1c243a46e31244f54bb33ad1964d62024e70

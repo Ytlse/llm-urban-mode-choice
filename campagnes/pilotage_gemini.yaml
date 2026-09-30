@@ -1,0 +1,24 @@
+nom: pilotage_gemini
+version: campagne1
+note: >-
+  Campagne de pilotage séquentielle de 6 expériences Gemini sur les cohortes v6 (c1 et c2) :
+  évaluations sur cohorte c2 (proexp32 et promin02 pour Gemini 3.5 Flash Lite),
+  évaluation sur cohorte c1 (proexp25 pour Gemini 3.1 Flash Lite),
+  et rejeux multi-graines sur cohorte c1 (graine 123 pour promin02 et proexp05).
+phases:
+- nom: pilotage_gemini
+  raison: >-
+    Exécution séquentielle des 6 expériences dans l'ordre spécifié :
+    1. exp_gemini-35-fl_proexp32_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_t0_nosim
+    2. exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_t0_nosim
+    3. exp_gemini-31-fl_proexp25_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+    4. exp_gemini-31-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+    5. exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+    6. exp_gemini-31-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+  experiences:
+  - exp_gemini-35-fl_proexp32_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_c2_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-31-fl_proexp25_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim
+  - exp_gemini-31-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+  - exp_gemini-35-fl_promin02_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim
+  - exp_gemini-31-fl_proexp05_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_go123_gt123_gc123_t0_nosim

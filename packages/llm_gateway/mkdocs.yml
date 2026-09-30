@@ -1,0 +1,76 @@
+# Documentation of the llm_gateway package — `mkdocs serve` from this folder,
+# `mkdocs build --strict` in CI (docs job of .github/workflows/ci.yml).
+site_name: llm-gateway
+site_description: Asynchronous multi-provider LLM gateway — micro-batching, SWRR, pluggable categories
+docs_dir: docs
+site_dir: site
+strict: true
+use_directory_urls: true
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.highlight
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Passer en sombre
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Passer en clair
+
+plugins:
+  - search:
+      lang: fr
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            docstring_style: google
+            show_source: false
+            show_root_heading: true
+            members_order: source
+            separate_signature: true
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+nav:
+  - Home: index.md
+  - Tutorials:
+      - First request: tutoriels/premiere-requete.md
+  - Guides:
+      - Add a provider: guides/ajouter-un-provider.md
+      - Add a category: guides/ajouter-une-categorie.md
+      - Tune the quotas: guides/regler-les-quotas.md
+      - Testing: guides/tester.md
+  - Reference:
+      - Settings: reference/reglages.md
+      - API HTTP: reference/api-http.md
+      - SDK Python: reference/sdk-python.md
+      - API Python (docstrings): reference/api-python.md
+      - Prometheus metrics: reference/metriques.md
+      - Errors and alarms: reference/erreurs-alarmes.md
+  - Explanations:
+      - Architecture: explications/architecture.md
+      - Batching, SWRR, circuit breaker: explications/batching-swrr-disjoncteur.md
+  - Decisions (ADR):
+      - 0001 — Three packages: adr/0001-trois-paquets.md
+      - 0002 — Category hook: adr/0002-hook-de-categorie.md
+      - 0003 — Configuration layers: adr/0003-couches-de-configuration.md
+  - Changelog: changelog.md

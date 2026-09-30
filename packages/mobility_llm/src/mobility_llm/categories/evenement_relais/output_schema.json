@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "properties": {
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "recipients": {
+            "type": "array",
+            "description": "One entry per member of the household listed in the input, each exactly once",
+            "items": {
+              "type": "object",
+              "properties": {
+                "agent_id": {
+                  "type": "string",
+                  "description": "The member's agent_id, copied exactly as given"
+                },
+                "speaks": {
+                  "type": "boolean",
+                  "description": "true if you tell this person something about it this morning, false if you say nothing"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "What you say to this person, in your own words; empty when speaks is false"
+                }
+              },
+              "required": ["agent_id", "speaks", "message"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["agent_id", "recipients"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["agents"],
+  "additionalProperties": false
+}

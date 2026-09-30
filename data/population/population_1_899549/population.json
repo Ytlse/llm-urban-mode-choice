@@ -1,0 +1,121 @@
+[
+  {
+    "person_id": "899549",
+    "immobile": false,
+    "household": {
+      "id": "407431",
+      "iris_id": "315553402",
+      "commune_id": "31555"
+    },
+    "provenance": {
+      "census_person_id": "360669",
+      "hts_id": "39820.0"
+    },
+    "validation": {
+      "commute_mode": "car"
+    },
+    "identity": {
+      "name": "Corinne de la Richard",
+      "traits_json": {
+        "name": "Corinne de la Richard",
+        "age": 53,
+        "gender": "Female",
+        "main_occupation": "Part-time worker",
+        "travel_purposes": [
+          "Work"
+        ],
+        "occupation": {
+          "title": "Technician",
+          "organization": "Consulting Firm"
+        },
+        "household_size": 3,
+        "income": "High",
+        "socioprofessional_class": "Intermediate Professional",
+        "professional_activity": "Part-Time Worker",
+        "employment_sector": "scientific_technical_support_services",
+        "car_availability": "some",
+        "has_driving_license": true,
+        "has_pt_subscription": true,
+        "number_of_cars": 3,
+        "employed": true,
+        "studies": false,
+        "residence_zone": "Toulouse",
+        "residence_insee": "31555",
+        "residence_commune": "Toulouse",
+        "housing_type": "Small apartment building",
+        "personal_bike": "regular bike"
+      },
+      "home": {
+        "lon": 1.402752816115058,
+        "lat": 43.59164475290614,
+        "public_transport": true
+      },
+      "activities": [
+        {
+          "id": "d6029415-20a5-547b-8a99-1b2fcf40ab53",
+          "scheduled_start_time": 72093.0,
+          "start_time": 72881.0,
+          "end_time": 27789.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.402752816115058,
+            "lat": 43.59164475290614,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "d0c98cee-9645-576f-8e64-5d64ac10fa7f",
+          "scheduled_start_time": 27789.0,
+          "start_time": 30093.0,
+          "end_time": 64913.0,
+          "purpose": "work",
+          "location": {
+            "lon": 1.4878654682505852,
+            "lat": 43.59923770957859,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "ec8c56f8-a89d-5810-97af-21a8164d0c22",
+          "scheduled_start_time": 64913.0,
+          "start_time": 66837.0,
+          "end_time": 69661.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.402752816115058,
+            "lat": 43.59164475290614,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "f20c42a3-b451-5b25-82ca-ba3449125154",
+          "scheduled_start_time": 69661.0,
+          "start_time": 70427.0,
+          "end_time": 72093.0,
+          "purpose": "leisure",
+          "location": {
+            "lon": 1.397029411647234,
+            "lat": 43.587250337418986,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        }
+      ]
+    },
+    "state": {
+      "last_location": null,
+      "last_activity_index": 0,
+      "cache_current_activity": null,
+      "heading_to": null,
+      "scheduling_in_progress": false,
+      "scheduling_started_at": null
+    },
+    "is_llm_based": true,
+    "perimetre": {
+      "activites_hors_perimetre_supprimees": 0
+    }
+  }
+]

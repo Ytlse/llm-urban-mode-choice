@@ -1,0 +1,572 @@
+[
+  {
+    "person_id": "609",
+    "immobile": false,
+    "household": {
+      "id": "312",
+      "iris_id": "090380000",
+      "commune_id": "09038"
+    },
+    "provenance": {
+      "census_person_id": "3153",
+      "hts_id": "39545.0"
+    },
+    "validation": {
+      "commute_mode": "car"
+    },
+    "identity": {
+      "name": "Xavier Briand",
+      "traits_json": {
+        "name": "Xavier Briand",
+        "age": 40,
+        "gender": "Male",
+        "main_occupation": "Full-time worker",
+        "travel_purposes": [
+          "Work"
+        ],
+        "occupation": {
+          "title": "Shop Owner",
+          "organization": "Real Estate Agency"
+        },
+        "household_size": 1,
+        "income": "Very Low",
+        "socioprofessional_class": "Craftsperson or Shop Owner",
+        "professional_activity": "Full-Time Worker",
+        "employment_sector": "real_estate",
+        "car_availability": "all",
+        "has_driving_license": true,
+        "has_pt_subscription": false,
+        "number_of_cars": 1,
+        "employed": true,
+        "studies": false,
+        "residence_zone": "3rd ring",
+        "residence_insee": "09038",
+        "residence_commune": "La Bastide-de-Besplas",
+        "housing_type": "Detached house",
+        "personal_bike": "No bike"
+      },
+      "home": {
+        "lon": 1.2765319050223407,
+        "lat": 43.16658678922329,
+        "public_transport": false
+      },
+      "activities": [
+        {
+          "id": "9f0a33c8-0d56-5b7b-876c-80da0c8b6ed1",
+          "scheduled_start_time": 71316.0,
+          "start_time": 72449.0,
+          "end_time": 32384.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.2765319050223407,
+            "lat": 43.16658678922329,
+            "public_transport": false,
+            "zone": "a neighbourhood of scattered rural housing in the municipality of La Bastide-de-Besplas (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "80d74ec6-7cd4-5614-b750-4eaef3709c38",
+          "scheduled_start_time": 32384.0,
+          "start_time": 33516.0,
+          "end_time": 46416.0,
+          "purpose": "work",
+          "location": {
+            "lon": 1.2287585800196466,
+            "lat": 43.20507095246351,
+            "public_transport": true,
+            "zone": "a neighbourhood of a rural small town in the municipality of Montesquieu-Volvestre (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "787d451a-f9d6-5494-93cd-f3ae66f0ec26",
+          "scheduled_start_time": 46416.0,
+          "start_time": 47549.0,
+          "end_time": 52648.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.2765319050223407,
+            "lat": 43.16658678922329,
+            "public_transport": false,
+            "zone": "a neighbourhood of scattered rural housing in the municipality of La Bastide-de-Besplas (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "32873d29-4602-59b2-a0e7-9c1606be2bf5",
+          "scheduled_start_time": 52648.0,
+          "start_time": 53780.0,
+          "end_time": 71316.0,
+          "purpose": "work",
+          "location": {
+            "lon": 1.2287585800196466,
+            "lat": 43.20507095246351,
+            "public_transport": true,
+            "zone": "a neighbourhood of a rural small town in the municipality of Montesquieu-Volvestre (Toulouse urban area)"
+          }
+        }
+      ]
+    },
+    "state": {
+      "last_location": null,
+      "last_activity_index": 0,
+      "cache_current_activity": null,
+      "heading_to": null,
+      "scheduling_in_progress": false,
+      "scheduling_started_at": null
+    },
+    "is_llm_based": true,
+    "perimetre": {
+      "activites_hors_perimetre_supprimees": 0
+    }
+  },
+  {
+    "person_id": "899549",
+    "immobile": false,
+    "household": {
+      "id": "407431",
+      "iris_id": "315553402",
+      "commune_id": "31555"
+    },
+    "provenance": {
+      "census_person_id": "360669",
+      "hts_id": "39820.0"
+    },
+    "validation": {
+      "commute_mode": "car"
+    },
+    "identity": {
+      "name": "Corinne de la Richard",
+      "traits_json": {
+        "name": "Corinne de la Richard",
+        "age": 53,
+        "gender": "Female",
+        "main_occupation": "Part-time worker",
+        "travel_purposes": [
+          "Work"
+        ],
+        "occupation": {
+          "title": "Technician",
+          "organization": "Consulting Firm"
+        },
+        "household_size": 3,
+        "income": "High",
+        "socioprofessional_class": "Intermediate Professional",
+        "professional_activity": "Part-Time Worker",
+        "employment_sector": "scientific_technical_support_services",
+        "car_availability": "some",
+        "has_driving_license": true,
+        "has_pt_subscription": true,
+        "number_of_cars": 3,
+        "employed": true,
+        "studies": false,
+        "residence_zone": "Toulouse",
+        "residence_insee": "31555",
+        "residence_commune": "Toulouse",
+        "housing_type": "Small apartment building",
+        "personal_bike": "regular bike"
+      },
+      "home": {
+        "lon": 1.402752816115058,
+        "lat": 43.59164475290614,
+        "public_transport": true
+      },
+      "activities": [
+        {
+          "id": "d6029415-20a5-547b-8a99-1b2fcf40ab53",
+          "scheduled_start_time": 72093.0,
+          "start_time": 72881.0,
+          "end_time": 27789.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.402752816115058,
+            "lat": 43.59164475290614,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "d0c98cee-9645-576f-8e64-5d64ac10fa7f",
+          "scheduled_start_time": 27789.0,
+          "start_time": 30093.0,
+          "end_time": 64913.0,
+          "purpose": "work",
+          "location": {
+            "lon": 1.4878654682505852,
+            "lat": 43.59923770957859,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "ec8c56f8-a89d-5810-97af-21a8164d0c22",
+          "scheduled_start_time": 64913.0,
+          "start_time": 66837.0,
+          "end_time": 69661.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.402752816115058,
+            "lat": 43.59164475290614,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "f20c42a3-b451-5b25-82ca-ba3449125154",
+          "scheduled_start_time": 69661.0,
+          "start_time": 70427.0,
+          "end_time": 72093.0,
+          "purpose": "leisure",
+          "location": {
+            "lon": 1.397029411647234,
+            "lat": 43.587250337418986,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        }
+      ]
+    },
+    "state": {
+      "last_location": null,
+      "last_activity_index": 0,
+      "cache_current_activity": null,
+      "heading_to": null,
+      "scheduling_in_progress": false,
+      "scheduling_started_at": null
+    },
+    "is_llm_based": true,
+    "perimetre": {
+      "activites_hors_perimetre_supprimees": 0
+    }
+  },
+  {
+    "person_id": "616478",
+    "immobile": false,
+    "household": {
+      "id": "273701",
+      "iris_id": "311490201",
+      "commune_id": "31149"
+    },
+    "provenance": {
+      "census_person_id": "279976",
+      "hts_id": "20006.0"
+    },
+    "validation": {
+      "commute_mode": null
+    },
+    "identity": {
+      "name": "Adrienne Bonneau du Lejeune",
+      "traits_json": {
+        "name": "Adrienne Bonneau du Lejeune",
+        "age": 59,
+        "gender": "Female",
+        "main_occupation": "Unemployed / job seeker",
+        "travel_purposes": [
+          "Education",
+          "Shopping"
+        ],
+        "occupation": {
+          "title": "Without Occupation",
+          "organization": ""
+        },
+        "household_size": 4,
+        "income": "High",
+        "socioprofessional_class": "Other Inactive",
+        "professional_activity": "Unemployed",
+        "employment_sector": "",
+        "car_availability": "none",
+        "has_driving_license": false,
+        "has_pt_subscription": true,
+        "number_of_cars": 0,
+        "employed": false,
+        "studies": false,
+        "residence_zone": "1st ring",
+        "residence_insee": "31149",
+        "residence_commune": "Colomiers",
+        "housing_type": "Small apartment building",
+        "personal_bike": "No bike"
+      },
+      "home": {
+        "lon": 1.323709938892447,
+        "lat": 43.61051998316413,
+        "public_transport": true
+      },
+      "activities": [
+        {
+          "id": "0769ef1c-95ed-54b1-b888-ab2ae60e4f0f",
+          "scheduled_start_time": 66080.0,
+          "start_time": 67140.0,
+          "end_time": 29928.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.323709938892447,
+            "lat": 43.61051998316413,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Colomiers (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "af63ad45-4e8c-5eb1-b1f1-59170a8fe032",
+          "scheduled_start_time": 29928.0,
+          "start_time": 30680.0,
+          "end_time": 43280.0,
+          "purpose": "education",
+          "location": {
+            "lon": 1.3282030848272164,
+            "lat": 43.6129810652206,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Colomiers (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "828de6d7-72d3-56f9-bdd5-f2442dd7db06",
+          "scheduled_start_time": 43280.0,
+          "start_time": 44043.0,
+          "end_time": 61777.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.323709938892447,
+            "lat": 43.61051998316413,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Colomiers (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "cb85c4e9-eacf-5fd8-9513-2e58e292e38d",
+          "scheduled_start_time": 61777.0,
+          "start_time": 62874.0,
+          "end_time": 66080.0,
+          "purpose": "shop",
+          "location": {
+            "lon": 1.3051077527576707,
+            "lat": 43.6082161792022,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Colomiers (Toulouse urban area)"
+          }
+        }
+      ]
+    },
+    "state": {
+      "last_location": null,
+      "last_activity_index": 0,
+      "cache_current_activity": null,
+      "heading_to": null,
+      "scheduling_in_progress": false,
+      "scheduling_started_at": null
+    },
+    "is_llm_based": true,
+    "perimetre": {
+      "activites_hors_perimetre_supprimees": 0
+    }
+  },
+  {
+    "person_id": "11195",
+    "immobile": false,
+    "household": {
+      "id": "5177",
+      "iris_id": "310060000",
+      "commune_id": "31006"
+    },
+    "provenance": {
+      "census_person_id": "125755",
+      "hts_id": "40235.0"
+    },
+    "validation": {
+      "commute_mode": null
+    },
+    "identity": {
+      "name": "Constance Ledoux",
+      "traits_json": {
+        "name": "Constance Ledoux",
+        "age": 12,
+        "gender": "Female",
+        "main_occupation": "Pupil (up to Baccalaureate)",
+        "travel_purposes": [
+          "Education"
+        ],
+        "occupation": {
+          "title": "Without Occupation",
+          "organization": ""
+        },
+        "household_size": 2,
+        "income": "High",
+        "socioprofessional_class": "Other Inactive",
+        "professional_activity": "Child (under 14)",
+        "employment_sector": "",
+        "car_availability": "all",
+        "has_driving_license": false,
+        "has_pt_subscription": false,
+        "number_of_cars": 1,
+        "employed": false,
+        "studies": true,
+        "residence_zone": "3rd ring",
+        "residence_insee": "31006",
+        "residence_commune": "Albiac",
+        "housing_type": "Detached house",
+        "personal_bike": "No bike"
+      },
+      "home": {
+        "lon": 1.7796525330909927,
+        "lat": 43.55157507805463,
+        "public_transport": false
+      },
+      "activities": [
+        {
+          "id": "00451f96-cf5a-5620-b3e1-0bb00e5338c3",
+          "scheduled_start_time": 63106.0,
+          "start_time": 64004.0,
+          "end_time": 26489.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.7796525330909927,
+            "lat": 43.55157507805463,
+            "public_transport": false,
+            "zone": "a neighbourhood of scattered rural housing in the municipality of Albiac (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "419c463b-f04b-5f9f-a891-42e927d7d300",
+          "scheduled_start_time": 26489.0,
+          "start_time": 27406.0,
+          "end_time": 63106.0,
+          "purpose": "education",
+          "location": {
+            "lon": 1.7602963242463712,
+            "lat": 43.52874243210229,
+            "public_transport": true,
+            "zone": "a neighbourhood of a rural small town in the municipality of Caraman (Toulouse urban area)"
+          }
+        }
+      ]
+    },
+    "state": {
+      "last_location": null,
+      "last_activity_index": 0,
+      "cache_current_activity": null,
+      "heading_to": null,
+      "scheduling_in_progress": false,
+      "scheduling_started_at": null
+    },
+    "is_llm_based": true,
+    "perimetre": {
+      "activites_hors_perimetre_supprimees": 0
+    }
+  },
+  {
+    "person_id": "41275",
+    "immobile": false,
+    "household": {
+      "id": "18056",
+      "iris_id": "310510000",
+      "commune_id": "31051"
+    },
+    "provenance": {
+      "census_person_id": "132493",
+      "hts_id": "39750.0"
+    },
+    "validation": {
+      "commute_mode": null
+    },
+    "identity": {
+      "name": "Valérie Duhamel",
+      "traits_json": {
+        "name": "Valérie Duhamel",
+        "age": 66,
+        "gender": "Female",
+        "main_occupation": "Retired",
+        "travel_purposes": [
+          "Shopping"
+        ],
+        "occupation": {
+          "title": "Retired",
+          "organization": ""
+        },
+        "household_size": 2,
+        "income": "High",
+        "socioprofessional_class": "Retired",
+        "professional_activity": "Retired",
+        "employment_sector": "",
+        "car_availability": "all",
+        "has_driving_license": true,
+        "has_pt_subscription": false,
+        "number_of_cars": 2,
+        "employed": false,
+        "studies": false,
+        "residence_zone": "2nd ring",
+        "residence_insee": "31051",
+        "residence_commune": "Beaufort",
+        "housing_type": "Detached house",
+        "personal_bike": "regular bike"
+      },
+      "home": {
+        "lon": 1.1023829426675653,
+        "lat": 43.4537011110311,
+        "public_transport": false
+      },
+      "activities": [
+        {
+          "id": "81818117-890a-55d0-a771-c1fa809e920c",
+          "scheduled_start_time": 58563.0,
+          "start_time": 59744.0,
+          "end_time": 37863.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.1023829426675653,
+            "lat": 43.4537011110311,
+            "public_transport": false,
+            "zone": "a neighbourhood of scattered rural housing in the municipality of Beaufort (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "0b21db1a-f0aa-5aae-b401-cf9c95d6d5d8",
+          "scheduled_start_time": 37863.0,
+          "start_time": 38656.0,
+          "end_time": 42063.0,
+          "purpose": "shop",
+          "location": {
+            "lon": 1.1259871731669941,
+            "lat": 43.47220566827909,
+            "public_transport": false,
+            "zone": "a neighbourhood of an unknown area in an unknown municipality, outside any urban catchment area"
+          }
+        },
+        {
+          "id": "0b75272d-8a0c-576d-9673-b6c73da6d56f",
+          "scheduled_start_time": 42063.0,
+          "start_time": 42860.0,
+          "end_time": 49056.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.1023829426675653,
+            "lat": 43.4537011110311,
+            "public_transport": false,
+            "zone": "a neighbourhood of scattered rural housing in the municipality of Beaufort (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "74971cd7-558a-5385-adb9-7886cd571dee",
+          "scheduled_start_time": 49056.0,
+          "start_time": 50163.0,
+          "end_time": 58563.0,
+          "purpose": "leisure",
+          "location": {
+            "lon": 1.0643772684865709,
+            "lat": 43.46597958635395,
+            "public_transport": false,
+            "zone": "a neighbourhood of very scattered rural housing in the municipality of Sabonnères (Toulouse urban area)"
+          }
+        }
+      ]
+    },
+    "state": {
+      "last_location": null,
+      "last_activity_index": 0,
+      "cache_current_activity": null,
+      "heading_to": null,
+      "scheduling_in_progress": false,
+      "scheduling_started_at": null
+    },
+    "is_llm_based": true,
+    "perimetre": {
+      "activites_hors_perimetre_supprimees": 0
+    }
+  }
+]

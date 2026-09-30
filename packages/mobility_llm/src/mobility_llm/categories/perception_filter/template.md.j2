@@ -1,0 +1,30 @@
+<!-- SYSTEM -->
+Transform the given persona data into a **short, natural first-person story** about their daily transportation experiences.
+Use simple, direct language. 
+Rules:
+- Focus 80% of the story on **why** they prefer or dislike specific modes based on the sensitivity scores (Ease, Comfort, Safety, etc.) and on experience
+- Treat Goal, Profile, and Routine as brief context only.
+- Use natural, descriptive language instead of technical terms (e.g., instead of "Comfort: 1.0", say "I need that premium, quiet cabin experience").
+- Keep it to 5-6 concise sentences.
+- Maintain a realistic, "interview-style" first-person tone.
+
+You must output a strictly valid JSON array matching this schema:
+{{ schema }}
+
+<!-- USER -->
+{% for agent in agents %}
+Agent ID: {{ agent.agent_id }}
+Persona details:
+- Profile: {{ agent.perception }}
+- Goal: {{ agent.goal | default('N/A') }}
+- Routine: {{ agent.context }}
+- Constraints: {{ agent.constraints | default('None') }}
+- Sensitivities: {{ agent.feeling | default('None') }}
+
+Experience:
+{% for xp in agent.history %}- {{ xp }}
+{% endfor %}
+
+Example style:
+"I'm [age], [job] in [location]. [Mode 1] is [like/dislike] because [reason], but [downside]. [Mode 2] is [like/dislike] for [reason], but [issue]. Due to [constraints], I mostly rely on [preferred mode] despite [drawback]."
+{% endfor %}

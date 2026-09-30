@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "properties": {
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "scores": {
+            "type": "object",
+            "properties": {
+              "rapidite": { "type": "integer", "minimum": 0, "maximum": 10 },
+              "praticite": { "type": "integer", "minimum": 0, "maximum": 10 },
+              "confort": { "type": "integer", "minimum": 0, "maximum": 10 },
+              "securite": { "type": "integer", "minimum": 0, "maximum": 10 },
+              "cout": { "type": "integer", "minimum": 0, "maximum": 10 },
+              "ecologie": { "type": "integer", "minimum": 0, "maximum": 10 }
+            },
+            "required": ["rapidite", "praticite", "confort", "securite", "cout", "ecologie"],
+            "additionalProperties": false
+          },
+          "justification": {
+            "type": "string"
+          }
+        },
+        "required": ["agent_id", "scores", "justification"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["agents"],
+  "additionalProperties": false
+}

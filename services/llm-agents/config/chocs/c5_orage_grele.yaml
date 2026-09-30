@@ -1,0 +1,25 @@
+# C5 — Hailstorm · walking, bike, motorised two-wheelers
+# Hits the exposed modes, those the four other cases leave aside.
+# ⚠ It is here, and ONLY here, that a weather shock becomes memorable. A heatwave alone
+#   produces no delay: its deterministic severity is zero, the memory lives 2.8 days and never
+#   crosses the threshold of the shock pool. Declaring the storm as an incident gives it
+#   the measured anchoring it lacks.
+choc: c5_orage_grele
+libelle: "Violent hailstorm"
+source: "scénario déclaré — Böcker et al. (2013), Transport Reviews 33(1), sur l'effet météo"
+
+# CADENCE ADDED on 2026-09-24, as on c3 and c6: at most one application per agent and per
+# day. Without it, the `trajet` cadence injected the event at every trip of the targeted mode.
+cadence: jour
+
+exposition:
+  regle: mode
+  modes: [walking, cycling, motorbike]
+
+jours:
+  - jour: 12
+    retard_min: 15
+    incident_reseau: true
+    vecu: >-
+      A storm broke while I was outside. I reached work soaked through, and my shoes stayed wet
+      for the whole day. I arrived 15 minutes after the time I had planned.

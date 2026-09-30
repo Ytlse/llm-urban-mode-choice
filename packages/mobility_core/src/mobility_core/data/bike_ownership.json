@@ -1,0 +1,695 @@
+{
+ "version": 1,
+ "trait": "personal_bike",
+ "stock": {
+  "target": "k = M21 écrêté à 4+, nombre de vélos du ménage",
+  "features": [
+   "size2",
+   "size3",
+   "size4p",
+   "cars1",
+   "cars2p",
+   "log_density",
+   "log_dist_center"
+  ],
+  "classes": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "intercepts": [
+   2.59366717,
+   1.32830428,
+   -0.95382616,
+   -0.77536931,
+   -2.19277598
+  ],
+  "coefficients": [
+   [
+    -0.79570334,
+    -1.53274869,
+    -1.86749155,
+    -1.09510597,
+    -1.5868338,
+    0.07342054,
+    0.04412995
+   ],
+   [
+    -0.84419662,
+    -1.23442846,
+    -1.86047497,
+    -0.27517826,
+    -0.75950588,
+    0.05923499,
+    -0.01983444
+   ],
+   [
+    0.72391668,
+    0.24578483,
+    0.03475504,
+    0.25604708,
+    0.29966837,
+    0.05246138,
+    0.13557343
+   ],
+   [
+    0.33380822,
+    1.50817075,
+    1.33373111,
+    0.29770668,
+    0.56184911,
+    -0.11037265,
+    -0.11108184
+   ],
+   [
+    0.58217506,
+    1.01322157,
+    2.35948037,
+    0.81653047,
+    1.4848222,
+    -0.07474425,
+    -0.0487871
+   ]
+  ],
+  "n_households": 10783,
+  "weighting": "COE0 — coefficient de redressement du ménage",
+  "regularisation_C": 1000.0
+ },
+ "propensity": {
+  "target": "P20 ∈ {plusieurs jours/semaine, plusieurs jours/mois, occasionnellement} — vélo, conducteur",
+  "features": [
+   "k1",
+   "k2",
+   "k3",
+   "k4p",
+   "size2",
+   "size3",
+   "size4p",
+   "age",
+   "age2",
+   "female",
+   "log_density",
+   "log_dist_center",
+   "occ_Autre",
+   "occ_Chômeur/recherche d'emploi",
+   "occ_Personne au foyer",
+   "occ_Retraité",
+   "occ_Scolaire (jusqu'au Bac)",
+   "occ_Travail à plein temps",
+   "occ_Travail à temps partiel",
+   "occ_Étudiant"
+  ],
+  "classes": [
+   1
+  ],
+  "intercepts": [
+   -1.94934953
+  ],
+  "coefficients": [
+   [
+    2.71778707,
+    3.25207836,
+    3.64010188,
+    4.00962426,
+    -0.64981708,
+    -1.34588987,
+    -1.75486682,
+    3.90517517,
+    -5.8602472,
+    -0.48997138,
+    0.06734287,
+    -0.17365389,
+    -0.82646184,
+    -0.34435741,
+    -0.70896531,
+    0.07104849,
+    0.49254319,
+    -0.31549711,
+    -0.09855065,
+    -0.19476787
+   ]
+  ],
+  "n_persons": 15775,
+  "restriction": "PENQ = 1 (personnes enquêtées)",
+  "weighting": "COEP — coefficient de redressement de la personne enquêtée",
+  "regularisation_C": 1.0,
+  "auc_in_sample": 0.8205,
+  "auc_out_of_sample_grouped_by_household": 0.818,
+  "cv": "GroupKFold(5) groupée par ménage — un split par personne fuirait, deux membres d'un foyer partageant k"
+ },
+ "occupations": [
+  "Autre",
+  "Chômeur/recherche d'emploi",
+  "Personne au foyer",
+  "Retraité",
+  "Scolaire (jusqu'au Bac)",
+  "Travail à plein temps",
+  "Travail à temps partiel",
+  "Étudiant"
+ ],
+ "median_density": 895.330534,
+ "vae_share_of_fleet": 0.0767,
+ "under_age_holder_share": 0.162108,
+ "validation": {
+  "stock": {
+   "overall": {
+    "equipped_pct_observed": 53.6,
+    "equipped_pct_predicted": 53.61,
+    "bikes_per_household_observed": 1.1505,
+    "bikes_per_household_predicted": 1.151
+   },
+   "clipping_cost": {
+    "k_max": 4,
+    "bikes_per_household_unclipped": 1.2152,
+    "bikes_per_household_clipped": 1.1505,
+    "attributable_per_household_unclipped": 1.0369,
+    "attributable_per_household_clipped": 1.0255,
+    "households_losing_an_attributable_bike_pct": 1.04,
+    "attributable_sd": 1.1936,
+    "note": "Le critère publié « 1,22 vélo/ménage » porte sur M21 non écrêté ; un modèle écrêté à 4+ plafonne à la valeur `..._clipped`, qui est la cible opposable. L'écrêtage est sans effet sur le trait produit (cf. `attributable_*`, 0,011 d'écart) parce que l'attribution est de toute façon bornée par le nombre de membres éligibles."
+   },
+   "by_household_size": [
+    {
+     "size": 1,
+     "n": 4778,
+     "weighted_n": 279816.6,
+     "equipped_pct_observed": 33.38,
+     "equipped_pct_predicted": 33.4,
+     "bikes_per_household_observed": 0.439,
+     "attributable_per_household_observed": 0.3338,
+     "thin": false
+    },
+    {
+     "size": 2,
+     "n": 3620,
+     "weighted_n": 201845.6,
+     "equipped_pct_observed": 57.24,
+     "equipped_pct_predicted": 57.23,
+     "bikes_per_household_observed": 1.1201,
+     "attributable_per_household_observed": 0.9544,
+     "thin": false
+    },
+    {
+     "size": 3,
+     "n": 1114,
+     "weighted_n": 89980.7,
+     "equipped_pct_observed": 74.2,
+     "equipped_pct_predicted": 74.23,
+     "bikes_per_household_observed": 1.7872,
+     "attributable_per_household_observed": 1.63,
+     "thin": false
+    },
+    {
+     "size": 4,
+     "n": 924,
+     "weighted_n": 73804.6,
+     "equipped_pct_observed": 84.32,
+     "equipped_pct_predicted": 84.21,
+     "bikes_per_household_observed": 2.6156,
+     "attributable_per_household_observed": 2.5259,
+     "thin": false
+    },
+    {
+     "size": 5,
+     "n": 263,
+     "weighted_n": 21949.9,
+     "equipped_pct_observed": 83.29,
+     "equipped_pct_predicted": 82.47,
+     "bikes_per_household_observed": 2.6415,
+     "attributable_per_household_observed": 2.6164,
+     "thin": false
+    },
+    {
+     "size": 6,
+     "n": 84,
+     "weighted_n": 6536.5,
+     "equipped_pct_observed": 76.63,
+     "equipped_pct_predicted": 80.79,
+     "bikes_per_household_observed": 2.2284,
+     "attributable_per_household_observed": 2.2284,
+     "thin": false
+    }
+   ],
+   "by_housing_observed": [
+    {
+     "housing": "autres",
+     "n": 64,
+     "weighted_n": 3819.9,
+     "equipped_pct_observed": 28.42,
+     "equipped_pct_predicted": 31.95,
+     "thin": false
+    },
+    {
+     "housing": "grand_habitat_collectif",
+     "n": 2442,
+     "weighted_n": 159292.2,
+     "equipped_pct_observed": 37.55,
+     "equipped_pct_predicted": 40.9,
+     "thin": false
+    },
+    {
+     "housing": "individuel_accole",
+     "n": 1341,
+     "weighted_n": 87028.5,
+     "equipped_pct_observed": 64.79,
+     "equipped_pct_predicted": 60.7,
+     "thin": false
+    },
+    {
+     "housing": "individuel_isole",
+     "n": 3940,
+     "weighted_n": 233760.1,
+     "equipped_pct_observed": 70.94,
+     "equipped_pct_predicted": 67.09,
+     "thin": false
+    },
+    {
+     "housing": "petit_habitat_collectif",
+     "n": 2996,
+     "weighted_n": 190033.2,
+     "equipped_pct_observed": 41.11,
+     "equipped_pct_predicted": 44.87,
+     "thin": false
+    }
+   ]
+  },
+  "housing_reference": {
+   "note": "Cible opposable à une population synthétique. L'habitat du persona étant lui-même IMPUTÉ, le croisement est dilué : même avec le k VRAI de l'enquête, l'amplitude tombe sous celle de la courbe publiée. Comparer la population à la courbe PUBLIÉE reviendrait à exiger du modèle qu'il sur-corrige pour compenser le bruit de l'axe de mesure. La dilution est RECALCULÉE à chaque export avec la loi d'habitat du moment : elle se resserre à mesure que cette imputation s'améliore (ticket 019).",
+   "imputed_vs_observed_agreement_pct": 50.2,
+   "draws": 8,
+   "published_on_observed_housing": {
+    "autres": 28.42,
+    "grand_habitat_collectif": 37.55,
+    "individuel_accole": 64.79,
+    "individuel_isole": 70.94,
+    "petit_habitat_collectif": 41.11
+   },
+   "attainable_households_equipped_pct": {
+    "individuel_isole": 67.17,
+    "individuel_accole": 61.59,
+    "petit_habitat_collectif": 45.38,
+    "grand_habitat_collectif": 40.38,
+    "autres": 24.11
+   },
+   "attainable_on_imputed_housing": {
+    "individuel_isole": 57.16,
+    "individuel_accole": 52.77,
+    "petit_habitat_collectif": 43.19,
+    "grand_habitat_collectif": 37.17,
+    "autres": 26.1
+   },
+   "unit": "attainable_on_imputed_housing = part de PERSONNES dotées d'un vélo (min(min(k, K_MAX), éligibles) / taille). La courbe publiée et `attainable_households_equipped_pct` sont, elles, des parts de MÉNAGES équipés : ne pas comparer les deux unités.",
+   "attainable_spread_pts": 26.79
+  },
+  "practice": {
+   "overall_practice_pct_observed": 39.45,
+   "overall_practice_pct_predicted": 39.46,
+   "by_k_and_size": [
+    {
+     "k": 1,
+     "size": 1,
+     "n": 1253,
+     "weighted_n": 72501.3,
+     "practice_pct_observed": 75.83,
+     "practice_pct_predicted": 68.79,
+     "thin": false
+    },
+    {
+     "k": 1,
+     "size": 2,
+     "n": 909,
+     "weighted_n": 73061.7,
+     "practice_pct_observed": 46.02,
+     "practice_pct_predicted": 50.57,
+     "thin": false
+    },
+    {
+     "k": 1,
+     "size": 3,
+     "n": 365,
+     "weighted_n": 40221.9,
+     "practice_pct_observed": 38.59,
+     "practice_pct_predicted": 38.93,
+     "thin": false
+    },
+    {
+     "k": 1,
+     "size": 4,
+     "n": 261,
+     "weighted_n": 29463.4,
+     "practice_pct_observed": 25.58,
+     "practice_pct_predicted": 31.54,
+     "thin": false
+    },
+    {
+     "k": 2,
+     "size": 1,
+     "n": 288,
+     "weighted_n": 14624.9,
+     "practice_pct_observed": 77.22,
+     "practice_pct_predicted": 76.75,
+     "thin": false
+    },
+    {
+     "k": 2,
+     "size": 2,
+     "n": 1408,
+     "weighted_n": 106129.4,
+     "practice_pct_observed": 64.59,
+     "practice_pct_predicted": 61.84,
+     "thin": false
+    },
+    {
+     "k": 2,
+     "size": 3,
+     "n": 539,
+     "weighted_n": 56525.1,
+     "practice_pct_observed": 52.42,
+     "practice_pct_predicted": 51.12,
+     "thin": false
+    },
+    {
+     "k": 2,
+     "size": 4,
+     "n": 576,
+     "weighted_n": 65513.2,
+     "practice_pct_observed": 39.08,
+     "practice_pct_predicted": 44.58,
+     "thin": false
+    },
+    {
+     "k": 3,
+     "size": 1,
+     "n": 78,
+     "weighted_n": 3718.0,
+     "practice_pct_observed": 80.73,
+     "practice_pct_predicted": 83.27,
+     "thin": false
+    },
+    {
+     "k": 3,
+     "size": 2,
+     "n": 285,
+     "weighted_n": 21218.4,
+     "practice_pct_observed": 68.35,
+     "practice_pct_predicted": 69.02,
+     "thin": false
+    },
+    {
+     "k": 3,
+     "size": 3,
+     "n": 623,
+     "weighted_n": 62271.7,
+     "practice_pct_observed": 59.1,
+     "practice_pct_predicted": 60.49,
+     "thin": false
+    },
+    {
+     "k": 3,
+     "size": 4,
+     "n": 639,
+     "weighted_n": 70817.4,
+     "practice_pct_observed": 54.39,
+     "practice_pct_predicted": 53.0,
+     "thin": false
+    },
+    {
+     "k": 4,
+     "size": 1,
+     "n": 46,
+     "weighted_n": 2238.6,
+     "practice_pct_observed": 84.3,
+     "practice_pct_predicted": 88.2,
+     "thin": false
+    },
+    {
+     "k": 4,
+     "size": 2,
+     "n": 296,
+     "weighted_n": 20649.2,
+     "practice_pct_observed": 75.2,
+     "practice_pct_predicted": 76.46,
+     "thin": false
+    },
+    {
+     "k": 4,
+     "size": 3,
+     "n": 314,
+     "weighted_n": 28280.1,
+     "practice_pct_observed": 63.41,
+     "practice_pct_predicted": 67.52,
+     "thin": false
+    },
+    {
+     "k": 4,
+     "size": 4,
+     "n": 1526,
+     "weighted_n": 166938.0,
+     "practice_pct_observed": 62.86,
+     "practice_pct_predicted": 61.94,
+     "thin": false
+    }
+   ]
+  },
+  "mechanism": {
+   "note": "Attribution rejouée sur les ménages de l'enquête (k, taille et P20 connus). `held_pct_mechanism` est l'indicateur has_bike CONSTRUIT sur lequel la politique de choix modal doit être ré-entraînée, à la place de M21 > 0.",
+   "constructed_has_bike_pct": 50.54,
+   "practice_pct": 39.45,
+   "dormant_gross_pts": 19.63,
+   "dormant_net_pts": 11.09,
+   "practising_without_bike_pts": 8.54,
+   "under_age_holder_share": 0.162108,
+   "by_k_and_size": [
+    {
+     "k": 1,
+     "size": 1,
+     "n": 1253,
+     "practice_pct_observed": 75.83,
+     "held_pct_mechanism": 100.0,
+     "thin": false
+    },
+    {
+     "k": 1,
+     "size": 2,
+     "n": 909,
+     "practice_pct_observed": 46.02,
+     "held_pct_mechanism": 49.76,
+     "thin": false
+    },
+    {
+     "k": 1,
+     "size": 3,
+     "n": 365,
+     "practice_pct_observed": 38.59,
+     "held_pct_mechanism": 33.2,
+     "thin": false
+    },
+    {
+     "k": 1,
+     "size": 4,
+     "n": 261,
+     "practice_pct_observed": 25.58,
+     "held_pct_mechanism": 23.6,
+     "thin": false
+    },
+    {
+     "k": 2,
+     "size": 1,
+     "n": 288,
+     "practice_pct_observed": 77.22,
+     "held_pct_mechanism": 100.0,
+     "thin": false
+    },
+    {
+     "k": 2,
+     "size": 2,
+     "n": 1408,
+     "practice_pct_observed": 64.59,
+     "held_pct_mechanism": 100.0,
+     "thin": false
+    },
+    {
+     "k": 2,
+     "size": 3,
+     "n": 539,
+     "practice_pct_observed": 52.42,
+     "held_pct_mechanism": 65.27,
+     "thin": false
+    },
+    {
+     "k": 2,
+     "size": 4,
+     "n": 576,
+     "practice_pct_observed": 39.08,
+     "held_pct_mechanism": 45.99,
+     "thin": false
+    },
+    {
+     "k": 3,
+     "size": 1,
+     "n": 78,
+     "practice_pct_observed": 80.73,
+     "held_pct_mechanism": 100.0,
+     "thin": false
+    },
+    {
+     "k": 3,
+     "size": 2,
+     "n": 285,
+     "practice_pct_observed": 68.35,
+     "held_pct_mechanism": 100.0,
+     "thin": false
+    },
+    {
+     "k": 3,
+     "size": 3,
+     "n": 623,
+     "practice_pct_observed": 59.1,
+     "held_pct_mechanism": 100.0,
+     "thin": false
+    },
+    {
+     "k": 3,
+     "size": 4,
+     "n": 639,
+     "practice_pct_observed": 54.39,
+     "held_pct_mechanism": 68.45,
+     "thin": false
+    },
+    {
+     "k": 4,
+     "size": 1,
+     "n": 46,
+     "practice_pct_observed": 84.3,
+     "held_pct_mechanism": 100.0,
+     "thin": false
+    },
+    {
+     "k": 4,
+     "size": 2,
+     "n": 296,
+     "practice_pct_observed": 75.2,
+     "held_pct_mechanism": 100.0,
+     "thin": false
+    },
+    {
+     "k": 4,
+     "size": 3,
+     "n": 314,
+     "practice_pct_observed": 63.41,
+     "held_pct_mechanism": 100.0,
+     "thin": false
+    },
+    {
+     "k": 4,
+     "size": 4,
+     "n": 1526,
+     "practice_pct_observed": 62.86,
+     "held_pct_mechanism": 97.83,
+     "thin": false
+    }
+   ]
+  },
+  "targets": {
+   "holders_pct": 50.9,
+   "holders_definition": "Σ w·min(k, taille) / Σ w·taille, pondération COE0 — le chiffre publié du ticket (50,9 %)",
+   "holders_pct_mechanism": 49.41,
+   "holders_mechanism_definition": "Σ w·min(min(k, K_MAX), éligibles 5+) / Σ w·taille — la même grandeur sous les règles que le mécanisme obéit (écrêtage de k, pas de vélo sous 5 ans). C'est la cible OPPOSABLE.",
+   "living_in_equipped_household_pct": 63.2,
+   "living_in_equipped_definition": "part de personnes dans un ménage à k > 0, pondération COEP — la définition sur laquelle la politique de choix modal a été entraînée (has_bike = M21 > 0)",
+   "holders_by_household_size": [
+    {
+     "size": 1,
+     "n": 4778,
+     "weighted_n": 279816.6,
+     "holders_pct": 33.38,
+     "holders_pct_mechanism": 33.38,
+     "thin": false
+    },
+    {
+     "size": 2,
+     "n": 3620,
+     "weighted_n": 201845.6,
+     "holders_pct": 47.83,
+     "holders_pct_mechanism": 47.72,
+     "thin": false
+    },
+    {
+     "size": 3,
+     "n": 1114,
+     "weighted_n": 89980.7,
+     "holders_pct": 55.77,
+     "holders_pct_mechanism": 54.33,
+     "thin": false
+    },
+    {
+     "size": 4,
+     "n": 924,
+     "weighted_n": 73804.6,
+     "holders_pct": 65.39,
+     "holders_pct_mechanism": 63.15,
+     "thin": false
+    },
+    {
+     "size": 5,
+     "n": 263,
+     "weighted_n": 21949.9,
+     "holders_pct": 59.67,
+     "holders_pct_mechanism": 52.33,
+     "thin": false
+    },
+    {
+     "size": 6,
+     "n": 84,
+     "weighted_n": 6536.5,
+     "holders_pct": 40.63,
+     "holders_pct_mechanism": 36.07,
+     "thin": false
+    }
+   ],
+   "practising_per_bike": [
+    {
+     "k": 1,
+     "n": 2184,
+     "persons_5plus_per_household": 1.63,
+     "practising_per_household": 0.84,
+     "practising_per_bike": 0.84
+    },
+    {
+     "k": 2,
+     "n": 1788,
+     "persons_5plus_per_household": 2.27,
+     "practising_per_household": 1.25,
+     "practising_per_bike": 0.62
+    },
+    {
+     "k": 3,
+     "n": 802,
+     "persons_5plus_per_household": 2.92,
+     "practising_per_household": 1.69,
+     "practising_per_bike": 0.56
+    },
+    {
+     "k": 4,
+     "n": 965,
+     "persons_5plus_per_household": 3.45,
+     "practising_per_household": 2.15,
+     "practising_per_bike": 0.54
+    }
+   ],
+   "vae_share_of_fleet_pct": 7.67,
+   "households_with_at_least_one_vae_pct": 7.66
+  },
+  "thin_cell_weighted_n": 30.0
+ },
+ "meta": {
+  "source": "EMC² Toulouse 2023 (ProGEDO lil-1750) — fichiers standards ménages (M21, M1, M6, COE0) et personnes (P20, P4, P2, P9, COEP), fichier original (ML21, vélos à assistance électrique, absent du standard où M22 est vide)",
+  "stage1_covariates": "taille du ménage, nombre de VP (M6), densité de ménages et distance à l'hypercentre de la zone fine. NI l'habitat (M1) — moins informatif que la zone dont il est imputé côté persona — NI l'occupation du logement (M2), que le persona ne porte pas.",
+  "stage2_covariates": "k, taille du ménage, âge, genre, occupation, densité et distance au centre. AUCUNE distance de déplacement : un stock doit être invariant au trajet.",
+  "eligibility": "membres de 5 ans et plus (champ de la question P20) ; VAE à partir de 14 ans",
+  "out_of_scope": "vélo en libre-service (MODP ∈ {10, 18}, 7 % des trajets vélo) ; stationnement (M23, P18A manquant à 65 %) ; week-end — P20 ne porte que du lundi au vendredi, un cycliste de loisir dominical est vu « Jamais » et l'attribution le sous-estime sans qu'on puisse mesurer de combien",
+  "exported_at": "2026-08-21T13:31:17+00:00"
+ }
+}

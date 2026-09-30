@@ -1,0 +1,440 @@
+[
+  {
+    "person_id": "286920",
+    "immobile": false,
+    "household": {
+      "id": "133048",
+      "iris_id": "312480000",
+      "commune_id": "31248"
+    },
+    "provenance": {
+      "census_person_id": "194042",
+      "hts_id": "39916.0"
+    },
+    "validation": {
+      "commute_mode": "car"
+    },
+    "identity": {
+      "name": "Arthur Guyot",
+      "traits_json": {
+        "name": "Arthur Guyot",
+        "age": 40,
+        "gender": "Male",
+        "main_occupation": "Full-time worker",
+        "travel_purposes": [
+          "Work"
+        ],
+        "occupation": {
+          "title": "Executive",
+          "organization": "Technology Company"
+        },
+        "household_size": 4,
+        "income": "Medium-High",
+        "socioprofessional_class": "Executive or Higher Intellectual Professional",
+        "professional_activity": "Full-Time Worker",
+        "employment_sector": "electrical_electronics_ict_machinery",
+        "car_availability": "all",
+        "has_driving_license": true,
+        "has_pt_subscription": false,
+        "number_of_cars": 2,
+        "employed": true,
+        "studies": false,
+        "residence_zone": "1st ring",
+        "residence_insee": "31248",
+        "residence_commune": "Labarthe-sur-Lèze",
+        "housing_type": "Detached house",
+        "personal_bike": "regular bike"
+      },
+      "home": {
+        "lon": 1.39659649802712,
+        "lat": 43.4473853793273,
+        "public_transport": true
+      },
+      "activities": [
+        {
+          "id": "dde263c1-324f-540f-b9cd-e8beab2a481a",
+          "scheduled_start_time": 64380.0,
+          "start_time": 66956.0,
+          "end_time": 24181.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.39659649802712,
+            "lat": 43.4473853793273,
+            "public_transport": true,
+            "zone": "a neighbourhood of a small town in the municipality of Labarthe-sur-Lèze (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "77dc39e3-67f4-5bfd-ac32-406697f6d784",
+          "scheduled_start_time": 24181.0,
+          "start_time": 26820.0,
+          "end_time": 64380.0,
+          "purpose": "work",
+          "location": {
+            "lon": 1.369088594807588,
+            "lat": 43.606172590161414,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        }
+      ]
+    },
+    "state": {
+      "last_location": null,
+      "last_activity_index": 0,
+      "cache_current_activity": null,
+      "heading_to": null,
+      "scheduling_in_progress": false,
+      "scheduling_started_at": null
+    },
+    "is_llm_based": true,
+    "perimetre": {
+      "activites_hors_perimetre_supprimees": 0
+    }
+  },
+  {
+    "person_id": "286921",
+    "immobile": false,
+    "household": {
+      "id": "133048",
+      "iris_id": "312480000",
+      "commune_id": "31248"
+    },
+    "provenance": {
+      "census_person_id": "194043",
+      "hts_id": "39772.0"
+    },
+    "validation": {
+      "commute_mode": "car"
+    },
+    "identity": {
+      "name": "Adrienne Joly-Bertrand",
+      "traits_json": {
+        "name": "Adrienne Joly-Bertrand",
+        "age": 42,
+        "gender": "Female",
+        "main_occupation": "Full-time worker",
+        "travel_purposes": [
+          "Work",
+          "Shopping"
+        ],
+        "occupation": {
+          "title": "Technician",
+          "organization": "Public Institution"
+        },
+        "household_size": 4,
+        "income": "Medium-High",
+        "socioprofessional_class": "Intermediate Professional",
+        "professional_activity": "Full-Time Worker",
+        "employment_sector": "public_admin_education_health",
+        "car_availability": "all",
+        "has_driving_license": true,
+        "has_pt_subscription": false,
+        "number_of_cars": 2,
+        "employed": true,
+        "studies": false,
+        "residence_zone": "1st ring",
+        "residence_insee": "31248",
+        "residence_commune": "Labarthe-sur-Lèze",
+        "housing_type": "Detached house",
+        "personal_bike": "regular bike"
+      },
+      "home": {
+        "lon": 1.39659649802712,
+        "lat": 43.4473853793273,
+        "public_transport": true
+      },
+      "activities": [
+        {
+          "id": "eff43ddf-2676-5354-b5f3-20d26379eec2",
+          "scheduled_start_time": 65005.0,
+          "start_time": 66059.0,
+          "end_time": 27799.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.39659649802712,
+            "lat": 43.4473853793273,
+            "public_transport": true,
+            "zone": "a neighbourhood of a small town in the municipality of Labarthe-sur-Lèze (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "fdc4a9c5-51d6-5dff-9828-90d83e0afa75",
+          "scheduled_start_time": 27799.0,
+          "start_time": 30505.0,
+          "end_time": 46285.0,
+          "purpose": "work",
+          "location": {
+            "lon": 1.4574175194436838,
+            "lat": 43.601662436996286,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "006b2835-991a-52f6-86b5-46c8b1ff4348",
+          "scheduled_start_time": 46285.0,
+          "start_time": 47183.0,
+          "end_time": 48383.0,
+          "purpose": "shop",
+          "location": {
+            "lon": 1.4542650224951088,
+            "lat": 43.59606295823752,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "8242f224-3dcf-5afd-8549-87824c027353",
+          "scheduled_start_time": 48383.0,
+          "start_time": 49133.0,
+          "end_time": 61297.0,
+          "purpose": "work",
+          "location": {
+            "lon": 1.4574175194436838,
+            "lat": 43.601662436996286,
+            "public_transport": true,
+            "zone": "a neighbourhood of a major urban centre in the municipality of Toulouse (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "152926ea-4ca5-57f0-b8d2-c237d9baf41c",
+          "scheduled_start_time": 61297.0,
+          "start_time": 64105.0,
+          "end_time": 65005.0,
+          "purpose": "other",
+          "location": {
+            "lon": 1.4063964483003866,
+            "lat": 43.44611958599852,
+            "public_transport": true,
+            "zone": "a neighbourhood of a small town in the municipality of Labarthe-sur-Lèze (Toulouse urban area)"
+          }
+        }
+      ]
+    },
+    "state": {
+      "last_location": null,
+      "last_activity_index": 0,
+      "cache_current_activity": null,
+      "heading_to": null,
+      "scheduling_in_progress": false,
+      "scheduling_started_at": null
+    },
+    "is_llm_based": true,
+    "perimetre": {
+      "activites_hors_perimetre_supprimees": 0
+    }
+  },
+  {
+    "person_id": "286922",
+    "immobile": false,
+    "household": {
+      "id": "133048",
+      "iris_id": "312480000",
+      "commune_id": "31248"
+    },
+    "provenance": {
+      "census_person_id": "194044",
+      "hts_id": "40235.0"
+    },
+    "validation": {
+      "commute_mode": null
+    },
+    "identity": {
+      "name": "Josette Gomez",
+      "traits_json": {
+        "name": "Josette Gomez",
+        "age": 6,
+        "gender": "Female",
+        "main_occupation": "Pupil (up to Baccalaureate)",
+        "travel_purposes": [
+          "Education"
+        ],
+        "occupation": {
+          "title": "Without Occupation",
+          "organization": ""
+        },
+        "household_size": 4,
+        "income": "Medium-High",
+        "socioprofessional_class": "Other Inactive",
+        "professional_activity": "Child (under 14)",
+        "employment_sector": "",
+        "car_availability": "all",
+        "has_driving_license": false,
+        "has_pt_subscription": false,
+        "number_of_cars": 2,
+        "employed": false,
+        "studies": true,
+        "residence_zone": "1st ring",
+        "residence_insee": "31248",
+        "residence_commune": "Labarthe-sur-Lèze",
+        "housing_type": "Detached house",
+        "personal_bike": "regular bike"
+      },
+      "home": {
+        "lon": 1.39659649802712,
+        "lat": 43.4473853793273,
+        "public_transport": true
+      },
+      "activities": [
+        {
+          "id": "504aff56-3c74-5a35-98d7-f5edd716f6f2",
+          "scheduled_start_time": 62543.0,
+          "start_time": 63378.0,
+          "end_time": 26071.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.39659649802712,
+            "lat": 43.4473853793273,
+            "public_transport": true,
+            "zone": "a neighbourhood of a small town in the municipality of Labarthe-sur-Lèze (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "55fc17f3-2bda-5842-9e72-714949e1c0cc",
+          "scheduled_start_time": 26071.0,
+          "start_time": 26843.0,
+          "end_time": 62543.0,
+          "purpose": "education",
+          "location": {
+            "lon": 1.3986042667113099,
+            "lat": 43.453484305131695,
+            "public_transport": true,
+            "zone": "a neighbourhood of a small town in the municipality of Labarthe-sur-Lèze (Toulouse urban area)"
+          }
+        }
+      ]
+    },
+    "state": {
+      "last_location": null,
+      "last_activity_index": 0,
+      "cache_current_activity": null,
+      "heading_to": null,
+      "scheduling_in_progress": false,
+      "scheduling_started_at": null
+    },
+    "is_llm_based": true,
+    "perimetre": {
+      "activites_hors_perimetre_supprimees": 0
+    }
+  },
+  {
+    "person_id": "286923",
+    "immobile": false,
+    "household": {
+      "id": "133048",
+      "iris_id": "312480000",
+      "commune_id": "31248"
+    },
+    "provenance": {
+      "census_person_id": "194045",
+      "hts_id": "38091.0"
+    },
+    "validation": {
+      "commute_mode": null
+    },
+    "identity": {
+      "name": "Denis Carlier",
+      "traits_json": {
+        "name": "Denis Carlier",
+        "age": 9,
+        "gender": "Male",
+        "main_occupation": "Pupil (up to Baccalaureate)",
+        "travel_purposes": [
+          "Education"
+        ],
+        "occupation": {
+          "title": "Without Occupation",
+          "organization": ""
+        },
+        "household_size": 4,
+        "income": "Medium-High",
+        "socioprofessional_class": "Other Inactive",
+        "professional_activity": "Child (under 14)",
+        "employment_sector": "",
+        "car_availability": "all",
+        "has_driving_license": false,
+        "has_pt_subscription": false,
+        "number_of_cars": 2,
+        "employed": false,
+        "studies": true,
+        "residence_zone": "1st ring",
+        "residence_insee": "31248",
+        "residence_commune": "Labarthe-sur-Lèze",
+        "housing_type": "Detached house",
+        "personal_bike": "regular bike"
+      },
+      "home": {
+        "lon": 1.39659649802712,
+        "lat": 43.4473853793273,
+        "public_transport": true
+      },
+      "activities": [
+        {
+          "id": "839430d3-0232-533f-b23e-d187b9c7ac8a",
+          "scheduled_start_time": 62510.0,
+          "start_time": 63377.0,
+          "end_time": 32281.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.39659649802712,
+            "lat": 43.4473853793273,
+            "public_transport": true,
+            "zone": "a neighbourhood of a small town in the municipality of Labarthe-sur-Lèze (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "fe705413-82ad-5bdf-90d1-c1da093454c2",
+          "scheduled_start_time": 32281.0,
+          "start_time": 33110.0,
+          "end_time": 44750.0,
+          "purpose": "education",
+          "location": {
+            "lon": 1.398574642635177,
+            "lat": 43.45288465387539,
+            "public_transport": true,
+            "zone": "a neighbourhood of a small town in the municipality of Labarthe-sur-Lèze (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "a120b685-6647-50e1-89d9-b699f76304fd",
+          "scheduled_start_time": 44750.0,
+          "start_time": 45555.0,
+          "end_time": 51671.0,
+          "purpose": "home",
+          "location": {
+            "lon": 1.39659649802712,
+            "lat": 43.4473853793273,
+            "public_transport": true,
+            "zone": "a neighbourhood of a small town in the municipality of Labarthe-sur-Lèze (Toulouse urban area)"
+          }
+        },
+        {
+          "id": "4f6f0c39-09b9-5f8b-940f-07bcb84b8e94",
+          "scheduled_start_time": 51671.0,
+          "start_time": 52472.0,
+          "end_time": 62510.0,
+          "purpose": "education",
+          "location": {
+            "lon": 1.398574642635177,
+            "lat": 43.45288465387539,
+            "public_transport": true,
+            "zone": "a neighbourhood of a small town in the municipality of Labarthe-sur-Lèze (Toulouse urban area)"
+          }
+        }
+      ]
+    },
+    "state": {
+      "last_location": null,
+      "last_activity_index": 0,
+      "cache_current_activity": null,
+      "heading_to": null,
+      "scheduling_in_progress": false,
+      "scheduling_started_at": null
+    },
+    "is_llm_based": true,
+    "perimetre": {
+      "activites_hors_perimetre_supprimees": 0
+    }
+  }
+]

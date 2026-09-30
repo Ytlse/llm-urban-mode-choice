@@ -1,0 +1,21 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    uid: ffj2fwnh387pce
+    url: http://prometheus:9090
+    access: proxy
+    isDefault: true
+    editable: true
+
+  # JSON datasource (Infinity plugin) for the cockpit's "Dernières erreurs LLM"
+  # panel — Prometheus storing only numeric data, the error messages
+  # are served as JSON by the gateway's GET /errors/recent endpoint.
+  - name: Infinity
+    type: yesoreyeram-infinity-datasource
+    uid: infinity1
+    access: proxy
+    url: http://api:8000
+    isDefault: false
+    editable: true

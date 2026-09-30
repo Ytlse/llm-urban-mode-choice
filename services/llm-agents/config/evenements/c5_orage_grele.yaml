@@ -1,0 +1,33 @@
+# ══ MIGRATED TO THE TICKET 100 FORMAT (single channel) on 2026-09-21 ═════════════════════
+# `choc:` becomes `evenement:`, and three fields appear. They change NOTHING in what this
+# file did: `canal: vecu` and `moment: arrivee` are the suffered regime of ticket 079, and
+# `jugement: aucun` is the state before lot 3 — the agent does not judge yet what they suffer.
+# The golden test of lot 1 replays the original from `config/chocs/` and requires the same trace.
+# C5 — Hailstorm · walking, bike, motorised two-wheelers
+# Hits the exposed modes, those the four other cases leave aside.
+# ⚠ It is here, and ONLY here, that a weather shock becomes memorable. A heatwave alone
+#   produces no delay: its deterministic severity is zero, the memory lives 2.8 days and never
+#   crosses the threshold of the shock pool. Declaring the storm as an incident gives it
+#   the measured anchoring it lacks.
+evenement: c5_orage_grele
+canal: vecu                  # vecu | lu — where the text comes from
+moment: arrivee              # arrivee (after the decision) | reveil (before)
+jugement: aucun              # aucun | a_l_injection (lot 3 of ticket 100)
+# At most one application per agent and per day (ticket 100, § 13.2 point 9, 2026-09-24).
+# Without this line, the default `trajet` cadence injected the event at EACH trip
+# of the targeted mode on the same day — the defect that cost a measurement on c6 on 19/09.
+cadence: jour
+libelle: "Violent hailstorm"
+source: "scénario déclaré — Böcker et al. (2013), Transport Reviews 33(1), sur l'effet météo"
+
+exposition:
+  regle: mode
+  modes: [walking, cycling, motorbike]
+
+jours:
+  - jour: 12
+    retard_min: 15
+    incident_reseau: true
+    vecu: >-
+      A storm broke while I was outside. I reached work soaked through, and my shoes stayed wet
+      for the whole day. I arrived 15 minutes after the time I had planned.

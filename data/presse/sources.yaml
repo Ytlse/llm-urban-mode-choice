@@ -1,0 +1,59 @@
+note: Press texts are not redistributed. fetch_articles.py downloads each page to articles_html/, and
+  `python -m scripts.data.presse.extraire_textes extraire` rebuilds brut.fr.txt; the sha256 values below
+  identify the texts used in the paper. The English excerpts (brut.txt) were machine-translated and must
+  be translated again; a new translation has a different sha256, which the event configuration must then
+  declare.
+articles:
+  a07_greve_eboueurs:
+    url: https://www.toulousefm.fr/news/toulouse-les-eboueurs-de-la-ville-en-greve-illimitee-a-partir-d-aujourd-hui-17762
+    title: 'Toulouse : Les éboueurs de la ville en grève illimitée à partir d''aujourd''hui'
+    media: Toulouse FM
+    published: '2019-03-18'
+    archived_html: articles_html/07_greve_eboueurs_hypercentre.html
+    archived_html_sha256: 3b94bd7f6671d654cdc5f201bbd4e2820917df822dbd294b6ed9a06ec4112c0f
+    excerpt_fr_sha256: 2e1a0d6ba03f021a77488867642a22de3efdc99c86af157eb3fe0da98ea98637
+    excerpt_en_sha256: 127747752d7665277b6a008c5e3df7c1de84a5fc3246a1f7588bba8a56ef05f0
+  a09_vent_autan:
+    url: https://www.ladepeche.fr/2026/07/16/rafales-de-vent-a-plus-de-80-kmh-toulouse-ferme-en-urgence-ses-parcs-et-jardins-ce-jeudi-soir-13471686.php
+    title: 'Rafales de vent à plus de 80 km/h : Toulouse ferme en urgence ses parcs et jardins ce jeudi
+      soir'
+    media: La Dépêche du Midi
+    published: '2026-07-16'
+    archived_html: articles_html/09_vent_autan_fermeture_parcs.html
+    archived_html_sha256: 9954b79ab0f936f624d479ebdad2208582f46d460fdd6fc6db7baa47f32865c4
+    excerpt_fr_sha256: 138e414f04befc8b855d1862a1d2a4ddf8b9ce5a3f72bf184c90a17274a726bb
+    excerpt_en_sha256: 8dae2d4e14d5e8a9b1026780d54f6d4b35fbe59cd36bc18a7438a518afabb359
+  a13_punaises_metro:
+    url: https://www.punaise-de-lit-info.fr/actualites/la-possible-presence-de-punaises-de-lit-dans-le-metro-de-toulouse-suscite-des-questions
+    title: La possible présence de punaises de lit dans le métro de Toulouse suscite des questions
+    media: Punaise de Lit Info
+    published: '2023-10-13'
+    archived_html: articles_html/13_psychose_punaises_metro.html
+    archived_html_sha256: 8fae5fccbec7fe388fff7c4c58a8d3b7fde13ea9c413acb87ad69986a3f493da
+    excerpt_fr_sha256: 1d940ae135ae2e0f8409f4cc5aee9c21620c932402d0ed24cd6efa71e3a0a60d
+    excerpt_en_sha256: fc3551256f99c5d467482df05e1df737592e3365a5c174432aa0389638341393
+  a18_la_machine:
+    url: https://france3-regions.francetvinfo.fr/occitanie/haute-garonne/toulouse/le-minotaure-l-araignee-et-la-gardienne-des-teneberes-arrivent-a-toulouse-le-programme-du-nouveau-spectacle-des-machines-3049804.html
+    title: 'Le programme du nouveau spectacle de La Machine : les Géants vont à nouveau s''affronter dans
+      ce 2ème opus de l''opéra urbain'
+    media: France 3 Occitanie
+    published: '2024-10-24'
+    archived_html: articles_html/18_minotaure_la_machine.html
+    archived_html_sha256: e9d5f8b20eaa6e88f7c43214f2c6cdb7170b7ac63c6d126f7ca7f6f9f587a75f
+    excerpt_fr_sha256: 4a1bb0174894dd9b3da787feaff4e4e459c171cfd3780b42a8a7169d24fc3b0d
+    excerpt_en_sha256: 138cf8fb2e0bf0e323045582aaf7fd32ce5ed7a8d288343d7aaa26b4b6e864be
+  a25_velotoulouse:
+    url: https://www.ladepeche.fr/2024/06/22/mobilite-douce-a-toulouse-lancement-du-nouveau-service-velotoulouse-des-le-30-aout-12034444.php
+    title: 'Mobilité douce à Toulouse : lancement du nouveau service VélôToulouse dès le 30 Août'
+    media: La Dépêche du Midi
+    published: '2024-06-22'
+    archived_html: articles_html/25_velotoulouse_electrique.html
+    archived_html_sha256: 12679bce67b6cac18577e6764c514cc621840fb475fa1220f893880d474d0ee9
+    excerpt_fr_sha256: 62d0d915f8d1e81226700349caddf880d437e5941268f0cdcc9d721fa93d7de1
+    excerpt_en_sha256: cda45b4e1a9fecfcbc04004a4bbcd13e9df202a06a423d7a899dd42e872d3e59
+control_text:
+  url: https://www.france24.com/fr/amériques/20260919-le-tilcayo-une-nouvelle-espèce-de-félin-sauvage-découverte-en-bolivie
+  media: France 24
+  published: '2026-09-19'
+  fr_sha256: d39d32b61d8ed457d5503e39e5f317d9d55fddf5b0e4aebc4911b363c2eabcf0
+  en_sha256: fbfa713e5b8e6d1178f0f5a2d0994e20e2ee5843b0441cfe252cd62789e07915

@@ -1,0 +1,21 @@
+canal: vecu
+evenement: c6_voiture_suspecte
+modeles:
+  itinary_multi_agent: gemini-3.8-flash
+  evenement_jugement: gemini-3.8-flash
+  stm_reflection: gemini-3.8-flash
+  ltm_self_reflection: gemini-3.8-flash
+  enquete_affinite: gemini-3.8-flash
+temperature_decision: 0.0
+variante_prompt: prompt_expert_05
+population: '899549'
+horizon_jours: 42
+arret_sur_extinction: false
+jours_apres_extinction: 5
+graine_calendrier: 42
+graine_tirage: 42
+memoire_importance_choc: 0.7
+stm_reflection_min_entries: 5
+contrefactuel_ab: true
+enquetes_quotidiennes: true
+nom: exp_mem_choc_c6_voiture_suspecte_gem38f_899549_42j

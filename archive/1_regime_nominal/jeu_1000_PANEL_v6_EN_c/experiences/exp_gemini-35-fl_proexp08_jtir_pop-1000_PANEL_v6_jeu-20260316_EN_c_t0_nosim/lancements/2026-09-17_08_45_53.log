@@ -1,0 +1,528 @@
+2026-09-17 10:45:54.433 | DEBUG    | experiences.ressources:charger_providers:69 - [ressources] 24 instance(s) lue(s) dans /app/config/llm_gateway/providers.yaml
+2026-09-17 10:45:54.732 | DEBUG    | settings:get:1035 - Configuration lue ; workdir de ce processus s'il ouvrait un run : 2026-09-17_07_18 (aucun artefact créé, cf. claim_run())
+2026-09-17 10:45:54.741 | WARNING  | experiences.jeu:dependances_courantes:346 - [jeu] état du dépôt non vérifiable : ni $EXP_DEPOT_COMMIT ni `git` ne répondent. La mesure ne pourra pas être rattachée à un état du code (ticket 045, A4).
+2026-09-17 10:45:57.165 | INFO     | trip_helper.osmnx_direct:<module>:54 - OSMnx HTTP mode: 1 endpoint(s): ['http://osmnx1:8090/route']
+2026-09-17 10:45:57.165 | INFO     | trip_helper.osmnx_direct:<module>:66 - OSMnx HTTP concurrency limit: 3
+2026-09-17 10:45:57.629 | DEBUG    | experiences.ressources:charger_providers:69 - [ressources] 24 instance(s) lue(s) dans /app/config/llm_gateway/providers.yaml
+2026-09-17 10:45:57.629 | WARNING  | experiences.cli:appliquer_instances_admises:509 - [execution] instances_admises du fichier ÉCRASÉE par l'expérience : ['groq_openai_120_key1', 'groq_qwen_qwen3_8_27b_key1'] → ['google_gemini35_key1', 'google_gemini35_key2']. Le fichier `config/config.yaml` reste la source du seul chemin `make run`.
+2026-09-17 10:45:57.727 | INFO     | inputs.population.eqasim_loader:_apply_perimeter_filter:108 - [EqasimJSONPopulationLoader/cache] filtre de périmètre : 1000 → 1000 (aucun rejet)
+2026-09-17 10:45:57.962 | INFO     | experiences.reservations:admettre:295 - [reservations] exp_gemini-35-fl_proexp08_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim réserve ['google_key2']
+/usr/local/lib/python3.12/site-packages/pydantic/_internal/_generate_schema.py:2249: UnsupportedFieldAttributeWarning: The 'validate_default' attribute with value True was provided to the `Field()` function, which has no effect in the context it was used. 'validate_default' is field-specific metadata, and can only be attached to a model field using `Annotated` metadata or by assignment. This may have happened because an `Annotated` type alias using the `type` statement was used, or if the `Field()` function was attached to a single member of a union type.
+  warnings.warn(
+2026-09-17 10:45:59.672 | INFO     | inputs.gtfs.reader:_joindre_catalogues_des_autres_feeds:176 - [GTFS] catalogue des lignes : 443 ligne(s) au total, dont 319 venue(s) des autres feeds en service ({'lio_gtfs': 302, 'ter_gtfs': 17}) ; 37 nom(s) court(s) déjà pris, gardés au feed primaire
+2026-09-17 10:45:59.828 | INFO     | inputs.gtfs.reader:init_shape_lookup_maps:246 - [GTFS] table des tracés lue dans /services/GAMA/CityTransport/includes/shape_lookup.json (générée le 2026-09-15T06:54:28 par scripts/data/gama/export_trip_info.py) : 199 route_id, 962 tracé(s), 5965 arrêt(s) au catalogue ; réseaux {'tisseo': {'courses_retenues': 39343, 'traces_retenus': 395, 'lignes': 124, 'origine_trace': 'gtfs'}, 'ter': {'courses_retenues': 1137, 'traces_retenus': 266, 'lignes': 17, 'origine_trace': 'arrets'}, 'lio': {'courses_retenues': 1075, 'traces_retenus': 301, 'lignes': 58, 'origine_trace': 'gtfs'}} ; fraîcheur vérifiée sur routes.dbf, routes.shp, trip_info.json
+2026-09-17 10:45:59.897 | INFO     | urban_mobility_agents.agents.llm_agent:__init__:548 - Long-term memory disabled — ChromaDB initialization skipped
+2026-09-17 10:45:59.897 | INFO     | llm_gateway.sdk.client:__init__:162 - [gateway] restriction d'instances active sur TOUS les appels de ce client : ['google_gemini35_key1', 'google_gemini35_key2']
+2026-09-17 10:45:59.926 | INFO     | experiences.runner:executer:487 - [execution] dénominateur arrêté à l'ouverture : 3161 déplacements exploitables sur 3299 attendus (138 inexploitables dérivés du jeu 'population_1000_PANEL_v6_20260316_EN_c')
+2026-09-17 10:45:59.995 | INFO     | experiences.journal:regenerer:309 - [journal] Régénération de 2026-09-17_07_34_55 — début : 2201 décisions archivées, 2095 ligne(s) au journal actuel
+2026-09-17 10:46:03.270 | INFO     | experiences.journal:regenerer:364 - [journal] Régénération de 2026-09-17_07_34_55 terminée en 3.3 s — 2095 → 2095 ligne(s) ; reconstruites 2095, non couvertes 0, inexploitables 106, sans proposition 0, persona absente 0
+2026-09-17 10:46:03.272 | INFO     | experiences.archive:changer_etat:291 - [execution] 2026-09-17_07_34_55 → en_cours
+2026-09-17 10:46:03.275 | INFO     | experiences.runner:executer:540 - [execution] Début 2026-09-17_07_34_55 (exp_gemini-35-fl_proexp08_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim) : 3299 déplacements attendus, 894 personnes, 2201 décisions déjà archivées, décideur passerelle:gemini-3.5-flash-lite
+2026-09-17 10:46:04.095 | INFO     | urban_mobility_agents.agents.llm_agent:_weather_eligible_days:172 - [météo] une date par agent : 366 journée(s) éligible(s) dans 2024-01-01 → 2024-12-31
+2026-09-17 10:46:04.095 | WARNING  | urban_mobility_agents.utils.ancre_run:jours_ecoules:73 - [ancre] aucune ancre posée : tout ce qui dépend du nombre de jours écoulés se comporte comme au premier jour du run (progression météo figée). Attendu seulement avant le premier /sync.
+2026-09-17 10:46:08.284 | INFO     | experiences.runner:boucle:387 - [execution] 2201/3161 déplacements (69.6 %) · 600/894 personnes · 8 s écoulées · reste ≈ nan s · sollicitations 0 · attentes 0 
+2026-09-17 10:46:13.289 | INFO     | experiences.runner:boucle:387 - [execution] 2201/3161 déplacements (69.6 %) · 600/894 personnes · 13 s écoulées · reste ≈ nan s · sollicitations 0 · attentes 0 
+2026-09-17 10:46:18.298 | INFO     | experiences.runner:boucle:387 - [execution] 2201/3161 déplacements (69.6 %) · 600/894 personnes · 18 s écoulées · reste ≈ nan s · sollicitations 0 · attentes 0 
+2026-09-17 10:46:23.302 | INFO     | experiences.runner:boucle:387 - [execution] 2201/3161 déplacements (69.6 %) · 600/894 personnes · 23 s écoulées · reste ≈ nan s · sollicitations 0 · attentes 0 
+2026-09-17 10:46:28.309 | INFO     | experiences.runner:boucle:387 - [execution] 2210/3161 déplacements (69.9 %) · 601/894 personnes · 28 s écoulées · reste ≈ 2999 s · sollicitations 8 · attentes 0 
+2026-09-17 10:46:33.312 | INFO     | experiences.runner:boucle:387 - [execution] 2210/3161 déplacements (69.9 %) · 601/894 personnes · 33 s écoulées · reste ≈ 3528 s · sollicitations 8 · attentes 0 
+2026-09-17 10:46:38.316 | INFO     | experiences.runner:boucle:387 - [execution] 2210/3161 déplacements (69.9 %) · 601/894 personnes · 38 s écoulées · reste ≈ 4057 s · sollicitations 8 · attentes 0 
+2026-09-17 10:46:43.326 | INFO     | experiences.runner:boucle:387 - [execution] 2210/3161 déplacements (69.9 %) · 601/894 personnes · 43 s écoulées · reste ≈ 4586 s · sollicitations 8 · attentes 0 
+2026-09-17 10:46:48.329 | INFO     | experiences.runner:boucle:387 - [execution] 2220/3161 déplacements (70.2 %) · 602/894 personnes · 48 s écoulées · reste ≈ 2397 s · sollicitations 16 · attentes 0 
+2026-09-17 10:46:53.334 | INFO     | experiences.runner:boucle:387 - [execution] 2220/3161 déplacements (70.2 %) · 602/894 personnes · 53 s écoulées · reste ≈ 2645 s · sollicitations 16 · attentes 0 
+2026-09-17 10:46:58.340 | INFO     | experiences.runner:boucle:387 - [execution] 2220/3161 déplacements (70.2 %) · 602/894 personnes · 58 s écoulées · reste ≈ 2893 s · sollicitations 16 · attentes 0 
+2026-09-17 10:47:03.345 | INFO     | experiences.runner:boucle:387 - [execution] 2220/3161 déplacements (70.2 %) · 602/894 personnes · 63 s écoulées · reste ≈ 3141 s · sollicitations 16 · attentes 0 
+2026-09-17 10:47:08.350 | INFO     | experiences.runner:boucle:387 - [execution] 2220/3161 déplacements (70.2 %) · 602/894 personnes · 68 s écoulées · reste ≈ 3389 s · sollicitations 16 · attentes 0 
+2026-09-17 10:47:13.355 | INFO     | experiences.runner:boucle:387 - [execution] 2229/3161 déplacements (70.5 %) · 602/894 personnes · 73 s écoulées · reste ≈ 2444 s · sollicitations 24 · attentes 0 
+2026-09-17 10:47:18.359 | INFO     | experiences.runner:boucle:387 - [execution] 2229/3161 déplacements (70.5 %) · 602/894 personnes · 78 s écoulées · reste ≈ 2611 s · sollicitations 24 · attentes 0 
+2026-09-17 10:47:23.365 | INFO     | experiences.runner:boucle:387 - [execution] 2229/3161 déplacements (70.5 %) · 602/894 personnes · 83 s écoulées · reste ≈ 2777 s · sollicitations 24 · attentes 0 
+2026-09-17 10:47:28.368 | INFO     | experiences.runner:boucle:387 - [execution] 2239/3161 déplacements (70.8 %) · 605/894 personnes · 88 s écoulées · reste ≈ 2146 s · sollicitations 32 · attentes 0 
+2026-09-17 10:47:33.373 | INFO     | experiences.runner:boucle:387 - [execution] 2239/3161 déplacements (70.8 %) · 605/894 personnes · 93 s écoulées · reste ≈ 2267 s · sollicitations 32 · attentes 0 
+2026-09-17 10:47:38.378 | INFO     | experiences.runner:boucle:387 - [execution] 2239/3161 déplacements (70.8 %) · 605/894 personnes · 98 s écoulées · reste ≈ 2389 s · sollicitations 32 · attentes 0 
+2026-09-17 10:47:43.381 | INFO     | experiences.runner:boucle:387 - [execution] 2239/3161 déplacements (70.8 %) · 605/894 personnes · 103 s écoulées · reste ≈ 2510 s · sollicitations 32 · attentes 0 
+2026-09-17 10:47:48.384 | INFO     | experiences.runner:boucle:387 - [execution] 2251/3161 déplacements (71.2 %) · 606/894 personnes · 108 s écoulées · reste ≈ 1974 s · sollicitations 40 · attentes 0 
+2026-09-17 10:47:53.387 | INFO     | experiences.runner:boucle:387 - [execution] 2251/3161 déplacements (71.2 %) · 609/894 personnes · 113 s écoulées · reste ≈ 2065 s · sollicitations 40 · attentes 0 
+2026-09-17 10:47:58.390 | INFO     | experiences.runner:boucle:387 - [execution] 2251/3161 déplacements (71.2 %) · 609/894 personnes · 118 s écoulées · reste ≈ 2156 s · sollicitations 40 · attentes 0 
+2026-09-17 10:48:03.395 | INFO     | experiences.runner:boucle:387 - [execution] 2251/3161 déplacements (71.2 %) · 609/894 personnes · 123 s écoulées · reste ≈ 2247 s · sollicitations 40 · attentes 0 
+2026-09-17 10:48:08.398 | INFO     | experiences.runner:boucle:387 - [execution] 2251/3161 déplacements (71.2 %) · 609/894 personnes · 128 s écoulées · reste ≈ 2338 s · sollicitations 40 · attentes 0 
+2026-09-17 10:48:13.401 | INFO     | experiences.runner:boucle:387 - [execution] 2251/3161 déplacements (71.2 %) · 609/894 personnes · 133 s écoulées · reste ≈ 2429 s · sollicitations 40 · attentes 0 
+2026-09-17 10:48:18.406 | INFO     | experiences.runner:boucle:387 - [execution] 2251/3161 déplacements (71.2 %) · 609/894 personnes · 138 s écoulées · reste ≈ 2520 s · sollicitations 40 · attentes 0 
+2026-09-17 10:48:23.412 | INFO     | experiences.runner:boucle:387 - [execution] 2265/3161 déplacements (71.7 %) · 611/894 personnes · 143 s écoulées · reste ≈ 2009 s · sollicitations 48 · attentes 0 
+2026-09-17 10:48:28.420 | INFO     | experiences.runner:boucle:387 - [execution] 2265/3161 déplacements (71.7 %) · 611/894 personnes · 148 s écoulées · reste ≈ 2079 s · sollicitations 48 · attentes 0 
+2026-09-17 10:48:33.422 | INFO     | experiences.runner:boucle:387 - [execution] 2265/3161 déplacements (71.7 %) · 611/894 personnes · 153 s écoulées · reste ≈ 2149 s · sollicitations 48 · attentes 0 
+2026-09-17 10:48:38.430 | INFO     | experiences.runner:boucle:387 - [execution] 2265/3161 déplacements (71.7 %) · 611/894 personnes · 159 s écoulées · reste ≈ 2219 s · sollicitations 48 · attentes 0 
+2026-09-17 10:48:43.434 | INFO     | experiences.runner:boucle:387 - [execution] 2274/3161 déplacements (71.9 %) · 612/894 personnes · 164 s écoulées · reste ≈ 1987 s · sollicitations 56 · attentes 0 
+2026-09-17 10:48:48.436 | INFO     | experiences.runner:boucle:387 - [execution] 2274/3161 déplacements (71.9 %) · 612/894 personnes · 169 s écoulées · reste ≈ 2048 s · sollicitations 56 · attentes 0 
+2026-09-17 10:48:53.441 | INFO     | experiences.runner:boucle:387 - [execution] 2274/3161 déplacements (71.9 %) · 612/894 personnes · 174 s écoulées · reste ≈ 2108 s · sollicitations 56 · attentes 0 
+2026-09-17 10:48:58.446 | INFO     | experiences.runner:boucle:387 - [execution] 2274/3161 déplacements (71.9 %) · 612/894 personnes · 179 s écoulées · reste ≈ 2169 s · sollicitations 56 · attentes 0 
+2026-09-17 10:49:03.450 | INFO     | experiences.runner:boucle:387 - [execution] 2284/3161 déplacements (72.3 %) · 615/894 personnes · 184 s écoulées · reste ≈ 1939 s · sollicitations 64 · attentes 0 
+2026-09-17 10:49:08.456 | INFO     | experiences.runner:boucle:387 - [execution] 2284/3161 déplacements (72.3 %) · 615/894 personnes · 189 s écoulées · reste ≈ 1992 s · sollicitations 64 · attentes 0 
+2026-09-17 10:49:13.460 | INFO     | experiences.runner:boucle:387 - [execution] 2284/3161 déplacements (72.3 %) · 615/894 personnes · 194 s écoulées · reste ≈ 2045 s · sollicitations 64 · attentes 0 
+2026-09-17 10:49:18.463 | INFO     | experiences.runner:boucle:387 - [execution] 2284/3161 déplacements (72.3 %) · 615/894 personnes · 199 s écoulées · reste ≈ 2098 s · sollicitations 64 · attentes 0 
+2026-09-17 10:49:23.468 | INFO     | experiences.runner:boucle:387 - [execution] 2284/3161 déplacements (72.3 %) · 615/894 personnes · 204 s écoulées · reste ≈ 2151 s · sollicitations 64 · attentes 0 
+2026-09-17 10:49:28.472 | INFO     | experiences.runner:boucle:387 - [execution] 2294/3161 déplacements (72.6 %) · 616/894 personnes · 209 s écoulées · reste ≈ 1944 s · sollicitations 72 · attentes 0 
+2026-09-17 10:49:33.481 | INFO     | experiences.runner:boucle:387 - [execution] 2294/3161 déplacements (72.6 %) · 616/894 personnes · 214 s écoulées · reste ≈ 1991 s · sollicitations 72 · attentes 0 
+2026-09-17 10:49:38.483 | INFO     | experiences.runner:boucle:387 - [execution] 2294/3161 déplacements (72.6 %) · 616/894 personnes · 219 s écoulées · reste ≈ 2038 s · sollicitations 72 · attentes 0 
+2026-09-17 10:49:43.487 | INFO     | experiences.runner:boucle:387 - [execution] 2294/3161 déplacements (72.6 %) · 616/894 personnes · 224 s écoulées · reste ≈ 2084 s · sollicitations 72 · attentes 0 
+2026-09-17 10:49:48.493 | INFO     | experiences.runner:boucle:387 - [execution] 2303/3161 déplacements (72.9 %) · 618/894 personnes · 229 s écoulées · reste ≈ 1923 s · sollicitations 80 · attentes 0 
+2026-09-17 10:49:53.497 | INFO     | experiences.runner:boucle:387 - [execution] 2303/3161 déplacements (72.9 %) · 618/894 personnes · 234 s écoulées · reste ≈ 1965 s · sollicitations 80 · attentes 0 
+2026-09-17 10:49:58.503 | INFO     | experiences.runner:boucle:387 - [execution] 2303/3161 déplacements (72.9 %) · 618/894 personnes · 239 s écoulées · reste ≈ 2007 s · sollicitations 80 · attentes 0 
+2026-09-17 10:50:03.510 | INFO     | experiences.runner:boucle:387 - [execution] 2303/3161 déplacements (72.9 %) · 618/894 personnes · 244 s écoulées · reste ≈ 2049 s · sollicitations 80 · attentes 0 
+2026-09-17 10:50:08.514 | INFO     | experiences.runner:boucle:387 - [execution] 2312/3161 déplacements (73.1 %) · 621/894 personnes · 249 s écoulées · reste ≈ 1901 s · sollicitations 88 · attentes 0 
+2026-09-17 10:50:13.517 | INFO     | experiences.runner:boucle:387 - [execution] 2312/3161 déplacements (73.1 %) · 621/894 personnes · 254 s écoulées · reste ≈ 1940 s · sollicitations 88 · attentes 0 
+2026-09-17 10:50:18.522 | INFO     | experiences.runner:boucle:387 - [execution] 2312/3161 déplacements (73.1 %) · 621/894 personnes · 259 s écoulées · reste ≈ 1978 s · sollicitations 88 · attentes 0 
+2026-09-17 10:50:23.525 | INFO     | experiences.runner:boucle:387 - [execution] 2312/3161 déplacements (73.1 %) · 621/894 personnes · 264 s écoulées · reste ≈ 2016 s · sollicitations 88 · attentes 0 
+2026-09-17 10:50:28.529 | INFO     | experiences.runner:boucle:387 - [execution] 2312/3161 déplacements (73.1 %) · 621/894 personnes · 269 s écoulées · reste ≈ 2054 s · sollicitations 88 · attentes 0 
+2026-09-17 10:50:33.536 | INFO     | experiences.runner:boucle:387 - [execution] 2321/3161 déplacements (73.4 %) · 623/894 personnes · 274 s écoulées · reste ≈ 1915 s · sollicitations 96 · attentes 0 
+2026-09-17 10:50:38.544 | INFO     | experiences.runner:boucle:387 - [execution] 2321/3161 déplacements (73.4 %) · 623/894 personnes · 279 s écoulées · reste ≈ 1950 s · sollicitations 96 · attentes 0 
+2026-09-17 10:50:43.548 | INFO     | experiences.runner:boucle:387 - [execution] 2321/3161 déplacements (73.4 %) · 623/894 personnes · 284 s écoulées · reste ≈ 1985 s · sollicitations 96 · attentes 0 
+2026-09-17 10:50:48.554 | INFO     | experiences.runner:boucle:387 - [execution] 2331/3161 déplacements (73.7 %) · 627/894 personnes · 289 s écoulées · reste ≈ 1843 s · sollicitations 104 · attentes 0 
+2026-09-17 10:50:53.558 | INFO     | experiences.runner:boucle:387 - [execution] 2331/3161 déplacements (73.7 %) · 627/894 personnes · 294 s écoulées · reste ≈ 1875 s · sollicitations 104 · attentes 0 
+2026-09-17 10:50:58.565 | INFO     | experiences.runner:boucle:387 - [execution] 2331/3161 déplacements (73.7 %) · 627/894 personnes · 299 s écoulées · reste ≈ 1907 s · sollicitations 104 · attentes 0 
+2026-09-17 10:51:03.568 | INFO     | experiences.runner:boucle:387 - [execution] 2331/3161 déplacements (73.7 %) · 627/894 personnes · 304 s écoulées · reste ≈ 1939 s · sollicitations 104 · attentes 0 
+2026-09-17 10:51:08.574 | INFO     | experiences.runner:boucle:387 - [execution] 2331/3161 déplacements (73.7 %) · 627/894 personnes · 309 s écoulées · reste ≈ 1971 s · sollicitations 104 · attentes 0 
+2026-09-17 10:51:13.586 | INFO     | experiences.runner:boucle:387 - [execution] 2340/3161 déplacements (74.0 %) · 628/894 personnes · 314 s écoulées · reste ≈ 1853 s · sollicitations 112 · attentes 0 
+2026-09-17 10:51:18.594 | INFO     | experiences.runner:boucle:387 - [execution] 2340/3161 déplacements (74.0 %) · 628/894 personnes · 319 s écoulées · reste ≈ 1882 s · sollicitations 112 · attentes 0 
+2026-09-17 10:51:23.600 | INFO     | experiences.runner:boucle:387 - [execution] 2340/3161 déplacements (74.0 %) · 628/894 personnes · 324 s écoulées · reste ≈ 1912 s · sollicitations 112 · attentes 0 
+2026-09-17 10:51:28.605 | INFO     | experiences.runner:boucle:387 - [execution] 2348/3161 déplacements (74.3 %) · 633/894 personnes · 329 s écoulées · reste ≈ 1818 s · sollicitations 120 · attentes 0 
+2026-09-17 10:51:33.611 | INFO     | experiences.runner:boucle:387 - [execution] 2348/3161 déplacements (74.3 %) · 633/894 personnes · 334 s écoulées · reste ≈ 1845 s · sollicitations 120 · attentes 0 
+2026-09-17 10:51:38.618 | INFO     | experiences.runner:boucle:387 - [execution] 2348/3161 déplacements (74.3 %) · 633/894 personnes · 339 s écoulées · reste ≈ 1873 s · sollicitations 120 · attentes 0 
+2026-09-17 10:51:43.621 | INFO     | experiences.runner:boucle:387 - [execution] 2348/3161 déplacements (74.3 %) · 633/894 personnes · 344 s écoulées · reste ≈ 1901 s · sollicitations 120 · attentes 0 
+2026-09-17 10:51:48.625 | INFO     | experiences.runner:boucle:387 - [execution] 2348/3161 déplacements (74.3 %) · 633/894 personnes · 349 s écoulées · reste ≈ 1929 s · sollicitations 120 · attentes 0 
+2026-09-17 10:51:53.628 | INFO     | experiences.runner:boucle:387 - [execution] 2362/3161 déplacements (74.7 %) · 635/894 personnes · 354 s écoulées · reste ≈ 1755 s · sollicitations 128 · attentes 0 
+2026-09-17 10:51:58.638 | INFO     | experiences.runner:boucle:387 - [execution] 2362/3161 déplacements (74.7 %) · 635/894 personnes · 359 s écoulées · reste ≈ 1780 s · sollicitations 128 · attentes 0 
+2026-09-17 10:52:03.645 | INFO     | experiences.runner:boucle:387 - [execution] 2362/3161 déplacements (74.7 %) · 635/894 personnes · 364 s écoulées · reste ≈ 1805 s · sollicitations 128 · attentes 0 
+2026-09-17 10:52:08.649 | INFO     | experiences.runner:boucle:387 - [execution] 2362/3161 déplacements (74.7 %) · 635/894 personnes · 369 s écoulées · reste ≈ 1830 s · sollicitations 128 · attentes 0 
+2026-09-17 10:52:13.652 | INFO     | experiences.runner:boucle:387 - [execution] 2371/3161 déplacements (75.0 %) · 637/894 personnes · 374 s écoulées · reste ≈ 1737 s · sollicitations 136 · attentes 0 
+2026-09-17 10:52:18.656 | INFO     | experiences.runner:boucle:387 - [execution] 2371/3161 déplacements (75.0 %) · 637/894 personnes · 379 s écoulées · reste ≈ 1760 s · sollicitations 136 · attentes 0 
+2026-09-17 10:52:23.659 | INFO     | experiences.runner:boucle:387 - [execution] 2371/3161 déplacements (75.0 %) · 637/894 personnes · 384 s écoulées · reste ≈ 1783 s · sollicitations 136 · attentes 0 
+2026-09-17 10:52:28.667 | INFO     | experiences.runner:boucle:387 - [execution] 2371/3161 déplacements (75.0 %) · 637/894 personnes · 389 s écoulées · reste ≈ 1807 s · sollicitations 136 · attentes 0 
+2026-09-17 10:52:33.671 | INFO     | experiences.runner:boucle:387 - [execution] 2381/3161 déplacements (75.3 %) · 637/894 personnes · 394 s écoulées · reste ≈ 1706 s · sollicitations 144 · attentes 0 
+2026-09-17 10:52:38.674 | INFO     | experiences.runner:boucle:387 - [execution] 2381/3161 déplacements (75.3 %) · 637/894 personnes · 399 s écoulées · reste ≈ 1728 s · sollicitations 144 · attentes 0 
+2026-09-17 10:52:43.677 | INFO     | experiences.runner:boucle:387 - [execution] 2381/3161 déplacements (75.3 %) · 637/894 personnes · 404 s écoulées · reste ≈ 1750 s · sollicitations 144 · attentes 0 
+2026-09-17 10:52:48.682 | INFO     | experiences.runner:boucle:387 - [execution] 2381/3161 déplacements (75.3 %) · 637/894 personnes · 409 s écoulées · reste ≈ 1771 s · sollicitations 144 · attentes 0 
+2026-09-17 10:52:53.690 | INFO     | experiences.runner:boucle:387 - [execution] 2381/3161 déplacements (75.3 %) · 637/894 personnes · 414 s écoulées · reste ≈ 1793 s · sollicitations 144 · attentes 0 
+2026-09-17 10:52:58.696 | INFO     | experiences.runner:boucle:387 - [execution] 2389/3161 déplacements (75.6 %) · 640/894 personnes · 419 s écoulées · reste ≈ 1720 s · sollicitations 152 · attentes 0 
+2026-09-17 10:53:03.701 | INFO     | experiences.runner:boucle:387 - [execution] 2389/3161 déplacements (75.6 %) · 640/894 personnes · 424 s écoulées · reste ≈ 1740 s · sollicitations 152 · attentes 0 
+2026-09-17 10:53:08.704 | INFO     | experiences.runner:boucle:387 - [execution] 2389/3161 déplacements (75.6 %) · 640/894 personnes · 429 s écoulées · reste ≈ 1761 s · sollicitations 152 · attentes 0 
+2026-09-17 10:53:13.710 | INFO     | experiences.runner:boucle:387 - [execution] 2399/3161 déplacements (75.9 %) · 644/894 personnes · 434 s écoulées · reste ≈ 1669 s · sollicitations 160 · attentes 0 
+2026-09-17 10:53:18.716 | INFO     | experiences.runner:boucle:387 - [execution] 2399/3161 déplacements (75.9 %) · 644/894 personnes · 439 s écoulées · reste ≈ 1689 s · sollicitations 160 · attentes 0 
+2026-09-17 10:53:23.720 | INFO     | experiences.runner:boucle:387 - [execution] 2399/3161 déplacements (75.9 %) · 644/894 personnes · 444 s écoulées · reste ≈ 1708 s · sollicitations 160 · attentes 0 
+2026-09-17 10:53:28.722 | INFO     | experiences.runner:boucle:387 - [execution] 2399/3161 déplacements (75.9 %) · 644/894 personnes · 449 s écoulées · reste ≈ 1727 s · sollicitations 160 · attentes 0 
+2026-09-17 10:53:33.727 | INFO     | experiences.runner:boucle:387 - [execution] 2399/3161 déplacements (75.9 %) · 644/894 personnes · 454 s écoulées · reste ≈ 1746 s · sollicitations 160 · attentes 0 
+2026-09-17 10:53:38.730 | INFO     | experiences.runner:boucle:387 - [execution] 2409/3161 déplacements (76.2 %) · 646/894 personnes · 459 s écoulées · reste ≈ 1659 s · sollicitations 168 · attentes 0 
+2026-09-17 10:53:43.736 | INFO     | experiences.runner:boucle:387 - [execution] 2409/3161 déplacements (76.2 %) · 646/894 personnes · 464 s écoulées · reste ≈ 1677 s · sollicitations 168 · attentes 0 
+2026-09-17 10:53:48.740 | INFO     | experiences.runner:boucle:387 - [execution] 2409/3161 déplacements (76.2 %) · 646/894 personnes · 469 s écoulées · reste ≈ 1695 s · sollicitations 168 · attentes 0 
+2026-09-17 10:53:53.744 | INFO     | experiences.runner:boucle:387 - [execution] 2409/3161 déplacements (76.2 %) · 646/894 personnes · 474 s écoulées · reste ≈ 1713 s · sollicitations 168 · attentes 0 
+2026-09-17 10:53:58.748 | INFO     | experiences.runner:boucle:387 - [execution] 2409/3161 déplacements (76.2 %) · 646/894 personnes · 479 s écoulées · reste ≈ 1731 s · sollicitations 168 · attentes 0 
+2026-09-17 10:54:03.751 | INFO     | experiences.runner:boucle:387 - [execution] 2418/3161 déplacements (76.5 %) · 649/894 personnes · 484 s écoulées · reste ≈ 1657 s · sollicitations 176 · attentes 0 
+2026-09-17 10:54:08.755 | INFO     | experiences.runner:boucle:387 - [execution] 2418/3161 déplacements (76.5 %) · 649/894 personnes · 489 s écoulées · reste ≈ 1674 s · sollicitations 176 · attentes 0 
+2026-09-17 10:54:13.760 | INFO     | experiences.runner:boucle:387 - [execution] 2418/3161 déplacements (76.5 %) · 649/894 personnes · 494 s écoulées · reste ≈ 1691 s · sollicitations 176 · attentes 0 
+2026-09-17 10:54:18.764 | INFO     | experiences.runner:boucle:387 - [execution] 2418/3161 déplacements (76.5 %) · 649/894 personnes · 499 s écoulées · reste ≈ 1708 s · sollicitations 176 · attentes 0 
+2026-09-17 10:54:23.771 | INFO     | experiences.runner:boucle:387 - [execution] 2426/3161 déplacements (76.7 %) · 652/894 personnes · 504 s écoulées · reste ≈ 1646 s · sollicitations 184 · attentes 0 
+2026-09-17 10:54:28.775 | INFO     | experiences.runner:boucle:387 - [execution] 2426/3161 déplacements (76.7 %) · 652/894 personnes · 509 s écoulées · reste ≈ 1662 s · sollicitations 184 · attentes 0 
+2026-09-17 10:54:33.780 | INFO     | experiences.runner:boucle:387 - [execution] 2426/3161 déplacements (76.7 %) · 652/894 personnes · 514 s écoulées · reste ≈ 1679 s · sollicitations 184 · attentes 0 
+2026-09-17 10:54:38.784 | INFO     | experiences.runner:boucle:387 - [execution] 2426/3161 déplacements (76.7 %) · 652/894 personnes · 519 s écoulées · reste ≈ 1695 s · sollicitations 184 · attentes 0 
+2026-09-17 10:54:43.787 | INFO     | experiences.runner:boucle:387 - [execution] 2435/3161 déplacements (77.0 %) · 652/894 personnes · 524 s écoulées · reste ≈ 1625 s · sollicitations 192 · attentes 0 
+2026-09-17 10:54:48.790 | INFO     | experiences.runner:boucle:387 - [execution] 2435/3161 déplacements (77.0 %) · 652/894 personnes · 529 s écoulées · reste ≈ 1641 s · sollicitations 192 · attentes 0 
+2026-09-17 10:54:53.796 | INFO     | experiences.runner:boucle:387 - [execution] 2435/3161 déplacements (77.0 %) · 652/894 personnes · 534 s écoulées · reste ≈ 1656 s · sollicitations 192 · attentes 0 
+2026-09-17 10:54:58.800 | INFO     | experiences.runner:boucle:387 - [execution] 2435/3161 déplacements (77.0 %) · 652/894 personnes · 539 s écoulées · reste ≈ 1672 s · sollicitations 192 · attentes 0 
+2026-09-17 10:55:03.803 | INFO     | experiences.runner:boucle:387 - [execution] 2443/3161 déplacements (77.3 %) · 654/894 personnes · 544 s écoulées · reste ≈ 1614 s · sollicitations 200 · attentes 0 
+2026-09-17 10:55:08.806 | INFO     | experiences.runner:boucle:387 - [execution] 2443/3161 déplacements (77.3 %) · 654/894 personnes · 549 s écoulées · reste ≈ 1629 s · sollicitations 200 · attentes 0 
+2026-09-17 10:55:13.810 | INFO     | experiences.runner:boucle:387 - [execution] 2443/3161 déplacements (77.3 %) · 654/894 personnes · 554 s écoulées · reste ≈ 1643 s · sollicitations 200 · attentes 0 
+2026-09-17 10:55:18.817 | INFO     | experiences.runner:boucle:387 - [execution] 2443/3161 déplacements (77.3 %) · 654/894 personnes · 559 s écoulées · reste ≈ 1658 s · sollicitations 200 · attentes 0 
+2026-09-17 10:55:23.825 | INFO     | experiences.runner:boucle:387 - [execution] 2443/3161 déplacements (77.3 %) · 654/894 personnes · 564 s écoulées · reste ≈ 1673 s · sollicitations 200 · attentes 0 
+2026-09-17 10:55:28.829 | INFO     | experiences.runner:boucle:387 - [execution] 2452/3161 déplacements (77.6 %) · 656/894 personnes · 569 s écoulées · reste ≈ 1607 s · sollicitations 208 · attentes 0 
+2026-09-17 10:55:33.831 | INFO     | experiences.runner:boucle:387 - [execution] 2452/3161 déplacements (77.6 %) · 656/894 personnes · 574 s écoulées · reste ≈ 1621 s · sollicitations 208 · attentes 0 
+2026-09-17 10:55:38.837 | INFO     | experiences.runner:boucle:387 - [execution] 2452/3161 déplacements (77.6 %) · 656/894 personnes · 579 s écoulées · reste ≈ 1635 s · sollicitations 208 · attentes 0 
+2026-09-17 10:55:43.841 | INFO     | experiences.runner:boucle:387 - [execution] 2460/3161 déplacements (77.8 %) · 658/894 personnes · 584 s écoulées · reste ≈ 1580 s · sollicitations 216 · attentes 0 
+2026-09-17 10:55:48.848 | INFO     | experiences.runner:boucle:387 - [execution] 2460/3161 déplacements (77.8 %) · 658/894 personnes · 589 s écoulées · reste ≈ 1594 s · sollicitations 216 · attentes 0 
+2026-09-17 10:55:53.855 | INFO     | experiences.runner:boucle:387 - [execution] 2460/3161 déplacements (77.8 %) · 658/894 personnes · 594 s écoulées · reste ≈ 1608 s · sollicitations 216 · attentes 0 
+2026-09-17 10:55:58.860 | INFO     | experiences.runner:boucle:387 - [execution] 2460/3161 déplacements (77.8 %) · 658/894 personnes · 599 s écoulées · reste ≈ 1621 s · sollicitations 216 · attentes 0 
+2026-09-17 10:56:03.864 | INFO     | experiences.runner:boucle:387 - [execution] 2460/3161 déplacements (77.8 %) · 658/894 personnes · 604 s écoulées · reste ≈ 1635 s · sollicitations 216 · attentes 0 
+2026-09-17 10:56:08.869 | INFO     | experiences.runner:boucle:387 - [execution] 2460/3161 déplacements (77.8 %) · 658/894 personnes · 609 s écoulées · reste ≈ 1648 s · sollicitations 216 · attentes 0 
+2026-09-17 10:56:13.872 | INFO     | experiences.runner:boucle:387 - [execution] 2460/3161 déplacements (77.8 %) · 658/894 personnes · 614 s écoulées · reste ≈ 1662 s · sollicitations 216 · attentes 0 
+2026-09-17 10:56:18.877 | INFO     | experiences.runner:boucle:387 - [execution] 2460/3161 déplacements (77.8 %) · 658/894 personnes · 619 s écoulées · reste ≈ 1675 s · sollicitations 216 · attentes 0 
+2026-09-17 10:56:23.881 | INFO     | experiences.runner:boucle:387 - [execution] 2460/3161 déplacements (77.8 %) · 658/894 personnes · 624 s écoulées · reste ≈ 1689 s · sollicitations 216 · attentes 0 
+2026-09-17 10:56:28.886 | INFO     | experiences.runner:boucle:387 - [execution] 2470/3161 déplacements (78.1 %) · 663/894 personnes · 629 s écoulées · reste ≈ 1616 s · sollicitations 224 · attentes 0 
+2026-09-17 10:56:33.889 | INFO     | experiences.runner:boucle:387 - [execution] 2470/3161 déplacements (78.1 %) · 663/894 personnes · 634 s écoulées · reste ≈ 1629 s · sollicitations 224 · attentes 0 
+2026-09-17 10:56:38.893 | INFO     | experiences.runner:boucle:387 - [execution] 2470/3161 déplacements (78.1 %) · 663/894 personnes · 639 s écoulées · reste ≈ 1641 s · sollicitations 224 · attentes 0 
+2026-09-17 10:56:43.898 | INFO     | experiences.runner:boucle:387 - [execution] 2470/3161 déplacements (78.1 %) · 663/894 personnes · 644 s écoulées · reste ≈ 1654 s · sollicitations 224 · attentes 0 
+2026-09-17 10:56:48.906 | INFO     | experiences.runner:boucle:387 - [execution] 2478/3161 déplacements (78.4 %) · 664/894 personnes · 649 s écoulées · reste ≈ 1600 s · sollicitations 232 · attentes 0 
+2026-09-17 10:56:53.915 | INFO     | experiences.runner:boucle:387 - [execution] 2478/3161 déplacements (78.4 %) · 664/894 personnes · 654 s écoulées · reste ≈ 1613 s · sollicitations 232 · attentes 0 
+2026-09-17 10:56:58.921 | INFO     | experiences.runner:boucle:387 - [execution] 2478/3161 déplacements (78.4 %) · 664/894 personnes · 659 s écoulées · reste ≈ 1625 s · sollicitations 232 · attentes 0 
+2026-09-17 10:57:03.925 | INFO     | experiences.runner:boucle:387 - [execution] 2478/3161 déplacements (78.4 %) · 664/894 personnes · 664 s écoulées · reste ≈ 1637 s · sollicitations 232 · attentes 0 
+2026-09-17 10:57:08.929 | INFO     | experiences.runner:boucle:387 - [execution] 2486/3161 déplacements (78.6 %) · 668/894 personnes · 669 s écoulées · reste ≈ 1584 s · sollicitations 240 · attentes 0 
+2026-09-17 10:57:13.933 | INFO     | experiences.runner:boucle:387 - [execution] 2486/3161 déplacements (78.6 %) · 668/894 personnes · 674 s écoulées · reste ≈ 1596 s · sollicitations 240 · attentes 0 
+2026-09-17 10:57:18.936 | INFO     | experiences.runner:boucle:387 - [execution] 2486/3161 déplacements (78.6 %) · 668/894 personnes · 679 s écoulées · reste ≈ 1608 s · sollicitations 240 · attentes 0 
+2026-09-17 10:57:23.940 | INFO     | experiences.runner:boucle:387 - [execution] 2486/3161 déplacements (78.6 %) · 668/894 personnes · 684 s écoulées · reste ≈ 1620 s · sollicitations 240 · attentes 0 
+2026-09-17 10:57:28.943 | INFO     | experiences.runner:boucle:387 - [execution] 2486/3161 déplacements (78.6 %) · 668/894 personnes · 689 s écoulées · reste ≈ 1632 s · sollicitations 240 · attentes 0 
+2026-09-17 10:57:33.951 | INFO     | experiences.runner:boucle:387 - [execution] 2486/3161 déplacements (78.6 %) · 668/894 personnes · 694 s écoulées · reste ≈ 1644 s · sollicitations 240 · attentes 0 
+2026-09-17 10:57:38.956 | INFO     | experiences.runner:boucle:387 - [execution] 2494/3161 déplacements (78.9 %) · 671/894 personnes · 699 s écoulées · reste ≈ 1591 s · sollicitations 248 · attentes 0 
+2026-09-17 10:57:43.960 | INFO     | experiences.runner:boucle:387 - [execution] 2494/3161 déplacements (78.9 %) · 671/894 personnes · 704 s écoulées · reste ≈ 1603 s · sollicitations 248 · attentes 0 
+2026-09-17 10:57:48.965 | INFO     | experiences.runner:boucle:387 - [execution] 2494/3161 déplacements (78.9 %) · 671/894 personnes · 709 s écoulées · reste ≈ 1614 s · sollicitations 248 · attentes 0 
+2026-09-17 10:57:53.969 | INFO     | experiences.runner:boucle:387 - [execution] 2494/3161 déplacements (78.9 %) · 671/894 personnes · 714 s écoulées · reste ≈ 1625 s · sollicitations 248 · attentes 0 
+2026-09-17 10:57:58.975 | INFO     | experiences.runner:boucle:387 - [execution] 2502/3161 déplacements (79.2 %) · 674/894 personnes · 719 s écoulées · reste ≈ 1574 s · sollicitations 256 · attentes 0 
+2026-09-17 10:58:03.979 | INFO     | experiences.runner:boucle:387 - [execution] 2502/3161 déplacements (79.2 %) · 674/894 personnes · 724 s écoulées · reste ≈ 1585 s · sollicitations 256 · attentes 0 
+2026-09-17 10:58:08.982 | INFO     | experiences.runner:boucle:387 - [execution] 2502/3161 déplacements (79.2 %) · 674/894 personnes · 729 s écoulées · reste ≈ 1596 s · sollicitations 256 · attentes 0 
+2026-09-17 10:58:13.990 | INFO     | experiences.runner:boucle:387 - [execution] 2510/3161 déplacements (79.4 %) · 675/894 personnes · 734 s écoulées · reste ≈ 1547 s · sollicitations 264 · attentes 0 
+2026-09-17 10:58:18.994 | INFO     | experiences.runner:boucle:387 - [execution] 2510/3161 déplacements (79.4 %) · 675/894 personnes · 739 s écoulées · reste ≈ 1557 s · sollicitations 264 · attentes 0 
+2026-09-17 10:58:23.997 | INFO     | experiences.runner:boucle:387 - [execution] 2510/3161 déplacements (79.4 %) · 675/894 personnes · 744 s écoulées · reste ≈ 1568 s · sollicitations 264 · attentes 0 
+2026-09-17 10:58:29.000 | INFO     | experiences.runner:boucle:387 - [execution] 2510/3161 déplacements (79.4 %) · 675/894 personnes · 749 s écoulées · reste ≈ 1578 s · sollicitations 264 · attentes 0 
+2026-09-17 10:58:34.003 | INFO     | experiences.runner:boucle:387 - [execution] 2518/3161 déplacements (79.7 %) · 677/894 personnes · 754 s écoulées · reste ≈ 1530 s · sollicitations 272 · attentes 0 
+2026-09-17 10:58:39.007 | INFO     | experiences.runner:boucle:387 - [execution] 2518/3161 déplacements (79.7 %) · 677/894 personnes · 759 s écoulées · reste ≈ 1540 s · sollicitations 272 · attentes 0 
+2026-09-17 10:58:44.012 | INFO     | experiences.runner:boucle:387 - [execution] 2518/3161 déplacements (79.7 %) · 677/894 personnes · 764 s écoulées · reste ≈ 1550 s · sollicitations 272 · attentes 0 
+2026-09-17 10:58:49.014 | INFO     | experiences.runner:boucle:387 - [execution] 2518/3161 déplacements (79.7 %) · 677/894 personnes · 769 s écoulées · reste ≈ 1560 s · sollicitations 272 · attentes 0 
+2026-09-17 10:58:54.020 | INFO     | experiences.runner:boucle:387 - [execution] 2518/3161 déplacements (79.7 %) · 677/894 personnes · 774 s écoulées · reste ≈ 1570 s · sollicitations 272 · attentes 0 
+2026-09-17 10:58:59.024 | INFO     | experiences.runner:boucle:387 - [execution] 2528/3161 déplacements (80.0 %) · 679/894 personnes · 779 s écoulées · reste ≈ 1508 s · sollicitations 280 · attentes 0 
+2026-09-17 10:59:04.028 | INFO     | experiences.runner:boucle:387 - [execution] 2528/3161 déplacements (80.0 %) · 679/894 personnes · 784 s écoulées · reste ≈ 1518 s · sollicitations 280 · attentes 0 
+2026-09-17 10:59:09.030 | INFO     | experiences.runner:boucle:387 - [execution] 2528/3161 déplacements (80.0 %) · 679/894 personnes · 789 s écoulées · reste ≈ 1528 s · sollicitations 280 · attentes 0 
+2026-09-17 10:59:14.034 | INFO     | experiences.runner:boucle:387 - [execution] 2528/3161 déplacements (80.0 %) · 679/894 personnes · 794 s écoulées · reste ≈ 1537 s · sollicitations 280 · attentes 0 
+2026-09-17 10:59:19.040 | INFO     | experiences.runner:boucle:387 - [execution] 2528/3161 déplacements (80.0 %) · 679/894 personnes · 799 s écoulées · reste ≈ 1547 s · sollicitations 280 · attentes 0 
+2026-09-17 10:59:24.057 | INFO     | experiences.runner:boucle:387 - [execution] 2536/3161 déplacements (80.2 %) · 683/894 personnes · 804 s écoulées · reste ≈ 1500 s · sollicitations 288 · attentes 0 
+2026-09-17 10:59:29.065 | INFO     | experiences.runner:boucle:387 - [execution] 2536/3161 déplacements (80.2 %) · 683/894 personnes · 809 s écoulées · reste ≈ 1510 s · sollicitations 288 · attentes 0 
+2026-09-17 10:59:34.068 | INFO     | experiences.runner:boucle:387 - [execution] 2536/3161 déplacements (80.2 %) · 683/894 personnes · 814 s écoulées · reste ≈ 1519 s · sollicitations 288 · attentes 0 
+2026-09-17 10:59:39.072 | INFO     | experiences.runner:boucle:387 - [execution] 2545/3161 déplacements (80.5 %) · 686/894 personnes · 819 s écoulées · reste ≈ 1467 s · sollicitations 296 · attentes 0 
+2026-09-17 10:59:44.078 | INFO     | experiences.runner:boucle:387 - [execution] 2545/3161 déplacements (80.5 %) · 686/894 personnes · 824 s écoulées · reste ≈ 1476 s · sollicitations 296 · attentes 0 
+2026-09-17 10:59:49.081 | INFO     | experiences.runner:boucle:387 - [execution] 2545/3161 déplacements (80.5 %) · 686/894 personnes · 829 s écoulées · reste ≈ 1485 s · sollicitations 296 · attentes 0 
+2026-09-17 10:59:54.087 | INFO     | experiences.runner:boucle:387 - [execution] 2545/3161 déplacements (80.5 %) · 686/894 personnes · 834 s écoulées · reste ≈ 1494 s · sollicitations 296 · attentes 0 
+2026-09-17 10:59:59.094 | INFO     | experiences.runner:boucle:387 - [execution] 2545/3161 déplacements (80.5 %) · 686/894 personnes · 839 s écoulées · reste ≈ 1503 s · sollicitations 296 · attentes 0 
+2026-09-17 11:00:04.098 | INFO     | experiences.runner:boucle:387 - [execution] 2555/3161 déplacements (80.8 %) · 691/894 personnes · 844 s écoulées · reste ≈ 1445 s · sollicitations 304 · attentes 0 
+2026-09-17 11:00:09.102 | INFO     | experiences.runner:boucle:387 - [execution] 2555/3161 déplacements (80.8 %) · 691/894 personnes · 849 s écoulées · reste ≈ 1454 s · sollicitations 304 · attentes 0 
+2026-09-17 11:00:14.107 | INFO     | experiences.runner:boucle:387 - [execution] 2555/3161 déplacements (80.8 %) · 691/894 personnes · 854 s écoulées · reste ≈ 1462 s · sollicitations 304 · attentes 0 
+2026-09-17 11:00:19.116 | INFO     | experiences.runner:boucle:387 - [execution] 2565/3161 déplacements (81.1 %) · 693/894 personnes · 859 s écoulées · reste ≈ 1407 s · sollicitations 312 · attentes 0 
+2026-09-17 11:00:24.120 | INFO     | experiences.runner:boucle:387 - [execution] 2565/3161 déplacements (81.1 %) · 693/894 personnes · 864 s écoulées · reste ≈ 1415 s · sollicitations 312 · attentes 0 
+2026-09-17 11:00:29.123 | INFO     | experiences.runner:boucle:387 - [execution] 2565/3161 déplacements (81.1 %) · 693/894 personnes · 869 s écoulées · reste ≈ 1423 s · sollicitations 312 · attentes 0 
+2026-09-17 11:00:34.127 | INFO     | experiences.runner:boucle:387 - [execution] 2565/3161 déplacements (81.1 %) · 693/894 personnes · 874 s écoulées · reste ≈ 1431 s · sollicitations 312 · attentes 0 
+2026-09-17 11:00:39.131 | INFO     | experiences.runner:boucle:387 - [execution] 2565/3161 déplacements (81.1 %) · 693/894 personnes · 879 s écoulées · reste ≈ 1440 s · sollicitations 312 · attentes 0 
+2026-09-17 11:00:44.134 | INFO     | experiences.runner:boucle:387 - [execution] 2575/3161 déplacements (81.5 %) · 695/894 personnes · 884 s écoulées · reste ≈ 1385 s · sollicitations 320 · attentes 0 
+2026-09-17 11:00:49.138 | INFO     | experiences.runner:boucle:387 - [execution] 2575/3161 déplacements (81.5 %) · 695/894 personnes · 889 s écoulées · reste ≈ 1393 s · sollicitations 320 · attentes 0 
+2026-09-17 11:00:54.142 | INFO     | experiences.runner:boucle:387 - [execution] 2575/3161 déplacements (81.5 %) · 695/894 personnes · 894 s écoulées · reste ≈ 1401 s · sollicitations 320 · attentes 0 
+2026-09-17 11:00:59.146 | INFO     | experiences.runner:boucle:387 - [execution] 2584/3161 déplacements (81.7 %) · 698/894 personnes · 899 s écoulées · reste ≈ 1355 s · sollicitations 328 · attentes 0 
+2026-09-17 11:01:04.156 | INFO     | experiences.runner:boucle:387 - [execution] 2584/3161 déplacements (81.7 %) · 698/894 personnes · 904 s écoulées · reste ≈ 1362 s · sollicitations 328 · attentes 0 
+2026-09-17 11:01:09.159 | INFO     | experiences.runner:boucle:387 - [execution] 2584/3161 déplacements (81.7 %) · 698/894 personnes · 909 s écoulées · reste ≈ 1370 s · sollicitations 328 · attentes 0 
+2026-09-17 11:01:14.164 | INFO     | experiences.runner:boucle:387 - [execution] 2584/3161 déplacements (81.7 %) · 698/894 personnes · 914 s écoulées · reste ≈ 1377 s · sollicitations 328 · attentes 0 
+2026-09-17 11:01:19.167 | INFO     | experiences.runner:boucle:387 - [execution] 2584/3161 déplacements (81.7 %) · 698/894 personnes · 919 s écoulées · reste ≈ 1385 s · sollicitations 328 · attentes 0 
+2026-09-17 11:01:24.174 | INFO     | experiences.runner:boucle:387 - [execution] 2593/3161 déplacements (82.0 %) · 701/894 personnes · 924 s écoulées · reste ≈ 1339 s · sollicitations 336 · attentes 0 
+2026-09-17 11:01:29.176 | INFO     | experiences.runner:boucle:387 - [execution] 2593/3161 déplacements (82.0 %) · 701/894 personnes · 929 s écoulées · reste ≈ 1346 s · sollicitations 336 · attentes 0 
+2026-09-17 11:01:34.179 | INFO     | experiences.runner:boucle:387 - [execution] 2593/3161 déplacements (82.0 %) · 701/894 personnes · 934 s écoulées · reste ≈ 1354 s · sollicitations 336 · attentes 0 
+2026-09-17 11:01:39.184 | INFO     | experiences.runner:boucle:387 - [execution] 2593/3161 déplacements (82.0 %) · 701/894 personnes · 939 s écoulées · reste ≈ 1361 s · sollicitations 336 · attentes 0 
+2026-09-17 11:01:44.189 | INFO     | experiences.runner:boucle:387 - [execution] 2593/3161 déplacements (82.0 %) · 701/894 personnes · 944 s écoulées · reste ≈ 1368 s · sollicitations 336 · attentes 0 
+2026-09-17 11:01:49.216 | INFO     | experiences.runner:boucle:387 - [execution] 2602/3161 déplacements (82.3 %) · 702/894 personnes · 949 s écoulées · reste ≈ 1323 s · sollicitations 344 · attentes 0 
+2026-09-17 11:01:54.223 | INFO     | experiences.runner:boucle:387 - [execution] 2602/3161 déplacements (82.3 %) · 702/894 personnes · 954 s écoulées · reste ≈ 1330 s · sollicitations 344 · attentes 0 
+2026-09-17 11:01:59.230 | INFO     | experiences.runner:boucle:387 - [execution] 2602/3161 déplacements (82.3 %) · 702/894 personnes · 959 s écoulées · reste ≈ 1337 s · sollicitations 344 · attentes 0 
+2026-09-17 11:02:04.238 | INFO     | experiences.runner:boucle:387 - [execution] 2602/3161 déplacements (82.3 %) · 702/894 personnes · 964 s écoulées · reste ≈ 1344 s · sollicitations 344 · attentes 0 
+2026-09-17 11:02:09.244 | INFO     | experiences.runner:boucle:387 - [execution] 2611/3161 déplacements (82.6 %) · 705/894 personnes · 969 s écoulées · reste ≈ 1300 s · sollicitations 352 · attentes 0 
+2026-09-17 11:02:14.247 | INFO     | experiences.runner:boucle:387 - [execution] 2611/3161 déplacements (82.6 %) · 705/894 personnes · 974 s écoulées · reste ≈ 1307 s · sollicitations 352 · attentes 0 
+2026-09-17 11:02:19.251 | INFO     | experiences.runner:boucle:387 - [execution] 2611/3161 déplacements (82.6 %) · 705/894 personnes · 979 s écoulées · reste ≈ 1314 s · sollicitations 352 · attentes 0 
+2026-09-17 11:02:24.256 | INFO     | experiences.runner:boucle:387 - [execution] 2619/3161 déplacements (82.9 %) · 707/894 personnes · 984 s écoulées · reste ≈ 1276 s · sollicitations 360 · attentes 0 
+2026-09-17 11:02:29.259 | INFO     | experiences.runner:boucle:387 - [execution] 2619/3161 déplacements (82.9 %) · 707/894 personnes · 989 s écoulées · reste ≈ 1283 s · sollicitations 360 · attentes 0 
+2026-09-17 11:02:34.265 | INFO     | experiences.runner:boucle:387 - [execution] 2619/3161 déplacements (82.9 %) · 707/894 personnes · 994 s écoulées · reste ≈ 1289 s · sollicitations 360 · attentes 0 
+2026-09-17 11:02:39.268 | INFO     | experiences.runner:boucle:387 - [execution] 2619/3161 déplacements (82.9 %) · 707/894 personnes · 999 s écoulées · reste ≈ 1296 s · sollicitations 360 · attentes 0 
+2026-09-17 11:02:44.273 | INFO     | experiences.runner:boucle:387 - [execution] 2619/3161 déplacements (82.9 %) · 707/894 personnes · 1004 s écoulées · reste ≈ 1302 s · sollicitations 360 · attentes 0 
+2026-09-17 11:02:49.283 | INFO     | experiences.runner:boucle:387 - [execution] 2629/3161 déplacements (83.2 %) · 708/894 personnes · 1009 s écoulées · reste ≈ 1255 s · sollicitations 368 · attentes 0 
+2026-09-17 11:02:54.288 | INFO     | experiences.runner:boucle:387 - [execution] 2629/3161 déplacements (83.2 %) · 708/894 personnes · 1014 s écoulées · reste ≈ 1261 s · sollicitations 368 · attentes 0 
+2026-09-17 11:02:59.293 | INFO     | experiences.runner:boucle:387 - [execution] 2629/3161 déplacements (83.2 %) · 708/894 personnes · 1019 s écoulées · reste ≈ 1267 s · sollicitations 368 · attentes 0 
+2026-09-17 11:03:04.300 | INFO     | experiences.runner:boucle:387 - [execution] 2629/3161 déplacements (83.2 %) · 708/894 personnes · 1024 s écoulées · reste ≈ 1273 s · sollicitations 368 · attentes 0 
+2026-09-17 11:03:09.304 | INFO     | experiences.runner:boucle:387 - [execution] 2638/3161 déplacements (83.5 %) · 710/894 personnes · 1029 s écoulées · reste ≈ 1232 s · sollicitations 376 · attentes 0 
+2026-09-17 11:03:14.307 | INFO     | experiences.runner:boucle:387 - [execution] 2638/3161 déplacements (83.5 %) · 710/894 personnes · 1034 s écoulées · reste ≈ 1238 s · sollicitations 376 · attentes 0 
+2026-09-17 11:03:19.311 | INFO     | experiences.runner:boucle:387 - [execution] 2638/3161 déplacements (83.5 %) · 710/894 personnes · 1039 s écoulées · reste ≈ 1244 s · sollicitations 376 · attentes 0 
+2026-09-17 11:03:24.316 | INFO     | experiences.runner:boucle:387 - [execution] 2638/3161 déplacements (83.5 %) · 710/894 personnes · 1044 s écoulées · reste ≈ 1250 s · sollicitations 376 · attentes 0 
+2026-09-17 11:03:29.324 | INFO     | experiences.runner:boucle:387 - [execution] 2638/3161 déplacements (83.5 %) · 710/894 personnes · 1049 s écoulées · reste ≈ 1256 s · sollicitations 376 · attentes 0 
+2026-09-17 11:03:34.328 | INFO     | experiences.runner:boucle:387 - [execution] 2638/3161 déplacements (83.5 %) · 710/894 personnes · 1054 s écoulées · reste ≈ 1262 s · sollicitations 376 · attentes 0 
+2026-09-17 11:03:39.333 | INFO     | experiences.runner:boucle:387 - [execution] 2646/3161 déplacements (83.7 %) · 712/894 personnes · 1059 s écoulées · reste ≈ 1226 s · sollicitations 384 · attentes 0 
+2026-09-17 11:03:44.336 | INFO     | experiences.runner:boucle:387 - [execution] 2646/3161 déplacements (83.7 %) · 712/894 personnes · 1064 s écoulées · reste ≈ 1232 s · sollicitations 384 · attentes 0 
+2026-09-17 11:03:49.339 | INFO     | experiences.runner:boucle:387 - [execution] 2646/3161 déplacements (83.7 %) · 712/894 personnes · 1069 s écoulées · reste ≈ 1238 s · sollicitations 384 · attentes 0 
+2026-09-17 11:03:54.343 | INFO     | experiences.runner:boucle:387 - [execution] 2646/3161 déplacements (83.7 %) · 712/894 personnes · 1074 s écoulées · reste ≈ 1243 s · sollicitations 384 · attentes 0 
+2026-09-17 11:03:59.347 | INFO     | experiences.runner:boucle:387 - [execution] 2646/3161 déplacements (83.7 %) · 712/894 personnes · 1079 s écoulées · reste ≈ 1249 s · sollicitations 384 · attentes 0 
+2026-09-17 11:04:04.352 | INFO     | experiences.runner:boucle:387 - [execution] 2654/3161 déplacements (84.0 %) · 713/894 personnes · 1084 s écoulées · reste ≈ 1214 s · sollicitations 392 · attentes 0 
+2026-09-17 11:04:09.356 | INFO     | experiences.runner:boucle:387 - [execution] 2654/3161 déplacements (84.0 %) · 713/894 personnes · 1089 s écoulées · reste ≈ 1219 s · sollicitations 392 · attentes 0 
+2026-09-17 11:04:14.359 | INFO     | experiences.runner:boucle:387 - [execution] 2654/3161 déplacements (84.0 %) · 713/894 personnes · 1094 s écoulées · reste ≈ 1225 s · sollicitations 392 · attentes 0 
+2026-09-17 11:04:19.363 | INFO     | experiences.runner:boucle:387 - [execution] 2654/3161 déplacements (84.0 %) · 713/894 personnes · 1099 s écoulées · reste ≈ 1231 s · sollicitations 392 · attentes 0 
+2026-09-17 11:04:24.366 | INFO     | experiences.runner:boucle:387 - [execution] 2662/3161 déplacements (84.2 %) · 716/894 personnes · 1104 s écoulées · reste ≈ 1195 s · sollicitations 400 · attentes 0 
+2026-09-17 11:04:29.378 | INFO     | experiences.runner:boucle:387 - [execution] 2662/3161 déplacements (84.2 %) · 716/894 personnes · 1109 s écoulées · reste ≈ 1201 s · sollicitations 400 · attentes 0 
+2026-09-17 11:04:34.394 | INFO     | experiences.runner:boucle:387 - [execution] 2662/3161 déplacements (84.2 %) · 716/894 personnes · 1114 s écoulées · reste ≈ 1206 s · sollicitations 400 · attentes 0 
+2026-09-17 11:04:39.399 | INFO     | experiences.runner:boucle:387 - [execution] 2662/3161 déplacements (84.2 %) · 716/894 personnes · 1119 s écoulées · reste ≈ 1212 s · sollicitations 400 · attentes 0 
+2026-09-17 11:04:44.403 | INFO     | experiences.runner:boucle:387 - [execution] 2662/3161 déplacements (84.2 %) · 716/894 personnes · 1124 s écoulées · reste ≈ 1217 s · sollicitations 400 · attentes 0 
+2026-09-17 11:04:49.406 | INFO     | experiences.runner:boucle:387 - [execution] 2670/3161 déplacements (84.5 %) · 719/894 personnes · 1129 s écoulées · reste ≈ 1182 s · sollicitations 408 · attentes 0 
+2026-09-17 11:04:54.412 | INFO     | experiences.runner:boucle:387 - [execution] 2670/3161 déplacements (84.5 %) · 719/894 personnes · 1134 s écoulées · reste ≈ 1188 s · sollicitations 408 · attentes 0 
+2026-09-17 11:04:59.416 | INFO     | experiences.runner:boucle:387 - [execution] 2670/3161 déplacements (84.5 %) · 719/894 personnes · 1140 s écoulées · reste ≈ 1193 s · sollicitations 408 · attentes 0 
+2026-09-17 11:05:04.425 | INFO     | experiences.runner:boucle:387 - [execution] 2670/3161 déplacements (84.5 %) · 719/894 personnes · 1145 s écoulées · reste ≈ 1198 s · sollicitations 408 · attentes 0 
+2026-09-17 11:05:09.434 | INFO     | experiences.runner:boucle:387 - [execution] 2670/3161 déplacements (84.5 %) · 719/894 personnes · 1150 s écoulées · reste ≈ 1203 s · sollicitations 408 · attentes 0 
+2026-09-17 11:05:14.438 | INFO     | experiences.runner:boucle:387 - [execution] 2670/3161 déplacements (84.5 %) · 719/894 personnes · 1155 s écoulées · reste ≈ 1209 s · sollicitations 408 · attentes 0 
+2026-09-17 11:05:19.447 | INFO     | experiences.runner:boucle:387 - [execution] 2680/3161 déplacements (84.8 %) · 721/894 personnes · 1160 s écoulées · reste ≈ 1164 s · sollicitations 416 · attentes 0 
+2026-09-17 11:05:24.456 | INFO     | experiences.runner:boucle:387 - [execution] 2680/3161 déplacements (84.8 %) · 721/894 personnes · 1165 s écoulées · reste ≈ 1169 s · sollicitations 416 · attentes 0 
+2026-09-17 11:05:29.460 | INFO     | experiences.runner:boucle:387 - [execution] 2680/3161 déplacements (84.8 %) · 721/894 personnes · 1170 s écoulées · reste ≈ 1174 s · sollicitations 416 · attentes 0 
+2026-09-17 11:05:34.467 | INFO     | experiences.runner:boucle:387 - [execution] 2680/3161 déplacements (84.8 %) · 721/894 personnes · 1175 s écoulées · reste ≈ 1179 s · sollicitations 416 · attentes 0 
+2026-09-17 11:05:39.472 | INFO     | experiences.runner:boucle:387 - [execution] 2691/3161 déplacements (85.1 %) · 726/894 personnes · 1180 s écoulées · reste ≈ 1131 s · sollicitations 424 · attentes 0 
+2026-09-17 11:05:44.476 | INFO     | experiences.runner:boucle:387 - [execution] 2691/3161 déplacements (85.1 %) · 726/894 personnes · 1185 s écoulées · reste ≈ 1136 s · sollicitations 424 · attentes 0 
+2026-09-17 11:05:49.485 | INFO     | experiences.runner:boucle:387 - [execution] 2691/3161 déplacements (85.1 %) · 726/894 personnes · 1190 s écoulées · reste ≈ 1141 s · sollicitations 424 · attentes 0 
+2026-09-17 11:05:54.491 | INFO     | experiences.runner:boucle:387 - [execution] 2691/3161 déplacements (85.1 %) · 726/894 personnes · 1195 s écoulées · reste ≈ 1146 s · sollicitations 424 · attentes 0 
+2026-09-17 11:05:59.496 | INFO     | experiences.runner:boucle:387 - [execution] 2701/3161 déplacements (85.4 %) · 729/894 personnes · 1200 s écoulées · reste ≈ 1104 s · sollicitations 432 · attentes 0 
+2026-09-17 11:06:04.500 | INFO     | experiences.runner:boucle:387 - [execution] 2701/3161 déplacements (85.4 %) · 729/894 personnes · 1205 s écoulées · reste ≈ 1108 s · sollicitations 432 · attentes 0 
+2026-09-17 11:06:09.504 | INFO     | experiences.runner:boucle:387 - [execution] 2701/3161 déplacements (85.4 %) · 729/894 personnes · 1210 s écoulées · reste ≈ 1113 s · sollicitations 432 · attentes 0 
+2026-09-17 11:06:14.511 | INFO     | experiences.runner:boucle:387 - [execution] 2711/3161 déplacements (85.8 %) · 732/894 personnes · 1215 s écoulées · reste ≈ 1072 s · sollicitations 440 · attentes 0 
+2026-09-17 11:06:19.520 | INFO     | experiences.runner:boucle:387 - [execution] 2711/3161 déplacements (85.8 %) · 732/894 personnes · 1220 s écoulées · reste ≈ 1076 s · sollicitations 440 · attentes 0 
+2026-09-17 11:06:24.528 | INFO     | experiences.runner:boucle:387 - [execution] 2711/3161 déplacements (85.8 %) · 732/894 personnes · 1225 s écoulées · reste ≈ 1081 s · sollicitations 440 · attentes 0 
+2026-09-17 11:06:29.532 | INFO     | experiences.runner:boucle:387 - [execution] 2711/3161 déplacements (85.8 %) · 732/894 personnes · 1230 s écoulées · reste ≈ 1085 s · sollicitations 440 · attentes 0 
+2026-09-17 11:06:34.538 | INFO     | experiences.runner:boucle:387 - [execution] 2719/3161 déplacements (86.0 %) · 734/894 personnes · 1235 s écoulées · reste ≈ 1053 s · sollicitations 448 · attentes 0 
+2026-09-17 11:06:39.540 | INFO     | experiences.runner:boucle:387 - [execution] 2719/3161 déplacements (86.0 %) · 734/894 personnes · 1240 s écoulées · reste ≈ 1058 s · sollicitations 448 · attentes 0 
+2026-09-17 11:06:44.543 | INFO     | experiences.runner:boucle:387 - [execution] 2719/3161 déplacements (86.0 %) · 734/894 personnes · 1245 s écoulées · reste ≈ 1062 s · sollicitations 448 · attentes 0 
+2026-09-17 11:06:49.549 | INFO     | experiences.runner:boucle:387 - [execution] 2719/3161 déplacements (86.0 %) · 734/894 personnes · 1250 s écoulées · reste ≈ 1066 s · sollicitations 448 · attentes 0 
+2026-09-17 11:06:54.556 | INFO     | experiences.runner:boucle:387 - [execution] 2729/3161 déplacements (86.3 %) · 739/894 personnes · 1255 s écoulées · reste ≈ 1027 s · sollicitations 456 · attentes 0 
+2026-09-17 11:06:59.559 | INFO     | experiences.runner:boucle:387 - [execution] 2729/3161 déplacements (86.3 %) · 739/894 personnes · 1260 s écoulées · reste ≈ 1031 s · sollicitations 456 · attentes 0 
+2026-09-17 11:07:04.563 | INFO     | experiences.runner:boucle:387 - [execution] 2729/3161 déplacements (86.3 %) · 739/894 personnes · 1265 s écoulées · reste ≈ 1035 s · sollicitations 456 · attentes 0 
+2026-09-17 11:07:09.570 | INFO     | experiences.runner:boucle:387 - [execution] 2729/3161 déplacements (86.3 %) · 739/894 personnes · 1270 s écoulées · reste ≈ 1039 s · sollicitations 456 · attentes 0 
+2026-09-17 11:07:14.574 | INFO     | experiences.runner:boucle:387 - [execution] 2740/3161 déplacements (86.7 %) · 741/894 personnes · 1275 s écoulées · reste ≈ 996 s · sollicitations 464 · attentes 0 
+2026-09-17 11:07:19.578 | INFO     | experiences.runner:boucle:387 - [execution] 2740/3161 déplacements (86.7 %) · 741/894 personnes · 1280 s écoulées · reste ≈ 1000 s · sollicitations 464 · attentes 0 
+2026-09-17 11:07:24.582 | INFO     | experiences.runner:boucle:387 - [execution] 2740/3161 déplacements (86.7 %) · 741/894 personnes · 1285 s écoulées · reste ≈ 1003 s · sollicitations 464 · attentes 0 
+2026-09-17 11:07:29.587 | INFO     | experiences.runner:boucle:387 - [execution] 2740/3161 déplacements (86.7 %) · 741/894 personnes · 1290 s écoulées · reste ≈ 1007 s · sollicitations 464 · attentes 0 
+2026-09-17 11:07:34.593 | INFO     | experiences.runner:boucle:387 - [execution] 2749/3161 déplacements (87.0 %) · 745/894 personnes · 1295 s écoulées · reste ≈ 973 s · sollicitations 472 · attentes 0 
+2026-09-17 11:07:39.596 | INFO     | experiences.runner:boucle:387 - [execution] 2749/3161 déplacements (87.0 %) · 745/894 personnes · 1300 s écoulées · reste ≈ 977 s · sollicitations 472 · attentes 0 
+2026-09-17 11:07:44.599 | INFO     | experiences.runner:boucle:387 - [execution] 2749/3161 déplacements (87.0 %) · 745/894 personnes · 1305 s écoulées · reste ≈ 981 s · sollicitations 472 · attentes 0 
+2026-09-17 11:07:49.603 | INFO     | experiences.runner:boucle:387 - [execution] 2749/3161 déplacements (87.0 %) · 745/894 personnes · 1310 s écoulées · reste ≈ 985 s · sollicitations 472 · attentes 0 
+2026-09-17 11:07:54.717 | INFO     | experiences.runner:boucle:387 - [execution] 2760/3161 déplacements (87.3 %) · 748/894 personnes · 1315 s écoulées · reste ≈ 943 s · sollicitations 480 · attentes 0 
+2026-09-17 11:07:59.727 | INFO     | experiences.runner:boucle:387 - [execution] 2760/3161 déplacements (87.3 %) · 748/894 personnes · 1320 s écoulées · reste ≈ 947 s · sollicitations 480 · attentes 0 
+2026-09-17 11:08:04.731 | INFO     | experiences.runner:boucle:387 - [execution] 2760/3161 déplacements (87.3 %) · 748/894 personnes · 1325 s écoulées · reste ≈ 950 s · sollicitations 480 · attentes 0 
+2026-09-17 11:08:09.734 | INFO     | experiences.runner:boucle:387 - [execution] 2760/3161 déplacements (87.3 %) · 748/894 personnes · 1330 s écoulées · reste ≈ 954 s · sollicitations 480 · attentes 0 
+2026-09-17 11:08:14.739 | INFO     | experiences.runner:boucle:387 - [execution] 2770/3161 déplacements (87.6 %) · 751/894 personnes · 1335 s écoulées · reste ≈ 917 s · sollicitations 488 · attentes 0 
+2026-09-17 11:08:19.746 | INFO     | experiences.runner:boucle:387 - [execution] 2770/3161 déplacements (87.6 %) · 751/894 personnes · 1340 s écoulées · reste ≈ 921 s · sollicitations 488 · attentes 0 
+2026-09-17 11:08:24.750 | INFO     | experiences.runner:boucle:387 - [execution] 2770/3161 déplacements (87.6 %) · 751/894 personnes · 1345 s écoulées · reste ≈ 924 s · sollicitations 488 · attentes 0 
+2026-09-17 11:08:29.756 | INFO     | experiences.runner:boucle:387 - [execution] 2770/3161 déplacements (87.6 %) · 751/894 personnes · 1350 s écoulées · reste ≈ 928 s · sollicitations 488 · attentes 0 
+2026-09-17 11:08:34.758 | INFO     | experiences.runner:boucle:387 - [execution] 2781/3161 déplacements (88.0 %) · 755/894 personnes · 1355 s écoulées · reste ≈ 888 s · sollicitations 496 · attentes 0 
+2026-09-17 11:08:39.761 | INFO     | experiences.runner:boucle:387 - [execution] 2781/3161 déplacements (88.0 %) · 755/894 personnes · 1360 s écoulées · reste ≈ 891 s · sollicitations 496 · attentes 0 
+2026-09-17 11:08:44.769 | INFO     | experiences.runner:boucle:387 - [execution] 2781/3161 déplacements (88.0 %) · 755/894 personnes · 1365 s écoulées · reste ≈ 894 s · sollicitations 496 · attentes 0 
+2026-09-17 11:08:49.774 | INFO     | experiences.runner:boucle:387 - [execution] 2781/3161 déplacements (88.0 %) · 755/894 personnes · 1370 s écoulées · reste ≈ 897 s · sollicitations 496 · attentes 0 
+2026-09-17 11:08:54.779 | INFO     | experiences.runner:boucle:387 - [execution] 2790/3161 déplacements (88.3 %) · 756/894 personnes · 1375 s écoulées · reste ≈ 866 s · sollicitations 504 · attentes 0 
+2026-09-17 11:08:59.784 | INFO     | experiences.runner:boucle:387 - [execution] 2790/3161 déplacements (88.3 %) · 756/894 personnes · 1380 s écoulées · reste ≈ 869 s · sollicitations 504 · attentes 0 
+2026-09-17 11:09:04.790 | INFO     | experiences.runner:boucle:387 - [execution] 2790/3161 déplacements (88.3 %) · 756/894 personnes · 1385 s écoulées · reste ≈ 872 s · sollicitations 504 · attentes 0 
+2026-09-17 11:09:09.798 | INFO     | experiences.runner:boucle:387 - [execution] 2790/3161 déplacements (88.3 %) · 756/894 personnes · 1390 s écoulées · reste ≈ 875 s · sollicitations 504 · attentes 0 
+2026-09-17 11:09:14.804 | INFO     | experiences.runner:boucle:387 - [execution] 2800/3161 déplacements (88.6 %) · 758/894 personnes · 1395 s écoulées · reste ≈ 841 s · sollicitations 512 · attentes 0 
+2026-09-17 11:09:19.814 | INFO     | experiences.runner:boucle:387 - [execution] 2800/3161 déplacements (88.6 %) · 758/894 personnes · 1400 s écoulées · reste ≈ 844 s · sollicitations 512 · attentes 0 
+2026-09-17 11:09:24.818 | INFO     | experiences.runner:boucle:387 - [execution] 2800/3161 déplacements (88.6 %) · 758/894 personnes · 1405 s écoulées · reste ≈ 847 s · sollicitations 512 · attentes 0 
+2026-09-17 11:09:29.825 | INFO     | experiences.runner:boucle:387 - [execution] 2800/3161 déplacements (88.6 %) · 758/894 personnes · 1410 s écoulées · reste ≈ 850 s · sollicitations 512 · attentes 0 
+2026-09-17 11:09:34.833 | INFO     | experiences.runner:boucle:387 - [execution] 2809/3161 déplacements (88.9 %) · 761/894 personnes · 1415 s écoulées · reste ≈ 819 s · sollicitations 520 · attentes 0 
+2026-09-17 11:09:39.840 | INFO     | experiences.runner:boucle:387 - [execution] 2809/3161 déplacements (88.9 %) · 761/894 personnes · 1420 s écoulées · reste ≈ 822 s · sollicitations 520 · attentes 0 
+2026-09-17 11:09:44.844 | INFO     | experiences.runner:boucle:387 - [execution] 2809/3161 déplacements (88.9 %) · 761/894 personnes · 1425 s écoulées · reste ≈ 825 s · sollicitations 520 · attentes 0 
+2026-09-17 11:09:49.849 | INFO     | experiences.runner:boucle:387 - [execution] 2809/3161 déplacements (88.9 %) · 761/894 personnes · 1430 s écoulées · reste ≈ 828 s · sollicitations 520 · attentes 0 
+2026-09-17 11:09:54.853 | INFO     | experiences.runner:boucle:387 - [execution] 2817/3161 déplacements (89.1 %) · 763/894 personnes · 1435 s écoulées · reste ≈ 801 s · sollicitations 528 · attentes 0 
+2026-09-17 11:09:59.857 | INFO     | experiences.runner:boucle:387 - [execution] 2817/3161 déplacements (89.1 %) · 763/894 personnes · 1440 s écoulées · reste ≈ 804 s · sollicitations 528 · attentes 0 
+2026-09-17 11:10:04.863 | INFO     | experiences.runner:boucle:387 - [execution] 2817/3161 déplacements (89.1 %) · 763/894 personnes · 1445 s écoulées · reste ≈ 807 s · sollicitations 528 · attentes 0 
+2026-09-17 11:10:09.869 | INFO     | experiences.runner:boucle:387 - [execution] 2826/3161 déplacements (89.4 %) · 765/894 personnes · 1450 s écoulées · reste ≈ 777 s · sollicitations 536 · attentes 0 
+2026-09-17 11:10:14.874 | INFO     | experiences.runner:boucle:387 - [execution] 2826/3161 déplacements (89.4 %) · 765/894 personnes · 1455 s écoulées · reste ≈ 780 s · sollicitations 536 · attentes 0 
+2026-09-17 11:10:19.878 | INFO     | experiences.runner:boucle:387 - [execution] 2826/3161 déplacements (89.4 %) · 765/894 personnes · 1460 s écoulées · reste ≈ 783 s · sollicitations 536 · attentes 0 
+2026-09-17 11:10:24.881 | INFO     | experiences.runner:boucle:387 - [execution] 2826/3161 déplacements (89.4 %) · 765/894 personnes · 1465 s écoulées · reste ≈ 785 s · sollicitations 536 · attentes 0 
+2026-09-17 11:10:29.886 | INFO     | experiences.runner:boucle:387 - [execution] 2835/3161 déplacements (89.7 %) · 768/894 personnes · 1470 s écoulées · reste ≈ 756 s · sollicitations 544 · attentes 0 
+2026-09-17 11:10:34.893 | INFO     | experiences.runner:boucle:387 - [execution] 2835/3161 déplacements (89.7 %) · 768/894 personnes · 1475 s écoulées · reste ≈ 758 s · sollicitations 544 · attentes 0 
+2026-09-17 11:10:39.897 | INFO     | experiences.runner:boucle:387 - [execution] 2835/3161 déplacements (89.7 %) · 768/894 personnes · 1480 s écoulées · reste ≈ 761 s · sollicitations 544 · attentes 0 
+2026-09-17 11:10:44.903 | INFO     | experiences.runner:boucle:387 - [execution] 2835/3161 déplacements (89.7 %) · 768/894 personnes · 1485 s écoulées · reste ≈ 764 s · sollicitations 544 · attentes 0 
+2026-09-17 11:10:49.912 | INFO     | experiences.runner:boucle:387 - [execution] 2844/3161 déplacements (90.0 %) · 774/894 personnes · 1490 s écoulées · reste ≈ 735 s · sollicitations 552 · attentes 0 
+2026-09-17 11:10:54.916 | INFO     | experiences.runner:boucle:387 - [execution] 2844/3161 déplacements (90.0 %) · 774/894 personnes · 1495 s écoulées · reste ≈ 737 s · sollicitations 552 · attentes 0 
+2026-09-17 11:10:59.919 | INFO     | experiences.runner:boucle:387 - [execution] 2844/3161 déplacements (90.0 %) · 774/894 personnes · 1500 s écoulées · reste ≈ 740 s · sollicitations 552 · attentes 0 
+2026-09-17 11:11:04.926 | INFO     | experiences.runner:boucle:387 - [execution] 2844/3161 déplacements (90.0 %) · 774/894 personnes · 1505 s écoulées · reste ≈ 742 s · sollicitations 552 · attentes 0 
+2026-09-17 11:11:09.930 | INFO     | experiences.runner:boucle:387 - [execution] 2853/3161 déplacements (90.3 %) · 777/894 personnes · 1510 s écoulées · reste ≈ 713 s · sollicitations 560 · attentes 0 
+2026-09-17 11:11:14.938 | INFO     | experiences.runner:boucle:387 - [execution] 2853/3161 déplacements (90.3 %) · 777/894 personnes · 1515 s écoulées · reste ≈ 716 s · sollicitations 560 · attentes 0 
+2026-09-17 11:11:19.942 | INFO     | experiences.runner:boucle:387 - [execution] 2853/3161 déplacements (90.3 %) · 777/894 personnes · 1520 s écoulées · reste ≈ 718 s · sollicitations 560 · attentes 0 
+2026-09-17 11:11:24.950 | INFO     | experiences.runner:boucle:387 - [execution] 2853/3161 déplacements (90.3 %) · 777/894 personnes · 1525 s écoulées · reste ≈ 720 s · sollicitations 560 · attentes 0 
+2026-09-17 11:11:29.954 | INFO     | experiences.runner:boucle:387 - [execution] 2862/3161 déplacements (90.5 %) · 779/894 personnes · 1530 s écoulées · reste ≈ 692 s · sollicitations 568 · attentes 0 
+2026-09-17 11:11:34.959 | INFO     | experiences.runner:boucle:387 - [execution] 2862/3161 déplacements (90.5 %) · 779/894 personnes · 1535 s écoulées · reste ≈ 694 s · sollicitations 568 · attentes 0 
+2026-09-17 11:11:39.964 | INFO     | experiences.runner:boucle:387 - [execution] 2862/3161 déplacements (90.5 %) · 779/894 personnes · 1540 s écoulées · reste ≈ 697 s · sollicitations 568 · attentes 0 
+2026-09-17 11:11:44.968 | INFO     | experiences.runner:boucle:387 - [execution] 2862/3161 déplacements (90.5 %) · 779/894 personnes · 1545 s écoulées · reste ≈ 699 s · sollicitations 568 · attentes 0 
+2026-09-17 11:11:49.974 | INFO     | experiences.runner:boucle:387 - [execution] 2873/3161 déplacements (90.9 %) · 780/894 personnes · 1550 s écoulées · reste ≈ 664 s · sollicitations 576 · attentes 0 
+2026-09-17 11:11:54.980 | INFO     | experiences.runner:boucle:387 - [execution] 2873/3161 déplacements (90.9 %) · 780/894 personnes · 1555 s écoulées · reste ≈ 666 s · sollicitations 576 · attentes 0 
+2026-09-17 11:11:59.989 | INFO     | experiences.runner:boucle:387 - [execution] 2873/3161 déplacements (90.9 %) · 780/894 personnes · 1560 s écoulées · reste ≈ 669 s · sollicitations 576 · attentes 0 
+2026-09-17 11:12:04.992 | INFO     | experiences.runner:boucle:387 - [execution] 2873/3161 déplacements (90.9 %) · 780/894 personnes · 1565 s écoulées · reste ≈ 671 s · sollicitations 576 · attentes 0 
+2026-09-17 11:12:09.998 | INFO     | experiences.runner:boucle:387 - [execution] 2882/3161 déplacements (91.2 %) · 780/894 personnes · 1570 s écoulées · reste ≈ 643 s · sollicitations 584 · attentes 0 
+2026-09-17 11:12:15.004 | INFO     | experiences.runner:boucle:387 - [execution] 2882/3161 déplacements (91.2 %) · 780/894 personnes · 1575 s écoulées · reste ≈ 645 s · sollicitations 584 · attentes 0 
+2026-09-17 11:12:20.012 | INFO     | experiences.runner:boucle:387 - [execution] 2882/3161 déplacements (91.2 %) · 780/894 personnes · 1580 s écoulées · reste ≈ 647 s · sollicitations 584 · attentes 0 
+2026-09-17 11:12:25.015 | INFO     | experiences.runner:boucle:387 - [execution] 2882/3161 déplacements (91.2 %) · 780/894 personnes · 1585 s écoulées · reste ≈ 649 s · sollicitations 584 · attentes 0 
+2026-09-17 11:12:30.021 | INFO     | experiences.runner:boucle:387 - [execution] 2891/3161 déplacements (91.5 %) · 785/894 personnes · 1590 s écoulées · reste ≈ 622 s · sollicitations 592 · attentes 0 
+2026-09-17 11:12:35.026 | INFO     | experiences.runner:boucle:387 - [execution] 2891/3161 déplacements (91.5 %) · 785/894 personnes · 1595 s écoulées · reste ≈ 624 s · sollicitations 592 · attentes 0 
+2026-09-17 11:12:40.029 | INFO     | experiences.runner:boucle:387 - [execution] 2891/3161 déplacements (91.5 %) · 785/894 personnes · 1600 s écoulées · reste ≈ 626 s · sollicitations 592 · attentes 0 
+2026-09-17 11:12:45.032 | INFO     | experiences.runner:boucle:387 - [execution] 2891/3161 déplacements (91.5 %) · 785/894 personnes · 1605 s écoulées · reste ≈ 628 s · sollicitations 592 · attentes 0 
+2026-09-17 11:12:50.040 | INFO     | experiences.runner:boucle:387 - [execution] 2901/3161 déplacements (91.8 %) · 787/894 personnes · 1610 s écoulées · reste ≈ 598 s · sollicitations 600 · attentes 0 
+2026-09-17 11:12:55.043 | INFO     | experiences.runner:boucle:387 - [execution] 2901/3161 déplacements (91.8 %) · 787/894 personnes · 1615 s écoulées · reste ≈ 600 s · sollicitations 600 · attentes 0 
+2026-09-17 11:13:00.046 | INFO     | experiences.runner:boucle:387 - [execution] 2901/3161 déplacements (91.8 %) · 787/894 personnes · 1620 s écoulées · reste ≈ 602 s · sollicitations 600 · attentes 0 
+2026-09-17 11:13:05.049 | INFO     | experiences.runner:boucle:387 - [execution] 2909/3161 déplacements (92.0 %) · 788/894 personnes · 1625 s écoulées · reste ≈ 578 s · sollicitations 608 · attentes 0 
+2026-09-17 11:13:10.054 | INFO     | experiences.runner:boucle:387 - [execution] 2909/3161 déplacements (92.0 %) · 788/894 personnes · 1630 s écoulées · reste ≈ 580 s · sollicitations 608 · attentes 0 
+2026-09-17 11:13:15.060 | INFO     | experiences.runner:boucle:387 - [execution] 2909/3161 déplacements (92.0 %) · 788/894 personnes · 1635 s écoulées · reste ≈ 582 s · sollicitations 608 · attentes 0 
+2026-09-17 11:13:20.062 | INFO     | experiences.runner:boucle:387 - [execution] 2909/3161 déplacements (92.0 %) · 788/894 personnes · 1640 s écoulées · reste ≈ 584 s · sollicitations 608 · attentes 0 
+2026-09-17 11:13:25.065 | INFO     | experiences.runner:boucle:387 - [execution] 2909/3161 déplacements (92.0 %) · 788/894 personnes · 1645 s écoulées · reste ≈ 586 s · sollicitations 608 · attentes 0 
+2026-09-17 11:13:30.072 | INFO     | experiences.runner:boucle:387 - [execution] 2917/3161 déplacements (92.3 %) · 791/894 personnes · 1650 s écoulées · reste ≈ 562 s · sollicitations 616 · attentes 0 
+2026-09-17 11:13:35.075 | INFO     | experiences.runner:boucle:387 - [execution] 2917/3161 déplacements (92.3 %) · 791/894 personnes · 1655 s écoulées · reste ≈ 564 s · sollicitations 616 · attentes 0 
+2026-09-17 11:13:40.084 | INFO     | experiences.runner:boucle:387 - [execution] 2917/3161 déplacements (92.3 %) · 791/894 personnes · 1660 s écoulées · reste ≈ 566 s · sollicitations 616 · attentes 0 
+2026-09-17 11:13:45.088 | INFO     | experiences.runner:boucle:387 - [execution] 2925/3161 déplacements (92.5 %) · 794/894 personnes · 1665 s écoulées · reste ≈ 543 s · sollicitations 624 · attentes 0 
+2026-09-17 11:13:50.092 | INFO     | experiences.runner:boucle:387 - [execution] 2925/3161 déplacements (92.5 %) · 794/894 personnes · 1670 s écoulées · reste ≈ 544 s · sollicitations 624 · attentes 0 
+2026-09-17 11:13:55.095 | INFO     | experiences.runner:boucle:387 - [execution] 2925/3161 déplacements (92.5 %) · 794/894 personnes · 1675 s écoulées · reste ≈ 546 s · sollicitations 624 · attentes 0 
+2026-09-17 11:14:00.101 | INFO     | experiences.runner:boucle:387 - [execution] 2925/3161 déplacements (92.5 %) · 794/894 personnes · 1680 s écoulées · reste ≈ 548 s · sollicitations 624 · attentes 0 
+2026-09-17 11:14:05.105 | INFO     | experiences.runner:boucle:387 - [execution] 2925/3161 déplacements (92.5 %) · 794/894 personnes · 1685 s écoulées · reste ≈ 549 s · sollicitations 624 · attentes 0 
+2026-09-17 11:14:10.113 | INFO     | experiences.runner:boucle:387 - [execution] 2933/3161 déplacements (92.8 %) · 795/894 personnes · 1690 s écoulées · reste ≈ 526 s · sollicitations 632 · attentes 0 
+2026-09-17 11:14:15.118 | INFO     | experiences.runner:boucle:387 - [execution] 2933/3161 déplacements (92.8 %) · 795/894 personnes · 1695 s écoulées · reste ≈ 528 s · sollicitations 632 · attentes 0 
+2026-09-17 11:14:20.123 | INFO     | experiences.runner:boucle:387 - [execution] 2933/3161 déplacements (92.8 %) · 795/894 personnes · 1700 s écoulées · reste ≈ 530 s · sollicitations 632 · attentes 0 
+2026-09-17 11:14:25.127 | INFO     | experiences.runner:boucle:387 - [execution] 2933/3161 déplacements (92.8 %) · 795/894 personnes · 1705 s écoulées · reste ≈ 531 s · sollicitations 632 · attentes 0 
+2026-09-17 11:14:30.133 | INFO     | experiences.runner:boucle:387 - [execution] 2941/3161 déplacements (93.0 %) · 798/894 personnes · 1710 s écoulées · reste ≈ 508 s · sollicitations 640 · attentes 0 
+2026-09-17 11:14:35.140 | INFO     | experiences.runner:boucle:387 - [execution] 2941/3161 déplacements (93.0 %) · 798/894 personnes · 1715 s écoulées · reste ≈ 510 s · sollicitations 640 · attentes 0 
+2026-09-17 11:14:40.144 | INFO     | experiences.runner:boucle:387 - [execution] 2941/3161 déplacements (93.0 %) · 798/894 personnes · 1720 s écoulées · reste ≈ 511 s · sollicitations 640 · attentes 0 
+2026-09-17 11:14:45.147 | INFO     | experiences.runner:boucle:387 - [execution] 2941/3161 déplacements (93.0 %) · 798/894 personnes · 1725 s écoulées · reste ≈ 513 s · sollicitations 640 · attentes 0 
+2026-09-17 11:14:50.152 | INFO     | experiences.runner:boucle:387 - [execution] 2950/3161 déplacements (93.3 %) · 802/894 personnes · 1730 s écoulées · reste ≈ 487 s · sollicitations 648 · attentes 0 
+2026-09-17 11:14:55.157 | INFO     | experiences.runner:boucle:387 - [execution] 2950/3161 déplacements (93.3 %) · 802/894 personnes · 1735 s écoulées · reste ≈ 489 s · sollicitations 648 · attentes 0 
+2026-09-17 11:15:00.166 | INFO     | experiences.runner:boucle:387 - [execution] 2950/3161 déplacements (93.3 %) · 802/894 personnes · 1740 s écoulées · reste ≈ 490 s · sollicitations 648 · attentes 0 
+2026-09-17 11:15:05.170 | INFO     | experiences.runner:boucle:387 - [execution] 2950/3161 déplacements (93.3 %) · 802/894 personnes · 1745 s écoulées · reste ≈ 492 s · sollicitations 648 · attentes 0 
+2026-09-17 11:15:10.177 | INFO     | experiences.runner:boucle:387 - [execution] 2959/3161 déplacements (93.6 %) · 805/894 personnes · 1750 s écoulées · reste ≈ 466 s · sollicitations 656 · attentes 0 
+2026-09-17 11:15:15.183 | INFO     | experiences.runner:boucle:387 - [execution] 2959/3161 déplacements (93.6 %) · 805/894 personnes · 1755 s écoulées · reste ≈ 468 s · sollicitations 656 · attentes 0 
+2026-09-17 11:15:20.187 | INFO     | experiences.runner:boucle:387 - [execution] 2959/3161 déplacements (93.6 %) · 805/894 personnes · 1760 s écoulées · reste ≈ 469 s · sollicitations 656 · attentes 0 
+2026-09-17 11:15:25.195 | INFO     | experiences.runner:boucle:387 - [execution] 2959/3161 déplacements (93.6 %) · 805/894 personnes · 1765 s écoulées · reste ≈ 470 s · sollicitations 656 · attentes 0 
+2026-09-17 11:15:30.203 | INFO     | experiences.runner:boucle:387 - [execution] 2969/3161 déplacements (93.9 %) · 808/894 personnes · 1770 s écoulées · reste ≈ 443 s · sollicitations 664 · attentes 0 
+2026-09-17 11:15:35.205 | INFO     | experiences.runner:boucle:387 - [execution] 2969/3161 déplacements (93.9 %) · 808/894 personnes · 1775 s écoulées · reste ≈ 444 s · sollicitations 664 · attentes 0 
+2026-09-17 11:15:40.210 | INFO     | experiences.runner:boucle:387 - [execution] 2969/3161 déplacements (93.9 %) · 808/894 personnes · 1780 s écoulées · reste ≈ 445 s · sollicitations 664 · attentes 0 
+2026-09-17 11:15:45.218 | INFO     | experiences.runner:boucle:387 - [execution] 2969/3161 déplacements (93.9 %) · 808/894 personnes · 1785 s écoulées · reste ≈ 446 s · sollicitations 664 · attentes 0 
+2026-09-17 11:15:50.222 | INFO     | experiences.runner:boucle:387 - [execution] 2969/3161 déplacements (93.9 %) · 808/894 personnes · 1790 s écoulées · reste ≈ 448 s · sollicitations 664 · attentes 0 
+2026-09-17 11:15:55.226 | INFO     | experiences.runner:boucle:387 - [execution] 2980/3161 déplacements (94.3 %) · 812/894 personnes · 1795 s écoulées · reste ≈ 417 s · sollicitations 672 · attentes 0 
+2026-09-17 11:16:00.236 | INFO     | experiences.runner:boucle:387 - [execution] 2980/3161 déplacements (94.3 %) · 812/894 personnes · 1800 s écoulées · reste ≈ 418 s · sollicitations 672 · attentes 0 
+2026-09-17 11:16:05.242 | INFO     | experiences.runner:boucle:387 - [execution] 2980/3161 déplacements (94.3 %) · 812/894 personnes · 1805 s écoulées · reste ≈ 419 s · sollicitations 672 · attentes 0 
+2026-09-17 11:16:10.252 | INFO     | experiences.runner:boucle:387 - [execution] 2980/3161 déplacements (94.3 %) · 812/894 personnes · 1810 s écoulées · reste ≈ 421 s · sollicitations 672 · attentes 0 
+2026-09-17 11:16:15.258 | INFO     | experiences.runner:boucle:387 - [execution] 2988/3161 déplacements (94.5 %) · 815/894 personnes · 1815 s écoulées · reste ≈ 399 s · sollicitations 680 · attentes 0 
+2026-09-17 11:16:20.260 | INFO     | experiences.runner:boucle:387 - [execution] 2988/3161 déplacements (94.5 %) · 815/894 personnes · 1820 s écoulées · reste ≈ 400 s · sollicitations 680 · attentes 0 
+2026-09-17 11:16:25.268 | INFO     | experiences.runner:boucle:387 - [execution] 2988/3161 déplacements (94.5 %) · 815/894 personnes · 1825 s écoulées · reste ≈ 401 s · sollicitations 680 · attentes 0 
+2026-09-17 11:16:30.272 | INFO     | experiences.runner:boucle:387 - [execution] 2988/3161 déplacements (94.5 %) · 815/894 personnes · 1830 s écoulées · reste ≈ 402 s · sollicitations 680 · attentes 0 
+2026-09-17 11:16:35.275 | INFO     | experiences.runner:boucle:387 - [execution] 2997/3161 déplacements (94.8 %) · 818/894 personnes · 1835 s écoulées · reste ≈ 378 s · sollicitations 688 · attentes 0 
+2026-09-17 11:16:40.280 | INFO     | experiences.runner:boucle:387 - [execution] 2997/3161 déplacements (94.8 %) · 818/894 personnes · 1840 s écoulées · reste ≈ 379 s · sollicitations 688 · attentes 0 
+2026-09-17 11:16:45.284 | INFO     | experiences.runner:boucle:387 - [execution] 2997/3161 déplacements (94.8 %) · 818/894 personnes · 1845 s écoulées · reste ≈ 380 s · sollicitations 688 · attentes 0 
+2026-09-17 11:16:50.287 | INFO     | experiences.runner:boucle:387 - [execution] 2997/3161 déplacements (94.8 %) · 818/894 personnes · 1850 s écoulées · reste ≈ 381 s · sollicitations 688 · attentes 0 
+2026-09-17 11:16:55.293 | INFO     | experiences.runner:boucle:387 - [execution] 3006/3161 déplacements (95.1 %) · 821/894 personnes · 1855 s écoulées · reste ≈ 357 s · sollicitations 696 · attentes 0 
+2026-09-17 11:17:00.297 | INFO     | experiences.runner:boucle:387 - [execution] 3006/3161 déplacements (95.1 %) · 821/894 personnes · 1860 s écoulées · reste ≈ 358 s · sollicitations 696 · attentes 0 
+2026-09-17 11:17:05.395 | INFO     | experiences.runner:boucle:387 - [execution] 3006/3161 déplacements (95.1 %) · 821/894 personnes · 1865 s écoulées · reste ≈ 359 s · sollicitations 696 · attentes 0 
+2026-09-17 11:17:10.398 | INFO     | experiences.runner:boucle:387 - [execution] 3006/3161 déplacements (95.1 %) · 821/894 personnes · 1870 s écoulées · reste ≈ 360 s · sollicitations 696 · attentes 0 
+2026-09-17 11:17:15.404 | INFO     | experiences.runner:boucle:387 - [execution] 3006/3161 déplacements (95.1 %) · 821/894 personnes · 1875 s écoulées · reste ≈ 361 s · sollicitations 696 · attentes 0 
+2026-09-17 11:17:20.410 | INFO     | experiences.runner:boucle:387 - [execution] 3015/3161 déplacements (95.4 %) · 823/894 personnes · 1881 s écoulées · reste ≈ 337 s · sollicitations 704 · attentes 0 
+2026-09-17 11:17:25.414 | INFO     | experiences.runner:boucle:387 - [execution] 3015/3161 déplacements (95.4 %) · 823/894 personnes · 1886 s écoulées · reste ≈ 338 s · sollicitations 704 · attentes 0 
+2026-09-17 11:17:30.418 | INFO     | experiences.runner:boucle:387 - [execution] 3015/3161 déplacements (95.4 %) · 823/894 personnes · 1891 s écoulées · reste ≈ 339 s · sollicitations 704 · attentes 0 
+2026-09-17 11:17:35.423 | INFO     | experiences.runner:boucle:387 - [execution] 3015/3161 déplacements (95.4 %) · 823/894 personnes · 1896 s écoulées · reste ≈ 340 s · sollicitations 704 · attentes 0 
+2026-09-17 11:17:40.427 | INFO     | experiences.runner:boucle:387 - [execution] 3023/3161 déplacements (95.6 %) · 826/894 personnes · 1901 s écoulées · reste ≈ 319 s · sollicitations 712 · attentes 0 
+2026-09-17 11:17:45.434 | INFO     | experiences.runner:boucle:387 - [execution] 3023/3161 déplacements (95.6 %) · 826/894 personnes · 1906 s écoulées · reste ≈ 320 s · sollicitations 712 · attentes 0 
+2026-09-17 11:17:50.439 | INFO     | experiences.runner:boucle:387 - [execution] 3023/3161 déplacements (95.6 %) · 826/894 personnes · 1911 s écoulées · reste ≈ 321 s · sollicitations 712 · attentes 0 
+2026-09-17 11:17:55.443 | INFO     | experiences.runner:boucle:387 - [execution] 3023/3161 déplacements (95.6 %) · 826/894 personnes · 1916 s écoulées · reste ≈ 322 s · sollicitations 712 · attentes 0 
+2026-09-17 11:18:00.451 | INFO     | experiences.runner:boucle:387 - [execution] 3032/3161 déplacements (95.9 %) · 827/894 personnes · 1921 s écoulées · reste ≈ 298 s · sollicitations 720 · attentes 0 
+2026-09-17 11:18:05.454 | INFO     | experiences.runner:boucle:387 - [execution] 3032/3161 déplacements (95.9 %) · 827/894 personnes · 1926 s écoulées · reste ≈ 299 s · sollicitations 720 · attentes 0 
+2026-09-17 11:18:10.457 | INFO     | experiences.runner:boucle:387 - [execution] 3032/3161 déplacements (95.9 %) · 827/894 personnes · 1931 s écoulées · reste ≈ 300 s · sollicitations 720 · attentes 0 
+2026-09-17 11:18:15.483 | INFO     | experiences.runner:boucle:387 - [execution] 3032/3161 déplacements (95.9 %) · 827/894 personnes · 1936 s écoulées · reste ≈ 300 s · sollicitations 720 · attentes 0 
+2026-09-17 11:18:20.488 | INFO     | experiences.runner:boucle:387 - [execution] 3042/3161 déplacements (96.2 %) · 832/894 personnes · 1941 s écoulées · reste ≈ 275 s · sollicitations 728 · attentes 0 
+2026-09-17 11:18:25.494 | INFO     | experiences.runner:boucle:387 - [execution] 3042/3161 déplacements (96.2 %) · 832/894 personnes · 1946 s écoulées · reste ≈ 275 s · sollicitations 728 · attentes 0 
+2026-09-17 11:18:30.499 | INFO     | experiences.runner:boucle:387 - [execution] 3042/3161 déplacements (96.2 %) · 832/894 personnes · 1951 s écoulées · reste ≈ 276 s · sollicitations 728 · attentes 0 
+2026-09-17 11:18:35.503 | INFO     | experiences.runner:boucle:387 - [execution] 3042/3161 déplacements (96.2 %) · 832/894 personnes · 1956 s écoulées · reste ≈ 277 s · sollicitations 728 · attentes 0 
+2026-09-17 11:18:40.507 | INFO     | experiences.runner:boucle:387 - [execution] 3055/3161 déplacements (96.6 %) · 834/894 personnes · 1961 s écoulées · reste ≈ 243 s · sollicitations 736 · attentes 0 
+2026-09-17 11:18:45.516 | INFO     | experiences.runner:boucle:387 - [execution] 3055/3161 déplacements (96.6 %) · 834/894 personnes · 1966 s écoulées · reste ≈ 244 s · sollicitations 736 · attentes 0 
+2026-09-17 11:18:50.520 | INFO     | experiences.runner:boucle:387 - [execution] 3055/3161 déplacements (96.6 %) · 834/894 personnes · 1971 s écoulées · reste ≈ 245 s · sollicitations 736 · attentes 0 
+2026-09-17 11:18:55.524 | INFO     | experiences.runner:boucle:387 - [execution] 3055/3161 déplacements (96.6 %) · 834/894 personnes · 1976 s écoulées · reste ≈ 245 s · sollicitations 736 · attentes 0 
+2026-09-17 11:19:00.528 | INFO     | experiences.runner:boucle:387 - [execution] 3065/3161 déplacements (97.0 %) · 836/894 personnes · 1981 s écoulées · reste ≈ 220 s · sollicitations 744 · attentes 0 
+2026-09-17 11:19:05.536 | INFO     | experiences.runner:boucle:387 - [execution] 3065/3161 déplacements (97.0 %) · 836/894 personnes · 1986 s écoulées · reste ≈ 221 s · sollicitations 744 · attentes 0 
+2026-09-17 11:19:10.539 | INFO     | experiences.runner:boucle:387 - [execution] 3065/3161 déplacements (97.0 %) · 836/894 personnes · 1991 s écoulées · reste ≈ 221 s · sollicitations 744 · attentes 0 
+2026-09-17 11:19:15.547 | INFO     | experiences.runner:boucle:387 - [execution] 3075/3161 déplacements (97.3 %) · 840/894 personnes · 1996 s écoulées · reste ≈ 196 s · sollicitations 752 · attentes 0 
+2026-09-17 11:19:20.551 | INFO     | experiences.runner:boucle:387 - [execution] 3075/3161 déplacements (97.3 %) · 840/894 personnes · 2001 s écoulées · reste ≈ 197 s · sollicitations 752 · attentes 0 
+2026-09-17 11:19:25.557 | INFO     | experiences.runner:boucle:387 - [execution] 3075/3161 déplacements (97.3 %) · 840/894 personnes · 2006 s écoulées · reste ≈ 197 s · sollicitations 752 · attentes 0 
+2026-09-17 11:19:30.568 | INFO     | experiences.runner:boucle:387 - [execution] 3075/3161 déplacements (97.3 %) · 840/894 personnes · 2011 s écoulées · reste ≈ 198 s · sollicitations 752 · attentes 0 
+2026-09-17 11:19:35.572 | INFO     | experiences.runner:boucle:387 - [execution] 3087/3161 déplacements (97.7 %) · 844/894 personnes · 2016 s écoulées · reste ≈ 168 s · sollicitations 760 · attentes 0 
+2026-09-17 11:19:40.578 | INFO     | experiences.runner:boucle:387 - [execution] 3087/3161 déplacements (97.7 %) · 844/894 personnes · 2021 s écoulées · reste ≈ 169 s · sollicitations 760 · attentes 0 
+2026-09-17 11:19:45.588 | INFO     | experiences.runner:boucle:387 - [execution] 3087/3161 déplacements (97.7 %) · 844/894 personnes · 2026 s écoulées · reste ≈ 169 s · sollicitations 760 · attentes 0 
+2026-09-17 11:19:50.592 | INFO     | experiences.runner:boucle:387 - [execution] 3087/3161 déplacements (97.7 %) · 844/894 personnes · 2031 s écoulées · reste ≈ 170 s · sollicitations 760 · attentes 0 
+2026-09-17 11:19:55.614 | INFO     | experiences.runner:boucle:387 - [execution] 3087/3161 déplacements (97.7 %) · 844/894 personnes · 2036 s écoulées · reste ≈ 170 s · sollicitations 760 · attentes 0 
+2026-09-17 11:20:00.618 | INFO     | experiences.runner:boucle:387 - [execution] 3098/3161 déplacements (98.0 %) · 847/894 personnes · 2041 s écoulées · reste ≈ 143 s · sollicitations 768 · attentes 0 
+2026-09-17 11:20:05.624 | INFO     | experiences.runner:boucle:387 - [execution] 3098/3161 déplacements (98.0 %) · 847/894 personnes · 2046 s écoulées · reste ≈ 144 s · sollicitations 768 · attentes 0 
+2026-09-17 11:20:10.627 | INFO     | experiences.runner:boucle:387 - [execution] 3098/3161 déplacements (98.0 %) · 847/894 personnes · 2051 s écoulées · reste ≈ 144 s · sollicitations 768 · attentes 0 
+2026-09-17 11:20:15.632 | INFO     | experiences.runner:boucle:387 - [execution] 3108/3161 déplacements (98.3 %) · 849/894 personnes · 2056 s écoulées · reste ≈ 120 s · sollicitations 776 · attentes 0 
+2026-09-17 11:20:20.641 | INFO     | experiences.runner:boucle:387 - [execution] 3108/3161 déplacements (98.3 %) · 849/894 personnes · 2061 s écoulées · reste ≈ 120 s · sollicitations 776 · attentes 0 
+2026-09-17 11:20:25.646 | INFO     | experiences.runner:boucle:387 - [execution] 3108/3161 déplacements (98.3 %) · 849/894 personnes · 2066 s écoulées · reste ≈ 121 s · sollicitations 776 · attentes 0 
+2026-09-17 11:20:30.650 | INFO     | experiences.runner:boucle:387 - [execution] 3108/3161 déplacements (98.3 %) · 849/894 personnes · 2071 s écoulées · reste ≈ 121 s · sollicitations 776 · attentes 0 
+2026-09-17 11:20:35.658 | INFO     | experiences.runner:boucle:387 - [execution] 3118/3161 déplacements (98.6 %) · 850/894 personnes · 2076 s écoulées · reste ≈ 97 s · sollicitations 784 · attentes 0 
+2026-09-17 11:20:40.661 | INFO     | experiences.runner:boucle:387 - [execution] 3118/3161 déplacements (98.6 %) · 850/894 personnes · 2081 s écoulées · reste ≈ 98 s · sollicitations 784 · attentes 0 
+2026-09-17 11:20:45.666 | INFO     | experiences.runner:boucle:387 - [execution] 3118/3161 déplacements (98.6 %) · 850/894 personnes · 2086 s écoulées · reste ≈ 98 s · sollicitations 784 · attentes 0 
+2026-09-17 11:20:50.670 | INFO     | experiences.runner:boucle:387 - [execution] 3118/3161 déplacements (98.6 %) · 850/894 personnes · 2091 s écoulées · reste ≈ 98 s · sollicitations 784 · attentes 0 
+2026-09-17 11:20:55.679 | INFO     | experiences.runner:boucle:387 - [execution] 3130/3161 déplacements (99.0 %) · 853/894 personnes · 2096 s écoulées · reste ≈ 70 s · sollicitations 792 · attentes 0 
+2026-09-17 11:21:00.686 | INFO     | experiences.runner:boucle:387 - [execution] 3130/3161 déplacements (99.0 %) · 853/894 personnes · 2101 s écoulées · reste ≈ 70 s · sollicitations 792 · attentes 0 
+2026-09-17 11:21:05.691 | INFO     | experiences.runner:boucle:387 - [execution] 3130/3161 déplacements (99.0 %) · 853/894 personnes · 2106 s écoulées · reste ≈ 70 s · sollicitations 792 · attentes 0 
+2026-09-17 11:21:10.697 | INFO     | experiences.runner:boucle:387 - [execution] 3130/3161 déplacements (99.0 %) · 853/894 personnes · 2111 s écoulées · reste ≈ 70 s · sollicitations 792 · attentes 0 
+2026-09-17 11:21:15.701 | INFO     | experiences.runner:boucle:387 - [execution] 3130/3161 déplacements (99.0 %) · 853/894 personnes · 2116 s écoulées · reste ≈ 71 s · sollicitations 792 · attentes 0 
+2026-09-17 11:21:20.703 | INFO     | experiences.runner:boucle:387 - [execution] 3142/3161 déplacements (99.4 %) · 856/894 personnes · 2121 s écoulées · reste ≈ 43 s · sollicitations 800 · attentes 0 
+2026-09-17 11:21:25.712 | INFO     | experiences.runner:boucle:387 - [execution] 3142/3161 déplacements (99.4 %) · 856/894 personnes · 2126 s écoulées · reste ≈ 43 s · sollicitations 800 · attentes 0 
+2026-09-17 11:21:30.716 | INFO     | experiences.runner:boucle:387 - [execution] 3142/3161 déplacements (99.4 %) · 856/894 personnes · 2131 s écoulées · reste ≈ 43 s · sollicitations 800 · attentes 0 
+2026-09-17 11:21:35.724 | INFO     | experiences.runner:boucle:387 - [execution] 3142/3161 déplacements (99.4 %) · 856/894 personnes · 2136 s écoulées · reste ≈ 43 s · sollicitations 800 · attentes 0 
+2026-09-17 11:21:40.729 | INFO     | experiences.runner:boucle:387 - [execution] 3153/3161 déplacements (99.7 %) · 860/894 personnes · 2141 s écoulées · reste ≈ 18 s · sollicitations 808 · attentes 0 
+2026-09-17 11:21:45.735 | INFO     | experiences.runner:boucle:387 - [execution] 3153/3161 déplacements (99.7 %) · 860/894 personnes · 2146 s écoulées · reste ≈ 18 s · sollicitations 808 · attentes 0 
+2026-09-17 11:21:50.738 | INFO     | experiences.runner:boucle:387 - [execution] 3153/3161 déplacements (99.7 %) · 860/894 personnes · 2151 s écoulées · reste ≈ 18 s · sollicitations 808 · attentes 0 
+2026-09-17 11:21:55.743 | INFO     | experiences.runner:boucle:387 - [execution] 3164/3161 déplacements (100.1 %) · 866/894 personnes · 2156 s écoulées · reste ≈ -7 s · sollicitations 816 · attentes 0 
+2026-09-17 11:22:00.754 | INFO     | experiences.runner:boucle:387 - [execution] 3164/3161 déplacements (100.1 %) · 866/894 personnes · 2161 s écoulées · reste ≈ -7 s · sollicitations 816 · attentes 0 
+2026-09-17 11:22:05.757 | INFO     | experiences.runner:boucle:387 - [execution] 3164/3161 déplacements (100.1 %) · 866/894 personnes · 2166 s écoulées · reste ≈ -7 s · sollicitations 816 · attentes 0 
+2026-09-17 11:22:10.761 | INFO     | experiences.runner:boucle:387 - [execution] 3164/3161 déplacements (100.1 %) · 866/894 personnes · 2171 s écoulées · reste ≈ -7 s · sollicitations 816 · attentes 0 
+2026-09-17 11:22:15.766 | INFO     | experiences.runner:boucle:387 - [execution] 3181/3161 déplacements (100.6 %) · 870/894 personnes · 2176 s écoulées · reste ≈ -44 s · sollicitations 824 · attentes 0 
+2026-09-17 11:22:20.771 | INFO     | experiences.runner:boucle:387 - [execution] 3181/3161 déplacements (100.6 %) · 870/894 personnes · 2181 s écoulées · reste ≈ -45 s · sollicitations 824 · attentes 0 
+2026-09-17 11:22:25.776 | INFO     | experiences.runner:boucle:387 - [execution] 3181/3161 déplacements (100.6 %) · 870/894 personnes · 2186 s écoulées · reste ≈ -45 s · sollicitations 824 · attentes 0 
+2026-09-17 11:22:30.786 | INFO     | experiences.runner:boucle:387 - [execution] 3181/3161 déplacements (100.6 %) · 870/894 personnes · 2191 s écoulées · reste ≈ -45 s · sollicitations 824 · attentes 0 
+2026-09-17 11:22:35.789 | INFO     | experiences.runner:boucle:387 - [execution] 3195/3161 déplacements (101.1 %) · 873/894 personnes · 2196 s écoulées · reste ≈ -75 s · sollicitations 832 · attentes 0 
+2026-09-17 11:22:40.795 | INFO     | experiences.runner:boucle:387 - [execution] 3195/3161 déplacements (101.1 %) · 873/894 personnes · 2201 s écoulées · reste ≈ -75 s · sollicitations 832 · attentes 0 
+2026-09-17 11:22:45.797 | INFO     | experiences.runner:boucle:387 - [execution] 3195/3161 déplacements (101.1 %) · 873/894 personnes · 2206 s écoulées · reste ≈ -75 s · sollicitations 832 · attentes 0 
+2026-09-17 11:22:50.802 | INFO     | experiences.runner:boucle:387 - [execution] 3207/3161 déplacements (101.5 %) · 876/894 personnes · 2211 s écoulées · reste ≈ -101 s · sollicitations 840 · attentes 0 
+2026-09-17 11:22:55.807 | INFO     | experiences.runner:boucle:387 - [execution] 3207/3161 déplacements (101.5 %) · 876/894 personnes · 2216 s écoulées · reste ≈ -101 s · sollicitations 840 · attentes 0 
+2026-09-17 11:23:00.811 | INFO     | experiences.runner:boucle:387 - [execution] 3207/3161 déplacements (101.5 %) · 876/894 personnes · 2221 s écoulées · reste ≈ -102 s · sollicitations 840 · attentes 0 
+2026-09-17 11:23:05.815 | INFO     | experiences.runner:boucle:387 - [execution] 3217/3161 déplacements (101.8 %) · 877/894 personnes · 2226 s écoulées · reste ≈ -123 s · sollicitations 848 · attentes 0 
+2026-09-17 11:23:10.818 | INFO     | experiences.runner:boucle:387 - [execution] 3217/3161 déplacements (101.8 %) · 877/894 personnes · 2231 s écoulées · reste ≈ -123 s · sollicitations 848 · attentes 0 
+2026-09-17 11:23:15.823 | INFO     | experiences.runner:boucle:387 - [execution] 3217/3161 déplacements (101.8 %) · 877/894 personnes · 2236 s écoulées · reste ≈ -123 s · sollicitations 848 · attentes 0 
+2026-09-17 11:23:20.826 | INFO     | experiences.runner:boucle:387 - [execution] 3217/3161 déplacements (101.8 %) · 877/894 personnes · 2241 s écoulées · reste ≈ -124 s · sollicitations 848 · attentes 0 
+2026-09-17 11:23:25.831 | INFO     | experiences.runner:boucle:387 - [execution] 3230/3161 déplacements (102.2 %) · 881/894 personnes · 2246 s écoulées · reste ≈ -151 s · sollicitations 856 · attentes 0 
+2026-09-17 11:23:30.836 | INFO     | experiences.runner:boucle:387 - [execution] 3230/3161 déplacements (102.2 %) · 881/894 personnes · 2251 s écoulées · reste ≈ -151 s · sollicitations 856 · attentes 0 
+2026-09-17 11:23:35.842 | INFO     | experiences.runner:boucle:387 - [execution] 3230/3161 déplacements (102.2 %) · 881/894 personnes · 2256 s écoulées · reste ≈ -151 s · sollicitations 856 · attentes 0 
+2026-09-17 11:23:40.847 | INFO     | experiences.runner:boucle:387 - [execution] 3241/3161 déplacements (102.5 %) · 885/894 personnes · 2261 s écoulées · reste ≈ -174 s · sollicitations 864 · attentes 0 
+2026-09-17 11:23:45.850 | INFO     | experiences.runner:boucle:387 - [execution] 3241/3161 déplacements (102.5 %) · 885/894 personnes · 2266 s écoulées · reste ≈ -174 s · sollicitations 864 · attentes 0 
+2026-09-17 11:23:50.858 | INFO     | experiences.runner:boucle:387 - [execution] 3241/3161 déplacements (102.5 %) · 885/894 personnes · 2271 s écoulées · reste ≈ -175 s · sollicitations 864 · attentes 0 
+2026-09-17 11:23:55.862 | INFO     | experiences.runner:boucle:387 - [execution] 3241/3161 déplacements (102.5 %) · 885/894 personnes · 2276 s écoulées · reste ≈ -175 s · sollicitations 864 · attentes 0 
+2026-09-17 11:24:00.870 | INFO     | experiences.runner:boucle:387 - [execution] 3251/3161 déplacements (102.8 %) · 886/894 personnes · 2281 s écoulées · reste ≈ -196 s · sollicitations 872 · attentes 0 
+2026-09-17 11:24:05.873 | INFO     | experiences.runner:boucle:387 - [execution] 3251/3161 déplacements (102.8 %) · 886/894 personnes · 2286 s écoulées · reste ≈ -196 s · sollicitations 872 · attentes 0 
+2026-09-17 11:24:10.878 | INFO     | experiences.runner:boucle:387 - [execution] 3251/3161 déplacements (102.8 %) · 886/894 personnes · 2291 s écoulées · reste ≈ -196 s · sollicitations 872 · attentes 0 
+2026-09-17 11:24:15.881 | INFO     | experiences.runner:boucle:387 - [execution] 3251/3161 déplacements (102.8 %) · 886/894 personnes · 2296 s écoulées · reste ≈ -197 s · sollicitations 872 · attentes 0 
+2026-09-17 11:24:20.888 | INFO     | experiences.runner:boucle:387 - [execution] 3259/3161 déplacements (103.1 %) · 888/894 personnes · 2301 s écoulées · reste ≈ -213 s · sollicitations 880 · attentes 0 
+2026-09-17 11:24:25.900 | INFO     | experiences.runner:boucle:387 - [execution] 3259/3161 déplacements (103.1 %) · 888/894 personnes · 2306 s écoulées · reste ≈ -214 s · sollicitations 880 · attentes 0 
+2026-09-17 11:24:30.906 | INFO     | experiences.runner:boucle:387 - [execution] 3259/3161 déplacements (103.1 %) · 888/894 personnes · 2311 s écoulées · reste ≈ -214 s · sollicitations 880 · attentes 0 
+2026-09-17 11:24:35.912 | INFO     | experiences.runner:boucle:387 - [execution] 3267/3161 déplacements (103.4 %) · 893/894 personnes · 2316 s écoulées · reste ≈ -230 s · sollicitations 886 · attentes 0 
+2026-09-17 11:24:40.918 | INFO     | experiences.runner:boucle:387 - [execution] 3268/3161 déplacements (103.4 %) · 893/894 personnes · 2321 s écoulées · reste ≈ -233 s · sollicitations 887 · attentes 0 
+2026-09-17 11:24:45.927 | INFO     | experiences.runner:boucle:387 - [execution] 3268/3161 déplacements (103.4 %) · 893/894 personnes · 2326 s écoulées · reste ≈ -233 s · sollicitations 887 · attentes 0 
+2026-09-17 11:24:50.937 | INFO     | experiences.runner:boucle:387 - [execution] 3269/3161 déplacements (103.4 %) · 893/894 personnes · 2331 s écoulées · reste ≈ -236 s · sollicitations 888 · attentes 0 
+2026-09-17 11:24:55.942 | INFO     | experiences.runner:boucle:387 - [execution] 3269/3161 déplacements (103.4 %) · 893/894 personnes · 2336 s écoulées · reste ≈ -236 s · sollicitations 888 · attentes 0 
+2026-09-17 11:24:58.317 | WARNING  | experiences.runner:executer:937 - [execution] 138 déplacement(s) INEXPLOITABLES exclus des attendus — aucune proposition des moteurs (origine_egale_destination × 138) ; personnes : 1008582, 1043484, 1043578, 1127258, 1160393, 1165065, 1183117, 122192, 1247946, 1248258…
+2026-09-17 11:24:58.371 | INFO     | experiences.archive:changer_etat:291 - [execution] 2026-09-17_07_34_55 → terminee
+2026-09-17 11:24:58.602 | INFO     | experiences.score:scorer_a_la_cloture:712 - [score] Scoring de clôture de 2026-09-17_07_34_55 — début
+2026-09-17 11:24:59.057 | INFO     | experiences.score:_journaliser_lectures:468 - Score 2026-09-17_07_34_55 — composite EMD 6.58 (toutes décisions, n=3154) · 10.32 (hors itinéraire unique, n=2529) · choix forcés 625 (19.8 %)
+2026-09-17 11:24:59.058 | ERROR    | experiences.score:_journaliser_lectures:479 - [ALARME] Composite dépendant des choix forcés : 2026-09-17_07_34_55 (exp_gemini-35-fl_proexp08_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim) passe de 6.58 à 10.32 (+3.74 points EMD) quand on retire les 625 décisions à itinéraire unique, soit 19.8 % du périmètre scoré. Le classement des bras n'est pas invariant à ce retrait : citer ce composite sans sa seconde lecture attribuerait au décideur ce que l'offre lui imposait.
+2026-09-17 11:24:59.068 | INFO     | experiences.score:score_execution:682 - [score] exp_gemini-35-fl_proexp08_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim/2026-09-17_07_34_55 scoré sous formule v1_reference (0aeee565b01a) : composite emd_jsd=6.578742040417649
+2026-09-17 11:24:59.083 | INFO     | experiences.score:scorer_a_la_cloture:727 - [score] Scoring de clôture de 2026-09-17_07_34_55 terminé en 0.5 s — composite emd_jsd=6.578742040417649
+2026-09-17 11:24:59.083 | INFO     | experiences.runner:executer:1052 - [execution] Exécution terminée 2026-09-17_07_34_55 en 2338.4 s — décidés 3154, non couverts 0, inexploitables exclus 138, sans solution 7, choix unique 625, replis 0, attentes 0 · erreurs 0 · sollicitations 889, resservies 2201
+2026-09-17 11:24:59.098 | INFO     | experiences.reservations:liberer:235 - [reservations] libère ['google_key2'] (exécution close)
+AVERTISSEMENT : quota journalier plus court que la charge pour 'gemini-3.5-flash-lite' : 1000 requêtes/jour déclarées contre 3161 sollicitations (~3.2 jours) → l'exécution s'étalera sur plusieurs fenêtres, avec reprise. Les limites de providers.yaml sont déclaratives et connues comme parfois fausses : ce n'est pas un refus
+mémoire : coupée — fenêtre d'âge au rappel 1 j (horizon 1 j, plafond 60 j)
+instances admises : google_gemini35_key1, google_gemini35_key2 (dérivées du modèle 'gemini-3.5-flash-lite', portée distant)
+[EqasimJSONPopulationLoader] Loaded 1000 people from pre-loaded data
+{
+ "attendus": 3299,
+ "inexploitables": 138,
+ "attendus_exploitables": 3161,
+ "decides": 3154,
+ "non_couverts": 0,
+ "sans_solution": 7,
+ "choix_unique": 625,
+ "replis_uniformes": 0,
+ "attentes": 0,
+ "attentes_par_type": {},
+ "erreurs": 0,
+ "erreurs_par_type": {},
+ "sollicitations": 889,
+ "resservies": 2201,
+ "substitution_refusee": 0,
+ "couverture": {
+  "decides": 3154,
+  "attendus": 3161,
+  "attendus_bruts": 3299,
+  "inexploitables_exclus": 138,
+  "taux": 0.9977855109142676
+ },
+ "duree_s": 2338.386,
+ "etat": "terminee"
+}
+exécution : /app/data/experiences/exp_gemini-35-fl_proexp08_jtir_pop-1000_PANEL_v6_jeu-20260316_EN_c_t0_nosim/executions/2026-09-17_07_34_55

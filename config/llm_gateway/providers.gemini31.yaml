@@ -1,0 +1,43 @@
+# config/llm_gateway/providers.gemini31.yaml — ticket 075.
+#
+# RESTRICTED providers file: `gemini-3.1-flash-lite` and nothing else. It serves the
+# sixty-day run of ticket 075, which requires this model exclusively.
+#
+# WHY A FILE, AND NOT BLANKED KEYS. A provider without a key is excluded from the
+# rotation (`filter_providers_without_api_key`), but the Google key carries NINE instances:
+# blanking it would also remove gemini 3.5, 3.6, 3.7, 3.8 and the gemmas, and keeping it would let
+# them all into the cascade. The only way to have a single model is to declare only that one.
+#
+# USAGE:
+#   LLM_GATEWAY_PROVIDERS_FILE=/app/config/llm_gateway/providers.gemini31.yaml make run OFFLINE=1
+#
+# The two instances are the same as in the full file, copied identically — they
+# differ by their KEY (different Google projects), hence by their quota bucket: 2 x 500
+# requests/day, reset at midnight Pacific time, i.e. 9 am in Paris.
+#
+# ⚠ This file must NOT become the default file: without a cascade, a Google outage stops
+# the run instead of letting it slide onto mistral. That is intended here, and only here.
+
+providers:
+  google_gemini31_key1:
+    adapter: google
+    quota_reset_tz: America/Los_Angeles
+    rpm_limit: 15
+    tpm_limit: 250000
+    rpd_limit: 500
+    base_url: https://generativelanguage.googleapis.com/v1beta
+    default_model: gemini-3.1-flash-lite
+    weight: 1.0
+    concurrency_limit: 2
+    disable_timeout: 120
+  google_gemini31_key2:
+    adapter: google
+    quota_reset_tz: America/Los_Angeles
+    rpm_limit: 15
+    tpm_limit: 250000
+    rpd_limit: 500
+    base_url: https://generativelanguage.googleapis.com/v1beta
+    default_model: gemini-3.1-flash-lite
+    weight: 1.0
+    concurrency_limit: 2
+    disable_timeout: 120

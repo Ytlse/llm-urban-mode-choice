@@ -1,0 +1,55 @@
+{
+  "type": "object",
+  "properties": {
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "negligible",
+              "noticeable",
+              "inconvenient",
+              "serious",
+              "memorable"
+            ],
+            "description": "How much this mattered, on the five anchored levels given in the instructions"
+          },
+          "valence": {
+            "type": "string",
+            "enum": [
+              "negative",
+              "neutral",
+              "positive"
+            ],
+            "description": "Whether this was experienced or read as bad, neutral or good"
+          },
+          "modes": {
+            "type": "array",
+            "description": "The transport modes this bears on; empty if it bears on none in particular",
+            "items": {
+              "type": "string",
+              "enum": [
+                "walking",
+                "cycling",
+                "car",
+                "public_transport",
+                "train",
+                "motorbike"
+              ]
+            }
+          }
+        },
+        "required": ["agent_id", "severity", "valence", "modes"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["agents"],
+  "additionalProperties": false
+}
