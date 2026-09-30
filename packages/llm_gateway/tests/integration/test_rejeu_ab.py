@@ -16,7 +16,7 @@ import llm_gateway.worker.task_worker as tw
 from llm_gateway.api.app import create_app
 from llm_gateway.config import Settings
 from llm_gateway.core.models import LLMRequest, Task, TaskStatus
-from llm_gateway.core.rejeu_ab import cle_rejeu, espace_valide
+from llm_gateway.core.rejeu_ab import MagasinRejeu, cle_rejeu, espace_valide
 from llm_gateway.testing import FakeAdapter
 
 ESPACE = "exp_mem_presse_a13_test"
@@ -169,6 +169,30 @@ def test_l_origine_n_entre_pas_dans_la_cle():
     assert cle_rejeu(traite, messages) == cle_rejeu(temoin, messages)
     autre = LLMRequest(**{**_requete("a1", "morning", "x"), "instances_admises": ["autre"]})
     assert cle_rejeu(autre, messages) != cle_rejeu(traite, messages), "the model, however, counts"
+
+
+@pytest.mark.parametrize("contenu", ["[1, 2]", "42", '"texte"', "null", "{pas du json"])
+def test_un_enregistrement_qui_n_est_pas_un_objet_n_est_pas_servi(tmp_path, contenu):
+    """Valid JSON that is not an object is treated like an unreadable record: never served."""
+    from loguru import logger
+
+    messages: list[str] = []
+    ecoute = logger.add(messages.append, level="ERROR", format="{message}")
+    try:
+        magasin = MagasinRejeu(tmp_path)
+        (tmp_path / "esp").mkdir()
+        (tmp_path / "esp" / "cle.json").write_text(contenu, encoding="utf-8")
+        assert magasin.lire("esp", "cle") is None
+    finally:
+        logger.remove(ecoute)
+    assert any("[ALARME]" in m for m in messages)
+
+
+def test_un_enregistrement_objet_est_servi(tmp_path):
+    magasin = MagasinRejeu(tmp_path)
+    (tmp_path / "esp").mkdir()
+    (tmp_path / "esp" / "cle.json").write_text('{"reponse": "ok"}', encoding="utf-8")
+    assert magasin.lire("esp", "cle") == {"reponse": "ok"}
 
 
 def test_une_reponse_incomplete_n_est_pas_consignee(memory_runtime, monkeypatch, tmp_path):

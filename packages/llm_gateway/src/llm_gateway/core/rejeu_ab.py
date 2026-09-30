@@ -78,7 +78,7 @@ class MagasinRejeu:
     def lire(self, espace: str, cle: str) -> dict[str, Any] | None:
         chemin = self._chemin(espace, cle)
         try:
-            return json.loads(chemin.read_text(encoding="utf-8"))
+            enregistrement = json.loads(chemin.read_text(encoding="utf-8"))
         except FileNotFoundError:
             return None
         except (OSError, ValueError) as exc:
@@ -88,6 +88,14 @@ class MagasinRejeu:
                 f"espace={espace} cle={cle[:12]} erreur={exc!r}"
             )
             return None
+        if not isinstance(enregistrement, dict):
+            # Valid JSON but not a record (a list, a number…): same rule as unreadable.
+            logger.error(
+                f"[ALARME] Replay: record is not a JSON object, task sent to the provider | "
+                f"espace={espace} cle={cle[:12]} type={type(enregistrement).__name__}"
+            )
+            return None
+        return enregistrement
 
     def ecrire(self, espace: str, cle: str, enregistrement: dict[str, Any]) -> bool:
         """Records a response. True if it is new; the first one recorded is authoritative."""
