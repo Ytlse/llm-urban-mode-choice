@@ -8,6 +8,8 @@ model (LLM), and it measures those decisions against a certified household trave
 
 ## What the simulation does
 
+![Architecture: the GAMA simulation, the generative agents with their short- and long-term memory, the LLM gateway and the routing engines](docs/images/architecture.jpg)
+
 1. A synthetic population of residents is drawn from open data with a fork of eqasim,
    then controlled and sealed against the margins of the 2023 Toulouse household travel
    survey (EMC²).
@@ -21,6 +23,54 @@ model (LLM), and it measures those decisions against a certified household trave
 7. Agents keep a short-term and a long-term memory, and can be exposed to declared events
    (a network incident, a local press article).
 8. Mode shares are scored against the survey, overall and by stratum.
+
+The services of the stack, all declared in `infra/docker-compose.yml`
+(details in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), Section 1):
+
+```mermaid
+flowchart TB
+    GAMA["GAMA<br/>desktop or <code>gama</code> container<br/>moves the agents, runs the clock"]
+    CTRL["controller · port 8002<br/>activity chains · dispatcher · memory<br/>events · backpressure"]
+    OTP["otp1 · otp2 · otp3<br/>OpenTripPlanner<br/>(transit)"]
+    OSMNX["osmnx1<br/>(walk · bike · car)"]
+    API["api · port 8000<br/>LLM gateway: batching"]
+    REDIS[("redis<br/>state · quotas · broker")]
+    WORKER["worker (Celery)<br/>quota-aware routing"]
+    PROV["model providers<br/>OpenAI-compatible · Google · Mistral …"]
+    MON["prometheus · grafana"]
+
+    GAMA -- "POST /sync<br/>agent states, arrivals" --> CTRL
+    CTRL -- "WebSocket<br/>decisions" --> GAMA
+    CTRL -- itineraries --> OTP
+    CTRL -- itineraries --> OSMNX
+    CTRL -- "POST /tasks" --> API
+    API --> REDIS
+    WORKER --> REDIS
+    WORKER --> PROV
+    CTRL -. metrics .-> MON
+    API -. metrics .-> MON
+```
+
+One trip decision, from the arrival reported by GAMA to the itinerary it executes:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant G as GAMA
+    participant C as controller
+    participant R as routers (OTP, OSMnx)
+    participant L as LLM gateway
+    G->>C: POST /sync (agent states, arrivals)
+    C->>C: which agents plan their next trip?
+    C->>R: itinerary requests
+    R-->>C: options (cached)
+    C->>C: remove options the vehicle chain forbids
+    C->>L: decision task (persona, memory, options)
+    L-->>C: one probability per option
+    C->>C: draw the executed option (fixed seed), record the decision
+    C->>G: WebSocket: chosen itinerary
+    G->>G: moves the agent, reports its arrival on a later /sync
+```
 
 This work builds on the architecture described by Vu et al. (2025), *Modeling realistic
 human behavior using generative agents in a multimodal transport system: Software
@@ -45,8 +95,6 @@ architecture and Application to Toulouse*, arXiv:2510.19497.
 | `archive/1_regime_nominal/` | Archived executions of the benchmark, decision by decision |
 | `campagnes/` | Declared batches of experiments |
 | `docs/` | This documentation |
-
-<!-- TODO: confirm the final public folder list once the copy script has run (tests/, notebooks/). -->
 
 ## Quickstart
 
@@ -82,6 +130,25 @@ the gateway 8000, the controller 8002).
 
 Most results of the paper are recomputed from archived decisions. No model is called, no
 router is queried, and GAMA is not needed.
+
+```mermaid
+flowchart TB
+    OPEN["open data<br/>INSEE · IGN · OSM"] --> EQ["eqasim fork<br/>synthetic population"]
+    EQ --> SEAL["controlled and sealed<br/>against the survey margins"]
+    EMC[["EMC² 2023 survey<br/>(restricted)"]] -.-> SEAL
+    SEAL --> COH["sealed cohorts c1, c2<br/><code>data/population/</code>"]
+    COH --> SET["frozen trip sets<br/>options recorded once<br/><code>data/jeux/</code>"]
+    SET --> DEC(["decision-makers<br/>LLM · tabular reference · baseline"])
+    DEC --> RUN["executions<br/><code>decisions.jsonl.gz</code> · <code>moves.csv.gz</code><br/><code>archive/1_regime_nominal/</code>"]
+    RUN --> SCORE["scores vs survey<br/>EMD · JSD · L1, by stratum"]
+    EMC -.-> SCORE
+    SCORE --> FIG["tables and figures<br/><code>docs/PAPER_TO_CODE.md</code>"]
+
+    classDef shipped fill:#e8f4ea,stroke:#3a7d44,color:#1b1b1b;
+    class COH,SET,RUN shipped;
+```
+
+The green boxes are shipped in this repository: the recomputation starts from them.
 
 **What is shipped for this purpose.**
 
