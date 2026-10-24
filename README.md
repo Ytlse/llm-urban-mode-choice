@@ -1,5 +1,12 @@
 # Generative mobility agents on a real household travel survey
 
+## Publication context
+
+This repository preserves the artifact accompanying the GAMA Days communication. The [companion repository for the subsequent preprint](https://github.com/Ytlse/generative-agents-urban-mobility) provides another snapshot of the same research platform, with the [public preprint available on arXiv](https://arxiv.org/abs/2610.22407).
+
+For reproduction or citation, use the repository and version associated with the relevant publication. This repository remains available at its original address.
+
+
 This repository holds the code, configuration and minimal data behind the GAMA Days
 abstract *Plugging Language Models into GAMA Mobility Simulations: Generative Mode Choice
 Against a Real Household Travel Survey*. It simulates daily mobility in the Toulouse metropolitan area
